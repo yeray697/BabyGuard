@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Baby</string>
+    <string name="etemail_login_hint">Correo electrónico</string>
+    <string name="etpass_login_hint">Contraseña</string>
+</resources>
