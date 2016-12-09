@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/login_background"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimaryLight"
         app:backgroundTintMode="multiply" />
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,29 +23,35 @@
             android:layout_marginTop="25dp"
             android:layout_alignParentBottom="true"
             android:id="@+id/llLogButtons">
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fabSize="normal"
-                android:scaleType="center"
-                android:layout_marginRight="20dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/google"
-                android:id="@+id/fabGoogle"
-                app:theme="@style/fab_login"/>
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                app:fabSize="normal"
-                android:scaleType="center"
-                android:layout_height="wrap_content"
-                android:src="@drawable/facebook"
-                android:id="@+id/fabFacebook"
-                app:theme="@style/fab_login"/>
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btGoogle"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                app:fb_defaultColor="@color/white"
+                app:fb_iconPaddingLeft="0dp"
+                app:fb_iconPaddingRight="0dp"
+                app:fb_focusColor="#bbb"
+                app:fb_iconResource="@drawable/google"
+                app:fb_radius="64dp"/>
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btFacebook"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                app:fb_defaultColor="#3b5998"
+                app:fb_iconPaddingLeft="0dp"
+                app:fb_iconPaddingRight="0dp"
+                app:fb_focusColor="#5275c1"
+                app:fb_iconResource="@drawable/facebook"
+                app:fb_radius="64dp"/>
         </LinearLayout>
         <RelativeLayout
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
-            android:layout_height="19dp"
+            android:layout_height="22dp"
             android:gravity="center"
             android:layout_above="@id/llLogButtons"
             android:id="@+id/rlLogWith">
@@ -58,27 +64,28 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:textSize="17sp"
-                android:textColor="@color/gray"/>
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
             <View
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:layout_toLeftOf="@id/tvLogWith"
                 android:layout_toStartOf="@id/tvLogWith"
-                android:background="@color/gray"/>
+                android:background="@color/black"/>
             <View
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:layout_toRightOf="@id/tvLogWith"
                 android:layout_toEndOf="@id/tvLogWith"
-                android:background="@color/gray"/>
+                android:background="@color/black"/>
         </RelativeLayout>
         <com.balysv.materialripple.MaterialRippleLayout
             android:layout_above="@id/rlLogWith"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:mrl_rippleBackground="@color/colorPrimaryDark"
+            app:mrl_rippleBackground="@color/colorAccent"
             android:layout_marginTop="@dimen/login_items_margintop"
             app:mrl_rippleOverlay="true"
             app:mrl_rippleAlpha="0.2"
@@ -90,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:text="Log in"
                 android:background="@drawable/bt_selecter"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 />
         </com.balysv.materialripple.MaterialRippleLayout>
         <EditText

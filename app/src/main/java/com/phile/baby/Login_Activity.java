@@ -15,11 +15,6 @@ public class Login_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        fabGoogle = (FloatingActionButton) findViewById(R.id.fabGoogle);
-        fabFacebook = (FloatingActionButton) findViewById(R.id.fabFacebook);
-        etPassword = (EditText) findViewById(R.id.etPass_login);
-        etPassword.setTypeface(Typeface.DEFAULT);
-        etPassword.setTransformationMethod(new PasswordTransformationMethod());
 
     }
 }
