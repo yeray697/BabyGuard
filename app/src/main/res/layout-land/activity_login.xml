@@ -1,13 +1,12 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center_horizontal"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:contentDescription="@string/ivLogo_contentDescription_login"
         android:adjustViewBounds="true"
@@ -15,12 +14,12 @@
         android:id="@+id/ivLogo"
         android:layout_marginLeft="@dimen/item_margin_login"
         android:layout_marginRight="@dimen/item_margin_login"
-        android:layout_marginTop="@dimen/item_margin_top_login"/>
+        android:layout_marginTop="@dimen/item_margin_top_landscape_login"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/item_margin_top_login"
+        android:layout_marginTop="@dimen/item_margin_top_landscape_login"
         android:layout_marginLeft="@dimen/item_margin_login"
         android:layout_marginRight="@dimen/item_margin_login"
         android:id="@+id/tilUser_login"
@@ -38,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tilPass_login"
-        android:layout_marginTop="@dimen/item_margin_top_login"
+        android:layout_marginTop="@dimen/item_margin_top_landscape_login"
         android:layout_marginLeft="@dimen/item_margin_login"
         android:layout_marginRight="@dimen/item_margin_login"
         android:layout_below="@id/tilUser_login">
@@ -62,14 +61,14 @@
         android:id="@+id/tvForgotPass"
         android:text="@string/tvForgotPass_text"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/item_margin_top_login"/>
+        android:layout_marginTop="@dimen/item_margin_top_landscape_login"/>
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mrl_rippleBackground="@color/colorPrimaryDark"
-        android:layout_marginTop="@dimen/item_margin_top_login"
+        android:layout_marginTop="@dimen/item_margin_top_landscape_login"
         app:mrl_rippleOverlay="true"
         app:mrl_rippleAlpha="0.2"
         app:mrl_rippleDelayClick="false"
