@@ -1,4 +1,4 @@
-package com.phile.baby;
+package com.phile.babyguard;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.phile.baby;
+package com.phile.babyguard;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
