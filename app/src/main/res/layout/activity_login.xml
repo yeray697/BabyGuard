@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:textColor="@color/colorPrimaryLight"
+            android:imeOptions="actionNext"
             android:hint="@string/etuser_login_hint" />
     </android.support.design.widget.TextInputLayout>
 
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:textColor="@color/colorPrimaryLight"
+            android:imeOptions="actionDone"
             android:hint="@string/etpass_login_hint"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -59,9 +59,10 @@
         android:layout_below="@id/tilPass_login"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:textSize="15sp"
         android:id="@+id/tvForgotPass"
         android:text="@string/tvForgotPass_text"
-        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
         android:layout_marginTop="@dimen/item_margin_top_login"/>
 
     <com.balysv.materialripple.MaterialRippleLayout
@@ -77,11 +78,10 @@
         android:id="@+id/rlButton">
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/btLogin_height"
             android:text="@string/btLogin_text"
             android:background="@drawable/bt_selecter"
             android:textColor="@color/colorPrimaryLight"
-            android:textStyle="bold"
             />
     </com.balysv.materialripple.MaterialRippleLayout>
 

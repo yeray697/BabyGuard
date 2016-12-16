@@ -1,8 +1,11 @@
 package com.phile.babyguard.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * Class with useful methods
@@ -23,5 +26,17 @@ public class Utils {
             return true;
         else
             return false;
+    }
+
+    /**
+     * Method that hide the keyboard if it is possible
+     * @param activity Activity that is active
+     */
+    public static void hideKeyboard(Activity activity){
+        View view = activity.findViewById(android.R.id.content);
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

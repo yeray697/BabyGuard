@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import com.phile.babyguard.interfaces.LoginPresenter;
 import com.phile.babyguard.interfaces.LoginView;
 import com.phile.babyguard.model.ErrorClass;
 import com.phile.babyguard.presenter.LoginPresenterImpl;
+import com.phile.babyguard.utils.Utils;
 
 public class Login_Activity extends AppCompatActivity implements LoginView, LoginPresenterImpl.OnLoginFinishedListener {
     TextInputLayout tilUser, tilPassword;
@@ -42,10 +45,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!blockedButtons) {
-                    blockedButtons = true;
-                    presenter.login(etUser.getText().toString(), etPassword.getText().toString());
-                }
+                login();
             }
         });
         tvForgotPass.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +90,25 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
 
             }
         });
+        etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                boolean result = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    login();
+                    result = true;
+                }
+                return result;
+            }
+        });
+    }
+
+    private void login() {
+        if (!blockedButtons) {
+            Utils.hideKeyboard(this);
+            blockedButtons = true;
+            presenter.login(etUser.getText().toString(), etPassword.getText().toString());
+        }
     }
 
 
