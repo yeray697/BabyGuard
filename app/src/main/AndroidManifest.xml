@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Login_Activity"
-            android:theme="@style/AppTheme.DarkBackground">
+            android:theme="@style/AppTheme.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,8 +23,8 @@
         </activity>
         <activity
             android:name=".KidList_Activity"
-            android:theme="@style/AppTheme.DarkBackground" />
-        <activity android:name=".Home_Activity"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Home_Activity"/>
     </application>
 
 </manifest>

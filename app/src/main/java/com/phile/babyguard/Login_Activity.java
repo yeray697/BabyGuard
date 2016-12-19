@@ -128,6 +128,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
 
     @Override
     public void setCredentials(String user, String pass) {
+        blockedButtons = true;
         etUser.setText(user);
         etPassword.setText(pass);
     }
