@@ -1,11 +1,16 @@
 package com.phile.babyguard.repository;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 
+import com.phile.babyguard.model.InfoKid;
 import com.phile.babyguard.model.Kid;
 import com.phile.babyguard.presenter.KidListPresenterImpl;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,10 +18,18 @@ import java.util.List;
  */
 
 public class Repository {
-    static List<Kid> kids;
+    private static List<Kid> kids;
     private static KidListPresenterImpl.KidList mCallback;
-    Context context;
+    private Context context;
     private static Repository repository;
+    private ArrayList<InfoKid> infoKid;
+
+    @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Sort {
+        int CHRONOLOGIC = 1;
+        int CATEGORY = 2;
+    }
 
     public Repository(Context context, KidListPresenterImpl.KidList mCallback) {
         this.context = context;
@@ -58,6 +71,27 @@ public class Repository {
                 kid = kids.get(count);
             count++;
         }
+        getInfoKidById(id_kid);
         return kid;
     }
+    public void getInfoKidById(String id) {
+        //TODO base de datos
+        infoKid = new ArrayList<>();
+        infoKid.add(new InfoKid("","Sleep","12:50", InfoKid.Type.SLEEP,"To perfe"));
+        infoKid.add(new InfoKid("","FOOD","11:50", InfoKid.Type.FOOD,"To perfe"));
+        infoKid.add(new InfoKid("","FOOD","13:50", InfoKid.Type.FOOD,"To perfe"));
+        infoKid.add(new InfoKid("","caca","09:50", InfoKid.Type.POOP,"To perfe"));
+        infoKid.add(new InfoKid("","caca","10:50", InfoKid.Type.POOP,"To perfe"));
+    }
+    public ArrayList<InfoKid> getInfoKidById( @Sort int sortType) {
+        ArrayList<InfoKid> newInfoKid = new ArrayList<>(infoKid);
+        if (sortType == Sort.CATEGORY) {
+            Collections.sort(newInfoKid, InfoKid.CATEGORY);
+        } else {
+            Collections.sort(newInfoKid, InfoKid.CHRONOLOGIC);
+        }
+        return newInfoKid;
+    }
+
+
 }
