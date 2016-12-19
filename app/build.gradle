@@ -31,4 +31,6 @@ dependencies {
     compile 'com.android.support:design:25.0.1'
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.github.medyo:fancybuttons:1.8.3'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

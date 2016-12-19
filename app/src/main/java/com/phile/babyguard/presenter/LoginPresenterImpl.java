@@ -4,10 +4,13 @@ import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.phile.babyguard.Babyguard_Application;
 import com.phile.babyguard.R;
 import com.phile.babyguard.interfaces.LoginPresenter;
 import com.phile.babyguard.interfaces.LoginView;
 import com.phile.babyguard.model.ErrorClass;
+import com.phile.babyguard.model.User;
+import com.phile.babyguard.repository.Repository;
 import com.phile.babyguard.utils.Utils;
 
 /**
@@ -58,13 +61,15 @@ public class LoginPresenterImpl implements LoginPresenter {
             view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
     }
 
-    private void databaseLogin(String username, String password) {
+    private void databaseLogin(final String username, final String password) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 boolean error = false;
-                if (!error)
+                if (!error) {
+                    ((Babyguard_Application)((Context)view).getApplicationContext()).setUser(new User(username,password));
                     onLoginFinishedListener.onSuccess();
+                }
                 else
                     onLoginFinishedListener.onFailure(null);
             }
@@ -77,14 +82,18 @@ public class LoginPresenterImpl implements LoginPresenter {
         this.onLoginFinishedListener = null;
     }
 
+    /**
+     * Check if the user was logged the last time he used the app
+     * If true, it tries to log in as usual
+     */
     @Override
     public void isUserSet() {
-        /*String email = ((Login_Application)((Context)view).getApplicationContext()).getEmailIfExists();
-        String pass = ((Login_Application)((Context)view).getApplicationContext()).getPassIfExists();
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass)) {
-            view.setCredentials(email,pass);
-            login(email,pass);
-        }*/
+        String user = ((Babyguard_Application)((Context)view).getApplicationContext()).getUserIfExists();
+        String pass = ((Babyguard_Application)((Context)view).getApplicationContext()).getPassIfExists();
+        if (!TextUtils.isEmpty(user) && !TextUtils.isEmpty(pass)) {
+            view.setCredentials(user,pass);
+            login(user,pass);
+        }
     }
 
 }

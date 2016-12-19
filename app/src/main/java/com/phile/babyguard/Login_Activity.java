@@ -101,6 +101,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
                 return result;
             }
         });
+        presenter.isUserSet();
     }
 
     private void login() {
@@ -139,10 +140,9 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
 
     @Override
     public void onSuccess() {
-        /*Intent intent = new Intent(Login_Activity.this, Home_Activity.class);
+        Intent intent = new Intent(Login_Activity.this, KidList_Activity.class);
         startActivity(intent);
-        finish();*/
-        Toast.makeText(this, "Logueado correctamente", Toast.LENGTH_SHORT).show();
+        finish();
         blockedButtons = false;
     }
 }
