@@ -1,9 +1,10 @@
 package com.phile.babyguard.model;
 
 /**
- * Created by usuario on 19/12/16.
+ * User's credentials
+ * @author Yeray Ruiz Juárez
+ * @version 1.0
  */
-
 public class User {
     private String user;
     private String pass;

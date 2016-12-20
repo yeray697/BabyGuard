@@ -5,9 +5,9 @@ import android.content.Context;
 import com.phile.babyguard.utils.ErrorMapUtils;
 
 /**
+ * Error class with all errors
  * @author Yeray Ruiz Juárez
  * @version 1.0
- * Created on 10/12/16
  */
 public class ErrorClass {
     public static final int CORRECT = 0;                    //Login done successfully

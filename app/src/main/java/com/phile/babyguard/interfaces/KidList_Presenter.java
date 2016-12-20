@@ -1,8 +1,9 @@
 package com.phile.babyguard.interfaces;
 
 /**
- * Created by usuario on 19/12/16.
+ * KidList presenter's interface
+ * @author Yeray Ruiz Juárez
+ * @version 1.0
  */
-
 public interface KidList_Presenter {
 }

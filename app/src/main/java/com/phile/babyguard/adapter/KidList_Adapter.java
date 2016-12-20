@@ -19,9 +19,10 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by usuario on 19/12/16.
+ * KidList adapter
+ * @author Yeray Ruiz Juárez
+ * @version 1.0
  */
-
 public class KidList_Adapter extends ArrayAdapter<Kid>{
     public KidList_Adapter(Context context) {
         super(context, R.layout.kid_list_item, Repository.getInstance().getKids());

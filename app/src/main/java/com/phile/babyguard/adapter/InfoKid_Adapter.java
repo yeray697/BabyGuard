@@ -46,16 +46,16 @@ public class InfoKid_Adapter extends RecyclerView.Adapter<InfoKid_Adapter.Holder
             switch (type){
                 //TODO poner fotos correspondientes
                 case InfoKid.Type.POOP:
-                    resource = R.mipmap.ic_launcher;
+                    resource = R.drawable.poop;
                     break;
                 case InfoKid.Type.FOOD:
-                    resource = R.mipmap.ic_launcher;
+                    resource = R.drawable.food;
                     break;
                 case InfoKid.Type.SLEEP:
-                    resource = R.mipmap.ic_launcher;
+                    resource = R.drawable.sleep;
                     break;
                 case InfoKid.Type.OTHER:
-                    resource = R.mipmap.ic_launcher;
+                    resource = R.drawable.other;
                     break;
 
             }

@@ -14,9 +14,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by usuario on 19/12/16.
+ * Repository's singleton
+ * @author Yeray Ruiz Juárez
+ * @version 1.0
  */
-
 public class Repository {
     private static List<Kid> kids;
     private static KidListPresenterImpl.KidList mCallback;
@@ -44,6 +45,9 @@ public class Repository {
         return repository;
     }
 
+    /**
+     * Load user's kids
+     */
     private static void loadKidsInfo() {
         new Thread(new Runnable() {
             @Override
@@ -59,10 +63,19 @@ public class Repository {
         return repository;
     }
 
+    /**
+     * Get user's kids
+     * @return User's kids
+     */
     public List<Kid> getKids() {
         return kids;
     }
 
+    /**
+     * Get a kid by his id
+     * @param id_kid Kid's id
+     * @return Return the user
+     */
     public Kid getKidById(String id_kid) {
         Kid kid = null;
         int count = 0;

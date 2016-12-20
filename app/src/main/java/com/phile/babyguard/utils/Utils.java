@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager;
  * Class with useful methods
  * @author Yeray Ruiz Juárez
  * @version 1.0
- * Created on 04/11/16
  */
 public class Utils {
     /**

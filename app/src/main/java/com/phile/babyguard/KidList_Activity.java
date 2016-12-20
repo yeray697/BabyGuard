@@ -16,6 +16,11 @@ import com.phile.babyguard.repository.Repository;
 
 import java.util.List;
 
+/**
+ * KidList view
+ * @author Yeray Ruiz Juárez
+ * @version 1.0
+ */
 public class KidList_Activity extends ListActivity implements KidList_View{
 
     public static final String KID_EXTRA = "kid_id";

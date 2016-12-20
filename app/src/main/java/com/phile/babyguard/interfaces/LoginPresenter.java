@@ -3,9 +3,9 @@ package com.phile.babyguard.interfaces;
 import com.phile.babyguard.model.ErrorClass;
 
 /**
+ * Login presenter's interface
  * @author Yeray Ruiz Juárez
  * @version 1.0
- * Created on 10/12/16
  */
 public interface LoginPresenter {
     /**
@@ -15,6 +15,9 @@ public interface LoginPresenter {
      */
     void login(String username, String password);
 
+    /**
+     * Used to uninitialize variables
+     */
     void onDestroy();
 
     /**

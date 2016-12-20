@@ -15,7 +15,6 @@ import java.util.Map;
 /**
  * @author Yeray Ruiz Juárez
  * @version 1.0
- * Created on 04/11/16
  */
 public class ErrorMapUtils {
 

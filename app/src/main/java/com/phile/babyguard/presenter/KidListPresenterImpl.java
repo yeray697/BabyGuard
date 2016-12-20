@@ -10,13 +10,18 @@ import com.phile.babyguard.repository.Repository;
 import java.util.List;
 
 /**
- * Created by usuario on 19/12/16.
+ * KidList presenter
+ * @author Yeray Ruiz Juárez
+ * @version 1.0
  */
-
 public class KidListPresenterImpl implements KidList_Presenter {
     KidList_View view;
     KidList mCallback;
+    
     public interface KidList{
+        /**
+         * Show kids in the list when it finish
+         */
         public void OnLoadedKidList();
     }
 
@@ -25,6 +30,7 @@ public class KidListPresenterImpl implements KidList_Presenter {
         mCallback = new KidList() {
             @Override
             public void OnLoadedKidList() {
+                //TODO si no hay internet, mostrar un botón para actualizar.
                 view.setKids();
             }
         };

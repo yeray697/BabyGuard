@@ -14,9 +14,10 @@ import com.phile.babyguard.repository.Repository;
 import com.phile.babyguard.utils.Utils;
 
 /**
- * Created by yeray697 on 10/12/16.
+ * Login presenter
+ * @author Yeray Ruiz Juárez
+ * @version 1.0
  */
-
 public class LoginPresenterImpl implements LoginPresenter {
     private LoginView view;
     private int idViewUser;
@@ -31,11 +32,16 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     }
 
+    /**
+     * Used when login is finished (with or without error)
+     */
     public interface OnLoginFinishedListener{
-        void onFailure(ErrorClass error);
-
+        /**
+         * Used to start the next activity
+         */
         void onSuccess();
     }
+
     @Override
     public void login(String username, String password) {
         ErrorClass error = new ErrorClass();
@@ -54,26 +60,11 @@ public class LoginPresenterImpl implements LoginPresenter {
                 error.setCode(ErrorClass.USER_CONNECTION_ERROR);
                 error.setIdView(ErrorClass.VIEW_TOAST);
                 error.setIfThereIsAnError(true);
-                onLoginFinishedListener.onFailure(error);
+                view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
             }
         }
         if (error.isThereAnError())
             view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
-    }
-
-    private void databaseLogin(final String username, final String password) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                boolean error = false;
-                if (!error) {
-                    ((Babyguard_Application)((Context)view).getApplicationContext()).setUser(new User(username,password));
-                    onLoginFinishedListener.onSuccess();
-                }
-                else
-                    onLoginFinishedListener.onFailure(null);
-            }
-        }, 2000);
     }
 
     @Override
@@ -82,18 +73,33 @@ public class LoginPresenterImpl implements LoginPresenter {
         this.onLoginFinishedListener = null;
     }
 
-    /**
-     * Check if the user was logged the last time he used the app
-     * If true, it tries to log in as usual
-     */
     @Override
     public void isUserSet() {
-        String user = ((Babyguard_Application)((Context)view).getApplicationContext()).getUserIfExists();
-        String pass = ((Babyguard_Application)((Context)view).getApplicationContext()).getPassIfExists();
-        if (!TextUtils.isEmpty(user) && !TextUtils.isEmpty(pass)) {
-            view.setCredentials(user,pass);
-            login(user,pass);
+        User user = ((Babyguard_Application)((Context)view).getApplicationContext()).getUser();
+        if (user != null && !TextUtils.isEmpty(user.getUser())) {
+            view.setCredentials(user.getUser(),user.getPass());
+            login(user.getUser(),user.getPass());
         }
     }
 
+    /**
+     * Tries to login
+     * @param username User's name
+     * @param password User's pass
+     */
+    private void databaseLogin(final String username, final String password) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ErrorClass error = new ErrorClass();
+                error.setIdView(ErrorClass.VIEW_TOAST);
+                if (!error.isThereAnError()) {
+                    ((Babyguard_Application)((Context)view).getApplicationContext()).setUser(new User(username,password));
+                    onLoginFinishedListener.onSuccess();
+                }
+                else
+                    view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
+            }
+        }, 2000);
+    }
 }

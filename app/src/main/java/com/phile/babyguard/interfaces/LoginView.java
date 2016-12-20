@@ -1,9 +1,9 @@
 package com.phile.babyguard.interfaces;
 
 /**
+ * Login view's interface
  * @author Yeray Ruiz Juárez
  * @version 1.0
- * Created on 10/12/16
  */
 public interface LoginView {
     /**

@@ -1,9 +1,10 @@
 package com.phile.babyguard.model;
 
 /**
- * Created by usuario on 19/12/16.
+ * Kid credentials
+ * @author Yeray Ruiz Juárez
+ * @version 1.0
  */
-
 public class Kid {
     private String id_kid;
     private String id_parent;
