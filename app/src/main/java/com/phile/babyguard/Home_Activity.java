@@ -81,12 +81,12 @@ public class Home_Activity extends AppCompatActivity implements Home_View{
         Picasso.with(this).load(kid.getPhoto())
                 .into(ivKid);
         dataKid = Repository.getInstance().getInfoKidById( Repository.Sort.CHRONOLOGIC);
-        adapter = new InfoKid_Adapter((ArrayList<RecyclerData>) dataKid,this);
-        rvInfoKid.setLineColor(ContextCompat.getColor(this, R.color.colorLineColor));
-        rvInfoKid.setLineWidth(3);
+        adapter = new InfoKid_Adapter(this, (ArrayList<RecyclerData>) dataKid,45);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvInfoKid.setLayoutManager(mLayoutManager);
+        rvInfoKid.setLineColor(ContextCompat.getColor(this, R.color.colorLineColor));
         rvInfoKid.setAdapter(adapter);
+        rvInfoKid.setLineWidth(5);
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
             public void onClick(View view) {

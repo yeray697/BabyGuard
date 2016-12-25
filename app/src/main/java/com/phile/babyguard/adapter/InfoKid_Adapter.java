@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.phile.babyguard.R;
 import com.phile.babyguard.model.InfoKid;
+import com.phile.babyguard.utils.Utils;
 import com.yeray697.dotLineRecyclerView.DotLineRecyclerAdapter;
 import com.yeray697.dotLineRecyclerView.RecyclerData;
 
@@ -17,11 +18,10 @@ import java.util.ArrayList;
 public class InfoKid_Adapter extends DotLineRecyclerAdapter {
 
 
-    private final Context context;
+    private Context context;
 
-
-    public InfoKid_Adapter(ArrayList<RecyclerData> data, Context context) {
-        super(data);
+    public InfoKid_Adapter(Context context, ArrayList<RecyclerData> data, int dotMarginLeft) {
+        super(data, dotMarginLeft);
         this.context = context;
     }
 
@@ -32,12 +32,12 @@ public class InfoKid_Adapter extends DotLineRecyclerAdapter {
 
     @Override
     public int getDotBorderSize() {
-        return 8;
+        return 5;
     }
 
     @Override
     public int getDotSize() {
-        return 4;
+        return 2;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class InfoKid_Adapter extends DotLineRecyclerAdapter {
 
     @Override
     public int getMessageMarginTop() {
-        return 65;
+        return 25;
     }
 
     @Override
