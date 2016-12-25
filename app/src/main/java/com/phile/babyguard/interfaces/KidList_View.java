@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface KidList_View {
     /**
-     * Set kids on the listview's adapter
+     * Set kids on the ListView's adapter
      */
     void setKids();
 }

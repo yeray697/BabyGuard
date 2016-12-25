@@ -2,6 +2,8 @@ package com.phile.babyguard.model;
 
 import android.support.annotation.IntDef;
 
+import com.yeray697.dotLineRecyclerView.RecyclerData;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Comparator;
@@ -10,7 +12,9 @@ import java.util.Comparator;
  * Created by yeray697 on 19/12/16.
  */
 
-public class InfoKid {
+public class InfoKid extends RecyclerData{
+
+    private RecyclerData data;
     private String image;
     private String title;
     private String date;
@@ -44,14 +48,16 @@ public class InfoKid {
     }
 
     public InfoKid(String image, String title, String date, @Type int type, String description) {
+        super(image, title, date);
         this.image = image;
         this.title = title;
         this.date = date;
         this.type = type;
         this.description = description;
+        this.data = new RecyclerData(this.image,this.title,this.date);
     }
 
-    public String getImage() {
+    public String getImageURL() {
         return image;
     }
 
@@ -69,5 +75,9 @@ public class InfoKid {
 
     public String getDescription() {
         return description;
+    }
+
+    public RecyclerData getData() {
+        return data;
     }
 }

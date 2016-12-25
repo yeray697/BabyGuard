@@ -1,15 +1,12 @@
 package com.phile.babyguard.adapter;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 
 import com.phile.babyguard.R;
 import com.phile.babyguard.model.InfoKid;
-import com.phile.babyguard.repository.Repository;
+import com.yeray697.dotLineRecyclerView.DotLineRecyclerAdapter;
+import com.yeray697.dotLineRecyclerView.RecyclerData;
 
 import java.util.ArrayList;
 
@@ -17,30 +14,43 @@ import java.util.ArrayList;
  * Created by yeray697 on 19/12/16.
  */
 
-public class InfoKid_Adapter extends RecyclerView.Adapter<InfoKid_Adapter.Holder> {
+public class InfoKid_Adapter extends DotLineRecyclerAdapter {
 
-    private final ArrayList<InfoKid> info;
 
-    private String id_kid;
+    private final Context context;
 
-    public InfoKid_Adapter (ArrayList<InfoKid> info, String id_kid) {
-        this.info = info;
-        this.id_kid = id_kid;
+
+    public InfoKid_Adapter(ArrayList<RecyclerData> data, Context context) {
+        super(data);
+        this.context = context;
     }
 
     @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.infokid_list_item, parent, false);
-
-        return new Holder(itemView);
+    public int getDotColor() {
+        return ContextCompat.getColor(context, R.color.colorPrimaryLight);
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
-        int type = info.get(position).getType();
-        if (position != 0 && type == info.get(position - 1).getType()) {
-            holder.ivType.setBackground(null);
+    public int getDotBorderSize() {
+        return 8;
+    }
+
+    @Override
+    public int getDotSize() {
+        return 4;
+    }
+
+    @Override
+    public int getDotBorderColor() {
+        return ContextCompat.getColor(context, R.color.colorDotBorder);
+    }
+
+    @Override
+    public void onBindViewHolder(DotLineRecyclerAdapter.Holder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        int type = ((InfoKid)getItemAtPosition(position)).getType();
+        if(position != 0 && type == ((InfoKid)getItemAtPosition(position - 1)).getType()){
+            holder.iv_item.setImageDrawable(null);
         } else {
             int resource = 0;
             switch (type){
@@ -59,30 +69,27 @@ public class InfoKid_Adapter extends RecyclerView.Adapter<InfoKid_Adapter.Holder
                     break;
 
             }
-            holder.ivType.setBackgroundResource(resource);
+            holder.iv_item.setImageResource(resource);
         }
-        holder.tvTitle.setText(info.get(position).getTitle());
-        holder.tvDate.setText(info.get(position).getDate());
     }
 
     @Override
-    public int getItemCount() {
-        return info.size();
+    public int getMessageBackground() {
+        return R.drawable.bocadillo;
     }
 
-    public void orderBy(@Repository.Sort int order) {
-        info.clear();
-        info.addAll(Repository.getInstance().getInfoKidById(order));
+    @Override
+    public int getMessageBackgroundPressed() {
+        return R.drawable.bocadillo_pressed;
     }
-    class Holder extends RecyclerView.ViewHolder {
-        ImageView ivType;
-        TextView tvTitle, tvDate;
 
-        public Holder(View itemView) {
-            super(itemView);
-            ivType = (ImageView) itemView.findViewById(R.id.ivTypeInfoKid_item);
-            tvTitle = (TextView) itemView.findViewById(R.id.tvTitleInfoKid_item);
-            tvDate = (TextView) itemView.findViewById(R.id.tvDateInfoKid_item);
-        }
+    @Override
+    public int getMessageMarginTop() {
+        return 65;
+    }
+
+    @Override
+    public int getMessageMarginRight() {
+        return 15;
     }
 }

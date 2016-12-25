@@ -100,6 +100,6 @@ public class LoginPresenterImpl implements LoginPresenter {
                 else
                     view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
             }
-        }, 2000);
+        }, 500);
     }
 }

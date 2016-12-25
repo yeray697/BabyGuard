@@ -5,4 +5,5 @@
     <string name="ivLogo_contentDescription_login">Logo de la aplicación</string>
     <string name="btLogin_text">Inicia sesión</string>
     <string name="tvForgotPass_text">¿Has olvidado la contraseña?</string>
+    <string name="action_sort_home_title">Ordenar</string>
 </resources>

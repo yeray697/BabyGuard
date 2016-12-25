@@ -95,6 +95,11 @@ public class Repository {
         infoKid.add(new InfoKid("","FOOD","13:50", InfoKid.Type.FOOD,"To perfe"));
         infoKid.add(new InfoKid("","caca","09:50", InfoKid.Type.POOP,"To perfe"));
         infoKid.add(new InfoKid("","caca","10:50", InfoKid.Type.POOP,"To perfe"));
+        infoKid.add(new InfoKid("","Sleep","12:50", InfoKid.Type.SLEEP,"To perfe"));
+        infoKid.add(new InfoKid("","FOOD","11:50", InfoKid.Type.FOOD,"To perfe"));
+        infoKid.add(new InfoKid("","FOOD","13:50", InfoKid.Type.FOOD,"To perfe"));
+        infoKid.add(new InfoKid("","caca","09:50", InfoKid.Type.POOP,"To perfe"));
+        infoKid.add(new InfoKid("","caca","10:50", InfoKid.Type.POOP,"To perfe"));
     }
     public ArrayList<InfoKid> getInfoKidById( @Sort int sortType) {
         ArrayList<InfoKid> newInfoKid = new ArrayList<>(infoKid);
