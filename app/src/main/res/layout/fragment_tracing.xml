@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clHome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <!-- Por algún motivo, sin este componente
+    no se ve la raya del siguiente componente -->
+    <View
+        android:layout_height="match_parent"
+        android:layout_width="1dp"/>
+    <com.yeray697.dotLineRecyclerView.DotLineRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:id="@+id/rvHome"/>
+</FrameLayout>

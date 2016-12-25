@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_tracing"
+            android:checked="true"
+            android:title="@string/item_tracing" />
+        <item
+            android:id="@+id/item_calendar"
+            android:title="@string/item_calendar" />
+        <item
+            android:id="@+id/item_chat"
+            android:title="@string/item_chat" />
+        <item
+            android:id="@+id/item_profile"
+            android:title="@string/item_profile" />
+        <item
+            android:id="@+id/item_webcam"
+            android:title="@string/item_webcam" />
+        <item
+            android:id="@+id/item_contact"
+            android:title="@string/item_contacto" />
+        <item
+            android:id="@+id/item_settings"
+            android:title="@string/item_settings" />
+    </group>
+
+</menu>

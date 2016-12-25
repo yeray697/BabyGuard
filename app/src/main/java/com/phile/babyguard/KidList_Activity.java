@@ -1,16 +1,13 @@
 package com.phile.babyguard;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.phile.babyguard.adapter.KidList_Adapter;
 import com.phile.babyguard.interfaces.KidList_Presenter;
@@ -44,6 +41,7 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
         lvKids.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Intent intent = new Intent(KidList_Activity.this, Tracing_Fragment.class);
                 Intent intent = new Intent(KidList_Activity.this, Home_Activity.class);
                 intent.putExtra(KID_EXTRA,((Kid)lvKids.getItemAtPosition(i)).getIdKid());
                 startActivity(intent);
