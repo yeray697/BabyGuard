@@ -35,5 +35,7 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.github.sundeepk:compact-calendar-view:1.9.6'
+    compile 'com.bignerdranch.android:expandablerecyclerview:1.0.3'
     testCompile 'junit:junit:4.12'
 }

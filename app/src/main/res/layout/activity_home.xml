@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!-- Contenido Principal -->
-    <include layout="@layout/contenido_principal" />
+    <RelativeLayout android:id="@+id/container_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <!-- Menú Deslizante -->
     <android.support.design.widget.NavigationView
@@ -16,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/cabecera_drawer"
+        app:headerLayout="@layout/header_drawer"
         app:menu="@menu/menu_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

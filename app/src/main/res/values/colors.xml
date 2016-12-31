@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimaryLight">#bbdefb</color>
+    <color name="colorPrimaryLightDark">#abd2f2</color>
     <color name="colorPrimary">#90CAF9</color>
     <color name="colorPrimaryDark">#64B5F6</color>
     <color name="colorPrimaryDarkMore">#2196F3</color>
@@ -10,4 +11,5 @@
     <color name="white">@android:color/white</color>
     <color name="colorDotBorder">#555555</color>
     <color name="colorLineColor">#555555</color>
+    <color name="selectedEventColor">@color/colorPrimaryDark</color>
 </resources>

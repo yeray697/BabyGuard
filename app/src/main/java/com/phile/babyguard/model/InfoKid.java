@@ -1,18 +1,21 @@
 package com.phile.babyguard.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.IntDef;
 
 import com.yeray697.dotLineRecyclerView.RecyclerData;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
  * Created by yeray697 on 19/12/16.
  */
 
-public class InfoKid extends RecyclerData{
+public class InfoKid extends RecyclerData implements Parcelable{
 
     private RecyclerData data;
     private String image;
@@ -33,10 +36,44 @@ public class InfoKid extends RecyclerData{
     public static final Comparator<? super InfoKid> CHRONOLOGIC = new Comparator<InfoKid>() {
         @Override
         public int compare(InfoKid o1, InfoKid o2) {
-            int result = o2.getDate().compareTo(o1.getDate());
-            return result;
+            return o2.getDate().compareTo(o1.getDate());
         }
     };
+
+    protected InfoKid(Parcel in) {
+        super(in.readString(), in.readString(), in.readString());
+        image = super.getImageUrl();
+        title = super.getTitle();
+        date = super.getSubtitle();
+        type = in.readInt();
+        description = in.readString();
+    }
+
+    public static final Creator<InfoKid> CREATOR = new Creator<InfoKid>() {
+        @Override
+        public InfoKid createFromParcel(Parcel in) {
+            return new InfoKid(in);
+        }
+
+        @Override
+        public InfoKid[] newArray(int size) {
+            return new InfoKid[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(image);
+        dest.writeString(title);
+        dest.writeString(date);
+        dest.writeInt(type);
+        dest.writeString(description);
+    }
 
     @IntDef({Type.POOP, Type.FOOD, Type.SLEEP, Type.OTHER})
     @Retention(RetentionPolicy.SOURCE)

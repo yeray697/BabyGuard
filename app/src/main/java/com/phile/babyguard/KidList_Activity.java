@@ -41,9 +41,8 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
         lvKids.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Intent intent = new Intent(KidList_Activity.this, Tracing_Fragment.class);
                 Intent intent = new Intent(KidList_Activity.this, Home_Activity.class);
-                intent.putExtra(KID_EXTRA,((Kid)lvKids.getItemAtPosition(i)).getIdKid());
+                intent.putExtra(KID_EXTRA,(Kid)lvKids.getItemAtPosition(i));
                 startActivity(intent);
             }
         });

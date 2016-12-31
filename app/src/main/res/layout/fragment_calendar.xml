@@ -1,13 +1,58 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/clCalendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.phile.babyguard.Profile_Fragment">
+    android:fitsSystemWindows="true">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_gravity="center">
+        </android.support.v7.widget.Toolbar>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textAllCaps="true"
+                android:id="@+id/tvMonth_Calendar"
+                android:text="MONTH"
+                android:textSize="20sp"
+                android:gravity="center"
+                />
+            <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                android:id="@+id/calendar"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_height="180dp"
+                android:background="@color/colorPrimary"
+                app:compactCalendarTextSize="12sp"
+                app:compactCalendarBackgroundColor="@color/transparent"
+                app:compactCalendarTextColor="#fff"
+                app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorPrimaryLight"
+                app:compactCalendarCurrentDayBackgroundColor="@color/colorPrimaryDark"
+                app:compactCalendarMultiEventIndicatorColor="#fff"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:id="@+id/rvCalendar"
+        />
+</LinearLayout>

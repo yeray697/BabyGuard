@@ -22,14 +22,14 @@ public class KidListPresenterImpl implements KidList_Presenter {
         /**
          * Show kids in the list when it finish
          */
-        public void OnLoadedKidList();
+        void OnLoadedData();
     }
 
     public KidListPresenterImpl(final KidList_View view){
         this.view = view;
         mCallback = new KidList() {
             @Override
-            public void OnLoadedKidList() {
+            public void OnLoadedData() {
                 //TODO si no hay internet, mostrar un botón para actualizar.
                 view.setKids();
             }
