@@ -9,6 +9,12 @@ import android.view.ViewGroup;
 
 public class WebCam_Fragment extends Fragment {
 
+    public static WebCam_Fragment newInstance(Bundle args) {
+        WebCam_Fragment fragment = new WebCam_Fragment();
+        if (args != null)
+            fragment.setArguments(args);
+        return fragment;
+    }
 
     public WebCam_Fragment() {
         // Required empty public constructor

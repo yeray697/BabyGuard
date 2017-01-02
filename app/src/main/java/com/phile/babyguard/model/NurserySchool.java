@@ -10,12 +10,14 @@ public class NurserySchool {
     private String name;
     private String address;
     private String email;
+    private String web;
     private ArrayList<String> telephone;
 
-    public NurserySchool(String name, String address, String email, ArrayList<String> telephone) {
+    public NurserySchool(String name, String address, String email, String web, ArrayList<String> telephone) {
         this.name = name;
         this.address = address;
         this.email = email;
+        this.web = web;
         this.telephone = telephone;
     }
 
@@ -41,6 +43,14 @@ public class NurserySchool {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
     }
 
     public ArrayList<String> getTelephone() {

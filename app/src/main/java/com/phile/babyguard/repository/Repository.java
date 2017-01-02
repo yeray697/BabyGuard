@@ -91,7 +91,7 @@ public class Repository {
                 calendarEvents.add(new CalendarEvent("asfa","09/04/2017",new CalendarEvent.EventInfo("jjjjjj"), Color.GRAY));
                 calendarEvents.add(new CalendarEvent("jjdj","28/05/2017",new CalendarEvent.EventInfo("hhhhhhh"), Color.CYAN));
                 calendarEvents.add(new CalendarEvent("hdfhdh","01/06/2017",new CalendarEvent.EventInfo("ffffffff"), Color.BLACK));
-                nurserySchool = new NurserySchool("Best guarderia","Calle falsa 123", "bestguarderia@gmail.com",telephone);
+                nurserySchool = new NurserySchool("Best guarderia","Calle falsa 123", "bestguarderia@gmail.com","bestguarderia.com", telephone);
                 kids.add(new Kid("1","1","Joselito","https://pbs.twimg.com/profile_images/450103729383956480/Tiys3m4x.jpeg",infoKid,calendarEvents));
                 kids.add(new Kid("2","1","Lola","http://rackcdn.elephantjournal.com/wp-content/uploads/2012/01/bad-kid.jpg",infoKid,calendarEvents));
                 mCallback.OnLoadedData();

@@ -22,7 +22,7 @@ public class Home_Activity extends AppCompatActivity {
     private OnBackPressedTracingListener onBackPressedTracingListener;
 
     public interface OnBackPressedTracingListener {
-        public boolean doBack();
+        boolean doBack();
     }
 
     @Override
@@ -79,16 +79,40 @@ public class Home_Activity extends AppCompatActivity {
                 }
                 break;
             case R.id.item_chat:
-                fragment = new Chat_Fragment();
+                tag = "chat";
+                fragment = fragmentManager.findFragmentByTag(tag);
+                if (fragment == null) {
+                    args = new Bundle();
+                    args.putParcelable(KID_KEY, kid);
+                    fragment = Chat_Fragment.newInstance(args);
+                }
                 break;
             case R.id.item_profile:
-                fragment = new Profile_Fragment();
+                tag = "profile";
+                fragment = fragmentManager.findFragmentByTag(tag);
+                if (fragment == null) {
+                    args = new Bundle();
+                    args.putParcelable(KID_KEY, kid);
+                    fragment = Profile_Fragment.newInstance(args);
+                }
                 break;
             case R.id.item_webcam:
-                fragment = new WebCam_Fragment();
+                tag = "webcam";
+                fragment = fragmentManager.findFragmentByTag(tag);
+                if (fragment == null) {
+                    args = new Bundle();
+                    args.putParcelable(KID_KEY, kid);
+                    fragment = WebCam_Fragment.newInstance(args);
+                }
                 break;
             case R.id.item_contact:
-                fragment = new Contact_Fragment();
+                tag = "contact";
+                fragment = fragmentManager.findFragmentByTag(tag);
+                if (fragment == null) {
+                    args = new Bundle();
+                    args.putParcelable(KID_KEY, kid);
+                    fragment = Contact_Fragment.newInstance(args);
+                }
                 break;
             case R.id.item_settings:
                 //TODO
