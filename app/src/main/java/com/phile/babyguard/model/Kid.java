@@ -15,14 +15,16 @@ public class Kid implements Parcelable{
     private String id_parent;
     private String name;
     private String photo;
+    private String info;
     private ArrayList<InfoKid> infoKids;
     private ArrayList<CalendarEvent> calendarEvents;
 
-    public Kid(String id_kid,String id_parent, String name, String photo, ArrayList<InfoKid> infoKids, ArrayList<CalendarEvent> calendarEvents) {
+    public Kid(String id_kid,String id_parent, String name, String photo, String info, ArrayList<InfoKid> infoKids, ArrayList<CalendarEvent> calendarEvents) {
         this.id_kid = id_kid;
         this.id_parent = id_parent;
         this.name = name;
         this.photo = photo;
+        this.info = info;
         this.infoKids = infoKids;
         this.calendarEvents = calendarEvents;
     }
@@ -32,6 +34,7 @@ public class Kid implements Parcelable{
         id_parent = in.readString();
         name = in.readString();
         photo = in.readString();
+        info = in.readString();
         calendarEvents = new ArrayList<>();
         infoKids = new ArrayList<>();
         in.readTypedList(calendarEvents,CalendarEvent.CREATOR);
@@ -66,6 +69,10 @@ public class Kid implements Parcelable{
         return photo;
     }
 
+    public String getInfo() {
+        return info;
+    }
+
     public ArrayList<InfoKid> getInfoKids() {
         return infoKids;
     }
@@ -85,6 +92,7 @@ public class Kid implements Parcelable{
         dest.writeString(id_parent);
         dest.writeString(name);
         dest.writeString(photo);
+        dest.writeString(info);
         dest.writeTypedList(calendarEvents);
         dest.writeTypedList(infoKids);
     }

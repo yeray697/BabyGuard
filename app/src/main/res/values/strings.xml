@@ -18,4 +18,5 @@
     <string name="address_contact_text"><![CDATA[<b>Dirección:</b> <i>%1$s</i>]]></string>
     <string name="web_contact_text"><![CDATA[<b>Página web:</b> <i>%1$s</i>]]></string>
     <string name="email_contact_text"><![CDATA[<b>Correo electrónico:</b> <i>%1$s</i>]]></string>
+    <string name="tvNameProfile_text">Nombre</string>
 </resources>

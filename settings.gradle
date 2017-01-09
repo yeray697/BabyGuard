@@ -1,1 +1,1 @@
-include ':app', ':DotLineRecyclerView'
+include ':app', ':DotLineRecyclerView', ':textview_editable'

@@ -2,25 +2,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.phile.babyguard.Profile_Fragment">
 
-    <android.support.v7.widget.Toolbar
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbarProfile" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="?attr/actionBarTheme"
+            android:minHeight="?attr/actionBarSize"
+            android:id="@+id/toolbarProfile" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ivKid_item"
-        android:layout_marginLeft="10dp"
-        android:clickable="true"
-        android:layout_marginStart="10dp"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/colorPrimaryDarkMore"/>
-
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_below="@id/toolbarProfile"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ivProfile"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/colorPrimaryDarkMore"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvNameProfile"
+            android:text="@string/tvNameProfile_text"
+            android:layout_below="@id/toolbarProfile"
+            android:layout_toRightOf="@id/ivProfile"
+            android:layout_toEndOf="@id/ivProfile"/>
+        <com.yeray697.textview_editable.EditableTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameProfile"
+            android:layout_toRightOf="@id/ivProfile"
+            android:layout_toEndOf="@id/ivProfile"
+            app:title_dialog="titulo"
+            app:text="Nombre"
+            android:id="@+id/etvNameProfile"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvInfoProfile"
+            android:text="@string/tvNameProfile_text"
+            android:layout_below="@id/etvNameProfile"
+            android:layout_toRightOf="@id/ivProfile"
+            android:layout_toEndOf="@id/ivProfile"/>
+        <com.yeray697.textview_editable.EditableTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameProfile"
+            android:layout_toRightOf="@id/ivProfile"
+            android:layout_toEndOf="@id/ivProfile"
+            app:title_dialog="titulo"
+            app:text="Nombre"
+            />
+    </RelativeLayout>
 </FrameLayout>
