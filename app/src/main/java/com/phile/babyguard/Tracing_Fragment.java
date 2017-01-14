@@ -124,7 +124,7 @@ public class Tracing_Fragment extends Fragment implements Home_View{
             public void onClick(View view, int i) {
                 InfoKid aux = (InfoKid) adapter.getItemAtPosition(i);
                 new LovelyInfoDialog(getContext())
-                        .setTopColorRes(R.color.colorPrimaryDarkMore)
+                        .setTopColorRes(R.color.colorPrimaryLightDark)
                         .setIcon(R.mipmap.ic_info_outline_white_36dp)
                         .setTitle(aux.getTitle())
                         .setMessage(aux.getDescription())

@@ -24,7 +24,6 @@ import java.util.List;
 public class Repository {
     private  List<Kid> kids;
     private  KidListPresenterImpl.KidList mCallback;
-    private Context context;
     private static Repository repository;
     private NurserySchool nurserySchool;
 
@@ -35,37 +34,36 @@ public class Repository {
         int CATEGORY = 2;
     }
 
-    private Repository(Context context, KidListPresenterImpl.KidList mCallback) {
-        this.context = context;
+    private Repository() {
         this.mCallback = mCallback;
         kids = new ArrayList<>();
-        loadData();
     }
 
-    public static Repository getInstance(Context context, KidListPresenterImpl.KidList mCallback){
+    public static Repository getInstance(){
         if (repository == null)
-            repository = new Repository(context, mCallback);
+            repository = new Repository();
         return repository;
+    }
+    public void setCallback(KidListPresenterImpl.KidList callback) {
+        this.mCallback = callback;
     }
 
     /**
      * Load user's kids
      */
-    private void loadData() {
+    public void loadData() {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                kids.clear();
                 ArrayList<InfoKid> infoKid = new ArrayList<>();
-                infoKid.add(new InfoKid("","Sleep","12:50", InfoKid.Type.SLEEP,"To perfe"));
-                infoKid.add(new InfoKid("","FOOD","11:50", InfoKid.Type.FOOD,"To perfe"));
-                infoKid.add(new InfoKid("","FOOD","13:50", InfoKid.Type.FOOD,"To perfe"));
-                infoKid.add(new InfoKid("","caca","09:50", InfoKid.Type.POOP,"To perfe"));
-                infoKid.add(new InfoKid("","caca","10:50", InfoKid.Type.POOP,"To perfe"));
-                infoKid.add(new InfoKid("","Sleep","12:50", InfoKid.Type.SLEEP,"To perfe"));
-                infoKid.add(new InfoKid("","FOOD","11:50", InfoKid.Type.FOOD,"To perfe"));
-                infoKid.add(new InfoKid("","FOOD","13:50", InfoKid.Type.FOOD,"To perfe"));
-                infoKid.add(new InfoKid("","caca","09:50", InfoKid.Type.POOP,"To perfe"));
-                infoKid.add(new InfoKid("","caca","10:50", InfoKid.Type.POOP,"To perfe"));
+                infoKid.add(new InfoKid("","Siesta","11:30", InfoKid.Type.SLEEP,"Ha tenido una pesadilla"));
+                infoKid.add(new InfoKid("","Llegada","08:30", InfoKid.Type.OTHER,""));
+                infoKid.add(new InfoKid("","Jugando con instrumentos","12:45", InfoKid.Type.OTHER,"Se le da muy bien el piano"));
+                infoKid.add(new InfoKid("","Desayuno","11:15", InfoKid.Type.FOOD,"Se lo ha comido todo"));
+                infoKid.add(new InfoKid("","Almuerzo","14:15", InfoKid.Type.FOOD,"Se lo ha comido todo"));
+                infoKid.add(new InfoKid("","Deposición","09:50", InfoKid.Type.POOP,"Regular"));
+                infoKid.add(new InfoKid("","Deposición","13:50", InfoKid.Type.POOP,"Ahora la hizo bien"));
                 ArrayList<String> telephone = new ArrayList<>();
                 telephone.add("959855555");
                 telephone.add("659859878");
@@ -84,10 +82,6 @@ public class Repository {
 
             }
         }).start();
-    }
-
-    public static Repository getInstance(){
-        return repository;
     }
 
     /**

@@ -34,7 +34,9 @@ public class KidListPresenterImpl implements KidList_Presenter {
                 view.setKids();
             }
         };
-        Repository.getInstance((Context) view, mCallback);
+        Repository repository = Repository.getInstance();
+        repository.setCallback(mCallback);
+        repository.loadData();
     }
 
 }
