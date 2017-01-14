@@ -1,5 +1,7 @@
 package com.phile.babyguard;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -20,10 +22,12 @@ import android.widget.ImageView;
 
 import com.phile.babyguard.adapter.InfoKid_Adapter;
 import com.phile.babyguard.interfaces.Home_View;
+import com.phile.babyguard.model.InfoKid;
 import com.phile.babyguard.model.Kid;
 import com.phile.babyguard.repository.Repository;
 import com.phile.babyguard.utils.Utils;
 import com.squareup.picasso.Picasso;
+import com.yarolegovich.lovelydialog.LovelyInfoDialog;
 import com.yeray697.dotLineRecyclerView.DotLineRecyclerView;
 import com.yeray697.dotLineRecyclerView.Message_View;
 import com.yeray697.dotLineRecyclerView.RecyclerData;
@@ -114,14 +118,21 @@ public class Tracing_Fragment extends Fragment implements Home_View{
         rvInfoKid.setLayoutManager(mLayoutManager);
         rvInfoKid.setLineColor(ContextCompat.getColor(getContext(), R.color.colorLineColor));
         rvInfoKid.setAdapter(adapter);
-        rvInfoKid.setLineWidth(5);
+        rvInfoKid.setLineWidth(3);
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View view, int i) {
+                InfoKid aux = (InfoKid) adapter.getItemAtPosition(i);
+                new LovelyInfoDialog(getContext())
+                        .setTopColorRes(R.color.colorPrimaryDarkMore)
+                        .setIcon(R.mipmap.ic_info_outline_white_36dp)
+                        .setTitle(aux.getTitle())
+                        .setMessage(aux.getDescription())
+                        .show();
             }
         });
 
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         return view;
     }
 
@@ -136,7 +147,7 @@ public class Tracing_Fragment extends Fragment implements Home_View{
             case R.id.action_sort_home:
                 if (orderedByCategory){
                     dataKid = Repository.getInstance().getOrderedInfoKid(kid.getInfoKids(), Repository.Sort.CATEGORY);
-                    item.setIcon(R.mipmap.ic_sort_by_category);
+                    item.setIcon(R.drawable.ic_sort_by_category);
                 }else {
                     dataKid = Repository.getInstance().getOrderedInfoKid(kid.getInfoKids(), Repository.Sort.CHRONOLOGIC);
                     item.setIcon(R.mipmap.ic_sort_chronologically);
@@ -155,9 +166,9 @@ public class Tracing_Fragment extends Fragment implements Home_View{
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null) {
-            //TODO set a smaller icon
             ab.setHomeAsUpIndicator(R.mipmap.ic_navigation_drawer);
             ab.setDisplayHomeAsUpEnabled(true);
         }
+        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_color), getActivity());
     }
 }

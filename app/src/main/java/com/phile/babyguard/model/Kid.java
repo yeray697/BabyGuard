@@ -3,6 +3,8 @@ package com.phile.babyguard.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yeray697.calendarview.CalendarEvent;
+
 import java.util.ArrayList;
 
 /**

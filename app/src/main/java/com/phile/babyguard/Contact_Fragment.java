@@ -1,5 +1,7 @@
 package com.phile.babyguard;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.phile.babyguard.model.NurserySchool;
 import com.phile.babyguard.repository.Repository;
+import com.phile.babyguard.utils.Utils;
 
 
 public class Contact_Fragment extends Fragment {
@@ -64,6 +67,7 @@ public class Contact_Fragment extends Fragment {
             tvPhones.setText(Html.fromHtml(telephones));
         }
         setToolbar(view);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         return view;
     }
 
@@ -74,9 +78,9 @@ public class Contact_Fragment extends Fragment {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null) {
-            //TODO set a smaller icon
             ab.setHomeAsUpIndicator(R.mipmap.ic_navigation_drawer);
             ab.setDisplayHomeAsUpEnabled(true);
         }
+        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_color), getActivity());
     }
 }

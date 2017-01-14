@@ -1,5 +1,8 @@
 package com.phile.babyguard;
 
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.phile.babyguard.model.Kid;
@@ -16,6 +20,7 @@ import com.phile.babyguard.repository.Repository;
 public class Home_Activity extends AppCompatActivity {
 
     public static final String KID_KEY = "kid";
+    private int selected;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Kid kid;
@@ -51,7 +56,13 @@ public class Home_Activity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void selectItemDrawer(MenuItem itemDrawer) {
@@ -68,6 +79,7 @@ public class Home_Activity extends AppCompatActivity {
                     args.putParcelable(KID_KEY, kid);
                     fragment = Tracing_Fragment.newInstance(args);
                 }
+                selected = 0;
                 break;
             case R.id.item_calendar:
                 tag = "calendar";
@@ -77,6 +89,7 @@ public class Home_Activity extends AppCompatActivity {
                     args.putParcelable(KID_KEY, kid);
                     fragment = Calendar_Fragment.newInstance(args);
                 }
+                selected = 1;
                 break;
             case R.id.item_chat:
                 tag = "chat";
@@ -86,15 +99,7 @@ public class Home_Activity extends AppCompatActivity {
                     args.putParcelable(KID_KEY, kid);
                     fragment = Chat_Fragment.newInstance(args);
                 }
-                break;
-            case R.id.item_profile:
-                tag = "profile";
-                fragment = fragmentManager.findFragmentByTag(tag);
-                if (fragment == null) {
-                    args = new Bundle();
-                    args.putParcelable(KID_KEY, kid);
-                    fragment = Profile_Fragment.newInstance(args);
-                }
+                selected = 2;
                 break;
             case R.id.item_webcam:
                 tag = "webcam";
@@ -104,6 +109,7 @@ public class Home_Activity extends AppCompatActivity {
                     args.putParcelable(KID_KEY, kid);
                     fragment = WebCam_Fragment.newInstance(args);
                 }
+                selected = 3;
                 break;
             case R.id.item_contact:
                 tag = "contact";
@@ -113,9 +119,11 @@ public class Home_Activity extends AppCompatActivity {
                     args.putParcelable(KID_KEY, kid);
                     fragment = Contact_Fragment.newInstance(args);
                 }
+                selected = 4;
                 break;
             case R.id.item_settings:
                 //TODO
+                selected = 5;
                 break;
         }
         if (fragment != null) {
@@ -143,7 +151,31 @@ public class Home_Activity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.action_sign_off:
+                signOff();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void signOff() {
+        ((Babyguard_Application)getApplicationContext()).setUser(null);
+        Intent intent = new Intent(Home_Activity.this,Login_Activity.class);
+        startActivity(intent);
+        finishAffinity();
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("selected",selected);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        selected = savedInstanceState.getInt("selected",0);
+        selectItemDrawer(navigationView.getMenu().getItem(selected));
     }
 }

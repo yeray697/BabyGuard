@@ -19,4 +19,6 @@
     <string name="web_contact_text"><![CDATA[<b>Página web:</b> <i>%1$s</i>]]></string>
     <string name="email_contact_text"><![CDATA[<b>Correo electrónico:</b> <i>%1$s</i>]]></string>
     <string name="tvNameProfile_text">Nombre</string>
+    <string name="tvKidList_text">Hijos en la guardería</string>
+    <string name="action_sign_off">Cerrar sesión</string>
 </resources>

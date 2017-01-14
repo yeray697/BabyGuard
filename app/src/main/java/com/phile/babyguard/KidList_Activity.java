@@ -1,9 +1,13 @@
 package com.phile.babyguard;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -28,6 +32,7 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
     KidList_Presenter presenter;
     KidList_Adapter adapter;
     ImageView ivExpandedImage;
+    Toolbar toolbar;
     private boolean zoom;
 
     @Override
@@ -46,6 +51,10 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
                 startActivity(intent);
             }
         });
+        toolbar = (Toolbar) findViewById(R.id.toolbar_kidlist);
+        //toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(toolbar);
+        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_color), this);
     }
 
     @Override
@@ -76,6 +85,29 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_sign_off:
+                signOff();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void signOff() {
+        ((Babyguard_Application)getApplicationContext()).setUser(null);
+        Intent intent = new Intent(KidList_Activity.this,Login_Activity.class);
+        startActivity(intent);
+        finish();
+    }
     @Override
     public void onBackPressed() {
         if (!zoom)

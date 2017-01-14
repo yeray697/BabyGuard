@@ -1,6 +1,7 @@
 package com.phile.babyguard;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.phile.babyguard.model.User;
@@ -66,4 +67,5 @@ public class Babyguard_Application extends Application {
     private String getPassIfExists() {
         return pref.getString("pass",null);
     }
+
 }

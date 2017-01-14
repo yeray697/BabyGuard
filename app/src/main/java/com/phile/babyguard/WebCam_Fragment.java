@@ -1,5 +1,7 @@
 package com.phile.babyguard;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ public class WebCam_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_webcam, container, false);
 
 
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         return view;
     }
 }

@@ -11,5 +11,15 @@
     <color name="white">@android:color/white</color>
     <color name="colorDotBorder">#555555</color>
     <color name="colorLineColor">#555555</color>
-    <color name="selectedEventColor">@color/colorPrimaryDark</color>
+    <color name="gray">#efefef</color>
+
+    <!-- Calendar colors -->
+    <color name="selected_day">@color/colorPrimaryDarkMore</color>
+    <color name="current_day" >@color/colorAccent</color>
+    <color name="selected_day_diary">@color/colorPrimaryDark</color>
+    <color name="background_item_not_expanded">@color/colorPrimaryLightDark</color>
+    <color name="background_item_expanded">@color/colorPrimaryLight</color>
+    <color name="calendar_background">@color/colorPrimary</color>
+    <color name="current_event">@color/colorAccent</color>
+    <color name="toolbar_color">#555555</color>
 </resources>

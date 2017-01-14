@@ -32,7 +32,7 @@ public class InfoKid_Adapter extends DotLineRecyclerAdapter {
 
     @Override
     public int getDotBorderSize() {
-        return 5;
+        return 3;
     }
 
     @Override

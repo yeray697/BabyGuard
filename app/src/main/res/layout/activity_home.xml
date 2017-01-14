@@ -18,6 +18,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header_drawer"
+        android:windowTranslucentStatus = "true"
+        app:itemTextColor="@drawable/navigation_text_color"
         app:menu="@menu/menu_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
