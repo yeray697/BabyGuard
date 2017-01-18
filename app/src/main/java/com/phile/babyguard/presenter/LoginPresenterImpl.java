@@ -2,8 +2,13 @@ package com.phile.babyguard.presenter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.phile.babyguard.Babyguard_Application;
 import com.phile.babyguard.R;
 import com.phile.babyguard.interfaces.LoginPresenter;
@@ -74,6 +79,11 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
+    public void forgotPassword(String email) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email);
+    }
+
+    @Override
     public void isUserSet() {
         User user = ((Babyguard_Application)((Context)view).getApplicationContext()).getUser();
         if (user != null && !TextUtils.isEmpty(user.getUser())) {
@@ -88,18 +98,21 @@ public class LoginPresenterImpl implements LoginPresenter {
      * @param password User's pass
      */
     private void databaseLogin(final String username, final String password) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ErrorClass error = new ErrorClass();
-                error.setIdView(ErrorClass.VIEW_TOAST);
-                if (!error.isThereAnError()) {
-                    ((Babyguard_Application)((Context)view).getApplicationContext()).setUser(new User(username,password));
-                    onLoginFinishedListener.onSuccess();
-                }
-                else
-                    view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
-            }
-        }, 500);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(username, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+                            ((Babyguard_Application)((Context)view).getApplicationContext()).setUser(new User(username,password));
+                            onLoginFinishedListener.onSuccess();
+                        } else {
+                            ErrorClass error = new ErrorClass();
+                            error.setIdView(ErrorClass.VIEW_TOAST);
+                            error.setCode(ErrorClass.INCORRECT);
+                            view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
+                        }
+                    }
+                });
     }
 }
