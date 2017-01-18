@@ -1,6 +1,5 @@
 package com.phile.babyguard;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -131,8 +130,6 @@ public class Tracing_Fragment extends Fragment implements Home_View{
                         .show();
             }
         });
-
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         return view;
     }
 

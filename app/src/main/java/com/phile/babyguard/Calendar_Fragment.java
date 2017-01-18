@@ -14,16 +14,16 @@ import android.view.ViewGroup;
 
 import com.phile.babyguard.model.Kid;
 import com.phile.babyguard.utils.Utils;
-import com.yeray697.calendarview.CalendarEvent;
-import com.yeray697.calendarview.CalendarView;
+import com.yeray697.calendarview.DiaryCalendarEvent;
+import com.yeray697.calendarview.DiaryCalendarView;
 
 import java.util.ArrayList;
 
 
 public class Calendar_Fragment extends Fragment {
     private Kid kid;
-    private CalendarView calendar;
-    private ArrayList<CalendarEvent> calendarDates;
+    private DiaryCalendarView calendar;
+    private ArrayList<DiaryCalendarEvent> calendarDates;
 
 
     public static Calendar_Fragment newInstance(Bundle args) {
@@ -41,13 +41,12 @@ public class Calendar_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        calendar = (CalendarView) view.findViewById(R.id.calendar);
+        calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
         setToolbar();
         setHasOptionsMenu(true);
         kid = getArguments().getParcelable(Home_Activity.KID_KEY);
         calendarDates = kid.getCalendarEvents();
-        calendar.addEvent(calendarDates, Color.RED,5);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        calendar.addEvent(calendarDates);
         return view;
     }
 

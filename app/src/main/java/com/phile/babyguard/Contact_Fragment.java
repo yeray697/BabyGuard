@@ -67,7 +67,6 @@ public class Contact_Fragment extends Fragment {
             tvPhones.setText(Html.fromHtml(telephones));
         }
         setToolbar(view);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         return view;
     }
 

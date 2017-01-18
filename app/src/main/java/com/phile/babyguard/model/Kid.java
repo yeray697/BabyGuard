@@ -3,7 +3,7 @@ package com.phile.babyguard.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.yeray697.calendarview.CalendarEvent;
+import com.yeray697.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
 
@@ -19,9 +19,9 @@ public class Kid implements Parcelable{
     private String photo;
     private String info;
     private ArrayList<InfoKid> infoKids;
-    private ArrayList<CalendarEvent> calendarEvents;
+    private ArrayList<DiaryCalendarEvent> calendarEvents;
 
-    public Kid(String id_kid,String id_parent, String name, String photo, String info, ArrayList<InfoKid> infoKids, ArrayList<CalendarEvent> calendarEvents) {
+    public Kid(String id_kid,String id_parent, String name, String photo, String info, ArrayList<InfoKid> infoKids, ArrayList<DiaryCalendarEvent> calendarEvents) {
         this.id_kid = id_kid;
         this.id_parent = id_parent;
         this.name = name;
@@ -39,7 +39,7 @@ public class Kid implements Parcelable{
         info = in.readString();
         calendarEvents = new ArrayList<>();
         infoKids = new ArrayList<>();
-        in.readTypedList(calendarEvents,CalendarEvent.CREATOR);
+        in.readTypedList(calendarEvents,DiaryCalendarEvent.CREATOR);
         in.readTypedList(infoKids,InfoKid.CREATOR);
     }
 
@@ -79,7 +79,7 @@ public class Kid implements Parcelable{
         return infoKids;
     }
 
-    public ArrayList<CalendarEvent> getCalendarEvents() {
+    public ArrayList<DiaryCalendarEvent> getCalendarEvents() {
         return calendarEvents;
     }
 

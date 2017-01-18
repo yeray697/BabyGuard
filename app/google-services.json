@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "860081945394",
+    "firebase_url": "https://babyguard-4536a.firebaseio.com",
+    "project_id": "babyguard-4536a",
+    "storage_bucket": "babyguard-4536a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860081945394:android:3b9a88800cc1fd67",
+        "android_client_info": {
+          "package_name": "com.phile.babyguard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860081945394-kqhcnj4g5iiei3ju94nofnkum0g3dq4q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0Ez3omepIx5TKOs0W0SgIxVmbilVdW-A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
