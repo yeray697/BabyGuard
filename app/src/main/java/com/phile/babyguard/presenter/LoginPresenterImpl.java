@@ -2,21 +2,14 @@ package com.phile.babyguard.presenter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.phile.babyguard.Babyguard_Application;
 import com.phile.babyguard.R;
 import com.phile.babyguard.interfaces.LoginPresenter;
 import com.phile.babyguard.interfaces.LoginView;
 import com.phile.babyguard.model.ErrorClass;
 import com.phile.babyguard.model.User;
-import com.phile.babyguard.repository.Repository;
 import com.phile.babyguard.utils.Utils;
 
 /**
@@ -81,11 +74,6 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void forgotPassword(String email) {
-        FirebaseAuth.getInstance().sendPasswordResetEmail(email);
-    }
-
-    @Override
     public void isUserSet() {
         User user = ((Babyguard_Application)((Context)view).getApplicationContext()).getUser();
         if (user != null && !TextUtils.isEmpty(user.getUser())) {
@@ -100,21 +88,17 @@ public class LoginPresenterImpl implements LoginPresenter {
      * @param password User's pass
      */
     private void databaseLogin(final String username, final String password) {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(username, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if (task.isSuccessful()) {
-                            ((Babyguard_Application)((Context)view).getApplicationContext()).setUser(new User(username,password));
-                            onLoginFinishedListener.onSuccess();
-                        } else {
-                            ErrorClass error = new ErrorClass();
-                            error.setIdView(ErrorClass.VIEW_TOAST);
-                            error.setCode(ErrorClass.INCORRECT);
-                            view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
-                        }
-                    }
-                });
+        if (username.equals("admin") && password.equals("Aa123456")) {
+            ((Babyguard_Application)((Context)view).getApplicationContext()).setUser(new User(username,password,User.TYPE_TEACHER));
+            onLoginFinishedListener.onSuccess();
+        } else if (username.equals("lourdes") && password.equals("Aa123456")) {
+            ((Babyguard_Application)((Context)view).getApplicationContext()).setUser(new User(username,password, User.TYPE_BABY));
+            onLoginFinishedListener.onSuccess();
+        } else {
+            ErrorClass error = new ErrorClass();
+            error.setIdView(ErrorClass.VIEW_TOAST);
+            error.setCode(ErrorClass.INCORRECT);
+            view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
+        }
     }
 }

@@ -20,13 +20,6 @@ public interface LoginPresenter {
      */
     void onDestroy();
 
-
-    /**
-     * User forgot his password
-     * @param email User's email
-     */
-    void forgotPassword(String email);
-
     /**
      * Check if the user was logged the last time he used the app
      * If true, it tries to log in as usual

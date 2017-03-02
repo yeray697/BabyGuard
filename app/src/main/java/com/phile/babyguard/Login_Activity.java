@@ -1,9 +1,7 @@
 package com.phile.babyguard;
 
 import android.content.Intent;
-import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +20,6 @@ import com.phile.babyguard.interfaces.LoginView;
 import com.phile.babyguard.model.ErrorClass;
 import com.phile.babyguard.presenter.LoginPresenterImpl;
 import com.phile.babyguard.utils.OneClickListener;
-import com.phile.babyguard.utils.Utils;
 
 /**
  * Login view
