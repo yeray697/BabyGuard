@@ -34,31 +34,27 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     private static final String FORGOTTEN_PASS_URL = "http://www.google.com";
     private static final String LOGIN_LISTENER = "loginListener";
 
-    LoginPresenter presenter;
+    private LoginPresenter presenter;
 
-    TextInputLayout tilUser, tilPassword;
-    EditText etUser, etPassword;
-    TextView tvForgotPass;
-    MaterialRippleLayout btLogin;
+    private TextInputLayout tilUser, tilPassword;
+    private EditText etUser, etPassword;
+    private TextView tvForgotPass;
+    private MaterialRippleLayout btLogin;
 
-    OneClickListener btLoginListener;
+    private OneClickListener btLoginListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         etUser = (EditText) findViewById(R.id.etUser_login);
         etPassword = (EditText) findViewById(R.id.etPass_login);
-
         presenter = new LoginPresenterImpl(this, this);
         presenter.isUserSet();
-
         tilUser = (TextInputLayout) findViewById(R.id.tilUser_login);
         tilPassword = (TextInputLayout) findViewById(R.id.tilPass_login);
         tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
         btLogin = (MaterialRippleLayout) findViewById(R.id.rlButton);
-
         if (savedInstanceState != null){
             btLoginListener = (OneClickListener) savedInstanceState.getSerializable(LOGIN_LISTENER);
         }
@@ -66,7 +62,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
             btLoginListener = new OneClickListener() {
                 @Override
                 protected void onOneClick() {
-                    login();
+                    loginClick();
                 }
             };
         }
@@ -74,9 +70,8 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         tvForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FORGOTTEN_PASS_URL));
-                //startActivity(browserIntent);
-                presenter.forgotPassword("yeray.1997.yr@gmail.com");
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FORGOTTEN_PASS_URL));
+                startActivity(browserIntent);
             }
         });
         etUser.addTextChangedListener(new TextWatcher() {
@@ -116,7 +111,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 boolean result = false;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    login();
+                    loginClick();
                     result = true;
                 }
                 return result;
@@ -158,8 +153,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     /**
      * Hide the keyboard and tries to login
      */
-    private void login() {
-        Utils.hideKeyboard(this);
+    private void loginClick() {
         presenter.login(etUser.getText().toString(), etPassword.getText().toString());
     }
 

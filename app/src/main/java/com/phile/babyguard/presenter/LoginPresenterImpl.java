@@ -1,5 +1,6 @@
 package com.phile.babyguard.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -49,6 +50,7 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void login(String username, String password) {
+        Utils.hideKeyboard((Activity) view);
         ErrorClass error = new ErrorClass();
         if (TextUtils.isEmpty(username)) {
             error.setCode(ErrorClass.USER_EMPTY);
