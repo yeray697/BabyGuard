@@ -62,7 +62,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
             btLoginListener = new OneClickListener() {
                 @Override
                 protected void onOneClick() {
-                    loginClick();
+                    login();
                 }
             };
         }
@@ -111,7 +111,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 boolean result = false;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginClick();
+                    login();
                     result = true;
                 }
                 return result;
@@ -151,9 +151,9 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     }
 
     /**
-     * Hide the keyboard and tries to login
+     * Tries to login. Called when user click btLogin or if press Enter on the keyboard while is typing the password
      */
-    private void loginClick() {
+    private void login() {
         presenter.login(etUser.getText().toString(), etPassword.getText().toString());
     }
 
