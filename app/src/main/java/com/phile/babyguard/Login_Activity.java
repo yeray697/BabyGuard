@@ -22,6 +22,7 @@ import com.phile.babyguard.interfaces.LoginPresenter;
 import com.phile.babyguard.interfaces.LoginView;
 import com.phile.babyguard.model.ErrorClass;
 import com.phile.babyguard.presenter.LoginPresenterImpl;
+import com.phile.babyguard.utils.OneClickListener;
 import com.phile.babyguard.utils.Utils;
 
 /**
@@ -31,7 +32,7 @@ import com.phile.babyguard.utils.Utils;
  */
 public class Login_Activity extends AppCompatActivity implements LoginView, LoginPresenterImpl.OnLoginFinishedListener {
     private static final String FORGOTTEN_PASS_URL = "http://www.google.com";
-    boolean blockedButtons = false;
+    private static final String LOGIN_LISTENER = "loginListener";
 
     LoginPresenter presenter;
 
@@ -39,6 +40,8 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     EditText etUser, etPassword;
     TextView tvForgotPass;
     MaterialRippleLayout btLogin;
+
+    OneClickListener btLoginListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +59,18 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
         btLogin = (MaterialRippleLayout) findViewById(R.id.rlButton);
 
-        btLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-            }
-        });
+        if (savedInstanceState != null){
+            btLoginListener = (OneClickListener) savedInstanceState.getSerializable(LOGIN_LISTENER);
+        }
+        if (btLoginListener == null) {
+            btLoginListener = new OneClickListener() {
+                @Override
+                protected void onOneClick() {
+                    login();
+                }
+            };
+        }
+        btLogin.setOnClickListener(btLoginListener);
         tvForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,7 +126,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
 
     @Override
     public void setMessageError(String messageError, int idView) {
-        blockedButtons = false;
+        btLoginListener.setClicked(false);
         switch (idView){
             case R.id.tilUser_login:
                 tilUser.setError(messageError);
@@ -133,7 +142,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
 
     @Override
     public void setCredentials(String user, String pass) {
-        blockedButtons = true;
+        btLoginListener.setClicked(true);
         etUser.setText(user);
         etPassword.setText(pass);
     }
@@ -143,18 +152,20 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         Intent intent = new Intent(Login_Activity.this, KidList_Activity.class);
         startActivity(intent);
         finish();
-        blockedButtons = false;
+        btLoginListener.setClicked(false);
     }
 
     /**
      * Hide the keyboard and tries to login
      */
     private void login() {
-        if (!blockedButtons) {
-            Utils.hideKeyboard(this);
-            blockedButtons = true;
-            presenter.login(etUser.getText().toString(), etPassword.getText().toString());
-        }
+        Utils.hideKeyboard(this);
+        presenter.login(etUser.getText().toString(), etPassword.getText().toString());
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(LOGIN_LISTENER, btLoginListener);
+    }
 }
