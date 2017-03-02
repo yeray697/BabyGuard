@@ -45,12 +45,6 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         setContentView(R.layout.activity_login);
         etUser = (EditText) findViewById(R.id.etUser_login);
         etPassword = (EditText) findViewById(R.id.etPass_login);
-        presenter = new LoginPresenterImpl(this, this);
-        presenter.isUserSet();
-        tilUser = (TextInputLayout) findViewById(R.id.tilUser_login);
-        tilPassword = (TextInputLayout) findViewById(R.id.tilPass_login);
-        tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
-        btLogin = (MaterialRippleLayout) findViewById(R.id.rlButton);
         if (savedInstanceState != null){
             btLoginListener = (OneClickListener) savedInstanceState.getSerializable(LOGIN_LISTENER);
         }
@@ -62,6 +56,13 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
                 }
             };
         }
+        presenter = new LoginPresenterImpl(this, this);
+        presenter.isUserSet();
+        tilUser = (TextInputLayout) findViewById(R.id.tilUser_login);
+        tilPassword = (TextInputLayout) findViewById(R.id.tilPass_login);
+        tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
+        btLogin = (MaterialRippleLayout) findViewById(R.id.rlButton);
+
         btLogin.setOnClickListener(btLoginListener);
         tvForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
