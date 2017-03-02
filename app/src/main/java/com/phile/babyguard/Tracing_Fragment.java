@@ -1,6 +1,5 @@
 package com.phile.babyguard;
 
-import android.content.pm.ActivityInfo;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +23,8 @@ import com.phile.babyguard.interfaces.Home_View;
 import com.phile.babyguard.model.InfoKid;
 import com.phile.babyguard.model.Kid;
 import com.phile.babyguard.repository.Repository;
+import com.phile.babyguard.utils.OneClickMultiple;
+import com.phile.babyguard.utils.OneClickMultipleListener;
 import com.phile.babyguard.utils.Utils;
 import com.squareup.picasso.Picasso;
 import com.yarolegovich.lovelydialog.LovelyInfoDialog;
@@ -35,14 +36,14 @@ import java.util.ArrayList;
 
 public class Tracing_Fragment extends Fragment implements Home_View{
 
-
-
+    private static final String MULTIPLE_LISTENER = "multipleListener";
     private InfoKid_Adapter adapter;
     private DotLineRecyclerView rvInfoKid;
     private ArrayList<? extends RecyclerData> dataKid;
     private boolean orderedByCategory;
     private ImageView ivExpandedImage;
     private FloatingActionButton fabMessage;
+    private OneClickMultiple oneClickMultiple;
 
     private Kid kid;
     private boolean zoom;
@@ -58,8 +59,13 @@ public class Tracing_Fragment extends Fragment implements Home_View{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tracing,container,false);
-
+        final View view = inflater.inflate(R.layout.fragment_tracing,container,false);
+        if (savedInstanceState != null){
+            oneClickMultiple = (OneClickMultiple) savedInstanceState.getSerializable(MULTIPLE_LISTENER);
+        }
+        if (oneClickMultiple == null){
+            oneClickMultiple = new OneClickMultiple();
+        }
         kid = getArguments().getParcelable(Home_Activity.KID_KEY);
 
         setToolbar(view);
@@ -86,9 +92,9 @@ public class Tracing_Fragment extends Fragment implements Home_View{
         Picasso.with(getContext()).load(kid.getPhoto())
                 .into(ivKid);
         ivExpandedImage = (ImageView) view.findViewById(R.id.ivExpanded_Home);
-        ivKid.setOnClickListener(new View.OnClickListener() {
+        ivKid.setOnClickListener(oneClickMultiple.addListener("ivKid", new OneClickMultipleListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick() {
                 zoom = true;
                 fabMessage.setVisibility(View.GONE);
                 Utils.zoomImageFromThumb(getContext(), R.id.clHome, view, ivExpandedImage, ivKid.getDrawable(), new Utils.OnAnimationEnded() {
@@ -100,16 +106,27 @@ public class Tracing_Fragment extends Fragment implements Home_View{
                     @Override
                     public void finished() {
                         fabMessage.setVisibility(View.VISIBLE);
+                        oneClickMultiple.setClicked(false);
                     }
                 });
             }
-        });
-        fabMessage.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
+            public void onDoubleClick() {
 
             }
-        });
+        }));
+        fabMessage.setOnClickListener(oneClickMultiple.addListener("fabMessage", new OneClickMultipleListener() {
+            @Override
+            public void onClick() {
+                oneClickMultiple.setClicked(false);
+            }
+
+            @Override
+            public void onDoubleClick() {
+
+            }
+        }));
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvHome);
         dataKid = Repository.getInstance().getOrderedInfoKid(kid.getInfoKids(), Repository.Sort.CHRONOLOGIC);
         adapter = new InfoKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
@@ -121,13 +138,17 @@ public class Tracing_Fragment extends Fragment implements Home_View{
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
             public void onClick(View view, int i) {
-                InfoKid aux = (InfoKid) adapter.getItemAtPosition(i);
-                new LovelyInfoDialog(getContext())
-                        .setTopColorRes(R.color.colorPrimaryLightDark)
-                        .setIcon(R.mipmap.ic_info_outline_white_36dp)
-                        .setTitle(aux.getTitle())
-                        .setMessage(aux.getDescription())
-                        .show();
+                if (!oneClickMultiple.isClicked()){
+                    oneClickMultiple.setClicked(true);
+                    InfoKid aux = (InfoKid) adapter.getItemAtPosition(i);
+                    new LovelyInfoDialog(getContext())
+                            .setTopColorRes(R.color.colorPrimaryLightDark)
+                            .setIcon(R.mipmap.ic_info_outline_white_36dp)
+                            .setTitle(aux.getTitle())
+                            .setMessage(aux.getDescription())
+                            .show();
+                    oneClickMultiple.setClicked(false);
+                }
             }
         });
         return view;
@@ -157,7 +178,6 @@ public class Tracing_Fragment extends Fragment implements Home_View{
         return super.onOptionsItemSelected(item);
     }
 
-
     private void setToolbar(View rootView) {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarHome);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -167,5 +187,16 @@ public class Tracing_Fragment extends Fragment implements Home_View{
             ab.setDisplayHomeAsUpEnabled(true);
         }
         Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_color), getActivity());
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(MULTIPLE_LISTENER,oneClickMultiple);
     }
 }

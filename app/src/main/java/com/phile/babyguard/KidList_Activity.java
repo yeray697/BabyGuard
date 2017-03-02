@@ -1,7 +1,6 @@
 package com.phile.babyguard;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,32 +26,38 @@ import com.phile.babyguard.utils.Utils;
  */
 public class KidList_Activity extends AppCompatActivity implements KidList_View{
 
-    ListView lvKids;
+    private static final String CLICKED = "clicked";
+    private ListView lvKids;
     public static final String KID_EXTRA = "kid_id";
-    KidList_Presenter presenter;
-    KidList_Adapter adapter;
-    ImageView ivExpandedImage;
-    Toolbar toolbar;
+    private KidList_Presenter presenter;
+    private KidList_Adapter adapter;
+    private ImageView ivExpandedImage;
+    private Toolbar toolbar;
     private boolean zoom;
+    private boolean clicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kid_list);
         zoom = false;
+        clicked = (savedInstanceState != null) && savedInstanceState.getBoolean(CLICKED, false);
         ivExpandedImage = (ImageView) findViewById(R.id.ivExpanded_KidList);
         presenter = new KidListPresenterImpl(this);
         lvKids = (ListView) findViewById(R.id.lvKidList);
         lvKids.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(KidList_Activity.this, Home_Activity.class);
-                intent.putExtra(KID_EXTRA,(Kid)lvKids.getItemAtPosition(i));
-                startActivity(intent);
+                if (!clicked) {
+                    clicked = true;
+                    Intent intent = new Intent(KidList_Activity.this, Home_Activity.class);
+                    intent.putExtra(KID_EXTRA,(Kid)lvKids.getItemAtPosition(i));
+                    startActivity(intent);
+                    clicked = false;
+                }
             }
         });
         toolbar = (Toolbar) findViewById(R.id.toolbar_kidlist);
-        //toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(toolbar);
         Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_color), this);
     }
@@ -82,7 +87,6 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
                 lvKids.setAdapter(adapter);
             }
         });
-
     }
 
     @Override
@@ -108,11 +112,18 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
         startActivity(intent);
         finish();
     }
+
     @Override
     public void onBackPressed() {
         if (!zoom)
             super.onBackPressed();
         else
             Utils.cancelZoomedImage(ivExpandedImage);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(CLICKED,clicked);
     }
 }
