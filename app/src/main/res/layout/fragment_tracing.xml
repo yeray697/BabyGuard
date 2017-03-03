@@ -41,7 +41,7 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -50,11 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true">
-            <!-- Por algún motivo, sin este componente
-            no se ve la raya del siguiente componente -->
-            <View
-                android:layout_height="match_parent"
-                android:layout_width="1dp"/>
             <com.yeray697.dotLineRecyclerView.DotLineRecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
