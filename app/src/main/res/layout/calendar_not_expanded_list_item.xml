@@ -25,7 +25,7 @@
         android:minWidth="110dp"
         android:padding="16dp"
         android:textStyle="bold"
-        android:text="date" />
+        android:text="time" />
 
 
     <TextView

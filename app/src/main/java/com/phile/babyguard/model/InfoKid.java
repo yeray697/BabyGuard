@@ -19,7 +19,7 @@ public class InfoKid extends RecyclerData implements Parcelable{
     private RecyclerData data;
     private String image;
     private String title;
-    private String date;
+    private String time;
     private int type;
     private String description;
 
@@ -28,14 +28,14 @@ public class InfoKid extends RecyclerData implements Parcelable{
         public int compare(InfoKid o1, InfoKid o2) {
             int result = o1.getType() - o2.getType();
             if (result == 0)
-                result = o2.getDate().compareTo(o1.getDate());
+                result = o2.getTime().compareTo(o1.getTime());
             return result;
         }
     };
     public static final Comparator<? super InfoKid> CHRONOLOGIC = new Comparator<InfoKid>() {
         @Override
         public int compare(InfoKid o1, InfoKid o2) {
-            return o2.getDate().compareTo(o1.getDate());
+            return o2.getTime().compareTo(o1.getTime());
         }
     };
 
@@ -43,7 +43,7 @@ public class InfoKid extends RecyclerData implements Parcelable{
         super(in.readString(), in.readString(), in.readString());
         image = super.getImageUrl();
         title = super.getTitle();
-        date = super.getSubtitle();
+        time = super.getSubtitle();
         type = in.readInt();
         description = in.readString();
     }
@@ -69,7 +69,7 @@ public class InfoKid extends RecyclerData implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(image);
         dest.writeString(title);
-        dest.writeString(date);
+        dest.writeString(time);
         dest.writeInt(type);
         dest.writeString(description);
     }
@@ -83,14 +83,14 @@ public class InfoKid extends RecyclerData implements Parcelable{
         int OTHER = 4;
     }
 
-    public InfoKid(String image, String title, String date, @Type int type, String description) {
-        super(image, title, date);
+    public InfoKid(String image, String title, String time, @Type int type, String description) {
+        super(image, title, time);
         this.image = image;
         this.title = title;
-        this.date = date;
+        this.time = time;
         this.type = type;
         this.description = description;
-        this.data = new RecyclerData(this.image,this.title,this.date);
+        this.data = new RecyclerData(this.image,this.title,this.time);
     }
 
     public String getImageURL() {
@@ -101,8 +101,8 @@ public class InfoKid extends RecyclerData implements Parcelable{
         return title;
     }
 
-    public String getDate() {
-        return date;
+    public String getTime() {
+        return time;
     }
 
     public int getType() {
@@ -115,5 +115,24 @@ public class InfoKid extends RecyclerData implements Parcelable{
 
     public RecyclerData getData() {
         return data;
+    }
+
+    public static @InfoKid.Type int parseIntToType(int type){
+        @Type int result = Type.OTHER;
+        switch (type){
+            case 1:
+                result = Type.POOP;
+                break;
+            case 2:
+                result = Type.FOOD;
+                break;
+            case 3:
+                result = Type.SLEEP;
+                break;
+            case 4:
+                result = Type.OTHER;
+                break;
+        }
+        return result;
     }
 }

@@ -1,9 +1,11 @@
 package com.phile.babyguard;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.phile.babyguard.database.DatabaseHelper;
 import com.phile.babyguard.model.User;
 
 /**
@@ -12,19 +14,26 @@ import com.phile.babyguard.model.User;
  * @version 1.0
  */
 public class Babyguard_Application extends Application {
-    private User user;
-    private SharedPreferences pref;
 
     private final static String FILE_PREFERENCE = "credentials";
     private final static String USER_PREFERENCE = "user";
     private final static String PASS_PREFERENCE = "pass";
     private final static String TYPE_PREFERENCE = "type";
 
+    private User user;
+    private SharedPreferences pref;
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        this.context = this;
         pref = getApplicationContext().getSharedPreferences(FILE_PREFERENCE, MODE_PRIVATE);
+        DatabaseHelper.getInstance().getDatabase();
+    }
+
+    public static Context getContext(){
+        return context;
     }
 
     /**
@@ -87,5 +96,4 @@ public class Babyguard_Application extends Application {
     private int getTypeIfExists() {
         return pref.getInt("type",-1);
     }
-
 }

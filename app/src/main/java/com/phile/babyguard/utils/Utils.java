@@ -248,7 +248,7 @@ public class Utils {
         for(int i = 0; i < toolbarView.getChildCount(); i++) {
             final View v = toolbarView.getChildAt(i);
 
-            //Step 1 : Changing the color of back button (or open drawer button).
+            //Step 1 : Changing the color of back button (or getDatabase drawer button).
             if(v instanceof ImageButton) {
                 //Action Bar back button
                 ((ImageButton)v).getDrawable().setColorFilter(colorFilter);

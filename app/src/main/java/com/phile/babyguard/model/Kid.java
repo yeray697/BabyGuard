@@ -14,16 +14,14 @@ import java.util.ArrayList;
  */
 public class Kid implements Parcelable{
     private String id_kid;
-    private String id_parent;
     private String name;
     private String photo;
     private String info;
     private ArrayList<InfoKid> infoKids;
     private ArrayList<DiaryCalendarEvent> calendarEvents;
 
-    public Kid(String id_kid,String id_parent, String name, String photo, String info, ArrayList<InfoKid> infoKids, ArrayList<DiaryCalendarEvent> calendarEvents) {
+    public Kid(String id_kid, String name, String photo, String info, ArrayList<InfoKid> infoKids, ArrayList<DiaryCalendarEvent> calendarEvents) {
         this.id_kid = id_kid;
-        this.id_parent = id_parent;
         this.name = name;
         this.photo = photo;
         this.info = info;
@@ -33,7 +31,6 @@ public class Kid implements Parcelable{
 
     protected Kid(Parcel in) {
         id_kid = in.readString();
-        id_parent = in.readString();
         name = in.readString();
         photo = in.readString();
         info = in.readString();
@@ -57,10 +54,6 @@ public class Kid implements Parcelable{
 
     public String getIdKid() {
         return id_kid;
-    }
-
-    public String getIdParent() {
-        return id_parent;
     }
 
     public String getName() {
@@ -91,7 +84,6 @@ public class Kid implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id_kid);
-        dest.writeString(id_parent);
         dest.writeString(name);
         dest.writeString(photo);
         dest.writeString(info);
