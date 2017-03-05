@@ -16,6 +16,8 @@ import com.phile.babyguard.model.Kid;
 public class Home_Activity extends AppCompatActivity {
 
     public static final String KID_KEY = "kid";
+    public static final String ACTION = "action";
+    public static final String ACTION_OPEN_CALENDAR = "open_calendar";
     private int selected;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -32,11 +34,14 @@ public class Home_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         kid = getIntent().getExtras().getParcelable(KidList_Activity.KID_EXTRA);
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             prepareDrawer(navigationView);
-            selectItemDrawer(navigationView.getMenu().getItem(0));
+            if (getIntent().getExtras().getString(ACTION,"").equals(ACTION_OPEN_CALENDAR)){
+                selectItemDrawer(navigationView.getMenu().getItem(1));
+            } else {
+                selectItemDrawer(navigationView.getMenu().getItem(0));
+            }
         }
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -132,8 +137,7 @@ public class Home_Activity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (onBackPressedTracingListener != null)
-            if(!onBackPressedTracingListener.doBack())
+        if ((onBackPressedTracingListener != null && !onBackPressedTracingListener.doBack()) || onBackPressedTracingListener == null)
                 super.onBackPressed();
     }
 

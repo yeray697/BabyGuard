@@ -2,11 +2,13 @@ package com.phile.babyguard;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.phile.babyguard.database.DatabaseHelper;
 import com.phile.babyguard.model.User;
+import com.phile.babyguard.services.CalendarServices;
 
 /**
  * Context application
@@ -30,6 +32,7 @@ public class Babyguard_Application extends Application {
         this.context = this;
         pref = getApplicationContext().getSharedPreferences(FILE_PREFERENCE, MODE_PRIVATE);
         DatabaseHelper.getInstance().getDatabase();
+        startService(new Intent(context, CalendarServices.class));
     }
 
     public static Context getContext(){

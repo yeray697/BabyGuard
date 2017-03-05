@@ -26,6 +26,9 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".Home_Activity"
             android:theme="@style/AppThemeNavigation"></activity>
+        <service android:name=".services.CalendarServices">
+
+        </service>
     </application>
 
 </manifest>

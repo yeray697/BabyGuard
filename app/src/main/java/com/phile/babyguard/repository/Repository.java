@@ -29,6 +29,14 @@ public class Repository {
     private static Repository repository;
     private NurserySchool nurserySchool;
 
+    public void update() {
+        kids.clear();
+        String nurserId = "1";
+        kids.add(DatabaseManager.getInstance().getKid("1",nurserId));
+        kids.add(DatabaseManager.getInstance().getKid("2",nurserId));
+        nurserySchool = DatabaseManager.getInstance().getNursery(nurserId);
+    }
+
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Sort {
@@ -37,13 +45,14 @@ public class Repository {
     }
 
     private Repository() {
-        this.mCallback = mCallback;
         kids = new ArrayList<>();
     }
 
     public static Repository getInstance(){
-        if (repository == null)
+        if (repository == null) {
             repository = new Repository();
+            repository.update();
+        }
         return repository;
     }
     public void setCallback(KidListPresenterImpl.KidList callback) {
