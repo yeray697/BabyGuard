@@ -58,31 +58,10 @@ public class Repository {
             @Override
             public void run() {
                 kids.clear();
-                /*ArrayList<InfoKid> infoKid = new ArrayList<>();
-                infoKid.add(new InfoKid("","Siesta","11:30", InfoKid.Type.SLEEP,"Ha tenido una pesadilla"));
-                infoKid.add(new InfoKid("","Llegada","08:30", InfoKid.Type.OTHER,""));
-                infoKid.add(new InfoKid("","Jugando con instrumentos","12:45", InfoKid.Type.OTHER,"Se le da muy bien el piano"));
-                infoKid.add(new InfoKid("","Desayuno","11:15", InfoKid.Type.FOOD,"Se lo ha comido todo"));
-                infoKid.add(new InfoKid("","Almuerzo","14:15", InfoKid.Type.FOOD,"Se lo ha comido todo"));
-                infoKid.add(new InfoKid("","Deposición","09:50", InfoKid.Type.POOP,"Regular"));
-                infoKid.add(new InfoKid("","Deposición","13:50", InfoKid.Type.POOP,"Ahora la hizo bien"));
-                ArrayList<String> telephone = new ArrayList<>();
-                telephone.add("959855555");
-                telephone.add("659859878");
-                ArrayList<DiaryCalendarEvent> calendarEvents;
-                calendarEvents = new ArrayList<>();
-                calendarEvents.add(new DiaryCalendarEvent("Febrero",2017, 1,1,"Empieza febrero"));
-                calendarEvents.add(new DiaryCalendarEvent("Fiesta",2017,11,31,"Fiesta en tu casa"));
-                calendarEvents.add(new DiaryCalendarEvent("Año nuevo",2017, 0,1,"Feliz año a todos"));
-                calendarEvents.add(new DiaryCalendarEvent("Vuelta al cole",2017,0,9,"Pocas vacaciones son"));
-                calendarEvents.add(new DiaryCalendarEvent("Cumple Raquel",2017,1,28,"Cumpleaños de Raquel"));
-                calendarEvents.add(new DiaryCalendarEvent("Marzo",2017,2,1,"Empieza febrero"));
-                //nurserySchool = new NurserySchool("Best guarderia","Calle falsa 123", "bestguarderia@gmail.com","bestguarderia.com", telephone);
-                kids.add(new Kid("1","Joselito","https://pbs.twimg.com/profile_images/450103729383956480/Tiys3m4x.jpeg","Alérgico a los  cacahuetes",infoKid,calendarEvents));
-                kids.add(new Kid("2","Lola","http://rackcdn.elephantjournal.com/wp-content/uploads/2012/01/bad-kid.jpg","Alérgico a la lactosa",infoKid,calendarEvents));*/
-                kids.add(DatabaseManager.getInstance().getKid("1","1"));
-                kids.add(DatabaseManager.getInstance().getKid("2","1"));
-                nurserySchool = DatabaseManager.getInstance().getNursery("1");
+                String nurserId = "1";
+                kids.add(DatabaseManager.getInstance().getKid("1",nurserId));
+                kids.add(DatabaseManager.getInstance().getKid("2",nurserId));
+                nurserySchool = DatabaseManager.getInstance().getNursery(nurserId);
                 mCallback.OnLoadedData();
 
             }

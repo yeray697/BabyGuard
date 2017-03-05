@@ -69,6 +69,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FORGOTTEN_PASS_URL));
                 startActivity(browserIntent);
+                btLoginListener.setClicked(false);
             }
         });
         etUser.addTextChangedListener(new TextWatcher() {
