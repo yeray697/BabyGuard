@@ -78,13 +78,15 @@ public class CalendarServices extends Service {
         return START_STICKY;
     }
 
+    private static final int NOTIFICATION_ID = 20;
     private void sendNotification(Kid kid, DiaryCalendarEvent event) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        int id = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+        //int id = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+        int id = generateId(kid.getName()+event.getTitle());
         Intent newIntent = new Intent(this, Home_Activity.class);
         newIntent.putExtra(KidList_Activity.KID_EXTRA,kid);
         newIntent.putExtra(Home_Activity.ACTION,Home_Activity.ACTION_OPEN_CALENDAR);
@@ -101,9 +103,12 @@ public class CalendarServices extends Service {
         builder.setContentText(kid.getName() + " - " + event.getDate());
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setStyle(notiStyle);
+        builder.setAutoCancel(true);
 
         builder.setDefaults(Notification.DEFAULT_VIBRATE);
         builder.setDefaults(Notification.DEFAULT_LIGHTS);
+
+        builder.setContentIntent(pendingIntent);
 
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(id,builder.build());
@@ -111,6 +116,14 @@ public class CalendarServices extends Service {
 
 
 
+    }
+
+    private int generateId(String title) {
+        int h = NOTIFICATION_ID;
+        for (int i = 0; i < 10 && i < title.length(); i++) {
+            h = 32 * h + title.charAt(i);
+        }
+        return h;
     }
 
     private boolean isToday(Date date) {

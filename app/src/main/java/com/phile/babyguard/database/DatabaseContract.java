@@ -103,16 +103,21 @@ public class DatabaseContract {
                 COLUMN_ID, COLUMN_ID_NURSERY, COLUMN_ID_KID, COLUMN_TITLE, COLUMN_DESCRIPTION, COLUMN_DATE
         };
         public static final String SQL_INSERT_ENTRIES = String.format("INSERT INTO %s (%s,%s,%s,%s,%s) VALUES (%s, %s,'%s','%s','%s')," +
-                        "(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s')",
+                        "(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s')" +
+                ",(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s'),(%s, %s,'%s','%s','%s')",
                 TABLE_NAME,
                 COLUMN_ID_KID, COLUMN_ID_NURSERY, COLUMN_TITLE, COLUMN_DESCRIPTION, COLUMN_DATE,
                 "-1","1","Cumpleaños de Juan","Se celebrará a primera hora. Comerán tarta","2017-03-15",
-                "1","1","Tutoría","Quedamos a las 11:00","2017-03-08",
+                "1","1","Tutoría","Quedamos a las 11:00","2017-03-12",
                 "-1","1","Febrero","Empieza febrero","2017-02-01",
-                "-1","1","Fiesta","Fiesta en tu casa","2017-01-09",
-                "-1","1","Vuelta al cole","Pocas vacaciones son","2017-03-20",
+                "-1","1","Cumple Raquel","Cumpleaños de Raquel","2017-03-05,",
+                "-1","1","Fiesta","Fiesta en tu casa","2017-03-06",
+                "-1","1","Cumple Fernando","Fiesta en la bolera","2017-03-07",
                 "-1","1","Año nuevo","Feliz año a todos","2017-01-01",
-                "-1","1","Cumple Raquel","Cumpleaños de Raquel","2017-03-15");
+                "-1","1","Cumple Raquel","Cumpleaños de Raquel","2017-03-08,",
+                "-1","1","Cumple Fernando","Fiesta en la bolera","2017-03-09",
+                "-1","1","Año nuevo","Feliz año a todos","2017-01-10",
+                "-1","1","Cumple Raquel","Cumpleaños de Raquel","2017-03-11");
     }
 
     static class NurseryTable implements BaseColumns {
