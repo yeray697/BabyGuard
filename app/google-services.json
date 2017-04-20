@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:860081945394:android:3b9a88800cc1fd67",
+        "mobilesdk_app_id": "1:860081945394:android:53e32b163297a8d4",
         "android_client_info": {
-          "package_name": "com.phile.babyguard"
+          "package_name": "com.ncatz.babyguard"
         }
       },
       "oauth_client": [

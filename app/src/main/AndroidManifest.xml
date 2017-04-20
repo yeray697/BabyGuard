@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.phile.babyguard">
+    package="com.ncatz.babyguard">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".Babyguard_Application"
+        android:name="com.ncatz.babyguard.Babyguard_Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Login_Activity"
+            android:name="com.ncatz.babyguard.Login_Activity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,13 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".KidList_Activity"
+            android:name="com.ncatz.babyguard.KidList_Activity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Home_Activity"
-            android:theme="@style/AppThemeNavigation"></activity>
-        <service android:name=".services.CalendarServices">
-
-        </service>
+        <activity android:name="com.ncatz.babyguard.Home_Activity"
+            android:theme="@style/AppThemeNavigation"/>
     </application>
 
 </manifest>
