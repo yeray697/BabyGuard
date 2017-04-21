@@ -1,6 +1,6 @@
 package com.ncatz.babyguard;
 
-import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -81,8 +81,9 @@ public class Tracking_Fragment extends Fragment implements Home_View{
         collapser.setTitle(kid.getName());
         fabMessage = (FloatingActionButton) view.findViewById(R.id.fabMessage_Home);
         ivKid = (ImageView) view.findViewById(R.id.ivKid_Home);
-        Picasso.with(getContext()).load(kid.getImg())
-                .into(ivKid);
+        //Picasso.with(getContext()).load(kid.getImg())
+        //        .into(ivKid);
+        ivKid.setBackgroundColor(Color.WHITE);
         ivExpandedImage = (ImageView) view.findViewById(R.id.ivExpanded_Home);
         ivKid.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,10 +175,10 @@ public class Tracking_Fragment extends Fragment implements Home_View{
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null) {
-            ab.setHomeAsUpIndicator(R.mipmap.ic_navigation_drawer);
-            ab.setDisplayHomeAsUpEnabled(true);
+            /*ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+            ab.setDisplayHomeAsUpEnabled(true);*/
         }
-        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_color), getActivity());
+        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_text_color), getActivity());
     }
 
     @Override

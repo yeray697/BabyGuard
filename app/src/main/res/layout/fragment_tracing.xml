@@ -19,16 +19,30 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp">
-
-            <ImageView
-                android:id="@+id/ivKid_Home"
+            app:expandedTitleGravity="bottom"
+            app:expandedTitleMarginBottom="15dp"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleTextAppearance="@style/ExpandedToolbar"
+            app:collapsedTitleTextAppearance="@style/CollapsedToolbar">
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax">
+
+                <ImageView
+                    android:id="@+id/ivKid_Home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="parallax" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/toolbar_gradient" />
+            </FrameLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbarHome"
                 android:layout_width="match_parent"

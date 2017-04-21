@@ -12,4 +12,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="ExpandedToolbar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/toolbar_text_color</item>
+    </style>
+
+    <style name="CollapsedToolbar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/toolbar_text_color</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>

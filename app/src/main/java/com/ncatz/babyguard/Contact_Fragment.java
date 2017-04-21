@@ -75,9 +75,9 @@ public class Contact_Fragment extends Fragment {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null) {
-            ab.setHomeAsUpIndicator(R.mipmap.ic_navigation_drawer);
+            ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
             ab.setDisplayHomeAsUpEnabled(true);
         }
-        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_color), getActivity());
+        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_text_color), getActivity());
     }
 }

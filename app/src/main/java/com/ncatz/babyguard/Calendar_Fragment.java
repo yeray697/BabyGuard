@@ -54,11 +54,11 @@ public class Calendar_Fragment extends Fragment {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null) {
-            ab.setHomeAsUpIndicator(R.mipmap.ic_navigation_drawer);
+            ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setHomeButtonEnabled(true);
         }
-        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_color), getActivity());
+        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_text_color), getActivity());
         ((Babyguard_Application)getContext().getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
