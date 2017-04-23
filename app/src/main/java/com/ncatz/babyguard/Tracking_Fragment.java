@@ -1,12 +1,16 @@
 package com.ncatz.babyguard;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -175,10 +179,9 @@ public class Tracking_Fragment extends Fragment implements Home_View{
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null) {
-            /*ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
-            ab.setDisplayHomeAsUpEnabled(true);*/
+            ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+            ab.setDisplayHomeAsUpEnabled(true);
         }
-        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_text_color), getActivity());
     }
 
     @Override

@@ -64,7 +64,6 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
         tvKidList = (TextView) findViewById(R.id.tvKidList);
         toolbar = (Toolbar) findViewById(R.id.toolbar_kidlist);
         setSupportActionBar(toolbar);
-        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_text_color), this);
         if(((Babyguard_Application)getApplicationContext()).isTeacher()){
             tvKidList.setText(R.string.tvKidList_teacher_text);
         } else {

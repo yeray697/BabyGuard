@@ -78,6 +78,5 @@ public class Contact_Fragment extends Fragment {
             ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
             ab.setDisplayHomeAsUpEnabled(true);
         }
-        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_text_color), getActivity());
     }
 }

@@ -58,7 +58,6 @@ public class Calendar_Fragment extends Fragment {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setHomeButtonEnabled(true);
         }
-        Utils.colorizeToolbar(toolbar, getResources().getColor(R.color.toolbar_text_color), getActivity());
         ((Babyguard_Application)getContext().getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
