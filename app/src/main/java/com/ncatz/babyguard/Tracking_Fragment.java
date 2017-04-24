@@ -85,9 +85,8 @@ public class Tracking_Fragment extends Fragment implements Home_View{
         collapser.setTitle(kid.getName());
         fabMessage = (FloatingActionButton) view.findViewById(R.id.fabMessage_Home);
         ivKid = (ImageView) view.findViewById(R.id.ivKid_Home);
-        //Picasso.with(getContext()).load(kid.getImg())
-        //        .into(ivKid);
-        ivKid.setBackgroundColor(Color.WHITE);
+        Picasso.with(getContext()).load(kid.getImg())
+                .into(ivKid);
         ivExpandedImage = (ImageView) view.findViewById(R.id.ivExpanded_Home);
         ivKid.setOnClickListener(new View.OnClickListener() {
             @Override
