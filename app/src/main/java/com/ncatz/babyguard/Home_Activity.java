@@ -114,18 +114,18 @@ public class Home_Activity extends AppCompatActivity {
                 selected = 3;
                 break;
             case R.id.item_contact:
-                selected = 4;
+                //selected = 4;
                 args = new Bundle();
                 args.putString(KID_NURSERY_KEY, kid.getId());
                 Intent intent = new Intent(Home_Activity.this,AboutNursery_Activity.class);
                 intent.putExtra(KID_NURSERY_KEY,kid.getId_nursery());
                 startActivity(intent);
-                navigationView.getMenu().getItem(selected).setChecked(false);
+                navigationView.getMenu().getItem(4).setChecked(false);
                 break;
             case R.id.item_settings:
                 //TODO
-                selected = 5;
-                navigationView.getMenu().getItem(selected).setChecked(false);
+                //selected = 5;
+                navigationView.getMenu().getItem(5).setChecked(false);
                 break;
         }
         if (fragment != null) {

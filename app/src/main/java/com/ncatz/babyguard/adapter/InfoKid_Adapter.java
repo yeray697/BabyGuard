@@ -48,28 +48,23 @@ public class InfoKid_Adapter extends DotLineRecyclerAdapter {
     public void onBindViewHolder(DotLineRecyclerAdapter.Holder holder, int position) {
         super.onBindViewHolder(holder, position);
         int type = ((TrackingKid)getItemAtPosition(position)).getType();
-        if(position != 0 && type == ((TrackingKid)getItemAtPosition(position - 1)).getType()){
-            holder.iv_item.setImageDrawable(null);
-        } else {
-            int resource = 0;
-            switch (type){
-                //TODO poner fotos correspondientes
-                case TrackingKid.Type.POOP:
-                    resource = R.drawable.poop;
-                    break;
-                case TrackingKid.Type.FOOD:
-                    resource = R.drawable.food;
-                    break;
-                case TrackingKid.Type.SLEEP:
-                    resource = R.drawable.sleep;
-                    break;
-                case TrackingKid.Type.OTHER:
-                    resource = R.drawable.other;
-                    break;
+        int resource = 0;
+        switch (type){
+            case TrackingKid.Type.POOP:
+                resource = R.drawable.poop;
+                break;
+            case TrackingKid.Type.FOOD:
+                resource = R.drawable.food;
+                break;
+            case TrackingKid.Type.SLEEP:
+                resource = R.drawable.sleep;
+                break;
+            case TrackingKid.Type.OTHER:
+                resource = R.drawable.other;
+                break;
 
-            }
-            holder.iv_item.setImageResource(resource);
         }
+        holder.iv_item.setImageResource(resource);
     }
 
     @Override
