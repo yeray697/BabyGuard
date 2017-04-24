@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Baby</string>
+    <string name="app_name">Babyguard</string>
     <string name="etuser_login_hint">Usuario</string>
     <string name="etpass_login_hint">Contraseña</string>
     <string name="ivLogo_contentDescription_login">Logo de la aplicación</string>
