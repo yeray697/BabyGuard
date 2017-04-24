@@ -261,16 +261,4 @@ public class Utils {
         sdf.setTimeZone(c.getTimeZone());
         return sdf.format(c.getTime());
     }
-
-    public static Drawable setTintToDrawable(Context context, Drawable image, @android.support.annotation.ColorRes int color){
-        image = DrawableCompat.wrap(image);
-        DrawableCompat.setTint(image, ContextCompat.getColor(context,color));
-        return image;
-    }
-    public static Drawable setTintToDrawable(Context context, @android.support.annotation.DrawableRes int imageId, @android.support.annotation.ColorRes int color){
-        Drawable image = ContextCompat.getDrawable(context,imageId);
-        image = DrawableCompat.wrap(image);
-        DrawableCompat.setTint(image, ContextCompat.getColor(context,color));
-        return image;
-    }
 }
