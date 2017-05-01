@@ -108,7 +108,7 @@ public class Tracking_Fragment extends Fragment implements Home_View{
         fabMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ((Home_Activity)getActivity()).openChat();
             }
         });
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvHome);

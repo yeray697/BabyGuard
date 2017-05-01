@@ -25,4 +25,5 @@
     <!-- Toolbar: Tracking-->
     <color name="toolbar_text_color">@color/white</color>
     <color name="toolbar_collapsing_gradient">#DD90CAF9</color>
+    <color name="chat_send_message_background">#22000000</color>
 </resources>

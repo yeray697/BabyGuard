@@ -1,7 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.ncatz.babyguard.Profile_Fragment">
+    android:layout_height="match_parent">
 
-</FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlSendMessage_chat"
+        android:background="@color/chat_send_message_background"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:text="Send"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/btSendMessage"
+            style="?attr/borderlessButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:ems="10"
+            android:id="@+id/etMessage_chat"
+            android:layout_toLeftOf="@id/btSendMessage"
+            android:layout_toStartOf="@id/btSendMessage"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lvChat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_above="@id/rlSendMessage_chat"/>
+</RelativeLayout>

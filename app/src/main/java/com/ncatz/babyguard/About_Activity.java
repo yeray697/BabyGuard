@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder;
@@ -16,7 +14,6 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickListen
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
-import com.ncatz.babyguard.repository.Repository;
 
 public class About_Activity extends MaterialAboutActivity {
 
@@ -37,7 +34,7 @@ public class About_Activity extends MaterialAboutActivity {
 
         try {
             appCardBuilder.addItem(ConvenienceBuilder.createVersionActionItem(c,
-                    c.getResources().getDrawable(R.drawable.bocadillo),
+                    c.getResources().getDrawable(R.drawable.bubble_receiver),
                     "Version",
                     false));
 
@@ -47,13 +44,13 @@ public class About_Activity extends MaterialAboutActivity {
 
         appCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Changelog")
-                .icon(c.getResources().getDrawable(R.drawable.bocadillo))
+                .icon(c.getResources().getDrawable(R.drawable.bubble_receiver))
                 .setOnClickListener(ConvenienceBuilder.createWebViewDialogOnClickAction(c, "Releases", "https://github.com/daniel-stoneuk/material-about-library/releases", true, false))
                 .build());
 
         appCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Licenses")
-                .icon(c.getResources().getDrawable(R.drawable.bocadillo))
+                .icon(c.getResources().getDrawable(R.drawable.bubble_receiver))
                 .setOnClickListener(new MaterialAboutItemOnClickListener() {
                     @Override
                     public void onClick(boolean longClick) {
@@ -68,12 +65,12 @@ public class About_Activity extends MaterialAboutActivity {
         authorCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Daniel Stone")
                 .subText("United Kingdom")
-                .icon(c.getResources().getDrawable(R.drawable.bocadillo))
+                .icon(c.getResources().getDrawable(R.drawable.bubble_receiver))
                 .build());
 
         authorCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Fork on GitHub")
-                .icon(c.getResources().getDrawable(R.drawable.bocadillo))
+                .icon(c.getResources().getDrawable(R.drawable.bubble_receiver))
                 .setOnClickListener(ConvenienceBuilder.createWebsiteOnClickAction(c, Uri.parse("https://github.com/daniel-stoneuk")))
                 .build());
 
@@ -83,7 +80,7 @@ public class About_Activity extends MaterialAboutActivity {
 
         try {
             convenienceCardBuilder.addItem(ConvenienceBuilder.createVersionActionItem(c,
-                    c.getResources().getDrawable(R.drawable.bocadillo),
+                    c.getResources().getDrawable(R.drawable.bubble_receiver),
                     "Version",
                     false));
         } catch (PackageManager.NameNotFoundException e) {
@@ -91,26 +88,26 @@ public class About_Activity extends MaterialAboutActivity {
         }
 
         convenienceCardBuilder.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
-                c.getResources().getDrawable(R.drawable.bocadillo),
+                c.getResources().getDrawable(R.drawable.bubble_receiver),
                 "Visit Website",
                 true,
                 Uri.parse("https://babyguard.ncatz.com")));
 
         convenienceCardBuilder.addItem(ConvenienceBuilder.createRateActionItem(c,
-                c.getResources().getDrawable(R.drawable.bocadillo),
+                c.getResources().getDrawable(R.drawable.bubble_receiver),
                 "Rate this app",
                 null
         ));
 
         convenienceCardBuilder.addItem(ConvenienceBuilder.createEmailItem(c,
-                c.getResources().getDrawable(R.drawable.bocadillo),
+                c.getResources().getDrawable(R.drawable.bubble_receiver),
                 "Send an email",
                 true,
                 "babyguard@ncatz.com",
                 ""));
 
         convenienceCardBuilder.addItem(ConvenienceBuilder.createPhoneItem(c,
-                c.getResources().getDrawable(R.drawable.bocadillo),
+                c.getResources().getDrawable(R.drawable.bubble_receiver),
                 "Call me",
                 true,
                 "+44 12 3456 7890"));

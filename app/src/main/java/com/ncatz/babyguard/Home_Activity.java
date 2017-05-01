@@ -179,4 +179,8 @@ public class Home_Activity extends AppCompatActivity {
         selected = savedInstanceState.getInt("selected",0);
         selectItemDrawer(navigationView.getMenu().getItem(selected));
     }
+
+    public void openChat(){
+        selectItemDrawer(navigationView.getMenu().getItem(2));
+    }
 }

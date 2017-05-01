@@ -2,6 +2,8 @@ package com.ncatz.babyguard.repository;
 
 import android.support.annotation.IntDef;
 
+import com.ncatz.babyguard.model.Chat;
+import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.NurserySchool;
@@ -24,6 +26,7 @@ public class Repository {
     private User user;
     private static Repository repository;
     private ArrayList<NurserySchool> nurserySchools;
+    private ArrayList<Chat> chats;
 
     public ArrayList<DiaryCalendarEvent> getCalendarByUser(Kid kid) {
         ArrayList<DiaryCalendarEvent> calendar = new ArrayList<>();
@@ -102,6 +105,30 @@ public class Repository {
         }
     }
 
+    public ArrayList<ChatMessage> getChats(String userId) {
+        ArrayList<ChatMessage> messages = new ArrayList<>();
+        messages.add(new ChatMessage("2","Holaaaaaaaaaa","aafa","11:57"));
+        messages.add(new ChatMessage("1","Holiiiiiiiiii","aafa","11:58"));
+        messages.add(new ChatMessage("2","Holoooooooooo","aafa","11:59"));
+        messages.add(new ChatMessage("1","Holuuuuuuuuuu","aafa","12:00"));
+
+        messages.add(new ChatMessage("2","Holaaaaaaaaaa","aafa","12:57"));
+        messages.add(new ChatMessage("1","Holiiiiiiiiii","aafa","12:58"));
+        messages.add(new ChatMessage("2","Holoooooooooo","aafa","12:59"));
+        messages.add(new ChatMessage("1","Holuuuuuuuuuu","aafa","13:00"));
+
+        messages.add(new ChatMessage("2","Holaaaaaaaaaa","aafa","13:57"));
+        messages.add(new ChatMessage("1","Holiiiiiiiiii","aafa","13:58"));
+        messages.add(new ChatMessage("2","Holoooooooooo","aafa","13:59"));
+        messages.add(new ChatMessage("1","Holuuuuuuuuuu","aafa","14:00"));
+
+        messages.add(new ChatMessage("2","Holaaaaaaaaaa","aafa","14:57"));
+        messages.add(new ChatMessage("1","Holiiiiiiiiii","aafa","14:58"));
+        messages.add(new ChatMessage("2","Holoooooooooo","aafa","14:59"));
+        messages.add(new ChatMessage("1","Holuuuuuuuuuu","aafa","15:00"));
+        return messages;
+    }
+
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Sort {
@@ -150,4 +177,11 @@ public class Repository {
         return aux;
     }
 
+    public ArrayList<Chat> getChats() {
+        return chats==null?new ArrayList<Chat>():chats;
+    }
+
+    public void setChats(ArrayList<Chat> chats) {
+        this.chats = chats;
+    }
 }

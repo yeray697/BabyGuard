@@ -69,12 +69,12 @@ public class InfoKid_Adapter extends DotLineRecyclerAdapter {
 
     @Override
     public int getMessageBackground() {
-        return R.drawable.bocadillo;
+        return R.drawable.bubble_receiver;
     }
 
     @Override
     public int getMessageBackgroundPressed() {
-        return R.drawable.bocadillo_pressed;
+        return R.drawable.bubble_pressed_receiver;
     }
 
     @Override
