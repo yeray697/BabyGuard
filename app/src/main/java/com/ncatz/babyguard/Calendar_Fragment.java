@@ -38,6 +38,7 @@ public class Calendar_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
+        ((Home_Activity)getActivity()).enableNavigationDrawer(true);
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
         setToolbar();

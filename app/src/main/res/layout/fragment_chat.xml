@@ -1,9 +1,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.ncatz.babyguard.components.CustomToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar_chat">
 
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_arrow_back_white"
+            android:layout_marginRight="15dp"
+            android:scaleType="fitCenter"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ivProfile_chat"
+            android:clickable="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/colorPrimaryDarkMore"/>
+        <TextView
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="name"
+            android:textSize="20sp"
+            android:id="@+id/tvName_chat"/>
+    </com.ncatz.babyguard.components.CustomToolbar>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,5 +64,7 @@
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:layout_above="@id/rlSendMessage_chat"/>
+        android:listSelector="@android:color/transparent"
+        android:layout_above="@id/rlSendMessage_chat"
+        android:layout_below="@+id/toolbar_chat"/>
 </RelativeLayout>

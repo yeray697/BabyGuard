@@ -2,26 +2,23 @@ package com.ncatz.babyguard;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.ncatz.babyguard.firebase.FirebaseListeners;
 import com.ncatz.babyguard.firebase.FirebaseManager;
+import com.ncatz.babyguard.model.Chat;
+import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.model.UserCredentials;
-import com.ncatz.babyguard.presenter.KidListPresenterImpl;
 import com.ncatz.babyguard.repository.Repository;
 import com.yeray697.calendarview.DiaryCalendarEvent;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,11 +38,15 @@ public class Babyguard_Application extends Application {
     private UserCredentials userCredentials;
     private SharedPreferences pref;
     private static Context context;
-    private static String token;
 
+    private ActionEndListener nurseryListener;
     private ActionEndListener kidListListener;
     private ActionEndListener trackingListener;
     private ActionEndListener calendarListener;
+    private ActionEndListener chatListener;
+
+    boolean nurseryAndChatsLoadedFirstTime;
+    boolean kidsInfoLoadedFirstTime;
 
     @Override
     public void onCreate() {
@@ -120,20 +121,24 @@ public class Babyguard_Application extends Application {
         return pref.getInt("type",-1);
     }
 
-    public static String getToken() {
-        return token;
-    }
-
-    public static String getTokenAuth() {
-        return "Bearer " + token;
-    }
-
-    public static void setToken(String token) {
-        Babyguard_Application.token = token;
-    }
-
     public boolean isTeacher() {
         return userCredentials.getType() == UserCredentials.TYPE_TEACHER;
+    }
+
+    public void addNurseryListener(ActionEndListener nurseryListener) {
+        this.nurseryListener = nurseryListener;
+    }
+
+    public void removeNurseryListener() {
+        nurseryListener = null;
+    }
+
+    public void addChatListener(ActionEndListener chatListener) {
+        this.chatListener = chatListener;
+    }
+
+    public void removeChatListener() {
+        chatListener = null;
     }
 
     public void addKidListListener(ActionEndListener kidListListener) {
@@ -171,7 +176,10 @@ public class Babyguard_Application extends Application {
             if (dataSnapshot.exists()){
                 User user = User.parseFromDataSnapshot(dataSnapshot);
                 Repository.getInstance().setUser(user);
-                FirebaseManager.getInstance().setUserId(user.getId());
+                if (!kidsInfoLoadedFirstTime) {
+                    FirebaseManager.getInstance().getKidsInfo(user.getId());
+                    kidsInfoLoadedFirstTime = true;
+                }
                 if (kidListListener != null)
                     kidListListener.onEnd();
                 if (trackingListener != null)
@@ -192,7 +200,7 @@ public class Babyguard_Application extends Application {
                 HashMap<String, HashMap<String, Object>> value = (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
                 List<Kid> kids = Kid.parseFromDataSnapshot(value);
                 List<String> aux;
-                if (kids.size() > 0) {
+                if (!nurseryAndChatsLoadedFirstTime && kids.size() > 0) {
                     if (kids.size() > 1){
                         HashMap<String,List<String>> nurseryClasses = new HashMap<>();
                         String id_nursery;
@@ -213,25 +221,30 @@ public class Babyguard_Application extends Application {
                             }
                         }
                         for (HashMap.Entry<String,List<String>> entry:nurseryClasses.entrySet()){
-                            FirebaseManager.getInstance().setNursery(entry.getKey());
+                            FirebaseManager.getInstance().getNursery(entry.getKey());
                             for (String classId: entry.getValue()){
-                                FirebaseManager.getInstance().setNurseryClass(entry.getKey(),classId);
+                                FirebaseManager.getInstance().getNurseryClass(entry.getKey(),classId);
+                                FirebaseManager.getInstance().getChatNames(entry.getKey(),classId);
                             }
                         }
+                        for (int i = 0; i < kids.size(); i++)
+                                FirebaseManager.getInstance().getChat(kids.get(i).getId());
                     } else {
                         Kid kidAux = kids.get(0);
-                        FirebaseManager.getInstance().setNursery(kidAux.getId_nursery());
-                        FirebaseManager.getInstance().setNurseryClass(kidAux.getId_nursery(),kidAux.getId_nursery_class());
-
+                        FirebaseManager.getInstance().getNursery(kidAux.getId_nursery());
+                        FirebaseManager.getInstance().getNurseryClass(kidAux.getId_nursery(),kidAux.getId_nursery_class());
+                        FirebaseManager.getInstance().getChatNames(kidAux.getId_nursery(),kidAux.getId_nursery_class());
+                        FirebaseManager.getInstance().getChat(kidAux.getId());
                     }
-                    Repository.getInstance().getUser().setKids(kids);
-                    if (kidListListener != null)
-                        kidListListener.onEnd();
-                    if (trackingListener != null)
-                        trackingListener.onEnd();
-                    if (calendarListener != null)
-                        calendarListener.onEnd();
+                    nurseryAndChatsLoadedFirstTime = true;
                 }
+                Repository.getInstance().getUser().setKids(kids);
+                if (kidListListener != null)
+                    kidListListener.onEnd();
+                if (trackingListener != null)
+                    trackingListener.onEnd();
+                if (calendarListener != null)
+                    calendarListener.onEnd();
             }
         }
 
@@ -244,12 +257,8 @@ public class Babyguard_Application extends Application {
         public void onNurseryModified(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()){
                 Repository.getInstance().setNursery(NurserySchool.parseFromDataSnapshot(dataSnapshot));
-                if (kidListListener != null)
-                    kidListListener.onEnd();
-                if (trackingListener != null)
-                    trackingListener.onEnd();
-                if (calendarListener != null)
-                    calendarListener.onEnd();
+                if (nurseryListener != null)
+                    nurseryListener.onEnd();
             }
         }
 
@@ -274,6 +283,8 @@ public class Babyguard_Application extends Application {
                 calendarListAux.add(calendarAux);
             }
             Repository.getInstance().setCalendar(nursery_id,nursery_class,calendarListAux);
+            if (calendarListener != null)
+                calendarListener.onEnd();
         }
 
         @Override
@@ -299,10 +310,47 @@ public class Babyguard_Application extends Application {
                 }
             }
             Repository.getInstance().addTracking(idKid,trackingList);
+            if (trackingListener != null)
+                trackingListener.onEnd();
         }
 
         @Override
         public void onTrackingCancelled(DatabaseError databaseError) {
+
+        }
+
+        @Override
+        public void onChatAdded(DataSnapshot dataSnapshot) {
+            if (dataSnapshot.exists()) {
+                try {
+                    ChatMessage chatMessage = ChatMessage.parseFromDataSnapshot(dataSnapshot);
+                    Repository.getInstance().addMessage(chatMessage);
+                } catch (Exception e) {
+
+                }
+                if (chatListener != null)
+                    chatListener.onEnd();
+            }
+        }
+
+        @Override
+        public void onChatCancelled(DatabaseError databaseError) {
+
+        }
+
+        @Override
+        public void onChatNameChanged(DataSnapshot dataSnapshot) {
+            Chat chat;
+            for (HashMap.Entry<String,HashMap<String ,Object>> chatData : ((HashMap<String,HashMap<String ,Object>>)dataSnapshot.getValue()).entrySet()) {
+                chat = Chat.parseFromDataSnapshot(chatData);
+                Repository.getInstance().addChat(chat);
+            }
+            if (chatListener != null)
+                chatListener.onEnd();
+        }
+
+        @Override
+        public void onChatNameError(DatabaseError databaseError) {
 
         }
     };

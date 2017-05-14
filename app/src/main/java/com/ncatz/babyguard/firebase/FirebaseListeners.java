@@ -29,4 +29,12 @@ public abstract class FirebaseListeners {
     public abstract void onTrackingModified(DataSnapshot dataSnapshot);
 
     public abstract void onTrackingCancelled(DatabaseError databaseError);
+
+    public abstract void onChatAdded(DataSnapshot dataSnapshot);
+
+    public abstract void onChatCancelled(DatabaseError databaseError);
+
+    public abstract void onChatNameChanged(DataSnapshot dataSnapshot);
+
+    public abstract void onChatNameError(DatabaseError databaseError);
 }

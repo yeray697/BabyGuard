@@ -105,28 +105,45 @@ public class Repository {
         }
     }
 
-    public ArrayList<ChatMessage> getChats(String userId) {
-        ArrayList<ChatMessage> messages = new ArrayList<>();
-        messages.add(new ChatMessage("2","Holaaaaaaaaaa","aafa","11:57"));
-        messages.add(new ChatMessage("1","Holiiiiiiiiii","aafa","11:58"));
-        messages.add(new ChatMessage("2","Holoooooooooo","aafa","11:59"));
-        messages.add(new ChatMessage("1","Holuuuuuuuuuu","aafa","12:00"));
+    public Chat getChat(String userId) {
+        Chat chat = null;
+        for (Chat chatAux : chats){
+            if (chatAux.getId().equals(userId)) {
+                chat = chatAux;
+                break;
+            }
+        }
+        return chat;
+    }
 
-        messages.add(new ChatMessage("2","Holaaaaaaaaaa","aafa","12:57"));
-        messages.add(new ChatMessage("1","Holiiiiiiiiii","aafa","12:58"));
-        messages.add(new ChatMessage("2","Holoooooooooo","aafa","12:59"));
-        messages.add(new ChatMessage("1","Holuuuuuuuuuu","aafa","13:00"));
+    public void addMessage(ChatMessage chatMessage) {
+        if (chats == null)
+            chats = new ArrayList<>();
+        for (Chat chat : chats) {
+            if (chatMessage.getSender().equals(chat.getId())){
+                chat.addMessage(chatMessage);
+                break;
+            }
+        }
+    }
 
-        messages.add(new ChatMessage("2","Holaaaaaaaaaa","aafa","13:57"));
-        messages.add(new ChatMessage("1","Holiiiiiiiiii","aafa","13:58"));
-        messages.add(new ChatMessage("2","Holoooooooooo","aafa","13:59"));
-        messages.add(new ChatMessage("1","Holuuuuuuuuuu","aafa","14:00"));
+    public void addChat(Chat chat) {
+        if (chats == null)
+            chats = new ArrayList<>();
+        chats.add(chat);
+    }
 
-        messages.add(new ChatMessage("2","Holaaaaaaaaaa","aafa","14:57"));
-        messages.add(new ChatMessage("1","Holiiiiiiiiii","aafa","14:58"));
-        messages.add(new ChatMessage("2","Holoooooooooo","aafa","14:59"));
-        messages.add(new ChatMessage("1","Holuuuuuuuuuu","aafa","15:00"));
-        return messages;
+    public String getTeacherChat(Kid kid) {
+        String id = "";
+        if (chats != null) {
+            for (Chat chat : chats) {
+                if (chat.getNursery().equals(kid.getId_nursery()) && chat.getNurseryClass().equals(kid.getId_nursery_class())){
+                    id = chat.getId();
+                    break;
+                }
+            }
+        }
+        return id;
     }
 
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
@@ -175,10 +192,6 @@ public class Repository {
             }
         }
         return aux;
-    }
-
-    public ArrayList<Chat> getChats() {
-        return chats==null?new ArrayList<Chat>():chats;
     }
 
     public void setChats(ArrayList<Chat> chats) {

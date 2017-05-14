@@ -3,9 +3,7 @@ package com.ncatz.babyguard.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.firebase.FirebaseManager;
-import com.yeray697.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -138,7 +136,7 @@ public class Kid implements Parcelable{
             kidAux.setParent((String) auxEntry.get("id_parent"));
             kidAux.setImg((String) auxEntry.get("img"));
             kidAux.setTracking(new ArrayList<TrackingKid>());
-            FirebaseManager.getInstance().setUserIdTracking(kidAux.getId());
+            FirebaseManager.getInstance().getTrackingKid(kidAux.getId());
             kidsList.add(kidAux);
         }
         return kidsList;

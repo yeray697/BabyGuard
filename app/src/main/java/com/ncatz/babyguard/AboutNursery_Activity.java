@@ -27,7 +27,18 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         String idNursery = getIntent().getExtras().getString(Home_Activity.KID_NURSERY_KEY);
         nursery = Repository.getInstance().getNurserySchoolById(idNursery);
+        ((Babyguard_Application)getApplicationContext()).addNurseryListener(new Babyguard_Application.ActionEndListener() {
+            @Override
+            public void onEnd() {
+                refreshActivity();
+            }
+        });
         super.onCreate(savedInstanceState);
+    }
+
+    private void refreshActivity() {
+        finish();
+        startActivity(getIntent());
     }
 
     @Override
@@ -81,5 +92,11 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
     @Override
     protected CharSequence getActivityTitle() {
         return getResources().getString(R.string.item_contacto);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ((Babyguard_Application)getApplicationContext()).removeNurseryListener();
     }
 }

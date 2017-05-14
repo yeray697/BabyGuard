@@ -23,6 +23,7 @@ public class WebCam_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((Home_Activity)getActivity()).enableNavigationDrawer(true);
         View view = inflater.inflate(R.layout.fragment_webcam, container, false);
         return view;
     }

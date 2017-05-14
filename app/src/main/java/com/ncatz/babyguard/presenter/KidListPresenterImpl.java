@@ -29,7 +29,7 @@ public class KidListPresenterImpl implements KidList_Presenter {
     @Override
     public void startLoading() {
         String mail = ((Babyguard_Application)((Context)view).getApplicationContext()).getUserCredentials().getUser();
-        FirebaseManager.getInstance().setUserMail(mail);
+        FirebaseManager.getInstance().getUserInfo(mail);
     }
 
     public KidListPresenterImpl(final KidList_View view){

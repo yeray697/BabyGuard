@@ -21,15 +21,19 @@ import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.repository.Repository;
 
+import java.util.ArrayList;
+
 /**
  * Created by yeray697 on 1/05/17.
  */
 
 public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
+    private int marginMessage;
     private String userId;
-    public Chat_Adapter(Context context, String userId) {
-        super(context, R.layout.chat_message, Repository.getInstance().getChats(userId));
+    public Chat_Adapter(Context context, ArrayList<ChatMessage> messages) {
+        super(context, R.layout.chat_message, messages);
         this.userId = userId;
+        this.marginMessage = getContext().getResources().getDimensionPixelSize(R.dimen.chatMessage_margin);
     }
 
     @NonNull
@@ -62,7 +66,7 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
             background = getMessageBackground(messageLayout, messageLayoutPressed);
         }
         holder.rlMessage.setBackground(background);
-        RelativeLayout.LayoutParams params  = (RelativeLayout.LayoutParams) holder.rlMessage.getLayoutParams();
+        RelativeLayout.LayoutParams params  = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         if (isSender){
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             params.addRule(RelativeLayout.ALIGN_PARENT_START);
@@ -70,8 +74,9 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             params.addRule(RelativeLayout.ALIGN_PARENT_END);
         }
-
-
+        getContext().getResources().getDimensionPixelSize(R.dimen.chatMessage_margin);
+        params.setMargins(marginMessage,marginMessage,marginMessage,marginMessage);
+        holder.rlMessage.setLayoutParams(params);
         return view;
     }
 

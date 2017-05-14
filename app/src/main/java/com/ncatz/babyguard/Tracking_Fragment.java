@@ -1,16 +1,11 @@
 package com.ncatz.babyguard;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,7 +56,8 @@ public class Tracking_Fragment extends Fragment implements Home_View{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_tracing,container,false);
+        ((Home_Activity)getActivity()).enableNavigationDrawer(true);
+        final View view = inflater.inflate(R.layout.fragment_tracking,container,false);
         kid = Repository.getInstance().getKidById(getArguments().getString(Home_Activity.KID_KEY));
 
         setToolbar(view);

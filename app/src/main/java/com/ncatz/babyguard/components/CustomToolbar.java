@@ -70,8 +70,8 @@ public class CustomToolbar extends Toolbar{
 
         for(int i = 0; i < toolbarView.getChildCount(); i++) {
             final View v = toolbarView.getChildAt(i);
-
-            doColorizing(v, colorFilter, toolbarIconsColor);
+            if (v != null)
+                doColorizing(v, colorFilter, toolbarIconsColor);
         }
 
         //Step 3: Changing the color of title and subtitle.
@@ -80,64 +80,68 @@ public class CustomToolbar extends Toolbar{
     }
 
     public static void doColorizing(View v, final ColorFilter colorFilter, int toolbarIconsColor){
-        if(v instanceof ImageButton) {
-            ((ImageButton)v).getDrawable().setAlpha(255);
-            ((ImageButton)v).getDrawable().setColorFilter(colorFilter);
-        }
-
-        if(v instanceof ImageView) {
-            ((ImageView)v).getDrawable().setAlpha(255);
-            ((ImageView)v).getDrawable().setColorFilter(colorFilter);
-        }
-
-        if(v instanceof AutoCompleteTextView) {
-            ((AutoCompleteTextView)v).setTextColor(toolbarIconsColor);
-        }
-
-        if(v instanceof TextView) {
-            ((TextView)v).setTextColor(toolbarIconsColor);
-        }
-
-        if(v instanceof EditText) {
-            ((EditText)v).setTextColor(toolbarIconsColor);
-        }
-
-        if (v instanceof ViewGroup){
-            for (int lli =0; lli< ((ViewGroup)v).getChildCount(); lli ++){
-                doColorizing(((ViewGroup)v).getChildAt(lli), colorFilter, toolbarIconsColor);
+        try {
+            if(v instanceof ImageButton) {
+                ((ImageButton)v).getDrawable().setAlpha(255);
+                ((ImageButton)v).getDrawable().setColorFilter(colorFilter);
             }
-        }
 
-        if(v instanceof ActionMenuView) {
-            for(int j = 0; j < ((ActionMenuView)v).getChildCount(); j++) {
+            if(v instanceof ImageView) {
+                ((ImageView)v).getDrawable().setAlpha(255);
+                ((ImageView)v).getDrawable().setColorFilter(colorFilter);
+            }
 
-                //Step 2: Changing the color of any ActionMenuViews - icons that
-                //are not back button, nor text, nor overflow menu icon.
-                final View innerView = ((ActionMenuView)v).getChildAt(j);
+            if(v instanceof AutoCompleteTextView) {
+                ((AutoCompleteTextView)v).setTextColor(toolbarIconsColor);
+            }
 
-                if(innerView instanceof ActionMenuItemView) {
-                    int drawablesCount = ((ActionMenuItemView)innerView).getCompoundDrawables().length;
-                    for(int k = 0; k < drawablesCount; k++) {
-                        if(((ActionMenuItemView)innerView).getCompoundDrawables()[k] != null) {
-                            final int finalK = k;
+            if(v instanceof TextView) {
+                ((TextView)v).setTextColor(toolbarIconsColor);
+            }
 
-                            //Important to set the color filter in seperate thread,
-                            //by adding it to the message queue
-                            //Won't work otherwise.
-                            //Works fine for my case but needs more testing
+            if(v instanceof EditText) {
+                ((EditText)v).setTextColor(toolbarIconsColor);
+            }
 
-                            ((ActionMenuItemView) innerView).getCompoundDrawables()[finalK].setColorFilter(colorFilter);
+            if (v instanceof ViewGroup){
+                for (int lli =0; lli< ((ViewGroup)v).getChildCount(); lli ++){
+                    doColorizing(((ViewGroup)v).getChildAt(lli), colorFilter, toolbarIconsColor);
+                }
+            }
 
-//	                            innerView.post(new Runnable() {
-//	                                @Override
-//	                                public void run() {
-//	                                    ((ActionMenuItemView) innerView).getCompoundDrawables()[finalK].setColorFilter(colorFilter);
-//	                                }
-//	                            });
+            if(v instanceof ActionMenuView) {
+                for(int j = 0; j < ((ActionMenuView)v).getChildCount(); j++) {
+
+                    //Step 2: Changing the color of any ActionMenuViews - icons that
+                    //are not back button, nor text, nor overflow menu icon.
+                    final View innerView = ((ActionMenuView)v).getChildAt(j);
+
+                    if(innerView instanceof ActionMenuItemView) {
+                        int drawablesCount = ((ActionMenuItemView)innerView).getCompoundDrawables().length;
+                        for(int k = 0; k < drawablesCount; k++) {
+                            if(((ActionMenuItemView)innerView).getCompoundDrawables()[k] != null) {
+                                final int finalK = k;
+
+                                //Important to set the color filter in seperate thread,
+                                //by adding it to the message queue
+                                //Won't work otherwise.
+                                //Works fine for my case but needs more testing
+
+                                ((ActionMenuItemView) innerView).getCompoundDrawables()[finalK].setColorFilter(colorFilter);
+
+    //	                            innerView.post(new Runnable() {
+    //	                                @Override
+    //	                                public void run() {
+    //	                                    ((ActionMenuItemView) innerView).getCompoundDrawables()[finalK].setColorFilter(colorFilter);
+    //	                                }
+    //	                            });
+                            }
                         }
                     }
                 }
             }
+        } catch (Exception e) {
+
         }
     }
 

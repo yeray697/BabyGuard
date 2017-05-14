@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.repository.Repository;
 
 public class Home_Activity extends AppCompatActivity {
 
@@ -98,10 +99,13 @@ public class Home_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    args.putString(KID_KEY, kid.getId());
+                    String teacher = Repository.getInstance().getTeacherChat(kid);
+                    args.putString(Chat_Fragment.USER_CHAT_ID_KEY, teacher);
                     fragment = Chat_Fragment.newInstance(args);
                 }
-                selected = 2;
+                navigationView.getMenu().getItem(selected).setChecked(false);
+                navigationView.getMenu().getItem(2).setChecked(false);
+                //selected = 2;
                 break;
             case R.id.item_webcam:
                 tag = "webcam";
@@ -129,10 +133,18 @@ public class Home_Activity extends AppCompatActivity {
                 break;
         }
         if (fragment != null) {
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.container_home, fragment,tag)
-                    .commit();
+            if (tag.equals("chat")){
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.container_home, fragment,tag)
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.container_home, fragment,tag)
+                        .commit();
+            }
         }
     }
 
@@ -182,5 +194,15 @@ public class Home_Activity extends AppCompatActivity {
 
     public void openChat(){
         selectItemDrawer(navigationView.getMenu().getItem(2));
+    }
+
+    public void enableNavigationDrawer(boolean enable){
+        if (drawerLayout != null) {
+            if (enable){
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            } else {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            }
+        }
     }
 }
