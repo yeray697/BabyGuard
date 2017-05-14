@@ -116,11 +116,11 @@ public class Repository {
         return chat;
     }
 
-    public void addMessage(ChatMessage chatMessage) {
+    public void addMessage(ChatMessage chatMessage, String idTo) {
         if (chats == null)
             chats = new ArrayList<>();
         for (Chat chat : chats) {
-            if (chatMessage.getSender().equals(chat.getId())){
+            if (idTo.equals(chat.getId())){
                 chat.addMessage(chatMessage);
                 break;
             }

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.repository.Repository;
+import com.ncatz.babyguard.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
     private int marginMessage;
     private String userId;
-    public Chat_Adapter(Context context, ArrayList<ChatMessage> messages) {
+    public Chat_Adapter(Context context, ArrayList<ChatMessage> messages, String userId) {
         super(context, R.layout.chat_message, messages);
         this.userId = userId;
         this.marginMessage = getContext().getResources().getDimensionPixelSize(R.dimen.chatMessage_margin);
@@ -55,7 +56,7 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
         }
 
         holder.message.setText(message.getMessage());
-        holder.time.setText(message.getTime());
+        holder.time.setText(Utils.getTimeByUnix(message.getDatetime()));
 
         Drawable background;
         int messageLayout = isSender ? R.drawable.bubble_receiver: R.drawable.bubble_sender;

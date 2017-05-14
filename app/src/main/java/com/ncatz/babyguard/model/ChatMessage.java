@@ -3,6 +3,7 @@ package com.ncatz.babyguard.model;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.Exclude;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,19 +15,27 @@ import java.util.Map;
  */
 
 public class ChatMessage {
+    @Exclude
+    private String key;
     private String sender;
     private String message;
-    private String date;
-    private String time;
+    private String datetime;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String sender, String message, String date, String time) {
+    public ChatMessage(String sender, String message, String datetime) {
         this.sender = sender;
         this.message = message;
-        this.date = date;
-        this.time = time;
+        this.datetime = datetime;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getSender() {
@@ -45,20 +54,12 @@ public class ChatMessage {
         this.message = message;
     }
 
-    public String getDate() {
-        return date;
+    public String getDatetime() {
+        return datetime;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
     }
 
     public static ChatMessage parseFromDataSnapshot(DataSnapshot dataSnapshot) {
@@ -67,15 +68,7 @@ public class ChatMessage {
             Log.d("","");
             switch (entry.getKey()){
                 case "datetime": //String (Long) Unix time
-                    Long timeUnix = Long.parseLong((String) entry.getValue());
-                    Calendar c = Calendar.getInstance();
-                    c.setTimeInMillis(timeUnix);
-                    SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
-                    SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
-                    String date = sdfDate.format(c.getTime());
-                    String time = sdfTime.format(c.getTime());
-                    aux.setDate(date);
-                    aux.setTime(time);
+                    aux.setDatetime((String)entry.getValue());
                     break;
                 case "message": //String message
                     aux.setMessage((String) entry.getValue());
@@ -83,10 +76,9 @@ public class ChatMessage {
                 case "sender": //String id
                     aux.setSender((String) entry.getValue());
                     break;
-                case "received": //boolean
-                    break;
             }
         }
+        aux.setKey(dataSnapshot.getKey());
 
         return aux;
     }

@@ -249,12 +249,33 @@ public class Utils {
         });
     }
 
+    public static String getTimeByUnix(String unixTime){
+        String time = "";
+        Long timeUnix = Long.parseLong(unixTime);
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(timeUnix);
+        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
+        time = sdfTime.format(c.getTime());
+        return time;
+    }
+
+    public static String getDateByUnix(String unixTime){
+        String date = "";
+        Long timeUnix = Long.parseLong(unixTime);
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(timeUnix);
+        SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
+        date = sdfDate.format(c.getTime());
+        return date;
+    }
+
     public static String getTimeNow(){
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         sdf.setTimeZone(c.getTimeZone());
         return sdf.format(c.getTime());
     }
+
     public static String getTodayDate(){
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY_MM_dd");

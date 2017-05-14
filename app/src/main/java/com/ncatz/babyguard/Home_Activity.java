@@ -101,6 +101,7 @@ public class Home_Activity extends AppCompatActivity {
                     args = new Bundle();
                     String teacher = Repository.getInstance().getTeacherChat(kid);
                     args.putString(Chat_Fragment.USER_CHAT_ID_KEY, teacher);
+                    args.putString(Chat_Fragment.KID_CHAT_ID_KEY, kid.getId());
                     fragment = Chat_Fragment.newInstance(args);
                 }
                 navigationView.getMenu().getItem(selected).setChecked(false);

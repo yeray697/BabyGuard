@@ -6,21 +6,25 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ncatz.babyguard.adapter.Chat_Adapter;
+import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.repository.Repository;
 import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,6 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Chat_Fragment extends Fragment {
 
     public static final String USER_CHAT_ID_KEY = "id";
+    public static final String KID_CHAT_ID_KEY = "kid";
     private TextView tvName;
     private CircleImageView ivProfile;
     private ListView lvChat;
@@ -37,6 +42,7 @@ public class Chat_Fragment extends Fragment {
 
     private Chat chat;
     private String userChatId;
+    private String kidId;
 
     public static Chat_Fragment newInstance(Bundle args) {
         Chat_Fragment fragment = new Chat_Fragment();
@@ -56,17 +62,18 @@ public class Chat_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         setToolbar(view);
         userChatId = getArguments().getString(USER_CHAT_ID_KEY);
-        chat = Repository.getInstance().getChat(userChatId);
+        kidId = getArguments().getString(KID_CHAT_ID_KEY);
         ivProfile = (CircleImageView) view.findViewById(R.id.ivProfile_chat);
         tvName = (TextView) view.findViewById(R.id.tvName_chat);
         lvChat = (ListView) view.findViewById(R.id.lvChat);
         btSend = (Button) view.findViewById(R.id.btSendMessage);
         etSend = (EditText) view.findViewById(R.id.etMessage_chat);
+        refreshList();
         tvName.setText(chat.getName());
         Picasso.with(getContext()).load(chat.getPhoto()).into(ivProfile);
-        adapter = new Chat_Adapter(getContext(), chat.getMessages());
-        lvChat.setAdapter(adapter);
-        lvChat.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        //lvChat.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        lvChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+        lvChat.setStackFromBottom(true);
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,17 +83,22 @@ public class Chat_Fragment extends Fragment {
         ((Babyguard_Application)getContext().getApplicationContext()).addChatListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
-                chat = Repository.getInstance().getChat(userChatId);
-                adapter = new Chat_Adapter(getContext(), chat.getMessages());
-                lvChat.setAdapter(adapter);
+                refreshList();
             }
         });
         return view;
     }
 
     private void sendMessage() {
-        adapter.add(new ChatMessage("1",etSend.getText().toString(),"gsg","16:31"));
-        adapter.notifyDataSetChanged();
+        String et = etSend.getText().toString();
+        if (!TextUtils.isEmpty(et)) {
+            Long timeUnix = System.currentTimeMillis();
+            ChatMessage message = new ChatMessage(kidId, et, String.valueOf(timeUnix));
+            FirebaseManager.getInstance().sendMessage(userChatId, message);
+            Repository.getInstance().addMessage(message,userChatId);
+            refreshList();
+            etSend.setText("");
+        }
     }
 
     private void setToolbar(View rootView) {
@@ -94,6 +106,11 @@ public class Chat_Fragment extends Fragment {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
     }
 
+    private void refreshList(){
+        chat = Repository.getInstance().getChat(userChatId);
+        adapter = new Chat_Adapter(getContext(), chat.getMessages(),kidId);
+        lvChat.setAdapter(adapter);
+    }
     @Override
     public void onStop() {
         super.onStop();

@@ -8,6 +8,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ncatz.babyguard.Babyguard_Application;
+import com.ncatz.babyguard.model.ChatMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -244,5 +245,13 @@ public class FirebaseManager {
                 listenerEntry.getKey().removeEventListener(singleListener);
             }
         }
+    }
+
+    public void sendMessage(String id, ChatMessage message) {
+        database.getReference().child(CHAT_REFERENCE).child(id).push().setValue(message);
+    }
+
+    public void deleteMessage(String id, String key) {
+        database.getReference().child(CHAT_REFERENCE).child(id).child(key).removeValue();
     }
 }
