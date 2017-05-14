@@ -20,11 +20,20 @@ public class User {
     private String mail;
     private String img;
     private String phone_number;
+    private String dbPass;
     private int user_type;
     private List<Kid> kids;
 
     public User(){
 
+    }
+
+    public String getDbPass() {
+        return dbPass;
+    }
+
+    public void setDbPass(String dbPass) {
+        this.dbPass = dbPass;
     }
 
     public String getImg() {
@@ -96,6 +105,7 @@ public class User {
                 userAux.setDeleted((Boolean) value.get("deleted"));
                 userAux.setImg(String.valueOf(value.get("img")));
                 userAux.setPhone_number(String.valueOf(value.get("phone_number")));
+                userAux.setDbPass(String.valueOf(value.get("db_pass")));
             }
         }
 

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.firebase.FirebaseListeners;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Chat;
@@ -175,6 +176,7 @@ public class Babyguard_Application extends Application {
         public void onUserModified(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()){
                 User user = User.parseFromDataSnapshot(dataSnapshot);
+                DatabaseHelper.getInstance(user.getId()).setPassword(user.getDbPass());
                 Repository.getInstance().setUser(user);
                 if (!kidsInfoLoadedFirstTime) {
                     FirebaseManager.getInstance().getKidsInfo(user.getId());
