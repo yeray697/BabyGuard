@@ -4,9 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.firebase.FirebaseListeners;
 import com.ncatz.babyguard.firebase.FirebaseManager;
@@ -76,6 +78,12 @@ public class Babyguard_Application extends Application {
         } else {
             pref.edit().clear().apply();
         }
+    }
+
+    public void signOff() {
+        FirebaseManager.getInstance().close();
+        Repository.getInstance().signOff();
+        setUserCredentials(null);
     }
 
     /**
@@ -179,10 +187,10 @@ public class Babyguard_Application extends Application {
                 User user = User.parseFromDataSnapshot(dataSnapshot);
                 DatabaseHelper.getInstance(user.getId()).setPassword(user.getDbPass());
                 Repository.getInstance().setUser(user);
-                if (!kidsInfoLoadedFirstTime) {
+                //if (!kidsInfoLoadedFirstTime) {
                     FirebaseManager.getInstance().getKidsInfo(user.getId());
                     kidsInfoLoadedFirstTime = true;
-                }
+                //}
                 if (kidListListener != null)
                     kidListListener.onEnd();
                 if (trackingListener != null)
@@ -300,21 +308,20 @@ public class Babyguard_Application extends Application {
 
             ArrayList<TrackingKid> trackingList = new ArrayList<>();
             TrackingKid trackingAux;
-            HashMap<String,ArrayList<HashMap<String,String>>> kids = (HashMap<String, ArrayList<HashMap<String, String>>>) dataSnapshot.getValue();
-            String idKid = "";
-            for (HashMap.Entry<String,ArrayList<HashMap<String,String>>> kid:kids.entrySet()){
-                idKid = kid.getKey();
-                for (HashMap<String, String> trackingListEntry: kid.getValue()) {
-                    trackingAux = new TrackingKid("",trackingListEntry.get("title"),
-                            trackingListEntry.get("time"),
-                            TrackingKid.parseIntToType(Integer.parseInt(trackingListEntry.get("type"))),
-                            trackingListEntry.get("description"));
-                    trackingList.add(trackingAux);
+            if (dataSnapshot.getValue() != null) {
+                ArrayList<HashMap<String, String>> kids = (ArrayList<HashMap<String, String>>) dataSnapshot.getValue();
+                String idKid = dataSnapshot.getKey();
+                for (HashMap<String, String> kid:kids){
+                        trackingAux = new TrackingKid("",kid.get("title"),
+                                kid.get("time"),
+                                TrackingKid.parseIntToType(Integer.parseInt(kid.get("type"))),
+                                kid.get("description"));
+                        trackingList.add(trackingAux);
                 }
+                Repository.getInstance().addTracking(idKid,trackingList);
+                if (trackingListener != null)
+                    trackingListener.onEnd();
             }
-            Repository.getInstance().addTracking(idKid,trackingList);
-            if (trackingListener != null)
-                trackingListener.onEnd();
         }
 
         @Override

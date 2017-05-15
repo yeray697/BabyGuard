@@ -173,7 +173,7 @@ public class Home_Activity extends AppCompatActivity {
     }
 
     public void signOff() {
-        ((Babyguard_Application)getApplicationContext()).setUserCredentials(null);
+        ((Babyguard_Application)getApplicationContext()).signOff();
         Intent intent = new Intent(Home_Activity.this,Login_Activity.class);
         startActivity(intent);
         finishAffinity();

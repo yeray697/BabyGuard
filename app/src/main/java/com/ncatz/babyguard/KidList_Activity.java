@@ -117,7 +117,7 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
     }
 
     public void signOff() {
-        ((Babyguard_Application)getApplicationContext()).setUserCredentials(null);
+        ((Babyguard_Application)getApplicationContext()).signOff();
         Intent intent = new Intent(KidList_Activity.this,Login_Activity.class);
         startActivity(intent);
         finish();

@@ -159,6 +159,12 @@ public class Repository {
         return chats;
     }
 
+    public void signOff() {
+        user = null;
+        nurserySchools = null;
+        chats = null;
+    }
+
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Sort {

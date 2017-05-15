@@ -50,7 +50,7 @@ public class FirebaseManager {
     }
 
     public void getTrackingKid(String userId) {
-        Query reference = database.getReference().child(TRACKING_REFERENCE).orderByKey().equalTo(userId);
+        Query reference = database.getReference().child(TRACKING_REFERENCE).child(userId);
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -253,5 +253,13 @@ public class FirebaseManager {
 
     public void deleteMessage(String id, String key) {
         database.getReference().child(CHAT_REFERENCE).child(id).child(key).removeValue();
+    }
+
+    public void close() {
+        firebaseAuth.signOut();
+        database.goOffline();
+        database.getReference().setValue(null);
+        database.goOnline();
+        removeListeners();
     }
 }

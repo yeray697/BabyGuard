@@ -97,16 +97,19 @@ public class User {
         User userAux = Repository.getInstance().getUser();
         if (userAux == null)
             userAux = new User();
-        for (HashMap<String,Object> value:(ArrayList<HashMap<String,Object>>)dataSnapshot.getValue()){
-            if (value != null) {
-                userAux.setId(String.valueOf(value.get("id")));
-                userAux.setUser_type(Integer.parseInt(String.valueOf(value.get("user_type"))));
-                userAux.setMail(String.valueOf(value.get("mail")));
-                userAux.setDeleted((Boolean) value.get("deleted"));
-                userAux.setImg(String.valueOf(value.get("img")));
-                userAux.setPhone_number(String.valueOf(value.get("phone_number")));
-                userAux.setDbPass(String.valueOf(value.get("db_pass")));
-            }
+        HashMap<String,Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+
+        HashMap<String, Object> aux;
+        for (HashMap.Entry<String,Object> entry : value.entrySet()) {
+            aux = (HashMap<String, Object>) entry.getValue();
+            userAux.setId(String.valueOf(aux.get("id")));
+            userAux.setUser_type(Integer.parseInt(String.valueOf(aux.get("user_type"))));
+            userAux.setMail(String.valueOf(aux.get("mail")));
+            userAux.setDeleted((Boolean) aux.get("deleted"));
+            userAux.setImg(String.valueOf(aux.get("img")));
+            userAux.setPhone_number(String.valueOf(aux.get("phone_number")));
+            userAux.setDbPass(String.valueOf(aux.get("db_pass")));
+            break;
         }
 
         return userAux;
