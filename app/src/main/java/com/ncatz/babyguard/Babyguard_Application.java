@@ -81,9 +81,16 @@ public class Babyguard_Application extends Application {
     }
 
     public void signOff() {
+        try {
+            DatabaseHelper.getInstance().closeDb();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         FirebaseManager.getInstance().close();
         Repository.getInstance().signOff();
         setUserCredentials(null);
+        kidsInfoLoadedFirstTime = false;
+        nurseryAndChatsLoadedFirstTime = false;
     }
 
     /**
