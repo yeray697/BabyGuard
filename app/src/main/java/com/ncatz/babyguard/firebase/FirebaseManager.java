@@ -30,7 +30,7 @@ public class FirebaseManager {
     private FirebaseAuth firebaseAuth;
     private FirebaseListeners listeners;
     private HashMap<Query,ArrayList<ValueEventListener>> activeValueListeners;
-    private  HashMap<Query,ArrayList<ChildEventListener>> activeChildListeners;
+    private HashMap<Query,ArrayList<ChildEventListener>> activeChildListeners;
 
     private void addListener(Query reference, ValueEventListener listener){
         reference.addValueEventListener(listener);

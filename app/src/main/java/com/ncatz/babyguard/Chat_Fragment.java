@@ -93,10 +93,11 @@ public class Chat_Fragment extends Fragment {
         String et = etSend.getText().toString();
         if (!TextUtils.isEmpty(et)) {
             Long timeUnix = System.currentTimeMillis();
-            ChatMessage message = new ChatMessage(kidId, et, String.valueOf(timeUnix));
+            ChatMessage message = new ChatMessage(kidId, userChatId, et, String.valueOf(timeUnix));
             FirebaseManager.getInstance().sendMessage(userChatId, message);
-            Repository.getInstance().addMessage(message,userChatId);
-            refreshList();
+            if (Repository.getInstance().addMessage(message,userChatId)) {
+                refreshList();
+            }
             etSend.setText("");
         }
     }

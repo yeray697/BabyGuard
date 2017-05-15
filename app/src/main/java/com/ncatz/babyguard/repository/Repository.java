@@ -2,6 +2,7 @@ package com.ncatz.babyguard.repository;
 
 import android.support.annotation.IntDef;
 
+import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.model.TrackingKid;
@@ -116,15 +117,23 @@ public class Repository {
         return chat;
     }
 
-    public void addMessage(ChatMessage chatMessage, String idTo) {
+    public boolean addMessage(ChatMessage chatMessage, String idTo) {
+        boolean result = false;
         if (chats == null)
             chats = new ArrayList<>();
         for (Chat chat : chats) {
             if (idTo.equals(chat.getId())){
-                chat.addMessage(chatMessage);
+                try {
+                    DatabaseHelper.getInstance().addMessage(chatMessage);
+                    chat.addMessage(chatMessage);
+                    result = true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             }
         }
+        return result;
     }
 
     public void addChat(Chat chat) {
@@ -144,6 +153,10 @@ public class Repository {
             }
         }
         return id;
+    }
+
+    public ArrayList<Chat> getChats() {
+        return chats;
     }
 
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})

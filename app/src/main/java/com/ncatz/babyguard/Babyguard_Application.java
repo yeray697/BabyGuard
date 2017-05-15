@@ -23,6 +23,7 @@ import com.yeray697.calendarview.DiaryCalendarEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Context application
@@ -272,16 +273,16 @@ public class Babyguard_Application extends Application {
         @Override
         public void onNurseryClassModified(DataSnapshot dataSnapshot) {
             ArrayList<DiaryCalendarEvent> calendarListAux = new ArrayList<>();
-            String nursery_id = (String) ((HashMap<String, Object>)dataSnapshot.getValue()).get("nursery_id"),
-                    nursery_class = dataSnapshot.getKey();
-            ArrayList<HashMap<String,String>> calendar = (ArrayList<HashMap<String, String>>) ((HashMap<String, Object>)dataSnapshot.getValue()).get("calendar");
-            DiaryCalendarEvent calendarAux;
-            for (HashMap<String,String> entry:calendar){
-                calendarAux = new DiaryCalendarEvent(entry.get("title"),
-                        Integer.valueOf(entry.get("year")),
-                        Integer.valueOf(entry.get("month")),
-                        Integer.valueOf(entry.get("day")),
-                        entry.get("description"));
+            String nursery_id = (String) ((HashMap<String, Object>)dataSnapshot.getValue()).get("id_nursery"),
+            nursery_class = dataSnapshot.getKey();
+            HashMap<String,HashMap<String,String>> calendar = (HashMap<String,HashMap<String, String>>) ((HashMap<String, Object>)dataSnapshot.getValue()).get("calendar");
+            DiaryCalendarEvent calendarAux = null;
+            for (Map.Entry<String, HashMap<String, String>> entry:calendar.entrySet()){
+                calendarAux = new DiaryCalendarEvent(entry.getValue().get("title"),
+                        Integer.valueOf(entry.getValue().get("year")),
+                        Integer.valueOf(entry.getValue().get("month")),
+                        Integer.valueOf(entry.getValue().get("day")),
+                        entry.getValue().get("description"));
                 calendarListAux.add(calendarAux);
             }
             Repository.getInstance().setCalendar(nursery_id,nursery_class,calendarListAux);
@@ -325,12 +326,13 @@ public class Babyguard_Application extends Application {
         public void onChatAdded(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()) {
                 try {
-                    ChatMessage chatMessage = ChatMessage.parseFromDataSnapshot(dataSnapshot);
-                    Repository.getInstance().addMessage(chatMessage,chatMessage.getSender());
                     String id = dataSnapshot.getRef().getParent().getKey();
-                    FirebaseManager.getInstance().deleteMessage(id,chatMessage.getKey());
+                    ChatMessage chatMessage = ChatMessage.parseFromDataSnapshot(id,dataSnapshot);
+                    if (Repository.getInstance().addMessage(chatMessage,chatMessage.getSender())) {
+                        FirebaseManager.getInstance().deleteMessage(id,chatMessage.getKey());
+                    }
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
                 if (chatListener != null)
                     chatListener.onEnd();
@@ -348,6 +350,11 @@ public class Babyguard_Application extends Application {
             for (HashMap.Entry<String,HashMap<String ,Object>> chatData : ((HashMap<String,HashMap<String ,Object>>)dataSnapshot.getValue()).entrySet()) {
                 chat = Chat.parseFromDataSnapshot(chatData);
                 Repository.getInstance().addChat(chat);
+            }
+            try {
+                DatabaseHelper.getInstance().loadChatMessages("124");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             if (chatListener != null)
                 chatListener.onEnd();

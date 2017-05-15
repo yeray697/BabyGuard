@@ -13,17 +13,19 @@ public class DatabaseContract {
     public static abstract class Messages implements BaseColumns {
         public static final String TABLE_NAME = "messages";
         public static final String SENDER_COL = "sender";
+        public static final String RECEIVER_COL = "receiver";
         public static final String MESSAGE_COL = "message";
         public static final String DATETIME_COL= "datetime";
         public static final String SQL_CREATE_ENTRIES =
-                "CREATE TABLE " + DatabaseContract.Messages.TABLE_NAME + " (" +
-                        DatabaseContract.Messages._ID + " INTEGER PRIMARY KEY," +
-                        DatabaseContract.Messages.MESSAGE_COL + TEXT_TYPE + "," +
-                        DatabaseContract.Messages.DATETIME_COL + TEXT_TYPE + "," +
-                        DatabaseContract.Messages.SENDER_COL + TEXT_TYPE +
+                "CREATE TABLE " + Messages.TABLE_NAME + " (" +
+                        Messages._ID + " INTEGER PRIMARY KEY," +
+                        Messages.MESSAGE_COL + TEXT_TYPE + "," +
+                        Messages.DATETIME_COL + TEXT_TYPE + "," +
+                        Messages.SENDER_COL + TEXT_TYPE + "," +
+                        Messages.RECEIVER_COL + TEXT_TYPE +
                         " )";
 
         public static final String SQL_DELETE_ENTRIES =
-                "DROP TABLE IF EXISTS " + DatabaseContract.Messages.TABLE_NAME;
+                "DROP TABLE IF EXISTS " + Messages.TABLE_NAME;
     }
 }
