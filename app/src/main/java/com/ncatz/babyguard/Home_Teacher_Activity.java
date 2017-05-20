@@ -47,11 +47,11 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 selected = 0;
                 break;
             case R.id.item_chat:
-                tag = "calendar";
+                tag = "chat";
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    fragment = Calendar_Fragment.newInstance(args);
+                    //fragment = Calendar_Fragment.newInstance(args);
                 }
                 selected = 1;
                 break;
@@ -60,7 +60,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    //fragment = Calendar_Fragment.newInstance(args);
+                    fragment = Calendar_Fragment.newInstance(args);
                 }
                 selected = 2;
                 break;
@@ -86,7 +86,9 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         if (fragment != null) {
                 fragmentManager
                         .beginTransaction()
-                        .replace(R.id.container_home, fragment,tag)
+                        .setCustomAnimations(R.anim.fade_in,
+                        R.anim.fade_out)
+                        .replace(R.id.frame_layout, fragment,tag)
                         .commit();
         }
     }
