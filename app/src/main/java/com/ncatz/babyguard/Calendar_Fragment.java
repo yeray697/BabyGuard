@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
-import com.ncatz.babyguard.utils.Utils;
 import com.yeray697.calendarview.DiaryCalendarEvent;
 import com.yeray697.calendarview.DiaryCalendarView;
 
@@ -38,13 +37,17 @@ public class Calendar_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        ((Home_Activity)getActivity()).enableNavigationDrawer(true);
+        ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
         setToolbar();
         setHasOptionsMenu(true);
-        kid = Repository.getInstance().getKidById(getArguments().getString(Home_Activity.KID_KEY));
-        calendarDates = Repository.getInstance().getCalendarByUser(kid);
+        if((((Babyguard_Application)getContext().getApplicationContext()).isTeacher())) {
+            calendarDates = Repository.getInstance().getCalendar();
+        } else {
+            kid = Repository.getInstance().getKidById(getArguments().getString(Home_Parent_Activity.KID_KEY));
+            calendarDates = Repository.getInstance().getCalendarByUser(kid);
+        }
         calendar.addEvent(calendarDates);
         return view;
     }

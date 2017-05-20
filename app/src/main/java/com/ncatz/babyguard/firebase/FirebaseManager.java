@@ -9,6 +9,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.model.ChatMessage;
+import com.ncatz.babyguard.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,7 +90,7 @@ public class FirebaseManager {
         addListener(reference, listener);
     }
 
-    public void getKidsInfo(String userId){
+    public void getKidsInfo(User user){
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -105,7 +106,12 @@ public class FirebaseManager {
                 }
             }
         };
-        Query reference = database.getReference().child(KID_REFERENCE).orderByChild("id_parent").equalTo(userId);
+        Query reference;
+        if (((Babyguard_Application)Babyguard_Application.getContext()).isTeacher()){
+            reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(user.getId_nursery_class());
+        } else {
+            reference = database.getReference().child(KID_REFERENCE).orderByChild("id_parent").equalTo(user.getId());
+        }
         addListener(reference, listener);
     }
 
@@ -149,7 +155,7 @@ public class FirebaseManager {
         addListener(reference,listener);
     }
 
-    public void getChatNames(String nurseryId, String nurseryClass) {
+    public void getChatNames(String nurseryClass) {
         final ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -167,10 +173,8 @@ public class FirebaseManager {
         };
         Query reference;
         if (((Babyguard_Application)Babyguard_Application.getContext()).isTeacher()) {
-            //reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery").equalTo(nurseryId).orderByChild("id_nursery_class").equalTo(nurseryClass);
             reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(nurseryClass);
         } else {
-            //reference = database.getReference().child(USER_REFERENCE).orderByChild("nursery").equalTo(nurseryId).orderByChild("nursery_class").equalTo(nurseryClass);
             reference = database.getReference().child(USER_REFERENCE).orderByChild("id_nursery_class").equalTo(nurseryClass);
         }
         addListener(reference,listener);
@@ -259,4 +263,5 @@ public class FirebaseManager {
         firebaseAuth.signOut();
         removeListeners();
     }
+
 }

@@ -12,13 +12,13 @@
         <item
             android:id="@+id/item_chat"
             android:title="@string/item_chat" />
-        <item
-            android:id="@+id/item_webcam"
-            android:title="@string/item_webcam" />
     </group>
     <group
         android:id="@+id/menu_bottom"
         android:checkableBehavior="none">
+        <item
+            android:id="@+id/item_profile"
+            android:title="@string/item_profile" />
         <item
             android:id="@+id/item_contact"
             android:title="@string/item_contacto" />

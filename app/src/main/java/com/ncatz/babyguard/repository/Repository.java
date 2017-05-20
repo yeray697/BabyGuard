@@ -165,6 +165,15 @@ public class Repository {
         chats = null;
     }
 
+    public ArrayList<DiaryCalendarEvent> getCalendar() {
+        NurserySchool nursAux = getNurserySchool();
+        ArrayList<DiaryCalendarEvent> calendar = null;
+        if (nursAux != null) {
+            calendar = nursAux.getClassCalendars().entrySet().iterator().next().getValue();
+        }
+        return calendar;
+    }
+
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Sort {
@@ -211,6 +220,10 @@ public class Repository {
             }
         }
         return aux;
+    }
+
+    public NurserySchool getNurserySchool(){
+        return (nurserySchools != null && nurserySchools.size() > 0)?nurserySchools.get(0):null;
     }
 
     public void setChats(ArrayList<Chat> chats) {

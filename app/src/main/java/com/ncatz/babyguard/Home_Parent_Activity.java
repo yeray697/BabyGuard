@@ -11,11 +11,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
 
-public class Home_Activity extends AppCompatActivity {
+public class Home_Parent_Activity extends AppCompatActivity {
 
     public static final String KID_KEY = "kid";
     public static final String ACTION = "action";
@@ -108,21 +107,20 @@ public class Home_Activity extends AppCompatActivity {
                 navigationView.getMenu().getItem(2).setChecked(false);
                 //selected = 2;
                 break;
-            case R.id.item_webcam:
-                tag = "webcam";
-                fragment = fragmentManager.findFragmentByTag(tag);
-                if (fragment == null) {
-                    args = new Bundle();
-                    args.putString(KID_KEY, kid.getId());
-                    fragment = WebCam_Fragment.newInstance(args);
-                }
-                selected = 3;
+            case R.id.item_profile:
+                //selected = 4;
+                /*args = new Bundle();
+                args.putString(KID_NURSERY_KEY, kid.getId());
+                Intent intent = new Intent(Home_Parent_Activity.this,AboutNursery_Activity.class);
+                intent.putExtra(KID_NURSERY_KEY,kid.getId_nursery());
+                startActivity(intent);*/
+                navigationView.getMenu().getItem(4).setChecked(false);
                 break;
             case R.id.item_contact:
                 //selected = 4;
                 args = new Bundle();
                 args.putString(KID_NURSERY_KEY, kid.getId());
-                Intent intent = new Intent(Home_Activity.this,AboutNursery_Activity.class);
+                Intent intent = new Intent(Home_Parent_Activity.this,AboutNursery_Activity.class);
                 intent.putExtra(KID_NURSERY_KEY,kid.getId_nursery());
                 startActivity(intent);
                 navigationView.getMenu().getItem(4).setChecked(false);
@@ -174,7 +172,7 @@ public class Home_Activity extends AppCompatActivity {
 
     public void signOff() {
         ((Babyguard_Application)getApplicationContext()).signOff();
-        Intent intent = new Intent(Home_Activity.this,Login_Activity.class);
+        Intent intent = new Intent(Home_Parent_Activity.this,Login_Activity.class);
         startActivity(intent);
         finishAffinity();
 

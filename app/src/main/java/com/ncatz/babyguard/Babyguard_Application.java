@@ -4,11 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.firebase.FirebaseListeners;
 import com.ncatz.babyguard.firebase.FirebaseManager;
@@ -43,6 +41,7 @@ public class Babyguard_Application extends Application {
     private SharedPreferences pref;
     private static Context context;
 
+    private ActionEndListener loginListener;
     private ActionEndListener nurseryListener;
     private ActionEndListener kidListListener;
     private ActionEndListener trackingListener;
@@ -142,6 +141,14 @@ public class Babyguard_Application extends Application {
         return userCredentials.getType() == UserCredentials.TYPE_TEACHER;
     }
 
+    public void addLoginListener(ActionEndListener loginListener) {
+        this.loginListener = loginListener;
+    }
+
+    public void removeLoginListener() {
+        loginListener = null;
+    }
+
     public void addNurseryListener(ActionEndListener nurseryListener) {
         this.nurseryListener = nurseryListener;
     }
@@ -194,10 +201,13 @@ public class Babyguard_Application extends Application {
                 User user = User.parseFromDataSnapshot(dataSnapshot);
                 DatabaseHelper.getInstance(user.getId()).setPassword(user.getDbPass());
                 Repository.getInstance().setUser(user);
+                userCredentials.setType(user.getUser_type());
                 //if (!kidsInfoLoadedFirstTime) {
-                    FirebaseManager.getInstance().getKidsInfo(user.getId());
+                    FirebaseManager.getInstance().getKidsInfo(user);
                     kidsInfoLoadedFirstTime = true;
                 //}
+                if (loginListener != null)
+                    loginListener.onEnd();
                 if (kidListListener != null)
                     kidListListener.onEnd();
                 if (trackingListener != null)
@@ -218,6 +228,7 @@ public class Babyguard_Application extends Application {
                 HashMap<String, HashMap<String, Object>> value = (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
                 List<Kid> kids = Kid.parseFromDataSnapshot(value);
                 List<String> aux;
+                boolean isTeacher = ((Babyguard_Application)getApplicationContext()).isTeacher();
                 if (!nurseryAndChatsLoadedFirstTime && kids.size() > 0) {
                     if (kids.size() > 1){
                         HashMap<String,List<String>> nurseryClasses = new HashMap<>();
@@ -238,20 +249,32 @@ public class Babyguard_Application extends Application {
                                 nurseryClasses.put(id_nursery,aux);
                             }
                         }
-                        for (HashMap.Entry<String,List<String>> entry:nurseryClasses.entrySet()){
-                            FirebaseManager.getInstance().getNursery(entry.getKey());
-                            for (String classId: entry.getValue()){
-                                FirebaseManager.getInstance().getNurseryClass(entry.getKey(),classId);
-                                FirebaseManager.getInstance().getChatNames(entry.getKey(),classId);
+
+                        if (!isTeacher) {
+                            for (HashMap.Entry<String,List<String>> entry:nurseryClasses.entrySet()){
+                                FirebaseManager.getInstance().getNursery(entry.getKey());
+                                for (String classId: entry.getValue()){
+                                    FirebaseManager.getInstance().getNurseryClass(entry.getKey(),classId);
+                                    FirebaseManager.getInstance().getChatNames(classId);
+                                }
                             }
+                            for (int i = 0; i < kids.size(); i++)
+                                    FirebaseManager.getInstance().getChat(kids.get(i).getId());
                         }
-                        for (int i = 0; i < kids.size(); i++)
-                                FirebaseManager.getInstance().getChat(kids.get(i).getId());
                     } else {
+                        if (!isTeacher) {
+                            Kid kidAux = kids.get(0);
+                            FirebaseManager.getInstance().getNursery(kidAux.getId_nursery());
+                            FirebaseManager.getInstance().getNurseryClass(kidAux.getId_nursery(), kidAux.getId_nursery_class());
+                            FirebaseManager.getInstance().getChatNames(kidAux.getId_nursery_class());
+                            FirebaseManager.getInstance().getChat(kidAux.getId());
+                        }
+                    }
+                    if(isTeacher) {
                         Kid kidAux = kids.get(0);
                         FirebaseManager.getInstance().getNursery(kidAux.getId_nursery());
                         FirebaseManager.getInstance().getNurseryClass(kidAux.getId_nursery(),kidAux.getId_nursery_class());
-                        FirebaseManager.getInstance().getChatNames(kidAux.getId_nursery(),kidAux.getId_nursery_class());
+                        FirebaseManager.getInstance().getChatNames(kidAux.getId_nursery_class());
                         FirebaseManager.getInstance().getChat(kidAux.getId());
                     }
                     nurseryAndChatsLoadedFirstTime = true;
@@ -366,7 +389,7 @@ public class Babyguard_Application extends Application {
                 Repository.getInstance().addChat(chat);
             }
             try {
-                DatabaseHelper.getInstance().loadChatMessages("124");
+                DatabaseHelper.getInstance().loadChatMessages();
             } catch (Exception e) {
                 e.printStackTrace();
             }

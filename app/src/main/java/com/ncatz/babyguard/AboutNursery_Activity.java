@@ -1,18 +1,13 @@
 package com.ncatz.babyguard;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder;
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
-import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickListener;
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
@@ -25,7 +20,7 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String idNursery = getIntent().getExtras().getString(Home_Activity.KID_NURSERY_KEY);
+        String idNursery = getIntent().getExtras().getString(Home_Parent_Activity.KID_NURSERY_KEY);
         nursery = Repository.getInstance().getNurserySchoolById(idNursery);
         ((Babyguard_Application)getApplicationContext()).addNurseryListener(new Babyguard_Application.ActionEndListener() {
             @Override

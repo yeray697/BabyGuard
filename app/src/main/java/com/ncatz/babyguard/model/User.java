@@ -18,6 +18,8 @@ public class User {
     private String id;
     private boolean deleted;
     private String mail;
+    private String id_nursery;
+    private String id_nursery_class;
     private String img;
     private String phone_number;
     private String dbPass;
@@ -92,6 +94,22 @@ public class User {
         this.kids = kids;
     }
 
+    public String getId_nursery() {
+        return id_nursery;
+    }
+
+    public void setId_nursery(String id_nursery) {
+        this.id_nursery = id_nursery;
+    }
+
+    public String getId_nursery_class() {
+        return id_nursery_class;
+    }
+
+    public void setId_nursery_class(String id_nursery_class) {
+        this.id_nursery_class = id_nursery_class;
+    }
+
     public static User parseFromDataSnapshot(DataSnapshot dataSnapshot) {
 
         User userAux = Repository.getInstance().getUser();
@@ -109,6 +127,10 @@ public class User {
             userAux.setImg(String.valueOf(aux.get("img")));
             userAux.setPhone_number(String.valueOf(aux.get("phone_number")));
             userAux.setDbPass(String.valueOf(aux.get("db_pass")));
+            if (userAux.getUser_type()==UserCredentials.TYPE_TEACHER) {
+                userAux.setId_nursery(String.valueOf(aux.get("id_nursery")));
+                userAux.setId_nursery_class(String.valueOf(aux.get("id_nursery_class")));
+            }
             break;
         }
 

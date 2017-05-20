@@ -48,13 +48,13 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
         ivExpandedImage = (ImageView) findViewById(R.id.ivExpanded_KidList);
         presenter = new KidListPresenterImpl(this);
         presenter.addListener();
-        presenter.startLoading();
+        //presenter.startLoading();
         lvKids.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!clicked) {
                     clicked = true;
-                    Intent intent = new Intent(KidList_Activity.this, Home_Activity.class);
+                    Intent intent = new Intent(KidList_Activity.this, Home_Parent_Activity.class);
                     intent.putExtra(KID_EXTRA,(Kid)lvKids.getItemAtPosition(i));
                     startActivity(intent);
                     clicked = false;
@@ -64,11 +64,7 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
         tvKidList = (TextView) findViewById(R.id.tvKidList);
         toolbar = (Toolbar) findViewById(R.id.toolbar_kidlist);
         setSupportActionBar(toolbar);
-        if(((Babyguard_Application)getApplicationContext()).isTeacher()){
-            tvKidList.setText(R.string.tvKidList_teacher_text);
-        } else {
-            tvKidList.setText(R.string.tvKidList_parent_text);
-        }
+        tvKidList.setText(R.string.tvKidList_parent_text);
     }
 
     @Override

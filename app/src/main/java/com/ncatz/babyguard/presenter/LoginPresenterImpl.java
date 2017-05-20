@@ -100,7 +100,14 @@ public class LoginPresenterImpl implements LoginPresenter {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     ((Babyguard_Application) ((Context) view).getApplicationContext()).setUserCredentials(new UserCredentials(mail, password));
-                    onLoginFinishedListener.onSuccess();
+                    ((Babyguard_Application) ((Context) view).getApplicationContext()).addLoginListener(new Babyguard_Application.ActionEndListener() {
+                        @Override
+                        public void onEnd() {
+                            onLoginFinishedListener.onSuccess();
+                            ((Babyguard_Application) ((Context) view).getApplicationContext()).removeLoginListener();
+                        }
+                    });
+                    FirebaseManager.getInstance().getUserInfo(mail);
                 } else {
                     ErrorClass error = new ErrorClass();
                     error.setIdView(ErrorClass.VIEW_TOAST);

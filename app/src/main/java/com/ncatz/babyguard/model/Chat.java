@@ -88,14 +88,13 @@ public class Chat {
     public static Chat parseFromDataSnapshot(Map.Entry<String, HashMap<String, Object>> dataSnapshot) {
         HashMap<String,Object> chatData = dataSnapshot.getValue();
         Chat chat = null;
-        if (!((boolean)chatData.get("deleted"))) {
-            chat = new Chat((String) chatData.get("id"),
-                    (String) chatData.get("name"),
-                    (String) chatData.get("img"),
-                    (String) chatData.get("id_nursery"),
-                    (String) chatData.get("id_nursery_class"),
-                    new ArrayList<ChatMessage>());
-        }
+        chat = new Chat((String) chatData.get("id"),
+                (String) chatData.get("name"),
+                (String) chatData.get("img"),
+                (String) chatData.get("id_nursery"),
+                (String) chatData.get("id_nursery_class"),
+                new ArrayList<ChatMessage>());
+
         return chat;
     }
 }

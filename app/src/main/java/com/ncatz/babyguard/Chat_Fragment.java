@@ -1,16 +1,13 @@
 package com.ncatz.babyguard;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -22,9 +19,6 @@ import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.repository.Repository;
 import com.squareup.picasso.Picasso;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,7 +52,7 @@ public class Chat_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((Home_Activity)getActivity()).enableNavigationDrawer(false);
+        ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(false);
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         setToolbar(view);
         userChatId = getArguments().getString(USER_CHAT_ID_KEY);

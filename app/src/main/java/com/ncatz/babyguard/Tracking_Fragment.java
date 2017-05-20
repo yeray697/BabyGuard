@@ -56,13 +56,13 @@ public class Tracking_Fragment extends Fragment implements Home_View{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((Home_Activity)getActivity()).enableNavigationDrawer(true);
+        ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
         final View view = inflater.inflate(R.layout.fragment_tracking,container,false);
-        kid = Repository.getInstance().getKidById(getArguments().getString(Home_Activity.KID_KEY));
+        kid = Repository.getInstance().getKidById(getArguments().getString(Home_Parent_Activity.KID_KEY));
 
         setToolbar(view);
         setHasOptionsMenu(true);
-        ((Home_Activity)getActivity()).setOnBackPressedTracingListener(new Home_Activity.OnBackPressedTracingListener() {
+        ((Home_Parent_Activity)getActivity()).setOnBackPressedTracingListener(new Home_Parent_Activity.OnBackPressedTracingListener() {
             @Override
             public boolean doBack() {
                 boolean result = true;
@@ -104,7 +104,7 @@ public class Tracking_Fragment extends Fragment implements Home_View{
         fabMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Home_Activity)getActivity()).openChat();
+                ((Home_Parent_Activity)getActivity()).openChat();
             }
         });
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvHome);

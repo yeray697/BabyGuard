@@ -67,18 +67,16 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
         database.rawExecSQL(sql);
     }
 
-    public void loadChatMessages(String kidId) {
+    public void loadChatMessages() {
+        String id = Repository.getInstance().getUser().getId();
         ArrayList<Chat> chats = Repository.getInstance().getChats();
         Cursor c;
         String sql;
         ChatMessage aux;
         for (Chat chat : chats) {
             sql = "SELECT * FROM " + DatabaseContract.Messages.TABLE_NAME +
-                    " where (" + DatabaseContract.Messages.SENDER_COL + " = '" + kidId +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + chat.getId() + "') OR "+
-                    "(" + DatabaseContract.Messages.SENDER_COL + " = '" + chat.getId() +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + kidId + "')";
-            /*sql = "SELECT * FROM " + DatabaseContract.Messages.TABLE_NAME +
-                    " where (" + DatabaseContract.Messages.SENDER_COL + " = " + userId + ") OR "+
-                    "(" + DatabaseContract.Messages.SENDER_COL + " = " + chat.getId() + ")";*/
+                    " where (" + DatabaseContract.Messages.SENDER_COL + " = '" + id +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + chat.getId() + "') OR "+
+                    "(" + DatabaseContract.Messages.SENDER_COL + " = '" + chat.getId() +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + id + "')";
             c = database.rawQuery(sql,null);
 
             if (c.moveToFirst()) {

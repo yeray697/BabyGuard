@@ -12,6 +12,7 @@
     <color name="colorDotBorder">#555555</color>
     <color name="colorLineColor">#555555</color>
     <color name="gray">#efefef</color>
+    <color name="light_gray">#e7e7e7</color>
 
     <!-- Calendar colors -->
     <color name="selected_day">@color/colorPrimaryDarkMore</color>
