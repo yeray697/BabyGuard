@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,6 +30,7 @@ public class Chat_Fragment extends Fragment {
     public static final String USER_CHAT_ID_KEY = "id";
     public static final String KID_CHAT_ID_KEY = "kid";
     private TextView tvName;
+    private ImageView backButton;
     private CircleImageView ivProfile;
     private ListView lvChat;
     private Button btSend;
@@ -57,6 +60,7 @@ public class Chat_Fragment extends Fragment {
         setToolbar(view);
         userChatId = getArguments().getString(USER_CHAT_ID_KEY);
         kidId = getArguments().getString(KID_CHAT_ID_KEY);
+        backButton = (ImageView) view.findViewById(R.id.backButtonChat);
         ivProfile = (CircleImageView) view.findViewById(R.id.ivProfile_chat);
         tvName = (TextView) view.findViewById(R.id.tvName_chat);
         lvChat = (ListView) view.findViewById(R.id.lvChat);
@@ -78,6 +82,12 @@ public class Chat_Fragment extends Fragment {
             @Override
             public void onEnd() {
                 refreshList();
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((Home_Parent_Activity)getActivity()).closeChatFragment();
             }
         });
         return view;

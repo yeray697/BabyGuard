@@ -76,7 +76,7 @@ public class ChatMessage {
     public static ChatMessage parseFromDataSnapshot(String idReceiver, DataSnapshot dataSnapshot) {
         ChatMessage aux = new ChatMessage();
         for (Map.Entry<String, Object> entry:((HashMap<String,Object>) dataSnapshot.getValue()).entrySet()) {
-            Log.d("","");
+
             switch (entry.getKey()){
                 case "datetime": //String (Long) Unix time
                     aux.setDatetime((String)entry.getValue());

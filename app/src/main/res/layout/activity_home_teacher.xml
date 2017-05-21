@@ -23,5 +23,6 @@
         android:background="@color/colorPrimary"
         design:itemIconTint="@color/bottom_nav_selector"
         design:itemTextColor="@color/bottom_nav_selector"
-        design:menu="@menu/menu_bottom_bar_teacher" />
+        design:menu="@menu/menu_bottom_bar_teacher"
+        design:elevation="15dp"/>
 </RelativeLayout>

@@ -56,7 +56,7 @@ public class Calendar_Fragment extends Fragment {
         toolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (ab != null) {
+        if (!((Babyguard_Application)getContext().getApplicationContext()).isTeacher() && ab != null) {
             ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setHomeButtonEnabled(true);

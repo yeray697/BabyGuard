@@ -50,8 +50,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 tag = "chat";
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
-                    args = new Bundle();
-                    //fragment = Calendar_Fragment.newInstance(args);
+                    fragment = ChatTeacher_Fragment.newInstance(null);
                 }
                 selected = 1;
                 break;
@@ -86,8 +85,8 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         if (fragment != null) {
                 fragmentManager
                         .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in,
-                        R.anim.fade_out)
+                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .replace(R.id.frame_layout, fragment,tag)
                         .commit();
         }

@@ -97,4 +97,8 @@ public class Chat {
 
         return chat;
     }
+
+    public ChatMessage getLastMessage() {
+        return (messages != null && messages.size() > 0)?messages.get(messages.size() - 1):null;
+    }
 }

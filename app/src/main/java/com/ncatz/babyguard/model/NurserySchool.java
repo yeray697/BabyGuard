@@ -1,6 +1,5 @@
 package com.ncatz.babyguard.model;
 
-import com.google.firebase.auth.api.model.StringList;
 import com.google.firebase.database.DataSnapshot;
 import com.yeray697.calendarview.DiaryCalendarEvent;
 

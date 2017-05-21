@@ -9,6 +9,7 @@
         android:id="@+id/toolbar_chat">
 
         <ImageView
+            android:id="@+id/backButtonChat"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_arrow_back_white"

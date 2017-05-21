@@ -19,7 +19,7 @@
     <color name="current_day" >@color/colorAccent</color>
     <color name="selected_day_diary">@color/colorPrimaryDark</color>
     <color name="background_item_not_expanded">@color/colorPrimaryLightDark</color>
-    <color name="background_item_expanded">@color/colorPrimaryLight</color>
+    <color name="background_item_expanded">#d4e8f2</color>
     <color name="calendar_background">@color/colorPrimary</color>
     <color name="current_event">@color/colorAccent</color>
 

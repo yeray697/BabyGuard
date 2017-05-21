@@ -19,6 +19,9 @@ import com.ncatz.babyguard.interfaces.LoginPresenter;
 import com.ncatz.babyguard.interfaces.LoginView;
 import com.ncatz.babyguard.model.ErrorClass;
 import com.ncatz.babyguard.presenter.LoginPresenterImpl;
+import com.ncatz.babyguard.utils.OneClickListener;
+import com.ncatz.babyguard.utils.OneClickMultiple;
+import com.ncatz.babyguard.utils.OneClickMultipleListener;
 
 /**
  * Login view
@@ -37,11 +40,18 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     private TextView tvForgotPass;
     private MaterialRippleLayout btLogin;
 
+    private OneClickMultiple oneClickMultiple;
+    private static final String MULTIPLE_CLICK_LISTENER = "multipleClickListener";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login);if (savedInstanceState != null) {
+            oneClickMultiple = (OneClickMultiple) savedInstanceState.getSerializable(MULTIPLE_CLICK_LISTENER);
+        } else {
+            oneClickMultiple = new OneClickMultiple();
+        }
         etUser = (EditText) findViewById(R.id.etUser_login);
         etPassword = (EditText) findViewById(R.id.etPass_login);
 
@@ -52,19 +62,30 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
         btLogin = (MaterialRippleLayout) findViewById(R.id.rlButton);
 
-        btLogin.setOnClickListener(new View.OnClickListener() {
+        btLogin.setOnClickListener(oneClickMultiple.addListener("btLogin", new OneClickMultipleListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick() {
                 login();
             }
-        });
-        tvForgotPass.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
+            public void onDoubleClick() {
+
+            }
+        }));
+        tvForgotPass.setOnClickListener(oneClickMultiple.addListener("forgotPass", new OneClickMultipleListener() {
+            @Override
+            public void onClick() {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FORGOTTEN_PASS_URL));
                 startActivity(browserIntent);
+                oneClickMultiple.setClicked(false);
             }
-        });
+
+            @Override
+            public void onDoubleClick() {
+
+            }
+        }));
         etUser.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -116,6 +137,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
 
     @Override
     public void setMessageError(String messageError, int idView) {
+        oneClickMultiple.setClicked(false);
         switch (idView){
             case R.id.tilUser_login:
                 tilUser.setError(messageError);
@@ -137,6 +159,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
 
     @Override
     public void onSuccess() {
+        oneClickMultiple.setClicked(false);
         Intent intent;
         if(((Babyguard_Application)getApplicationContext()).isTeacher()) {
             intent = new Intent(Login_Activity.this, Home_Teacher_Activity.class);
@@ -159,5 +182,6 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         super.onSaveInstanceState(outState);
         outState.putString(LOGIN_MAIL,etUser.getText().toString());
         outState.putString(LOGIN_PASS,etPassword.getText().toString());
+        outState.putSerializable(MULTIPLE_CLICK_LISTENER,oneClickMultiple);
     }
 }

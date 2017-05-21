@@ -254,7 +254,7 @@ public class Utils {
         Long timeUnix = Long.parseLong(unixTime);
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(timeUnix);
-        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
         time = sdfTime.format(c.getTime());
         return time;
     }
@@ -281,5 +281,29 @@ public class Utils {
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY_MM_dd");
         sdf.setTimeZone(c.getTimeZone());
         return sdf.format(c.getTime());
+    }
+
+    public static String parseDatetimeToChat(String unixTime) {
+        String parsed = "";
+        Long timeUnix = Long.parseLong(unixTime);
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(timeUnix);
+        SimpleDateFormat sdf;
+        if (c.after(today)) {
+            sdf = new SimpleDateFormat("HH:mm:ss");
+
+        } else {
+            sdf = new SimpleDateFormat("dd/MM/yy");
+
+        }
+        parsed = sdf.format(c.getTime());
+
+
+        return parsed;
     }
 }

@@ -103,7 +103,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
                     args.putString(Chat_Fragment.KID_CHAT_ID_KEY, kid.getId());
                     fragment = Chat_Fragment.newInstance(args);
                 }
-                navigationView.getMenu().getItem(selected).setChecked(false);
+                navigationView.getMenu().getItem(selected).setChecked(true);
                 navigationView.getMenu().getItem(2).setChecked(false);
                 //selected = 2;
                 break;
@@ -193,6 +193,10 @@ public class Home_Parent_Activity extends AppCompatActivity {
 
     public void openChat(){
         selectItemDrawer(navigationView.getMenu().getItem(2));
+    }
+
+    public void closeChatFragment(){
+        onBackPressed();
     }
 
     public void enableNavigationDrawer(boolean enable){

@@ -63,14 +63,7 @@ public class LoginPresenterImpl implements LoginPresenter {
             view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
         }
         if (!error.isThereAnError()) {
-            //if (Utils.isNetworkAvailable((Context) view)) {
-                databaseLogin(username,password);
-            /*} else {
-                error.setCode(ErrorClass.USER_CONNECTION_ERROR);
-                error.setIdView(ErrorClass.VIEW_TOAST);
-                error.setIfThereIsAnError(true);
-                view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
-            }*/
+            databaseLogin(username,password);
         }
     }
 
