@@ -3,25 +3,26 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:layout_marginBottom="15dp"
+    android:padding="5dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginBottom="7dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp">
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ivProfileChat_item"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
         android:clickable="true"
-        android:layout_marginStart="10dp"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:layout_centerVertical="true"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/colorPrimaryDarkMore"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:id="@+id/tvDateChat_item"
         android:textSize="16sp"
@@ -31,6 +32,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:id="@+id/tvNameChat_item"
@@ -38,14 +41,13 @@
         android:layout_toEndOf="@id/ivProfileChat_item"
         android:layout_toLeftOf="@id/tvDateChat_item"
         android:layout_toStartOf="@id/tvDateChat_item"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:text="Name"
         android:textStyle="bold"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:id="@+id/tvMessageChat_item"
         android:layout_toRightOf="@id/ivProfileChat_item"

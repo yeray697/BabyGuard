@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ncatz.babyguard.R;
@@ -22,9 +23,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by yeray697 on 20/05/17.
  */
 
-public class ChatTeacher_Adapter extends ArrayAdapter<Chat> {
-    public ChatTeacher_Adapter(Context context, List<Chat> objects) {
+public class Conversation_Adapter extends ArrayAdapter<Chat> {
+    private int margin10dp;
+
+    public Conversation_Adapter(Context context, List<Chat> objects) {
         super(context, R.layout.chat_item, objects);
+        margin10dp = getContext().getResources().getDimensionPixelSize(R.dimen.chatMessage_margin);
     }
 
     @NonNull
@@ -39,9 +43,9 @@ public class ChatTeacher_Adapter extends ArrayAdapter<Chat> {
             holder.tvDate = (TextView) view.findViewById(R.id.tvDateChat_item);
             holder.tvMessage = (TextView) view.findViewById(R.id.tvMessageChat_item);
             holder.ivProfile = (CircleImageView) view.findViewById(R.id.ivProfileChat_item);
-            view.setTag(holder);
+            view.setTag(R.id.conversationHolder,holder);
         } else {
-            holder = (ChatHolder) view.getTag();
+            holder = (ChatHolder) view.getTag(R.id.conversationHolder);
         }
         Chat aux = getItem(position);
         holder.tvName.setText(aux.getName());
@@ -49,13 +53,18 @@ public class ChatTeacher_Adapter extends ArrayAdapter<Chat> {
                 .load(aux.getPhoto())
                 .into(holder.ivProfile);
         ChatMessage lastMessage = aux.getLastMessage();
+        RelativeLayout.LayoutParams params  = (RelativeLayout.LayoutParams) holder.tvName.getLayoutParams();
         if (lastMessage != null) {
+            params.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
             holder.tvMessage.setText(lastMessage.getMessage());
             holder.tvDate.setText(Utils.parseDatetimeToChat(lastMessage.getDatetime()));
         } else {
+            params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
             holder.tvMessage.setText("");
             holder.tvDate.setText("");
         }
+        holder.tvName.setLayoutParams(params);
+        view.setTag(R.id.conversationId,aux.getId());
         return view;
     }
 

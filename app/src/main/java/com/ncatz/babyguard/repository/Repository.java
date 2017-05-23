@@ -106,17 +106,6 @@ public class Repository {
         }
     }
 
-    public Chat getChat(String userId) {
-        Chat chat = null;
-        for (Chat chatAux : chats){
-            if (chatAux.getId().equals(userId)) {
-                chat = chatAux;
-                break;
-            }
-        }
-        return chat;
-    }
-
     public boolean addMessage(ChatMessage chatMessage, String idTo) {
         boolean result = false;
         if (chats == null)
@@ -172,6 +161,17 @@ public class Repository {
             calendar = nursAux.getClassCalendars().entrySet().iterator().next().getValue();
         }
         return calendar;
+    }
+
+    public Chat getChat(String userId) {
+        Chat chat = null;
+        for (Chat chatAux : chats){
+            if (chatAux.getId().equals(userId)) {
+                chat = chatAux;
+                break;
+            }
+        }
+        return chat;
     }
 
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})

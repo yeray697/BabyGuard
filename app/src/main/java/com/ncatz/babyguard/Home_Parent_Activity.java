@@ -71,7 +71,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
         Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
         String tag = "";
-        Bundle args;
+        Bundle args = null;
         switch (itemDrawer.getItemId()) {
             case R.id.item_tracing:
                 tag = "tracing";
@@ -94,14 +94,12 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 selected = 1;
                 break;
             case R.id.item_chat:
-                tag = "chat";
+                tag = "conversations";
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    String teacher = Repository.getInstance().getTeacherChat(kid);
-                    args.putString(Chat_Fragment.USER_CHAT_ID_KEY, teacher);
-                    args.putString(Chat_Fragment.KID_CHAT_ID_KEY, kid.getId());
-                    fragment = Chat_Fragment.newInstance(args);
+                    args.putString(KID_KEY, kid.getId());
+                    fragment = Conversations_Fragment.newInstance(args);
                 }
                 navigationView.getMenu().getItem(selected).setChecked(true);
                 navigationView.getMenu().getItem(2).setChecked(false);
@@ -114,7 +112,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 Intent intent = new Intent(Home_Parent_Activity.this,AboutNursery_Activity.class);
                 intent.putExtra(KID_NURSERY_KEY,kid.getId_nursery());
                 startActivity(intent);*/
-                navigationView.getMenu().getItem(4).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(false);
                 break;
             case R.id.item_contact:
                 //selected = 4;
@@ -132,18 +130,18 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 break;
         }
         if (fragment != null) {
-            if (tag.equals("chat")){
+            /*if (tag.equals("conversations")){
                 fragmentManager
                         .beginTransaction()
                         .replace(R.id.container_home, fragment,tag)
                         .addToBackStack(null)
                         .commit();
-            } else {
+            } else {*/
                 fragmentManager
                         .beginTransaction()
                         .replace(R.id.container_home, fragment,tag)
                         .commit();
-            }
+            //}
         }
     }
 
