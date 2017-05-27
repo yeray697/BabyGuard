@@ -1,12 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ncatz.babyguard.Conversations_Fragment">
-
+    <com.ncatz.babyguard.components.CustomToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar_conversation"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lvChat"/>
+        android:id="@+id/lvChat"
+        android:layout_below="@id/toolbar_conversation"/>
 
-</FrameLayout>
+</RelativeLayout>

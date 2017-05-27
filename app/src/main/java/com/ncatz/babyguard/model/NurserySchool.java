@@ -4,8 +4,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.yeray697.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by yeray697 on 26/12/16.
@@ -18,16 +18,16 @@ public class NurserySchool {
     private String email;
     private String web;
     private ArrayList<String> telephone;
-    private HashMap<String,ArrayList<DiaryCalendarEvent>> classCalendars;
+    private HashMap<String,NurseryClass> nurseryClasses;
 
-    public NurserySchool(String id,String name, String address, String email, String web, ArrayList<String> telephone,HashMap<String,ArrayList<DiaryCalendarEvent>> classCalendars) {
+    public NurserySchool(String id,String name, String address, String email, String web, ArrayList<String> telephone,HashMap<String,NurseryClass> nurseryClasses) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.email = email;
         this.web = web;
         this.telephone = telephone;
-        this.classCalendars = classCalendars;
+        this.nurseryClasses = nurseryClasses;
     }
 
     public String getId() {
@@ -78,33 +78,45 @@ public class NurserySchool {
         this.telephone = telephone;
     }
 
-    public HashMap<String,ArrayList<DiaryCalendarEvent>> getClassCalendars() {
-        return classCalendars;
+    public HashMap<String,NurseryClass> getNurseryClasses() {
+        return nurseryClasses;
     }
 
-    public void setClassCalendars(HashMap<String,ArrayList<DiaryCalendarEvent>> classCalendars) {
-        this.classCalendars = classCalendars;
+    public ArrayList<NurseryClass> getNurseryClassesList() {
+        ArrayList<NurseryClass> classes = new ArrayList<>(nurseryClasses.values());
+        Collections.sort(classes,NurseryClass.comparatorName);
+        return classes;
+    }
+
+    public void setNurseryClasses(HashMap<String,NurseryClass> nurseryClasses) {
+        this.nurseryClasses = nurseryClasses;
     }
 
     public static NurserySchool parseFromDataSnapshot(DataSnapshot dataSnapshot) {
         NurserySchool nurserySchool = null;
         if (dataSnapshot.exists()) {
             HashMap<String,Object> value = ((HashMap<String,Object>)dataSnapshot.getValue());
-            HashMap<String,ArrayList<DiaryCalendarEvent>> classCalendars = new HashMap<>();
+            HashMap<String,NurseryClass> nurseryClass = new HashMap<>();
             nurserySchool = new NurserySchool(dataSnapshot.getKey(),
                     value.get("name").toString(),
                     value.get("address").toString(),
                     value.get("email").toString(),
                     value.get("web").toString(),
                     ((ArrayList)((HashMap<String,Object>)dataSnapshot.getValue()).get("telephone")),
-                    classCalendars);
+                    nurseryClass);
         }
         return nurserySchool;
     }
 
-    public void addCalendar(String nursery_class, ArrayList<DiaryCalendarEvent> calendar) {
-        if (classCalendars == null)
-            classCalendars = new HashMap<>();
-        classCalendars.put(nursery_class,calendar);
+    public void addNurseryClasses(String nursery_class, NurseryClass nurseryClass) {
+        if (nurseryClasses == null)
+            nurseryClasses = new HashMap<>();
+        nurseryClasses.put(nursery_class,nurseryClass);
+    }
+
+    public void addNurseryClass(String nurseryClassId, NurseryClass nurseryClass) {
+        if (nurseryClasses == null)
+            nurseryClasses = new HashMap<>();
+        nurseryClasses.put(nurseryClassId,nurseryClass);
     }
 }

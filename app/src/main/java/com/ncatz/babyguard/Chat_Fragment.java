@@ -108,6 +108,7 @@ public class Chat_Fragment extends Fragment {
 
     private void setToolbar(View rootView) {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_chat);
+        //toolbar.setTitle("Chat");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
     }
 

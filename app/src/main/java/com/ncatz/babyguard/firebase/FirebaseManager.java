@@ -107,12 +107,16 @@ public class FirebaseManager {
             }
         };
         Query reference;
-        if (((Babyguard_Application)Babyguard_Application.getContext()).isTeacher()){
-            reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(user.getId_nursery_class());
+        if (Babyguard_Application.isTeacher()){
+            ArrayList<String> classIds = user.getIdNurseryClasses();
+            for (String id:classIds) {
+                reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(id);
+                addListener(reference, listener);
+            }
         } else {
             reference = database.getReference().child(KID_REFERENCE).orderByChild("id_parent").equalTo(user.getId());
+            addListener(reference, listener);
         }
-        addListener(reference, listener);
     }
 
     public void getNursery(String nurseryId){
@@ -172,7 +176,7 @@ public class FirebaseManager {
             }
         };
         Query reference;
-        if (((Babyguard_Application)Babyguard_Application.getContext()).isTeacher()) {
+        if (Babyguard_Application.isTeacher()) {
             reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(nurseryClass);
         } else {
             reference = database.getReference().child(USER_REFERENCE).orderByChild("id_nursery_class").equalTo(nurseryClass);

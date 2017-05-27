@@ -98,7 +98,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    args.putString(KID_KEY, kid.getId());
+                    args.putString(Conversations_Fragment.ID_KEY, kid.getId());
                     fragment = Conversations_Fragment.newInstance(args);
                 }
                 navigationView.getMenu().getItem(selected).setChecked(true);

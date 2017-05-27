@@ -119,8 +119,8 @@ public class Kid implements Parcelable{
     public interface KidListener{
         void onKidGetListener(Kid kid);
     }
-    public static List<Kid> parseFromDataSnapshot(HashMap<String, HashMap<String, Object>> kids) {
-        List<Kid> kidsList = new ArrayList<>();
+    public static HashMap<String, Kid> parseFromDataSnapshot(HashMap<String, HashMap<String, Object>> kids) {
+        HashMap<String, Kid> kidsList = new HashMap<>();
         HashMap<String, Object> auxEntry;
         Kid kidAux;
 
@@ -137,7 +137,7 @@ public class Kid implements Parcelable{
             kidAux.setImg((String) auxEntry.get("img"));
             kidAux.setTracking(new ArrayList<TrackingKid>());
             FirebaseManager.getInstance().getTrackingKid(kidAux.getId());
-            kidsList.add(kidAux);
+            kidsList.put(kidAux.getId(),kidAux);
         }
         return kidsList;
     }

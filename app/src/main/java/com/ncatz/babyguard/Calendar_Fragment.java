@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.yeray697.calendarview.DiaryCalendarEvent;
 import com.yeray697.calendarview.DiaryCalendarView;
 
@@ -18,9 +19,11 @@ import java.util.ArrayList;
 
 
 public class Calendar_Fragment extends Fragment {
+    public static final String ID_KEY = "id";
     private Kid kid;
     private DiaryCalendarView calendar;
     private ArrayList<DiaryCalendarEvent> calendarDates;
+    private Home_Teacher_Activity.OnSelectedClassIdChangedListener listener;
 
 
     public static Calendar_Fragment newInstance(Bundle args) {
@@ -31,7 +34,25 @@ public class Calendar_Fragment extends Fragment {
     }
 
     public Calendar_Fragment() {
-        // Required empty public constructor
+        listener = new Home_Teacher_Activity.OnSelectedClassIdChangedListener() {
+            @Override
+            public void selectedClassIdChanged(String newId) {
+                classId = newId;
+                refreshCalendar();
+            }
+        };
+    }
+
+    private String classId;
+
+    private void refreshCalendar() {
+        if(Babyguard_Application.isTeacher()) {
+            calendarDates = Repository.getInstance().getCalendarByNursery(Repository.getInstance().getUser().getId_nursery(),classId);
+        } else {
+            calendarDates = Repository.getInstance().getCalendarByNursery(kid.getId_nursery(), kid.getId_nursery_class());
+        }
+        calendar.clearEvents();
+        calendar.addEvent(calendarDates);
     }
 
     @Override
@@ -41,13 +62,13 @@ public class Calendar_Fragment extends Fragment {
         calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
         setToolbar();
         setHasOptionsMenu(true);
-        if((((Babyguard_Application)getContext().getApplicationContext()).isTeacher())) {
-            calendarDates = Repository.getInstance().getCalendar();
+        if(Babyguard_Application.isTeacher()) {
+            classId = getArguments().getString(ID_KEY);
         } else {
             kid = Repository.getInstance().getKidById(getArguments().getString(Home_Parent_Activity.KID_KEY));
-            calendarDates = Repository.getInstance().getCalendarByUser(kid);
         }
-        calendar.addEvent(calendarDates);
+        refreshCalendar();
+        ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
         return view;
     }
 
@@ -56,7 +77,7 @@ public class Calendar_Fragment extends Fragment {
         toolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (!((Babyguard_Application)getContext().getApplicationContext()).isTeacher() && ab != null) {
+        if (!Babyguard_Application.isTeacher() && ab != null) {
             ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setHomeButtonEnabled(true);
@@ -64,10 +85,7 @@ public class Calendar_Fragment extends Fragment {
         ((Babyguard_Application)getContext().getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
-                kid = Repository.getInstance().getKidById(kid.getId());
-                calendarDates = Repository.getInstance().getCalendarByUser(kid);
-                calendar.clearEvents();
-                calendar.addEvent(calendarDates);
+                refreshCalendar();
             }
         });
     }

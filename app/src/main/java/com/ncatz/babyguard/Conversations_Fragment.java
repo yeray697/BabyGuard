@@ -2,6 +2,8 @@ package com.ncatz.babyguard;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +18,10 @@ import com.ncatz.babyguard.repository.Repository;
 
 public class Conversations_Fragment extends Fragment {
 
+    public static final String ID_KEY = "id";
     private Conversation_Adapter adapter;
     private ListView lvChats;
-    private Kid kid;
+    private String transmitterId;
 
     public Conversations_Fragment() {
         // Required empty public constructor
@@ -34,13 +37,15 @@ public class Conversations_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        kid = Repository.getInstance().getKidById(getArguments().getString(Home_Parent_Activity.KID_KEY));
+        transmitterId = getArguments().getString(ID_KEY);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
+        if (!Babyguard_Application.isTeacher()) {
+            ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
+        }
     }
 
     @Override
@@ -48,6 +53,7 @@ public class Conversations_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_chat_teacher, container, false);
+        setToolbar(view);
         lvChats = (ListView) view.findViewById(R.id.lvChat);
         adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats());
         lvChats.setAdapter(adapter);
@@ -61,10 +67,15 @@ public class Conversations_Fragment extends Fragment {
         return view;
     }
 
+    private void setToolbar(View rootView) {
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_conversation);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+    }
+
     private void openChat(String chatId) {
         Bundle args = new Bundle();
         args.putString(Chat_Fragment.USER_CHAT_ID_KEY, chatId);
-        args.putString(Chat_Fragment.KID_CHAT_ID_KEY, kid.getId());
+        args.putString(Chat_Fragment.KID_CHAT_ID_KEY, transmitterId);
         Chat_Fragment fragment = Chat_Fragment.newInstance(args);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, R.anim.fade_out,R.anim.fade_in,R.anim.fade_out)

@@ -161,7 +161,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     public void onSuccess() {
         oneClickMultiple.setClicked(false);
         Intent intent;
-        if(((Babyguard_Application)getApplicationContext()).isTeacher()) {
+        if(Babyguard_Application.isTeacher()) {
             intent = new Intent(Login_Activity.this, Home_Teacher_Activity.class);
         } else {
             intent = new Intent(Login_Activity.this, KidList_Activity.class);

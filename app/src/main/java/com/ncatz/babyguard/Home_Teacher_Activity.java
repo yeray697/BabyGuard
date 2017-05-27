@@ -4,13 +4,29 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import com.ncatz.babyguard.adapter.SpinnerKidsTeacher_Adapter;
+import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.model.NurseryClass;
+import com.ncatz.babyguard.repository.Repository;
+
+import java.util.Collections;
 
 public class Home_Teacher_Activity extends AppCompatActivity {
 
     private int selected;
+    private String selectedClassId;
+
+    private OnSelectedClassIdChangedListener selectedClassIdChangedListener;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -49,7 +65,9 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 tag = "chat";
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
-                    fragment = Conversations_Fragment.newInstance(null);
+                    args = new Bundle();
+                    args.putString(Conversations_Fragment.ID_KEY, Repository.getInstance().getUser().getId());
+                    fragment = Conversations_Fragment.newInstance(args);
                 }
                 selected = 1;
                 break;
@@ -58,6 +76,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
+                    args.putString(Calendar_Fragment.ID_KEY,selectedClassId);
                     fragment = Calendar_Fragment.newInstance(args);
                 }
                 selected = 2;
@@ -102,5 +121,44 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         selected = savedInstanceState.getInt("selected",0);
         selectItemMenu(bottomNavigationView.getMenu().getItem(selected));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_teacher, menu);
+
+        MenuItem item = menu.findItem(R.id.spinner);
+        final Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
+        SpinnerKidsTeacher_Adapter adapter = new SpinnerKidsTeacher_Adapter(this,Repository.getInstance().getNurserySchool().getNurseryClassesList());
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setSelectedClassId(((NurseryClass) spinner.getSelectedItem()).getId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        setSelectedClassId(((NurseryClass) spinner.getSelectedItem()).getId());
+        return true;
+    }
+
+    public void setSelectedClassId(String selectedClassId) {
+        this.selectedClassId = selectedClassId;
+        if (selectedClassIdChangedListener != null)
+            selectedClassIdChangedListener.selectedClassIdChanged(selectedClassId);
+
+    }
+
+    public void setSelectedClassIdChangedListener (OnSelectedClassIdChangedListener selectedClassIdChangedListener) {
+        this.selectedClassIdChangedListener = selectedClassIdChangedListener;
+    }
+
+    public interface OnSelectedClassIdChangedListener {
+        void selectedClassIdChanged(String newId);
     }
 }

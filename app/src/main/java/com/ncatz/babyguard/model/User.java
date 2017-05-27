@@ -6,6 +6,7 @@ import com.ncatz.babyguard.repository.Repository;
 import com.yeray697.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +20,15 @@ public class User {
     private boolean deleted;
     private String mail;
     private String id_nursery;
-    private String id_nursery_class;
+    private ArrayList<String> id_nursery_classes_teacher;
     private String img;
     private String phone_number;
     private String dbPass;
     private int user_type;
-    private List<Kid> kids;
+    private HashMap<String,Kid> kids;
 
     public User(){
-
+        id_nursery_classes_teacher = new ArrayList<>();
     }
 
     public String getDbPass() {
@@ -86,12 +87,16 @@ public class User {
         this.user_type = user_type;
     }
 
-    public List<Kid> getKids() {
+    public HashMap<String,Kid> getKids() {
         return kids;
     }
 
-    public void setKids(List<Kid> kids) {
-        this.kids = kids;
+    public void setKids(HashMap<String,Kid> kids) {
+        if (this.kids == null)
+            this.kids = new HashMap<>();
+        for (Map.Entry<String, Kid> aux : kids.entrySet()) {
+            this.kids.put(aux.getKey(),aux.getValue());
+        }
     }
 
     public String getId_nursery() {
@@ -100,14 +105,6 @@ public class User {
 
     public void setId_nursery(String id_nursery) {
         this.id_nursery = id_nursery;
-    }
-
-    public String getId_nursery_class() {
-        return id_nursery_class;
-    }
-
-    public void setId_nursery_class(String id_nursery_class) {
-        this.id_nursery_class = id_nursery_class;
     }
 
     public static User parseFromDataSnapshot(DataSnapshot dataSnapshot) {
@@ -129,11 +126,19 @@ public class User {
             userAux.setDbPass(String.valueOf(aux.get("db_pass")));
             if (userAux.getUser_type()==UserCredentials.TYPE_TEACHER) {
                 userAux.setId_nursery(String.valueOf(aux.get("id_nursery")));
-                userAux.setId_nursery_class(String.valueOf(aux.get("id_nursery_class")));
+                userAux.setIdClassTeacher(new ArrayList<>(((HashMap<String,String>) aux.get("classes")).values()));
             }
             break;
         }
 
         return userAux;
+    }
+
+    public ArrayList<String> getIdNurseryClasses() {
+        return id_nursery_classes_teacher;
+    }
+
+    public void setIdClassTeacher(ArrayList<String> ids) {
+        id_nursery_classes_teacher = ids;
     }
 }

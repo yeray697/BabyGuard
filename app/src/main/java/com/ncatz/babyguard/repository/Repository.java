@@ -2,9 +2,11 @@ package com.ncatz.babyguard.repository;
 
 import android.support.annotation.IntDef;
 
+import com.ncatz.babyguard.Home_Teacher_Activity;
 import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
+import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.NurserySchool;
@@ -29,14 +31,13 @@ public class Repository {
     private ArrayList<NurserySchool> nurserySchools;
     private ArrayList<Chat> chats;
 
-    public ArrayList<DiaryCalendarEvent> getCalendarByUser(Kid kid) {
+    public ArrayList<DiaryCalendarEvent> getCalendarByNursery(String nurseryId, String nurseryClassId) {
         ArrayList<DiaryCalendarEvent> calendar = new ArrayList<>();
-        for (NurserySchool nursAux :
-                nurserySchools) {
-            if (nursAux.getId().equals(kid.getId_nursery())){
-                for (Map.Entry<String,ArrayList<DiaryCalendarEvent>> aux: nursAux.getClassCalendars().entrySet()){
-                    if (aux.getKey().equals(kid.getId_nursery_class())) {
-                        calendar = aux.getValue();
+        for (NurserySchool nursAux : nurserySchools) {
+            if (nursAux.getId().equals(nurseryId)){
+                for (Map.Entry<String,NurseryClass> aux: nursAux.getNurseryClasses().entrySet()){
+                    if (aux.getKey().equals(nurseryClassId)) {
+                        calendar = aux.getValue().getCalendar();
                         break;
                     }
                 }
@@ -86,12 +87,12 @@ public class Repository {
         }
     }
 
-    public void setCalendar(String nursery_id, String nursery_class, ArrayList<DiaryCalendarEvent> calendar) {
+    public void setNurseryClass(String nursery_id, String nurseryClassId, NurseryClass nurseryClass) {
         if (nurserySchools == null)
             nurserySchools = new ArrayList<>();
         for (NurserySchool nursery:nurserySchools){
             if (nursery.getId().equals(nursery_id)){
-                nursery.addCalendar(nursery_class,calendar);
+                nursery.addNurseryClass(nurseryClassId, nurseryClass);
                 break;
             }
         }
@@ -154,15 +155,6 @@ public class Repository {
         chats = null;
     }
 
-    public ArrayList<DiaryCalendarEvent> getCalendar() {
-        NurserySchool nursAux = getNurserySchool();
-        ArrayList<DiaryCalendarEvent> calendar = null;
-        if (nursAux != null) {
-            calendar = nursAux.getClassCalendars().entrySet().iterator().next().getValue();
-        }
-        return calendar;
-    }
-
     public Chat getChat(String userId) {
         Chat chat = null;
         for (Chat chatAux : chats){
@@ -197,7 +189,7 @@ public class Repository {
      * @return UserCredentials's kids
      */
     public List<Kid> getKids() {
-        return (user==null || user.getKids() == null)?new ArrayList<Kid>():user.getKids();
+        return (user==null || user.getKids() == null)?new ArrayList<Kid>():new ArrayList<>(user.getKids().values());
     }
 
     public ArrayList<TrackingKid> getOrderedInfoKid(ArrayList<TrackingKid> trackingKid, @Sort int sortType) {
