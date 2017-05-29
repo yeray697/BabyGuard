@@ -1,5 +1,6 @@
 package com.ncatz.babyguard;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import com.ncatz.babyguard.adapter.SpinnerKidsTeacher_Adapter;
 import com.ncatz.babyguard.components.CustomToolbar;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.NurseryClass;
+import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.repository.Repository;
 
 import java.util.Collections;
@@ -71,12 +74,15 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     }
 
     public void refreshSpinner() {
-        adapter = new SpinnerKidsTeacher_Adapter(this,Repository.getInstance().getNurserySchool().getNurseryClassesList());
-        if (spinner != null) {
-            spinner.setAdapter(adapter);
-            NurseryClass aux = (NurseryClass) spinner.getSelectedItem();
-            if (aux != null)
-                setSelectedClassId(aux.getId());
+        NurserySchool school = Repository.getInstance().getNurserySchool();
+        if (school != null) {
+            adapter = new SpinnerKidsTeacher_Adapter(this,school.getNurseryClassesList());
+            if (spinner != null) {
+                spinner.setAdapter(adapter);
+                NurseryClass aux = (NurseryClass) spinner.getSelectedItem();
+                if (aux != null)
+                    setSelectedClassId(aux.getId());
+            }
         }
     }
 
@@ -95,7 +101,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 selected = 0;
                 break;
             case R.id.item_chat:
-                tag = "chat";
+                tag = "conversations";
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
@@ -138,7 +144,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                         .beginTransaction()
                         //.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .replace(R.id.frame_layout, fragment,tag)
+                        .replace(R.id.container_home, fragment,tag)
                         .commit();
         }
     }
@@ -195,6 +201,30 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         toolbar.addView(dates);
     }
 
+    public void prepareChatToolbar(Toolbar toolbar) {
+        RelativeLayout container = (RelativeLayout) findViewById(R.id.activity_home_teacher);
+        container.removeView(this.toolbar);
+        ((ViewGroup) toolbar.getParent()).removeView(toolbar);
+        container.addView(toolbar);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                return true;
+            case R.id.action_sign_off:
+                signOff();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void signOff() {
+        ((Babyguard_Application)getApplicationContext()).signOff();
+        Intent intent = new Intent(Home_Teacher_Activity.this,Login_Activity.class);
+        startActivity(intent);
+        finishAffinity();
+    }
     public interface OnSelectedClassIdChangedListener {
         void selectedClassIdChanged(String newId);
     }
@@ -203,6 +233,4 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarHome);
         setSupportActionBar(toolbar);
     }
-
-
 }

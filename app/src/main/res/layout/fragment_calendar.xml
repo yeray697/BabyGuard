@@ -3,7 +3,15 @@
     android:id="@+id/clCalendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.ncatz.babyguard.components.CustomToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbarCalendarParent"
+        android:elevation="4dp"/>
     <com.ncatz.yeray.calendarview.DiaryCalendarView
+        android:layout_below="@id/toolbarCalendarParent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/calendar"/>

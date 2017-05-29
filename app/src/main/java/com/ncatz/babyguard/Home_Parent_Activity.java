@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ncatz.babyguard.model.Kid;
-import com.ncatz.babyguard.repository.Repository;
 
 public class Home_Parent_Activity extends AppCompatActivity {
 
@@ -33,7 +32,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_parent);
         kid = getIntent().getExtras().getParcelable(KidList_Activity.KID_EXTRA);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
@@ -173,7 +172,6 @@ public class Home_Parent_Activity extends AppCompatActivity {
         Intent intent = new Intent(Home_Parent_Activity.this,Login_Activity.class);
         startActivity(intent);
         finishAffinity();
-
     }
 
     @Override
@@ -191,10 +189,6 @@ public class Home_Parent_Activity extends AppCompatActivity {
 
     public void openChat(){
         selectItemDrawer(navigationView.getMenu().getItem(2));
-    }
-
-    public void closeChatFragment(){
-        onBackPressed();
     }
 
     public void enableNavigationDrawer(boolean enable){

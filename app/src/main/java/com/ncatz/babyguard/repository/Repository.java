@@ -2,7 +2,6 @@ package com.ncatz.babyguard.repository;
 
 import android.support.annotation.IntDef;
 
-import com.ncatz.babyguard.Home_Teacher_Activity;
 import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
@@ -17,6 +16,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +29,7 @@ public class Repository {
     private User user;
     private static Repository repository;
     private ArrayList<NurserySchool> nurserySchools;
-    private ArrayList<Chat> chats;
+    private HashMap<String,Chat> chats;
 
     public ArrayList<DiaryCalendarEvent> getCalendarByNursery(String nurseryId, String nurseryClassId) {
         ArrayList<DiaryCalendarEvent> calendar = new ArrayList<>();
@@ -110,12 +110,12 @@ public class Repository {
     public boolean addMessage(ChatMessage chatMessage, String idTo) {
         boolean result = false;
         if (chats == null)
-            chats = new ArrayList<>();
-        for (Chat chat : chats) {
-            if (idTo.equals(chat.getId())){
+            chats = new HashMap<>();
+        for (Map.Entry<String, Chat> chat : chats.entrySet()) {
+            if (idTo.equals(chat.getValue().getId())){
                 try {
                     DatabaseHelper.getInstance().addMessage(chatMessage);
-                    chat.addMessage(chatMessage);
+                    chat.getValue().addMessage(chatMessage);
                     result = true;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -123,21 +123,31 @@ public class Repository {
                 break;
             }
         }
+        if (!result) {
+            Chat aux = new Chat();
+            aux.setId(idTo);
+            aux.addMessage(chatMessage);
+            addChat(aux);
+        }
         return result;
     }
 
     public void addChat(Chat chat) {
         if (chats == null)
-            chats = new ArrayList<>();
-        chats.add(chat);
+            chats = new HashMap<>();
+        Chat aux = chats.get(chat.getId());
+        if (aux != null) {
+            chat.setMessages(aux.getMessages());
+        }
+        chats.put(chat.getId(),chat);
     }
 
     public String getTeacherChat(Kid kid) {
         String id = "";
         if (chats != null) {
-            for (Chat chat : chats) {
-                if (chat.getNursery().equals(kid.getId_nursery()) && chat.getNurseryClass().equals(kid.getId_nursery_class())){
-                    id = chat.getId();
+            for (Map.Entry<String, Chat> chat : chats.entrySet()) {
+                if (chat.getValue().getNursery().equals(kid.getId_nursery()) && chat.getValue().getNurseryClass().equals(kid.getId_nursery_class())){
+                    id = chat.getValue().getId();
                     break;
                 }
             }
@@ -146,14 +156,14 @@ public class Repository {
     }
 
     public ArrayList<Chat> getChats() {
-        return chats;
+        return (chats != null) ? new ArrayList<>(chats.values()) : new ArrayList<Chat>();
     }
 
     public ArrayList<Chat> getChats(String classId) {
         ArrayList<Chat> aux = new ArrayList<>();
-        for (Chat chatAux: chats) {
-            if (chatAux.getNurseryClass().equals(classId))
-                aux.add(chatAux);
+        for (Map.Entry<String, Chat> chatAux: chats.entrySet()) {
+            if (chatAux.getValue().getNurseryClass().equals(classId))
+                aux.add(chatAux.getValue());
         }
         return aux;
     }
@@ -166,9 +176,9 @@ public class Repository {
 
     public Chat getChat(String userId) {
         Chat chat = null;
-        for (Chat chatAux : chats){
-            if (chatAux.getId().equals(userId)) {
-                chat = chatAux;
+        for (Map.Entry<String, Chat> chatAux : chats.entrySet()){
+            if (chatAux.getValue().getId().equals(userId)) {
+                chat = chatAux.getValue();
                 break;
             }
         }
@@ -225,9 +235,5 @@ public class Repository {
 
     public NurserySchool getNurserySchool(){
         return (nurserySchools != null && nurserySchools.size() > 0)?nurserySchools.get(0):null;
-    }
-
-    public void setChats(ArrayList<Chat> chats) {
-        this.chats = chats;
     }
 }

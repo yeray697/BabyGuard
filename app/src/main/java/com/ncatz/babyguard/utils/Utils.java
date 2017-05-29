@@ -295,7 +295,7 @@ public class Utils {
         c.setTimeInMillis(timeUnix);
         SimpleDateFormat sdf;
         if (c.after(today)) {
-            sdf = new SimpleDateFormat("HH:mm:ss");
+            sdf = new SimpleDateFormat("HH:mm");
 
         } else {
             sdf = new SimpleDateFormat("dd/MM/yy");

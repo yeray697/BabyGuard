@@ -12,9 +12,10 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        android:elevation="4dp"
         android:id="@+id/toolbarHome"/>
     <FrameLayout
-        android:id="@+id/frame_layout"
+        android:id="@+id/container_home"
         android:layout_below="@id/toolbarHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

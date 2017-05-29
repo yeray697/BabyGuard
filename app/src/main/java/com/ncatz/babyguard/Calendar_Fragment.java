@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.ncatz.babyguard.components.CustomToolbar;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
@@ -62,7 +63,7 @@ public class Calendar_Fragment extends Fragment {
         super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
-        setToolbar();
+        setToolbar(view);
         if(Babyguard_Application.isTeacher()) {
             classId = getArguments().getString(ID_KEY);
         } else {
@@ -79,10 +80,17 @@ public class Calendar_Fragment extends Fragment {
             ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
     }
 
-    private void setToolbar() {
+    private void setToolbar(View view) {
         Toolbar toolbar = calendar.getToolbar();
+        CustomToolbar customToolbar = (CustomToolbar) view.findViewById(R.id.toolbarCalendarParent);
+        expandableDate = calendar.customToolbar();
+        calendar.setDateArrowColor(getResources().getColor(R.color.toolbar_text_color));
+        toolbar.removeView(expandableDate);
         if (!Babyguard_Application.isTeacher()) {
-            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            customToolbar.setVisibility(View.VISIBLE);
+            customToolbar.setTitle("");
+            customToolbar.addView(expandableDate);
+            ((AppCompatActivity)getActivity()).setSupportActionBar(customToolbar);
             final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
             if (ab != null) {
                 ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
@@ -96,9 +104,7 @@ public class Calendar_Fragment extends Fragment {
                 }
             });
         } else {
-            expandableDate = calendar.customToolbar();
-            calendar.setDateArrowColor(getResources().getColor(R.color.toolbar_text_color));
-            toolbar.removeView(expandableDate);
+            customToolbar.setVisibility(View.GONE);
             ((Home_Teacher_Activity)getActivity()).prepareCalendarToolbar(expandableDate);
         }
     }

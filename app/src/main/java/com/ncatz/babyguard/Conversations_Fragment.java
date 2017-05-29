@@ -46,7 +46,7 @@ public class Conversations_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        transmitterId = getArguments().getString(ID_KEY);
+
     }
 
     @Override
@@ -70,7 +70,13 @@ public class Conversations_Fragment extends Fragment {
                 openChat(chatId);
             }
         });
-        classId = getArguments().getString(ID_KEY);
+
+        if (Babyguard_Application.isTeacher()) {
+            classId = getArguments().getString(ID_KEY);
+            transmitterId = Repository.getInstance().getUser().getId();
+        } else {
+            transmitterId = getArguments().getString(ID_KEY);
+        }
         refreshChatList();
         return view;
     }
@@ -91,7 +97,7 @@ public class Conversations_Fragment extends Fragment {
         if (Babyguard_Application.isTeacher()) {
             adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats(classId));
         } else {
-            adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats(classId));
+            adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats());
         }
 
         lvChats.setAdapter(adapter);

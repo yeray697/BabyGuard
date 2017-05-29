@@ -73,7 +73,6 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             params.addRule(RelativeLayout.ALIGN_PARENT_END);
         }
-        getContext().getResources().getDimensionPixelSize(R.dimen.chatMessage_margin);
         params.setMargins(marginMessage,marginMessage,marginMessage,marginMessage);
         holder.rlMessage.setLayoutParams(params);
         return view;

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Context application
@@ -250,9 +251,9 @@ public class Babyguard_Application extends Application {
                         HashMap<String,List<String>> nurseryClasses = new HashMap<>();
                         String id_nursery;
                         String id_class;
-                        for (int i = 0; i < kids.size(); i++) {
-                            id_nursery = kids.get(i).getId_nursery();
-                            id_class = kids.get(i).getId_nursery_class();
+                        for (Map.Entry<String, Kid> kidAux : kids.entrySet()) {
+                            id_nursery = kidAux.getValue().getId_nursery();
+                            id_class = kidAux.getValue().getId_nursery_class();
                             if (nurseryClasses.containsKey(id_nursery)){
                                 aux = nurseryClasses.get(id_nursery);
                                 if (!aux.contains(id_class)){
@@ -272,12 +273,12 @@ public class Babyguard_Application extends Application {
                             }
                             for (String classId: entry.getValue()){
                                 FirebaseManager.getInstance().getNurseryClass(entry.getKey(),classId);
-                                FirebaseManager.getInstance().getChatNames(classId);
+                                FirebaseManager.getInstance().getChatNames(entry.getKey(),classId);
                             }
                         }
                         if (!isTeacher) {
-                            for (int i = 0; i < kids.size(); i++)
-                                    FirebaseManager.getInstance().getChat(kids.get(i).getId());
+                            for (Map.Entry<String, Kid> kidAux : kids.entrySet())
+                                    FirebaseManager.getInstance().getChat(kidAux.getKey());
                         } else {
                             FirebaseManager.getInstance().getChat(Repository.getInstance().getUser().getId());
                         }
@@ -295,7 +296,7 @@ public class Babyguard_Application extends Application {
                             idChat = Repository.getInstance().getUser().getId();
                         }
                         FirebaseManager.getInstance().getNurseryClass(idNursery, idNurseryClass);
-                        FirebaseManager.getInstance().getChatNames(idNurseryClass);
+                        FirebaseManager.getInstance().getChatNames(idNursery,idNurseryClass);
                         FirebaseManager.getInstance().getChat(idChat);
                     }
                 }
@@ -328,33 +329,35 @@ public class Babyguard_Application extends Application {
 
         @Override
         public void onNurseryClassModified(DataSnapshot dataSnapshot) {
-            ArrayList<DiaryCalendarEvent> calendarListAux = new ArrayList<>();
-            String name = (String) ((HashMap<String, Object>)dataSnapshot.getValue()).get("name");
-            String nursery_id = dataSnapshot.getRef().getParent().getKey();
-            String nursery_class = dataSnapshot.getKey();
-            HashMap<String,HashMap<String,String>> calendar = (HashMap<String,HashMap<String, String>>) ((HashMap<String, Object>)dataSnapshot.getValue()).get("calendar");
-            DiaryCalendarEvent calendarAux = null;
-            for (Map.Entry<String, HashMap<String, String>> entry:calendar.entrySet()){
-                calendarAux = new DiaryCalendarEvent(entry.getValue().get("title"),
-                        Integer.valueOf(entry.getValue().get("year")),
-                        Integer.valueOf(entry.getValue().get("month")),
-                        Integer.valueOf(entry.getValue().get("day")),
-                        entry.getValue().get("description"));
-                calendarListAux.add(calendarAux);
+            if (dataSnapshot.exists()) {
+                ArrayList<DiaryCalendarEvent> calendarListAux = new ArrayList<>();
+                String name = (String) ((HashMap<String, Object>)dataSnapshot.getValue()).get("name");
+                String nursery_id = dataSnapshot.getRef().getParent().getKey();
+                String nursery_class = dataSnapshot.getKey();
+                HashMap<String,HashMap<String,String>> calendar = (HashMap<String,HashMap<String, String>>) ((HashMap<String, Object>)dataSnapshot.getValue()).get("calendar");
+                DiaryCalendarEvent calendarAux = null;
+                for (Map.Entry<String, HashMap<String, String>> entry:calendar.entrySet()){
+                    calendarAux = new DiaryCalendarEvent(entry.getValue().get("title"),
+                            Integer.valueOf(entry.getValue().get("year")),
+                            Integer.valueOf(entry.getValue().get("month")),
+                            Integer.valueOf(entry.getValue().get("day")),
+                            entry.getValue().get("description"));
+                    calendarListAux.add(calendarAux);
+                }
+                NurseryClass nurseryClass = new NurseryClass();
+                nurseryClass.setId(nursery_class);
+                nurseryClass.setCalendar(calendarListAux);
+                nurseryClass.setName(name);
+                Repository.getInstance().setNurseryClass(nursery_id,nursery_class,nurseryClass);
+                if (loginListener != null)
+                    loginListener.onEnd();
+                if (nurseryListener != null)
+                    nurseryListener.onEnd();
+                if (homeTeacherListener != null)
+                    homeTeacherListener.onEnd();
+                if (calendarListener != null)
+                    calendarListener.onEnd();
             }
-            NurseryClass nurseryClass = new NurseryClass();
-            nurseryClass.setId(nursery_class);
-            nurseryClass.setCalendar(calendarListAux);
-            nurseryClass.setName(name);
-            Repository.getInstance().setNurseryClass(nursery_id,nursery_class,nurseryClass);
-            if (loginListener != null)
-                loginListener.onEnd();
-            if (nurseryListener != null)
-                nurseryListener.onEnd();
-            if (homeTeacherListener != null)
-                homeTeacherListener.onEnd();
-            if (calendarListener != null)
-                calendarListener.onEnd();
         }
 
         @Override
@@ -364,22 +367,23 @@ public class Babyguard_Application extends Application {
 
         @Override
         public void onTrackingModified(DataSnapshot dataSnapshot) {
-
-            ArrayList<TrackingKid> trackingList = new ArrayList<>();
-            TrackingKid trackingAux;
-            if (dataSnapshot.getValue() != null) {
-                ArrayList<HashMap<String, String>> kids = (ArrayList<HashMap<String, String>>) dataSnapshot.getValue();
-                String idKid = dataSnapshot.getKey();
-                for (HashMap<String, String> kid:kids){
-                        trackingAux = new TrackingKid("",kid.get("title"),
+            if (dataSnapshot.exists()) {
+                ArrayList<TrackingKid> trackingList = new ArrayList<>();
+                TrackingKid trackingAux;
+                if (dataSnapshot.getValue() != null) {
+                    ArrayList<HashMap<String, String>> kids = (ArrayList<HashMap<String, String>>) dataSnapshot.getValue();
+                    String idKid = dataSnapshot.getKey();
+                    for (HashMap<String, String> kid : kids) {
+                        trackingAux = new TrackingKid("", kid.get("title"),
                                 kid.get("time"),
                                 TrackingKid.parseIntToType(Integer.parseInt(kid.get("type"))),
                                 kid.get("description"));
                         trackingList.add(trackingAux);
+                    }
+                    Repository.getInstance().addTracking(idKid, trackingList);
+                    if (trackingListener != null)
+                        trackingListener.onEnd();
                 }
-                Repository.getInstance().addTracking(idKid,trackingList);
-                if (trackingListener != null)
-                    trackingListener.onEnd();
             }
         }
 
@@ -413,17 +417,24 @@ public class Babyguard_Application extends Application {
         @Override
         public void onChatNameChanged(DataSnapshot dataSnapshot) {
             Chat chat;
-            for (HashMap.Entry<String,HashMap<String ,Object>> chatData : ((HashMap<String,HashMap<String ,Object>>)dataSnapshot.getValue()).entrySet()) {
-                chat = Chat.parseFromDataSnapshot(chatData);
-                Repository.getInstance().addChat(chat);
+            if (dataSnapshot.exists()) {
+                if (isTeacher()) {
+                    for (HashMap.Entry<String, HashMap<String, Object>> chatData : ((HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue()).entrySet()) {
+                        chat = Chat.parseFromDataSnapshot(chatData.getValue());
+                        Repository.getInstance().addChat(chat);
+                    }
+                } else {
+                    chat = Chat.parseFromDataSnapshot((HashMap<String,Object>) dataSnapshot.getValue());
+                    Repository.getInstance().addChat(chat);
+                }
+                try {
+                    DatabaseHelper.getInstance().loadChatMessages();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (chatListener != null)
+                    chatListener.onEnd();
             }
-            try {
-                DatabaseHelper.getInstance().loadChatMessages();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (chatListener != null)
-                chatListener.onEnd();
         }
 
         @Override

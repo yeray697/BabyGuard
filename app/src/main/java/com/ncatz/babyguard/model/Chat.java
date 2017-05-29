@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by yeray697 on 1/05/17.
@@ -86,19 +87,6 @@ public class Chat {
             messages.add(chatMessage);
     }
 
-    public static Chat parseFromDataSnapshot(Map.Entry<String, HashMap<String, Object>> dataSnapshot) {
-        HashMap<String,Object> chatData = dataSnapshot.getValue();
-        Chat chat = null;
-        chat = new Chat((String) chatData.get("id"),
-                (String) chatData.get("name"),
-                (String) chatData.get("img"),
-                (String) chatData.get("id_nursery"),
-                (String) chatData.get("id_nursery_class"),
-                new ArrayList<ChatMessage>());
-
-        return chat;
-    }
-
     public ChatMessage getLastMessage() {
         return (messages != null && messages.size() > 0)?messages.get(messages.size() - 1):null;
     }
@@ -123,4 +111,17 @@ public class Chat {
             return result;
         }
     };
+
+
+    public static Chat parseFromDataSnapshot(HashMap<String, Object> dataSnapshot) {
+        Chat chat = null;
+        chat = new Chat((String) dataSnapshot.get("id"),
+                (String) dataSnapshot.get("name"),
+                (String) dataSnapshot.get("img"),
+                (String) dataSnapshot.get("id_nursery"),
+                (String) dataSnapshot.get("id_nursery_class"),
+                new ArrayList<ChatMessage>());
+
+        return chat;
+    }
 }

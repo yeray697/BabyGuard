@@ -25,6 +25,7 @@ public class FirebaseManager {
     private static final String USER_REFERENCE = "user";
     private static final String TRACKING_REFERENCE = "tracking";
     private static final String NURSERY_CLASS_REFERENCE = "nursery_class";
+    private static final String TEACHER_REFERENCE = "teacher";
     private static final String CHAT_REFERENCE = "chat";
     private static FirebaseManager instance;
     private FirebaseDatabase database;
@@ -159,7 +160,7 @@ public class FirebaseManager {
         addListener(reference,listener);
     }
 
-    public void getChatNames(String nurseryClass) {
+    public void getChatNames(String nursery, String nurseryClass) {
         final ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -178,10 +179,26 @@ public class FirebaseManager {
         Query reference;
         if (Babyguard_Application.isTeacher()) {
             reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(nurseryClass);
+            addListener(reference,listener);
         } else {
-            reference = database.getReference().child(USER_REFERENCE).orderByChild("id_nursery_class").equalTo(nurseryClass);
+            reference = database.getReference().child(TEACHER_REFERENCE).child(nursery).child(nurseryClass);
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        Query reference;
+                        for (Map.Entry<String, String> aux:((HashMap<String,String>) dataSnapshot.getValue()).entrySet()) {
+                            reference = database.getReference().child(USER_REFERENCE).child(aux.getKey());
+                            addListener(reference, listener);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
         }
-        addListener(reference,listener);
     }
 
     public void getChat(String kid_id){
