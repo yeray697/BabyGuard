@@ -27,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class KidList_Adapter extends ArrayAdapter<Kid>{
     OnImageClickListener mCallback;
     public KidList_Adapter(Context context, OnImageClickListener onImageClickListener) {
-        super(context, R.layout.kid_list_item, Repository.getInstance().getKids());
+        super(context, R.layout.item_kid_list, Repository.getInstance().getKids());
         this.mCallback = onImageClickListener;
     }
     public interface OnImageClickListener{
@@ -39,7 +39,7 @@ public class KidList_Adapter extends ArrayAdapter<Kid>{
         View view = convertView;
         final ViewHolder holder;
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.kid_list_item,parent,false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.item_kid_list,parent,false);
             holder = new ViewHolder();
             holder.ivKid = (CircleImageView) view.findViewById(R.id.ivKid_item);
             holder.tvKidName = (TextView) view.findViewById(R.id.tvNameKid_item);

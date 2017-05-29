@@ -1,5 +1,6 @@
 package com.ncatz.babyguard;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
@@ -22,6 +24,7 @@ public class Calendar_Fragment extends Fragment {
     private Kid kid;
     private DiaryCalendarView calendar;
     private ArrayList<DiaryCalendarEvent> calendarDates;
+    private LinearLayout expandableDate;
     private Home_Teacher_Activity.OnSelectedClassIdChangedListener listener;
 
 
@@ -67,31 +70,42 @@ public class Calendar_Fragment extends Fragment {
             kid = Repository.getInstance().getKidById(getArguments().getString(Home_Parent_Activity.KID_KEY));
         }
         refreshCalendar();
-        ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
         return view;
     }
 
-    private void setToolbar( ) {
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
+    }
+
+    private void setToolbar() {
         Toolbar toolbar = calendar.getToolbar();
-        toolbar.setTitle("");
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (!Babyguard_Application.isTeacher() && ab != null) {
-            ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setHomeButtonEnabled(true);
-        }
-        ((Babyguard_Application)getContext().getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
-            @Override
-            public void onEnd() {
-                refreshCalendar();
+        if (!Babyguard_Application.isTeacher()) {
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+            if (ab != null) {
+                ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+                ab.setDisplayHomeAsUpEnabled(true);
+                ab.setHomeButtonEnabled(true);
             }
-        });
+            ((Babyguard_Application)getContext().getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
+                @Override
+                public void onEnd() {
+                    refreshCalendar();
+                }
+            });
+        } else {
+            expandableDate = calendar.customToolbar();
+            toolbar.removeView(expandableDate);
+            ((Home_Teacher_Activity)getActivity()).prepareCalendarToolbar(expandableDate);
+        }
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDetach() {
+        super.onDetach();
         ((Babyguard_Application)getContext().getApplicationContext()).removeCalendarListener();
+        ((ViewGroup)expandableDate.getParent()).removeView(expandableDate);
     }
 }

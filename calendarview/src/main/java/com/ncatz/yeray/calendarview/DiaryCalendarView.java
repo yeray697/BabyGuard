@@ -426,4 +426,9 @@ public class DiaryCalendarView extends RelativeLayout {
             calendar.invalidateDecorators();
         }
     }
+
+    public LinearLayout customToolbar() {
+        this.toolbar.setVisibility(GONE);
+        return llDate;
+    }
 }

@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.ncatz.babyguard.adapter.SpinnerKidsTeacher_Adapter;
@@ -25,6 +27,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
 
     private int selected;
     private String selectedClassId;
+    private Toolbar toolbar;
 
     private OnSelectedClassIdChangedListener selectedClassIdChangedListener;
 
@@ -46,6 +49,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                     }
                 });
         selectItemMenu(bottomNavigationView.getMenu().getItem(0));
+        setToolbar();
     }
     private void selectItemMenu(MenuItem itemDrawer) {
         Fragment fragment = null;
@@ -143,7 +147,9 @@ public class Home_Teacher_Activity extends AppCompatActivity {
 
             }
         });
-        setSelectedClassId(((NurseryClass) spinner.getSelectedItem()).getId());
+        NurseryClass aux = (NurseryClass) spinner.getSelectedItem();
+        if (aux != null)
+            setSelectedClassId(aux.getId());
         return true;
     }
 
@@ -158,7 +164,17 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         this.selectedClassIdChangedListener = selectedClassIdChangedListener;
     }
 
+    public void prepareCalendarToolbar(LinearLayout dates) {
+        toolbar.setTitle("");
+        toolbar.addView(dates);
+    }
+
     public interface OnSelectedClassIdChangedListener {
         void selectedClassIdChanged(String newId);
+    }
+
+    private void setToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbarHome);
+        setSupportActionBar(toolbar);
     }
 }

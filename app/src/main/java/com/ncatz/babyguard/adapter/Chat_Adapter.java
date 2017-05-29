@@ -9,7 +9,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.ChatMessage;
-import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.babyguard.utils.Utils;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
     private int marginMessage;
     private String userId;
     public Chat_Adapter(Context context, ArrayList<ChatMessage> messages, String userId) {
-        super(context, R.layout.chat_message, messages);
+        super(context, R.layout.item_chat_message, messages);
         this.userId = userId;
         this.marginMessage = getContext().getResources().getDimensionPixelSize(R.dimen.chatMessage_margin);
     }
@@ -45,7 +43,7 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
         boolean isSender = isSender(message);
         MessageHolder holder;
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.chat_message,parent,false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.item_chat_message,parent,false);
             holder = new MessageHolder();
             holder.rlMessage = (RelativeLayout) view.findViewById(R.id.rlMessage);
             holder.message = (TextView) view.findViewById(R.id.tvMessage_chatItem);

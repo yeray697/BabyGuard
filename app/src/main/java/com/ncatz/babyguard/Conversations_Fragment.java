@@ -53,7 +53,6 @@ public class Conversations_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_chat_teacher, container, false);
-        setToolbar(view);
         lvChats = (ListView) view.findViewById(R.id.lvChat);
         adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats());
         lvChats.setAdapter(adapter);
@@ -65,11 +64,6 @@ public class Conversations_Fragment extends Fragment {
             }
         });
         return view;
-    }
-
-    private void setToolbar(View rootView) {
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_conversation);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
     }
 
     private void openChat(String chatId) {

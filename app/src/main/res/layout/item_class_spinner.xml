@@ -5,5 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
-    android:text="agasgasgasga"
+    android:textSize="18sp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:textColor="@color/toolbar_text_color"
     android:textAlignment="inherit"/>

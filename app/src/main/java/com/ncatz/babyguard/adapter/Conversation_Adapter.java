@@ -27,7 +27,7 @@ public class Conversation_Adapter extends ArrayAdapter<Chat> {
     private int margin10dp;
 
     public Conversation_Adapter(Context context, List<Chat> objects) {
-        super(context, R.layout.chat_item, objects);
+        super(context, R.layout.item_conversation, objects);
         margin10dp = getContext().getResources().getDimensionPixelSize(R.dimen.chatMessage_margin);
     }
 
@@ -37,7 +37,7 @@ public class Conversation_Adapter extends ArrayAdapter<Chat> {
         View view = convertView;
         ChatHolder holder;
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.chat_item,parent,false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.item_conversation,parent,false);
             holder = new ChatHolder();
             holder.tvName = (TextView) view.findViewById(R.id.tvNameChat_item);
             holder.tvDate = (TextView) view.findViewById(R.id.tvDateChat_item);
