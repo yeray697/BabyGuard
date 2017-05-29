@@ -11,7 +11,7 @@ import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.model.User;
-import com.yeray697.calendarview.DiaryCalendarEvent;
+import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

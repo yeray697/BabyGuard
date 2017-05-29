@@ -103,7 +103,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         if (fragment != null) {
                 fragmentManager
                         .beginTransaction()
-                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        //.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .replace(R.id.frame_layout, fragment,tag)
                         .commit();

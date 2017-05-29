@@ -1,7 +1,6 @@
 package com.ncatz.babyguard.model;
 
 import com.google.firebase.database.DataSnapshot;
-import com.yeray697.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;

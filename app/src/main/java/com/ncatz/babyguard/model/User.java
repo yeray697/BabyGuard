@@ -1,14 +1,10 @@
 package com.ncatz.babyguard.model;
 
 import com.google.firebase.database.DataSnapshot;
-import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.repository.Repository;
-import com.yeray697.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

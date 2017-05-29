@@ -2,8 +2,7 @@ package com.ncatz.babyguard.model;
 
 import android.support.annotation.NonNull;
 
-import com.ncatz.babyguard.repository.Repository;
-import com.yeray697.calendarview.DiaryCalendarEvent;
+import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
 import java.util.Comparator;

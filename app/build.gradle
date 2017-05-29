@@ -27,8 +27,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':DotLineRecyclerView')
-    compile project(':calendarview-debug')
-    compile project(':imagezoomview')
     compile project(':imagezoomview')
     apply plugin: 'com.google.gms.google-services'
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -47,5 +45,6 @@ dependencies {
     compile 'com.github.daniel-stoneuk:material-about-library:1.8.2'
     compile 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
     testCompile 'junit:junit:4.12'
+    compile project(path: ':calendarview')
 }
 apply plugin: 'com.google.gms.google-services'

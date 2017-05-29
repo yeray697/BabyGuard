@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.yeray697.calendarview.DiaryCalendarEvent;
-import com.yeray697.calendarview.DiaryCalendarView;
+import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
+import com.ncatz.yeray.calendarview.DiaryCalendarView;
 
 import java.util.ArrayList;
 
