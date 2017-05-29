@@ -26,6 +26,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -169,7 +173,6 @@ public class DiaryCalendarView extends RelativeLayout {
         adapter = new DiaryCalendarAdapter(getContext(), events);
         rvEvents.setAdapter(adapter);
         calendar.addDecorator(eventDecorator);
-
         manageScreenConfiguration();
     }
 
@@ -430,5 +433,11 @@ public class DiaryCalendarView extends RelativeLayout {
     public LinearLayout customToolbar() {
         this.toolbar.setVisibility(GONE);
         return llDate;
+    }
+
+    public void setDateArrowColor(int color) {
+        final PorterDuffColorFilter colorFilter
+                = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN);
+        ivDate.setColorFilter(colorFilter);
     }
 }

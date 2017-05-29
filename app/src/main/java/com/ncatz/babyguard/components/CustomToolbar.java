@@ -48,12 +48,16 @@ public class CustomToolbar extends Toolbar{
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         Log.d("LL", "onLayout");
         super.onLayout(changed, l, t, r, b);
-        colorizeToolbar(this, itemColor, (Activity) ctxt);
+        colorizeToolbar(this, itemColor);
     }
 
     public void setItemColor(int color){
         itemColor = color;
-        colorizeToolbar(this, itemColor, (Activity) ctxt);
+        colorizeToolbar(this, itemColor);
+    }
+
+    public void refresh() {
+        colorizeToolbar(this, itemColor);
     }
 
 
@@ -62,12 +66,10 @@ public class CustomToolbar extends Toolbar{
      * Use this method to colorize toolbar icons to the desired target color
      * @param toolbarView toolbar view being colored
      * @param toolbarIconsColor the target color of toolbar icons
-     * @param activity reference to activity needed to register observers
      */
-    public static void colorizeToolbar(Toolbar toolbarView, int toolbarIconsColor, Activity activity) {
+    public static void colorizeToolbar(Toolbar toolbarView, int toolbarIconsColor) {
         final PorterDuffColorFilter colorFilter
                 = new PorterDuffColorFilter(toolbarIconsColor, PorterDuff.Mode.SRC_IN);
-
         for(int i = 0; i < toolbarView.getChildCount(); i++) {
             final View v = toolbarView.getChildAt(i);
             if (v != null)

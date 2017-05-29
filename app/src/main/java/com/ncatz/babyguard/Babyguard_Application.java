@@ -48,6 +48,7 @@ public class Babyguard_Application extends Application {
     private ActionEndListener trackingListener;
     private ActionEndListener calendarListener;
     private ActionEndListener chatListener;
+    private ActionEndListener homeTeacherListener;
 
     boolean nurseryAndChatsLoadedFirstTime;
     boolean kidsInfoLoadedFirstTime;
@@ -194,6 +195,13 @@ public class Babyguard_Application extends Application {
         calendarListener = null;
     }
 
+    public void addHomeTeacherListener(ActionEndListener homeTeacherListener) {
+        this.homeTeacherListener = homeTeacherListener;
+    }
+
+    public void removeHomeTeacherListener() {
+        homeTeacherListener = null;
+    }
     private FirebaseListeners firebaseListeners = new FirebaseListeners() {
 
         @Override
@@ -212,12 +220,16 @@ public class Babyguard_Application extends Application {
                 //}
                 if (loginListener != null)
                     loginListener.onEnd();
+                if (nurseryListener != null)
+                    nurseryListener.onEnd();
                 if (kidListListener != null)
                     kidListListener.onEnd();
                 if (trackingListener != null)
                     trackingListener.onEnd();
                 if (calendarListener != null)
                     calendarListener.onEnd();
+                if (chatListener != null)
+                    chatListener.onEnd();
             }
         }
 
@@ -292,8 +304,6 @@ public class Babyguard_Application extends Application {
                     kidListListener.onEnd();
                 if (trackingListener != null)
                     trackingListener.onEnd();
-                if (calendarListener != null)
-                    calendarListener.onEnd();
             }
         }
 
@@ -337,6 +347,12 @@ public class Babyguard_Application extends Application {
             nurseryClass.setCalendar(calendarListAux);
             nurseryClass.setName(name);
             Repository.getInstance().setNurseryClass(nursery_id,nursery_class,nurseryClass);
+            if (loginListener != null)
+                loginListener.onEnd();
+            if (nurseryListener != null)
+                nurseryListener.onEnd();
+            if (homeTeacherListener != null)
+                homeTeacherListener.onEnd();
             if (calendarListener != null)
                 calendarListener.onEnd();
         }

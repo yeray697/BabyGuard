@@ -1,5 +1,6 @@
 package com.ncatz.babyguard;
 
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -7,16 +8,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.ncatz.babyguard.adapter.SpinnerKidsTeacher_Adapter;
+import com.ncatz.babyguard.components.CustomToolbar;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.repository.Repository;
@@ -28,6 +33,8 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     private int selected;
     private String selectedClassId;
     private Toolbar toolbar;
+    private Spinner spinner;
+    private SpinnerKidsTeacher_Adapter adapter;
 
     private OnSelectedClassIdChangedListener selectedClassIdChangedListener;
 
@@ -39,7 +46,6 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_home_teacher);
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
-
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -50,7 +56,30 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 });
         selectItemMenu(bottomNavigationView.getMenu().getItem(0));
         setToolbar();
+        ((Babyguard_Application)getApplicationContext()).addHomeTeacherListener(new Babyguard_Application.ActionEndListener() {
+            @Override
+            public void onEnd() {
+                refreshSpinner();
+            }
+        });
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ((Babyguard_Application)getApplicationContext()).removeHomeTeacherListener();
+    }
+
+    public void refreshSpinner() {
+        adapter = new SpinnerKidsTeacher_Adapter(this,Repository.getInstance().getNurserySchool().getNurseryClassesList());
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
+            NurseryClass aux = (NurseryClass) spinner.getSelectedItem();
+            if (aux != null)
+                setSelectedClassId(aux.getId());
+        }
+    }
+
     private void selectItemMenu(MenuItem itemDrawer) {
         Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -70,7 +99,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    args.putString(Conversations_Fragment.ID_KEY, Repository.getInstance().getUser().getId());
+                    args.putString(Conversations_Fragment.ID_KEY, selectedClassId);
                     fragment = Conversations_Fragment.newInstance(args);
                 }
                 selected = 1;
@@ -133,9 +162,8 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_teacher, menu);
 
         MenuItem item = menu.findItem(R.id.spinner);
-        final Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
-        SpinnerKidsTeacher_Adapter adapter = new SpinnerKidsTeacher_Adapter(this,Repository.getInstance().getNurserySchool().getNurseryClassesList());
-        spinner.setAdapter(adapter);
+        spinner = (Spinner) MenuItemCompat.getActionView(item);
+        spinner.getBackground().setColorFilter(getResources().getColor(R.color.toolbar_text_color), PorterDuff.Mode.SRC_ATOP);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -147,9 +175,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
 
             }
         });
-        NurseryClass aux = (NurseryClass) spinner.getSelectedItem();
-        if (aux != null)
-            setSelectedClassId(aux.getId());
+        refreshSpinner();
         return true;
     }
 
@@ -177,4 +203,6 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarHome);
         setSupportActionBar(toolbar);
     }
+
+
 }

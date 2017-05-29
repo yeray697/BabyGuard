@@ -149,6 +149,15 @@ public class Repository {
         return chats;
     }
 
+    public ArrayList<Chat> getChats(String classId) {
+        ArrayList<Chat> aux = new ArrayList<>();
+        for (Chat chatAux: chats) {
+            if (chatAux.getNurseryClass().equals(classId))
+                aux.add(chatAux);
+        }
+        return aux;
+    }
+
     public void signOff() {
         user = null;
         nurserySchools = null;

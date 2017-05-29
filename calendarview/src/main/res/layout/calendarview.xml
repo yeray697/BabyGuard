@@ -28,7 +28,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@mipmap/ic_expand"
+                android:src="@drawable/ic_expand_more_black_24dp"
                 android:scaleY="-1"
                 android:id="@+id/ivDate_calendar"/>
         </LinearLayout>

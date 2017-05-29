@@ -1,5 +1,6 @@
 package com.ncatz.babyguard;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +23,17 @@ public class Conversations_Fragment extends Fragment {
     private Conversation_Adapter adapter;
     private ListView lvChats;
     private String transmitterId;
-
+    private Home_Teacher_Activity.OnSelectedClassIdChangedListener listener;
+    private String classId;
     public Conversations_Fragment() {
         // Required empty public constructor
+        listener = new Home_Teacher_Activity.OnSelectedClassIdChangedListener() {
+            @Override
+            public void selectedClassIdChanged(String newId) {
+                classId = newId;
+                refreshChatList();
+            }
+        };
     }
 
     public static Conversations_Fragment newInstance(Bundle args) {
@@ -54,8 +63,6 @@ public class Conversations_Fragment extends Fragment {
         setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_chat_teacher, container, false);
         lvChats = (ListView) view.findViewById(R.id.lvChat);
-        adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats());
-        lvChats.setAdapter(adapter);
         lvChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,6 +70,8 @@ public class Conversations_Fragment extends Fragment {
                 openChat(chatId);
             }
         });
+        classId = getArguments().getString(ID_KEY);
+        refreshChatList();
         return view;
     }
 
@@ -76,5 +85,22 @@ public class Conversations_Fragment extends Fragment {
                 .replace(R.id.container_home, fragment,"chat")
                 .addToBackStack("chat")
                 .commit();
+    }
+
+    private void refreshChatList() {
+        if (Babyguard_Application.isTeacher()) {
+            adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats(classId));
+        } else {
+            adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats(classId));
+        }
+
+        lvChats.setAdapter(adapter);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (Babyguard_Application.isTeacher())
+            ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
     }
 }

@@ -24,7 +24,7 @@
     <color name="current_event">@color/colorAccent</color>
 
     <!-- Toolbar: Tracking-->
-    <color name="toolbar_text_color">@color/white</color>
+    <color name="toolbar_text_color">#ff00ff</color>
     <color name="toolbar_collapsing_gradient">#DD90CAF9</color>
     <color name="chat_send_message_background">#2290caf9</color>
 </resources>

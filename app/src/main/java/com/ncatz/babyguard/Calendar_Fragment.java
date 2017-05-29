@@ -63,7 +63,6 @@ public class Calendar_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
         setToolbar();
-        setHasOptionsMenu(true);
         if(Babyguard_Application.isTeacher()) {
             classId = getArguments().getString(ID_KEY);
         } else {
@@ -76,7 +75,8 @@ public class Calendar_Fragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
+        if (Babyguard_Application.isTeacher())
+            ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
     }
 
     private void setToolbar() {
@@ -97,6 +97,7 @@ public class Calendar_Fragment extends Fragment {
             });
         } else {
             expandableDate = calendar.customToolbar();
+            calendar.setDateArrowColor(getResources().getColor(R.color.toolbar_text_color));
             toolbar.removeView(expandableDate);
             ((Home_Teacher_Activity)getActivity()).prepareCalendarToolbar(expandableDate);
         }
@@ -105,7 +106,9 @@ public class Calendar_Fragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        ((Babyguard_Application)getContext().getApplicationContext()).removeCalendarListener();
-        ((ViewGroup)expandableDate.getParent()).removeView(expandableDate);
+        if (Babyguard_Application.isTeacher()) {
+            ((Babyguard_Application) getContext().getApplicationContext()).removeCalendarListener();
+            ((ViewGroup) expandableDate.getParent()).removeView(expandableDate);
+        }
     }
 }
