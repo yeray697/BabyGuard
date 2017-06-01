@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.utils.Utils;
@@ -29,10 +30,13 @@ import java.util.ArrayList;
 public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
     private int marginMessage;
     private String userId;
+    private boolean isTeacher;
+
     public Chat_Adapter(Context context, ArrayList<ChatMessage> messages, String userId) {
         super(context, R.layout.item_chat_message, messages);
         this.userId = userId;
         this.marginMessage = getContext().getResources().getDimensionPixelSize(R.dimen.chatMessage_margin);
+        isTeacher = Babyguard_Application.isTeacher();
     }
 
     @NonNull
@@ -79,7 +83,13 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
     }
 
     private boolean isSender(ChatMessage message) {
-        return !message.getSender().equals(userId);
+        boolean result;
+        if (isTeacher) {
+            result = message.getKid().equals(userId);
+        } else  {
+            result = message.getTeacher().equals(userId);
+        }
+        return result;
     }
 
     public Drawable getMessageBackground(int resource, int resourcePressed) {

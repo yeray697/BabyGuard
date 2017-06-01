@@ -12,8 +12,8 @@ public class DatabaseContract {
 
     public static abstract class Messages implements BaseColumns {
         public static final String TABLE_NAME = "messages";
-        public static final String SENDER_COL = "sender";
-        public static final String RECEIVER_COL = "receiver";
+        public static final String TEACHER_COL = "teacher";
+        public static final String KID_COL = "kid";
         public static final String MESSAGE_COL = "message";
         public static final String DATETIME_COL= "datetime";
         public static final String SQL_CREATE_ENTRIES =
@@ -21,8 +21,8 @@ public class DatabaseContract {
                         Messages._ID + " INTEGER PRIMARY KEY," +
                         Messages.MESSAGE_COL + TEXT_TYPE + "," +
                         Messages.DATETIME_COL + TEXT_TYPE + "," +
-                        Messages.SENDER_COL + TEXT_TYPE + "," +
-                        Messages.RECEIVER_COL + TEXT_TYPE +
+                        Messages.TEACHER_COL + TEXT_TYPE + "," +
+                        Messages.KID_COL + TEXT_TYPE +
                         " )";
 
         public static final String SQL_DELETE_ENTRIES =

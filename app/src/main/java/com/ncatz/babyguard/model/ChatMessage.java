@@ -15,18 +15,17 @@ import java.util.Map;
 public class ChatMessage {
     @Exclude
     private String key;
-    private String sender;
-    @Exclude
-    private String receiver;
+    private String teacher;
+    private String kid;
     private String message;
     private String datetime;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String sender, String receiver, String message, String datetime) {
-        this.sender = sender;
-        this.receiver = receiver;
+    public ChatMessage(String teacher, String kid, String message, String datetime) {
+        this.kid = kid;
+        this.teacher = teacher;
         this.message = message;
         this.datetime = datetime;
     }
@@ -35,24 +34,24 @@ public class ChatMessage {
         return key;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public String getKid() {
+        return kid;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setKid(String kid) {
+        this.kid = kid;
     }
 
     public void setKey(String key) {
         this.key = key;
     }
 
-    public String getSender() {
-        return sender;
+    public String getTeacher() {
+        return teacher;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 
     public String getMessage() {
@@ -71,7 +70,7 @@ public class ChatMessage {
         this.datetime = datetime;
     }
 
-    public static ChatMessage parseFromDataSnapshot(String idReceiver, DataSnapshot dataSnapshot) {
+    public static ChatMessage parseFromDataSnapshot(DataSnapshot dataSnapshot) {
         ChatMessage aux = new ChatMessage();
         for (Map.Entry<String, Object> entry:((HashMap<String,Object>) dataSnapshot.getValue()).entrySet()) {
 
@@ -82,13 +81,15 @@ public class ChatMessage {
                 case "message": //String message
                     aux.setMessage((String) entry.getValue());
                     break;
-                case "sender": //String id
-                    aux.setSender((String) entry.getValue());
+                case "kid": //String kid
+                    aux.setKid((String) entry.getValue());
+                    break;
+                case "teacher": //String teacher
+                    aux.setTeacher((String) entry.getValue());
                     break;
             }
         }
         aux.setKey(dataSnapshot.getKey());
-        aux.setReceiver(idReceiver);
 
         return aux;
     }

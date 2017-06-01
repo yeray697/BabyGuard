@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,8 +26,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Chat_Fragment extends Fragment {
 
-    public static final String USER_CHAT_ID_KEY = "id";
-    public static final String KID_CHAT_ID_KEY = "kid";
+    public static final String TEACHER_ID_KEY = "id";
+    public static final String KID_ID_KEY = "kid";
     private TextView tvName;
     private ImageView backButton;
     private CircleImageView ivProfile;
@@ -38,7 +37,7 @@ public class Chat_Fragment extends Fragment {
     private Chat_Adapter adapter;
 
     private Chat chat;
-    private String userChatId;
+    private String teacherId;
     private String kidId;
 
     public static Chat_Fragment newInstance(Bundle args) {
@@ -59,8 +58,8 @@ public class Chat_Fragment extends Fragment {
             ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(false);
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         setToolbar(view);
-        userChatId = getArguments().getString(USER_CHAT_ID_KEY);
-        kidId = getArguments().getString(KID_CHAT_ID_KEY);
+        teacherId = getArguments().getString(TEACHER_ID_KEY);
+        kidId = getArguments().getString(KID_ID_KEY);
         backButton = (ImageView) view.findViewById(R.id.backButtonChat);
         ivProfile = (CircleImageView) view.findViewById(R.id.ivProfile_chat);
         tvName = (TextView) view.findViewById(R.id.tvName_chat);
@@ -104,9 +103,9 @@ public class Chat_Fragment extends Fragment {
         String et = etSend.getText().toString();
         if (!TextUtils.isEmpty(et)) {
             Long timeUnix = System.currentTimeMillis();
-            ChatMessage message = new ChatMessage(kidId, userChatId, et, String.valueOf(timeUnix));
-            FirebaseManager.getInstance().sendMessage(userChatId, message);
-            if (Repository.getInstance().addMessage(message,userChatId)) {
+            ChatMessage message = new ChatMessage(teacherId, kidId, et, String.valueOf(timeUnix));
+            FirebaseManager.getInstance().sendMessage(teacherId, message);
+            if (Repository.getInstance().addMessage(message)) {
                 refreshList();
             }
             etSend.setText("");
@@ -124,7 +123,7 @@ public class Chat_Fragment extends Fragment {
     }
 
     private void refreshList(){
-        chat = Repository.getInstance().getChat(userChatId);
+        chat = Repository.getInstance().getChat(kidId,teacherId);
         adapter = new Chat_Adapter(getContext(), chat.getMessages(),kidId);
         lvChat.setAdapter(adapter);
     }

@@ -3,9 +3,6 @@ package com.ncatz.babyguard;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +10,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ncatz.babyguard.adapter.Conversation_Adapter;
-import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.repository.Repository;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 public class Conversations_Fragment extends Fragment {
@@ -83,8 +84,13 @@ public class Conversations_Fragment extends Fragment {
 
     private void openChat(String chatId) {
         Bundle args = new Bundle();
-        args.putString(Chat_Fragment.USER_CHAT_ID_KEY, chatId);
-        args.putString(Chat_Fragment.KID_CHAT_ID_KEY, transmitterId);
+        if (Babyguard_Application.isTeacher()) {
+            args.putString(Chat_Fragment.TEACHER_ID_KEY, transmitterId);
+            args.putString(Chat_Fragment.KID_ID_KEY, chatId);
+        } else {
+            args.putString(Chat_Fragment.TEACHER_ID_KEY, chatId);
+            args.putString(Chat_Fragment.KID_ID_KEY, transmitterId);
+        }
         Chat_Fragment fragment = Chat_Fragment.newInstance(args);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, R.anim.fade_out,R.anim.fade_in,R.anim.fade_out)
@@ -94,12 +100,14 @@ public class Conversations_Fragment extends Fragment {
     }
 
     private void refreshChatList() {
+        ArrayList<Chat> chats;
         if (Babyguard_Application.isTeacher()) {
-            adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats(classId));
+            chats = Repository.getInstance().getChats(classId);
         } else {
-            adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChatByKidId(transmitterId));
+            chats = Repository.getInstance().getChatByKidId(transmitterId);
         }
-
+        Collections.sort(chats,Chat.comparator);
+        adapter = new Conversation_Adapter(getContext(), chats);
         lvChats.setAdapter(adapter);
     }
 

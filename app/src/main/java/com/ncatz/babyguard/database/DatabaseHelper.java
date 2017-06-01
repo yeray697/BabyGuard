@@ -27,7 +27,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     private SQLiteDatabase database;
     private boolean loaded;
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "Babyguard";
     public static final String DATABASE_EXTENSION = ".db";
 
@@ -69,8 +69,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 
     public void addMessage(ChatMessage message) {
         String sql = "INSERT INTO "+DatabaseContract.Messages.TABLE_NAME +
-                "("+DatabaseContract.Messages.MESSAGE_COL+","+DatabaseContract.Messages.SENDER_COL+","+DatabaseContract.Messages.RECEIVER_COL+","+DatabaseContract.Messages.DATETIME_COL+")" +
-                " VALUES ('"+message.getMessage()+"','"+message.getSender()+"','"+message.getReceiver()+"','"+message.getDatetime()+"')";
+                "("+DatabaseContract.Messages.MESSAGE_COL+","+DatabaseContract.Messages.KID_COL+","+DatabaseContract.Messages.TEACHER_COL+","+DatabaseContract.Messages.DATETIME_COL+")" +
+                " VALUES ('"+message.getMessage()+"','"+message.getKid()+"','"+message.getTeacher()+"','"+message.getDatetime()+"')";
         database.rawExecSQL(sql);
     }
 
@@ -80,6 +80,11 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
             AsyncTask<Void, Void, Void> thread = new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     HashMap<ChatKeyMap, Chat> chats = Repository.getInstance().getChats();
                     Cursor c;
                     String sql;
@@ -88,8 +93,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
                         String teacherId = chat.getKey().getTeacherId(),
                                 kidId = chat.getKey().getKidId();
                         sql = "SELECT * FROM " + DatabaseContract.Messages.TABLE_NAME +
-                                " where (" + DatabaseContract.Messages.SENDER_COL + " = '" + teacherId + "' AND " + DatabaseContract.Messages.RECEIVER_COL + " = '" + kidId + "') OR " +
-                                "(" + DatabaseContract.Messages.SENDER_COL + " = '" + kidId + "' AND " + DatabaseContract.Messages.RECEIVER_COL + " = '" + teacherId + "')";
+                                " WHERE (" + DatabaseContract.Messages.TEACHER_COL + " = '" + teacherId + "' AND " + DatabaseContract.Messages.KID_COL + " = '" + kidId + "') " +
+                                "ORDER BY " + DatabaseContract.Messages.DATETIME_COL + " ASC";
                         c = database.rawQuery(sql, null);
 
                         if (c.moveToFirst()) {
@@ -97,8 +102,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
                                 aux = new ChatMessage();
                                 aux.setMessage(c.getString(1));
                                 aux.setDatetime(c.getString(2));
-                                aux.setSender(c.getString(3));
-                                aux.setReceiver(c.getString(4));
+                                aux.setTeacher(c.getString(3));
+                                aux.setKid(c.getString(4));
                                 chat.getValue().addMessage(aux);
                             } while (c.moveToNext());
                         }

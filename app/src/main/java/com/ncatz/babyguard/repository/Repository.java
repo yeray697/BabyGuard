@@ -2,6 +2,7 @@ package com.ncatz.babyguard.repository;
 
 import android.support.annotation.IntDef;
 
+import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatKeyMap;
@@ -110,12 +111,22 @@ public class Repository {
         }
     }
 
-    public boolean addMessage(ChatMessage chatMessage, String idTo) {
+    public boolean addMessage(ChatMessage chatMessage) {
         boolean result = false;
+        String idFrom;
+        String idTo;
+        if ((Babyguard_Application.isTeacher())) {
+            idFrom = chatMessage.getTeacher();
+            idTo = chatMessage.getKid();
+        }  else {
+            idTo = chatMessage.getTeacher();
+            idFrom = chatMessage.getKid();
+        }
         if (chats == null)
             chats = new HashMap<>();
         for (Map.Entry<ChatKeyMap, Chat> chat : chats.entrySet()) {
-            if (idTo.equals(chat.getValue().getId())){
+            if (idTo.equals(chat.getKey().getKidId()) && idFrom.equals(chat.getKey().getTeacherId()) ||
+                    idFrom.equals(chat.getKey().getKidId()) && idTo.equals(chat.getKey().getTeacherId())){
                 try {
                     DatabaseHelper.getInstance().addMessage(chatMessage);
                     chat.getValue().addMessage(chatMessage);
@@ -130,7 +141,7 @@ public class Repository {
             Chat aux = new Chat();
             aux.setId(idTo);
             aux.addMessage(chatMessage);
-            addChat(new ChatKeyMap(idTo,chatMessage.getReceiver()), Chat.duplicate(aux));
+            addChat(new ChatKeyMap(chatMessage.getTeacher(),chatMessage.getKey()), Chat.duplicate(aux));
             result = true;
         }
         return result;
@@ -158,7 +169,7 @@ public class Repository {
                 if (tmp != null && tmp.getMessages() != null && tmp.getMessages().size() > 0){
                     chat.addMessage(tmp.getMessages());
                 }
-                chats.put(aux.getKey(),chat);
+                chats.put(aux.getKey(),Chat.duplicate(chat));
             }
         }
     }
@@ -191,10 +202,10 @@ public class Repository {
         chats = null;
     }
 
-    public Chat getChat(String userId) {
+    public Chat getChat(String kidId,String teacherId) {
         Chat chat = null;
         for (Map.Entry<ChatKeyMap, Chat> chatAux : chats.entrySet()){
-            if (chatAux.getValue().getId().equals(userId)) {
+            if (chatAux.getKey().getKidId().equals(kidId) && chatAux.getKey().getTeacherId().equals(teacherId)) {
                 chat = chatAux.getValue();
                 break;
             }
@@ -208,16 +219,16 @@ public class Repository {
         chats.put(key,null);
     }
 
-    public void addMessage(ChatMessage chatMessage) {
+    /*public void addMessage(ChatMessage chatMessage) {
         boolean result = false;
         if (chats == null)
             chats = new HashMap<>();
-        boolean isSender = false;
-        boolean isReceiver = false;
+        boolean isKid = false;
+        boolean isTeacher = false;
         for (Map.Entry<ChatKeyMap, Chat> chat : chats.entrySet()) {
-            isReceiver = chatMessage.getReceiver().equals(chat.getValue().getId());
-            isSender = chatMessage.getSender().equals(chat.getValue().getId());
-            if (isReceiver || isSender){
+            isTeacher = chatMessage.getTeacher().equals(chat.getValue().getId());
+            isKid = chatMessage.getKid().equals(chat.getValue().getId());
+            if (isTeacher || isKid){
                 try {
                     DatabaseHelper.getInstance().addMessage(chatMessage);
                     chat.getValue().addMessage(chatMessage);
@@ -231,17 +242,17 @@ public class Repository {
         if (!result) {
             Chat aux = new Chat();
             String idTo;
-            if (isSender) {
-                idTo = chatMessage.getSender();
-            } else { //isReceiver
-                idTo = chatMessage.getReceiver();
+            if (isTeacher) {
+                idTo = chatMessage.getTeacher();
+            } else { //isKid
+                idTo = chatMessage.getKid();
             }
             aux.setId(idTo);
             aux.addMessage(chatMessage);
-            addChat(new ChatKeyMap(idTo,chatMessage.getReceiver()), Chat.duplicate(aux));
+            addChat(new ChatKeyMap(chatMessage.getTeacher(),chatMessage.getKid()), Chat.duplicate(aux));
             result = true;
         }
-    }
+    }*/
 
     public void setParentChats(int parentChats) {
         this.parentChats = parentChats;

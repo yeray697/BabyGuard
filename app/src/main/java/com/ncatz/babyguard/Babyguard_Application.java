@@ -406,8 +406,8 @@ public class Babyguard_Application extends Application {
             if (dataSnapshot.exists()) {
                 try {
                     String id = dataSnapshot.getRef().getParent().getKey();
-                    ChatMessage chatMessage = ChatMessage.parseFromDataSnapshot(id,dataSnapshot);
-                    if (Repository.getInstance().addMessage(chatMessage,chatMessage.getSender())) {
+                    ChatMessage chatMessage = ChatMessage.parseFromDataSnapshot(dataSnapshot);
+                    if (Repository.getInstance().addMessage(chatMessage)) {
                         FirebaseManager.getInstance().deleteMessage(id,chatMessage.getKey());
                     }
                 } catch (Exception e) {

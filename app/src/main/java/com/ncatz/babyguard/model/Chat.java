@@ -1,5 +1,7 @@
 package com.ncatz.babyguard.model;
 
+import android.util.Log;
+
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
@@ -101,22 +103,25 @@ public class Chat {
         return (messages != null && messages.size() > 0)?messages.get(messages.size() - 1):null;
     }
 
-    public Comparator<Chat> comparator = new Comparator<Chat>() {
+    public static Comparator<Chat> comparator = new Comparator<Chat>() {
         @Override
         public int compare(Chat c1, Chat c2) {
             int result = 0;
             ChatMessage message1 = c1.getLastMessage();
             ChatMessage message2 = c2.getLastMessage();
-            if (message1 != null && message2 == null) {
-                //Order by date
-                result = Integer.valueOf(message1.getDatetime()) - Integer.valueOf(message2.getDatetime());
+            if (message1 == null && message2 == null) {
+                //Order alphabetical
+                result = c1.name.compareToIgnoreCase(c2.name);
             } else if (message1 == null) {
                 result = 1;
             } else if (message2 == null) {
                 result = -1;
-            } else { //Both are null
-                //Order alphabetical
-                result = c1.name.compareTo(c2.name);
+            } else { //Both are !null
+                //Order by date
+                result = (int) (Long.valueOf(message2.getDatetime()) - Long.valueOf(message1.getDatetime()));
+                if (result == 0) {
+                    result = c1.name.compareToIgnoreCase(c2.name);
+                }
             }
             return result;
         }
