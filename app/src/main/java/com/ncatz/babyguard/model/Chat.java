@@ -5,6 +5,7 @@ import com.google.firebase.database.DataSnapshot;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -87,6 +88,15 @@ public class Chat {
             messages.add(chatMessage);
     }
 
+    public void addMessage(List<ChatMessage> chatMessages) {
+        if (messages == null)
+            messages = new ArrayList<>();
+        if (chatMessages != null) {
+            for (ChatMessage aux:chatMessages)
+                messages.add(aux);
+        }
+    }
+
     public ChatMessage getLastMessage() {
         return (messages != null && messages.size() > 0)?messages.get(messages.size() - 1):null;
     }
@@ -123,5 +133,9 @@ public class Chat {
                 new ArrayList<ChatMessage>());
 
         return chat;
+    }
+
+    public static Chat duplicate(Chat chat) {
+        return new Chat(chat.id,chat.name,chat.photo,chat.nursery,chat.nurseryClass,new ArrayList<ChatMessage>());
     }
 }

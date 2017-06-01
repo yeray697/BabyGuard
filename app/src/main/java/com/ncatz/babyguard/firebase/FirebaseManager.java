@@ -1,5 +1,7 @@
 package com.ncatz.babyguard.firebase;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -8,8 +10,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ncatz.babyguard.Babyguard_Application;
+import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.model.User;
+import com.ncatz.babyguard.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +31,8 @@ public class FirebaseManager {
     private static final String NURSERY_CLASS_REFERENCE = "nursery_class";
     private static final String TEACHER_REFERENCE = "teacher";
     private static final String CHAT_REFERENCE = "chat";
+    private static final String CHAT_PARENT_REFERENCE = "chat_room_parent";
+
     private static FirebaseManager instance;
     private FirebaseDatabase database;
     private FirebaseAuth firebaseAuth;
@@ -160,7 +166,42 @@ public class FirebaseManager {
         addListener(reference,listener);
     }
 
-    public void getChatNames(String nursery, String nurseryClass) {
+    public void getChatInfoParent(String idNursery, String idNurseryClass, final String idKid) {
+        Query reference = database.getReference().child(TEACHER_REFERENCE).child(idNursery).child(idNurseryClass);
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Query referenceChat;
+                    ValueEventListener listenerChat;
+                    for (DataSnapshot aux:dataSnapshot.getChildren()) {
+                        final String idTeacher = aux.getKey();
+                        referenceChat = database.getReference().child(USER_REFERENCE).child(idTeacher);
+                        listenerChat = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                ChatKeyMap key = new ChatKeyMap(idTeacher,idKid);
+                                Repository.getInstance().addKeyChat(key);
+                                if (listeners != null) {
+                                    listeners.onChatNameChanged(dataSnapshot);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        };
+                        referenceChat.addListenerForSingleValueEvent(listenerChat);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+    }
+    public void getChatInfoTeacher(String nurseryClass) {
         final ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -176,29 +217,8 @@ public class FirebaseManager {
                 }
             }
         };
-        Query reference;
-        if (Babyguard_Application.isTeacher()) {
-            reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(nurseryClass);
-            addListener(reference,listener);
-        } else {
-            reference = database.getReference().child(TEACHER_REFERENCE).child(nursery).child(nurseryClass);
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        Query reference;
-                        for (Map.Entry<String, String> aux:((HashMap<String,String>) dataSnapshot.getValue()).entrySet()) {
-                            reference = database.getReference().child(USER_REFERENCE).child(aux.getKey());
-                            addListener(reference, listener);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-        }
+        Query reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(nurseryClass);
+        addListener(reference,listener);
     }
 
     public void getChat(String kid_id){

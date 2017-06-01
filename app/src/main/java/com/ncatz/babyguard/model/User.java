@@ -116,7 +116,7 @@ public class User {
             userAux.setId(String.valueOf(aux.get("id")));
             userAux.setUser_type(Integer.parseInt(String.valueOf(aux.get("user_type"))));
             userAux.setMail(String.valueOf(aux.get("mail")));
-            userAux.setDeleted((Boolean) aux.get("deleted"));
+            //userAux.setDeleted((Boolean) aux.get("deleted"));
             userAux.setImg(String.valueOf(aux.get("img")));
             userAux.setPhone_number(String.valueOf(aux.get("phone_number")));
             userAux.setDbPass(String.valueOf(aux.get("db_pass")));

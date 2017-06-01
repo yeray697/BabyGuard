@@ -97,7 +97,7 @@ public class Conversations_Fragment extends Fragment {
         if (Babyguard_Application.isTeacher()) {
             adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats(classId));
         } else {
-            adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChats());
+            adapter = new Conversation_Adapter(getContext(), Repository.getInstance().getChatByKidId(transmitterId));
         }
 
         lvChats.setAdapter(adapter);

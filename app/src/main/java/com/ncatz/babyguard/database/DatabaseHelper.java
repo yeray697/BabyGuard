@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.model.Chat;
+import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.repository.Repository;
 
@@ -12,6 +13,9 @@ import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by yeray697 on 14/05/17.
@@ -68,15 +72,22 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     }
 
     public void loadChatMessages() {
-        String id = Repository.getInstance().getUser().getId();
-        ArrayList<Chat> chats = Repository.getInstance().getChats();
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //String id = Repository.getInstance().getUser().getId();
+        HashMap<ChatKeyMap, Chat> chats = Repository.getInstance().getChats();
         Cursor c;
         String sql;
         ChatMessage aux;
-        for (Chat chat : chats) {
+        for (Map.Entry<ChatKeyMap, Chat> chat : chats.entrySet()) {
+            String teacherId = chat.getKey().getTeacherId(),
+                    kidId = chat.getKey().getKidId();
             sql = "SELECT * FROM " + DatabaseContract.Messages.TABLE_NAME +
-                    " where (" + DatabaseContract.Messages.SENDER_COL + " = '" + id +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + chat.getId() + "') OR "+
-                    "(" + DatabaseContract.Messages.SENDER_COL + " = '" + chat.getId() +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + id + "')";
+                    " where (" + DatabaseContract.Messages.SENDER_COL + " = '" + teacherId +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + kidId + "') OR "+
+                    "(" + DatabaseContract.Messages.SENDER_COL + " = '" + kidId +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + teacherId + "')";
             c = database.rawQuery(sql,null);
 
             if (c.moveToFirst()) {
@@ -86,7 +97,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
                     aux.setDatetime(c.getString(2));
                     aux.setSender(c.getString(3));
                     aux.setReceiver(c.getString(4));
-                    chat.addMessage(aux);
+                    chat.getValue().addMessage(aux);
                 } while (c.moveToNext());
             }
             c.close();

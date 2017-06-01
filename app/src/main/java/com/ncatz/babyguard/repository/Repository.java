@@ -4,6 +4,7 @@ import android.support.annotation.IntDef;
 
 import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.model.Chat;
+import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.model.TrackingKid;
@@ -15,6 +16,7 @@ import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +31,7 @@ public class Repository {
     private User user;
     private static Repository repository;
     private ArrayList<NurserySchool> nurserySchools;
-    private HashMap<String,Chat> chats;
+    private HashMap<ChatKeyMap,Chat> chats;
 
     public ArrayList<DiaryCalendarEvent> getCalendarByNursery(String nurseryId, String nurseryClassId) {
         ArrayList<DiaryCalendarEvent> calendar = new ArrayList<>();
@@ -111,7 +113,7 @@ public class Repository {
         boolean result = false;
         if (chats == null)
             chats = new HashMap<>();
-        for (Map.Entry<String, Chat> chat : chats.entrySet()) {
+        for (Map.Entry<ChatKeyMap, Chat> chat : chats.entrySet()) {
             if (idTo.equals(chat.getValue().getId())){
                 try {
                     DatabaseHelper.getInstance().addMessage(chatMessage);
@@ -127,41 +129,55 @@ public class Repository {
             Chat aux = new Chat();
             aux.setId(idTo);
             aux.addMessage(chatMessage);
-            addChat(aux);
+            addChat(new ChatKeyMap(idTo,chatMessage.getReceiver()), Chat.duplicate(aux));
+            result = true;
         }
         return result;
     }
 
+    //Is teacher account
+    public void addChat(ChatKeyMap key, Chat chat) {
+        if (chats == null)
+            chats = new HashMap<>();
+        chats.put(key,chat);
+    }
+
+    //This method is called only if user is a parent
+    //ChatKeyMap entry was added previously, but with chat = null
+    //So, if a teacher gives class to x>1 kids from the same parent, this method fill with the info: name, img, ...
     public void addChat(Chat chat) {
         if (chats == null)
             chats = new HashMap<>();
-        Chat aux = chats.get(chat.getId());
-        if (aux != null) {
-            chat.setMessages(aux.getMessages());
-        }
-        chats.put(chat.getId(),chat);
-    }
-
-    public String getTeacherChat(Kid kid) {
-        String id = "";
-        if (chats != null) {
-            for (Map.Entry<String, Chat> chat : chats.entrySet()) {
-                if (chat.getValue().getNursery().equals(kid.getId_nursery()) && chat.getValue().getNurseryClass().equals(kid.getId_nursery_class())){
-                    id = chat.getValue().getId();
-                    break;
+        String idTeacher = chat.getId();
+        Chat tmp;
+        for (Map.Entry<ChatKeyMap, Chat> aux :
+                chats.entrySet()) {
+            if (aux.getKey().getTeacherId().equals(idTeacher)) {
+                tmp = chats.get(aux.getKey());
+                if (tmp != null && tmp.getMessages() != null && tmp.getMessages().size() > 0){
+                    chat.addMessage(tmp.getMessages());
                 }
+                chats.put(aux.getKey(),chat);
             }
         }
-        return id;
     }
 
-    public ArrayList<Chat> getChats() {
-        return (chats != null) ? new ArrayList<>(chats.values()) : new ArrayList<Chat>();
+    public ArrayList<Chat> getChatByKidId(String kidId) {
+        ArrayList<Chat> aux = new ArrayList<>();
+        for (Map.Entry<ChatKeyMap, Chat> chatAux: chats.entrySet()) {
+            if (chatAux.getKey().getKidId().equals(kidId))
+                aux.add(chatAux.getValue());
+        }
+        return aux;
+    }
+
+    public HashMap<ChatKeyMap, Chat> getChats() {
+        return chats;
     }
 
     public ArrayList<Chat> getChats(String classId) {
         ArrayList<Chat> aux = new ArrayList<>();
-        for (Map.Entry<String, Chat> chatAux: chats.entrySet()) {
+        for (Map.Entry<ChatKeyMap, Chat> chatAux: chats.entrySet()) {
             if (chatAux.getValue().getNurseryClass().equals(classId))
                 aux.add(chatAux.getValue());
         }
@@ -176,13 +192,54 @@ public class Repository {
 
     public Chat getChat(String userId) {
         Chat chat = null;
-        for (Map.Entry<String, Chat> chatAux : chats.entrySet()){
+        for (Map.Entry<ChatKeyMap, Chat> chatAux : chats.entrySet()){
             if (chatAux.getValue().getId().equals(userId)) {
                 chat = chatAux.getValue();
                 break;
             }
         }
         return chat;
+    }
+
+    public void addKeyChat(ChatKeyMap key) {
+        if (chats == null)
+            chats = new HashMap<>();
+        chats.put(key,null);
+    }
+
+    public void addMessage(ChatMessage chatMessage) {
+        boolean result = false;
+        if (chats == null)
+            chats = new HashMap<>();
+        boolean isSender = false;
+        boolean isReceiver = false;
+        for (Map.Entry<ChatKeyMap, Chat> chat : chats.entrySet()) {
+            isReceiver = chatMessage.getReceiver().equals(chat.getValue().getId());
+            isSender = chatMessage.getSender().equals(chat.getValue().getId());
+            if (isReceiver || isSender){
+                try {
+                    DatabaseHelper.getInstance().addMessage(chatMessage);
+                    chat.getValue().addMessage(chatMessage);
+                    result = true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+        if (!result) {
+            Chat aux = new Chat();
+            String idTo;
+            if (isSender) {
+                idTo = chatMessage.getSender();
+            } else { //isReceiver
+                idTo = chatMessage.getReceiver();
+            }
+            aux.setId(idTo);
+            aux.addMessage(chatMessage);
+            addChat(new ChatKeyMap(idTo,chatMessage.getReceiver()), Chat.duplicate(aux));
+            result = true;
+        }
     }
 
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
