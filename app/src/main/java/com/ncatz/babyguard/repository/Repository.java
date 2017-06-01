@@ -32,6 +32,7 @@ public class Repository {
     private static Repository repository;
     private ArrayList<NurserySchool> nurserySchools;
     private HashMap<ChatKeyMap,Chat> chats;
+    private int parentChats;
 
     public ArrayList<DiaryCalendarEvent> getCalendarByNursery(String nurseryId, String nurseryClassId) {
         ArrayList<DiaryCalendarEvent> calendar = new ArrayList<>();
@@ -240,6 +241,17 @@ public class Repository {
             addChat(new ChatKeyMap(idTo,chatMessage.getReceiver()), Chat.duplicate(aux));
             result = true;
         }
+    }
+
+    public void setParentChats(int parentChats) {
+        this.parentChats = parentChats;
+    }
+    public int getParentChats() {
+        return parentChats;
+    }
+    public int decreaseParentChats() {
+        parentChats -= 1;
+        return getParentChats();
     }
 
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})

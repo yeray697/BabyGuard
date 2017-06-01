@@ -1,6 +1,7 @@
 package com.ncatz.babyguard.database;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.model.Chat;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class DatabaseHelper  extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     private SQLiteDatabase database;
+    private boolean loaded;
 
     public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "Babyguard";
@@ -32,6 +34,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     public DatabaseHelper(Context context, String userId) {
         super(context, DATABASE_NAME + "_" + userId + DATABASE_EXTENSION, null, DATABASE_VERSION);
         SQLiteDatabase.loadLibs(context);
+        loaded = false;
     }
 
     static public synchronized DatabaseHelper getInstance(String userId) {
@@ -72,35 +75,40 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     }
 
     public void loadChatMessages() {
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //String id = Repository.getInstance().getUser().getId();
-        HashMap<ChatKeyMap, Chat> chats = Repository.getInstance().getChats();
-        Cursor c;
-        String sql;
-        ChatMessage aux;
-        for (Map.Entry<ChatKeyMap, Chat> chat : chats.entrySet()) {
-            String teacherId = chat.getKey().getTeacherId(),
-                    kidId = chat.getKey().getKidId();
-            sql = "SELECT * FROM " + DatabaseContract.Messages.TABLE_NAME +
-                    " where (" + DatabaseContract.Messages.SENDER_COL + " = '" + teacherId +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + kidId + "') OR "+
-                    "(" + DatabaseContract.Messages.SENDER_COL + " = '" + kidId +"' AND " + DatabaseContract.Messages.RECEIVER_COL +" = '" + teacherId + "')";
-            c = database.rawQuery(sql,null);
 
-            if (c.moveToFirst()) {
-                do {
-                    aux = new ChatMessage();
-                    aux.setMessage(c.getString(1));
-                    aux.setDatetime(c.getString(2));
-                    aux.setSender(c.getString(3));
-                    aux.setReceiver(c.getString(4));
-                    chat.getValue().addMessage(aux);
-                } while (c.moveToNext());
-            }
-            c.close();
+        if (!loaded && Repository.getInstance().decreaseParentChats() == 0) { //Avoid duplicate chats
+            AsyncTask<Void, Void, Void> thread = new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    HashMap<ChatKeyMap, Chat> chats = Repository.getInstance().getChats();
+                    Cursor c;
+                    String sql;
+                    ChatMessage aux;
+                    for (Map.Entry<ChatKeyMap, Chat> chat : chats.entrySet()) {
+                        String teacherId = chat.getKey().getTeacherId(),
+                                kidId = chat.getKey().getKidId();
+                        sql = "SELECT * FROM " + DatabaseContract.Messages.TABLE_NAME +
+                                " where (" + DatabaseContract.Messages.SENDER_COL + " = '" + teacherId + "' AND " + DatabaseContract.Messages.RECEIVER_COL + " = '" + kidId + "') OR " +
+                                "(" + DatabaseContract.Messages.SENDER_COL + " = '" + kidId + "' AND " + DatabaseContract.Messages.RECEIVER_COL + " = '" + teacherId + "')";
+                        c = database.rawQuery(sql, null);
+
+                        if (c.moveToFirst()) {
+                            do {
+                                aux = new ChatMessage();
+                                aux.setMessage(c.getString(1));
+                                aux.setDatetime(c.getString(2));
+                                aux.setSender(c.getString(3));
+                                aux.setReceiver(c.getString(4));
+                                chat.getValue().addMessage(aux);
+                            } while (c.moveToNext());
+                        }
+                        c.close();
+                    }
+                    loaded = true;
+                    return null;
+                }
+            };
+            thread.execute();
         }
     }
 

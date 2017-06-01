@@ -173,6 +173,7 @@ public class FirebaseManager {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Query referenceChat;
                     ValueEventListener listenerChat;
+                    int count = 0;
                     for (DataSnapshot aux:dataSnapshot.getChildren()) {
                         final String idTeacher = aux.getKey();
                         referenceChat = database.getReference().child(USER_REFERENCE).child(idTeacher);
@@ -192,7 +193,9 @@ public class FirebaseManager {
                             }
                         };
                         referenceChat.addListenerForSingleValueEvent(listenerChat);
+                        count++;
                     }
+                    Repository.getInstance().setParentChats(count);
                 }
 
                 @Override
