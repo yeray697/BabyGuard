@@ -3,6 +3,9 @@ package com.ncatz.babyguard;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ncatz.babyguard.adapter.Conversation_Adapter;
+import com.ncatz.babyguard.components.CustomToolbar;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.repository.Repository;
 
@@ -22,6 +26,7 @@ public class Conversations_Fragment extends Fragment {
 
     public static final String ID_KEY = "id";
     private Conversation_Adapter adapter;
+    private Toolbar toolbar;
     private ListView lvChats;
     private String transmitterId;
     private Home_Teacher_Activity.OnSelectedClassIdChangedListener listener;
@@ -63,6 +68,7 @@ public class Conversations_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_chat_teacher, container, false);
+        toolbar = (CustomToolbar) view.findViewById(R.id.toolbar_conversation);
         lvChats = (ListView) view.findViewById(R.id.lvChat);
         lvChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -71,15 +77,30 @@ public class Conversations_Fragment extends Fragment {
                 openChat(chatId);
             }
         });
-
+        setToolbar();
         if (Babyguard_Application.isTeacher()) {
-            classId = getArguments().getString(ID_KEY);
+            classId = ((Home_Teacher_Activity) getActivity()).getSelectedClassId();
             transmitterId = Repository.getInstance().getUser().getId();
         } else {
             transmitterId = getArguments().getString(ID_KEY);
         }
         refreshChatList();
         return view;
+    }
+
+    private void setToolbar() {
+        if (Babyguard_Application.isTeacher()) {
+            toolbar.setVisibility(View.GONE);
+            ((Home_Teacher_Activity) getActivity()).getSupportActionBar().setTitle("Babyguard");
+        } else {
+            toolbar.setVisibility(View.VISIBLE);
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+            if (ab != null) {
+                ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
+                ab.setDisplayHomeAsUpEnabled(true);
+            }
+        }
     }
 
     private void openChat(String chatId) {

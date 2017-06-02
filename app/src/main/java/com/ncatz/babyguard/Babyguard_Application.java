@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,6 +55,8 @@ public class Babyguard_Application extends Application {
     boolean nurseryAndChatsLoadedFirstTime;
     boolean kidsInfoLoadedFirstTime;
 
+    private boolean databaseLoaded;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -93,6 +96,7 @@ public class Babyguard_Application extends Application {
         setUserCredentials(null);
         kidsInfoLoadedFirstTime = false;
         nurseryAndChatsLoadedFirstTime = false;
+        databaseLoaded = false;
     }
 
     /**
@@ -452,4 +456,12 @@ public class Babyguard_Application extends Application {
 
         }
     };
+
+    public boolean isDatabaseLoaded() {
+        return databaseLoaded;
+    }
+
+    public void setDatabaseLoaded(boolean databaseLoaded) {
+        this.databaseLoaded = databaseLoaded;
+    }
 }

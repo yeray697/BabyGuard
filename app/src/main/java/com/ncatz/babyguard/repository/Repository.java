@@ -200,6 +200,7 @@ public class Repository {
         user = null;
         nurserySchools = null;
         chats = null;
+        parentChats = 0;
     }
 
     public Chat getChat(String kidId,String teacherId) {

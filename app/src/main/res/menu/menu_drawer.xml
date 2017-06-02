@@ -17,9 +17,6 @@
         android:id="@+id/menu_bottom"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/item_profile"
-            android:title="@string/item_profile" />
-        <item
             android:id="@+id/item_contact"
             android:title="@string/item_contacto" />
         <item

@@ -104,15 +104,6 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 navigationView.getMenu().getItem(2).setChecked(false);
                 //selected = 2;
                 break;
-            case R.id.item_profile:
-                //selected = 4;
-                /*args = new Bundle();
-                args.putString(KID_NURSERY_KEY, kid.getId());
-                Intent intent = new Intent(Home_Parent_Activity.this,AboutNursery_Activity.class);
-                intent.putExtra(KID_NURSERY_KEY,kid.getId_nursery());
-                startActivity(intent);*/
-                navigationView.getMenu().getItem(3).setChecked(false);
-                break;
             case R.id.item_contact:
                 //selected = 4;
                 args = new Bundle();
@@ -120,12 +111,12 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 Intent intent = new Intent(Home_Parent_Activity.this,AboutNursery_Activity.class);
                 intent.putExtra(KID_NURSERY_KEY,kid.getId_nursery());
                 startActivity(intent);
-                navigationView.getMenu().getItem(4).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(false);
                 break;
             case R.id.item_settings:
                 //TODO
                 //selected = 5;
-                navigationView.getMenu().getItem(5).setChecked(false);
+                navigationView.getMenu().getItem(4).setChecked(false);
                 break;
         }
         if (fragment != null) {
@@ -146,8 +137,10 @@ public class Home_Parent_Activity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if ((onBackPressedTracingListener != null && !onBackPressedTracingListener.doBack()) || onBackPressedTracingListener == null)
-                super.onBackPressed();
+        if ((onBackPressedTracingListener != null && !onBackPressedTracingListener.doBack()) || onBackPressedTracingListener == null) {
+            super.onBackPressed();
+            ((Babyguard_Application) getApplicationContext()).setDatabaseLoaded(false);
+        }
     }
 
     public void setOnBackPressedTracingListener(OnBackPressedTracingListener onBackPressedTracingListener) {

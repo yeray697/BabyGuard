@@ -11,7 +11,6 @@
     <string name="item_contacto">Contacto</string>
     <string name="item_calendar">Calendario</string>
     <string name="item_chat">Chat</string>
-    <string name="item_profile">Perfil</string>
 
     <string name="telephone_contact_text"><b>Teléfonos:</b></string>
     <string name="address_contact_text"><![CDATA[<b>Dirección:</b> <i>%1$s</i>]]></string>

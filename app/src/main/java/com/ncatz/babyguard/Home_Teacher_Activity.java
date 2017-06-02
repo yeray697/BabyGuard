@@ -120,15 +120,6 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 }
                 selected = 2;
                 break;
-            case R.id.item_profile:
-                tag = "profile";
-                fragment = fragmentManager.findFragmentByTag(tag);
-                if (fragment == null) {
-                    args = new Bundle();
-                    //fragment = Calendar_Fragment.newInstance(args);
-                }
-                selected = 3;
-                break;
             case R.id.item_settings:
                 tag = "settings";
                 fragment = fragmentManager.findFragmentByTag(tag);
@@ -136,7 +127,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                     args = new Bundle();
                     //fragment = Calendar_Fragment.newInstance(args);
                 }
-                selected = 4;
+                selected = 3;
                 break;
         }
         if (fragment != null) {
@@ -192,6 +183,10 @@ public class Home_Teacher_Activity extends AppCompatActivity {
 
     }
 
+    public String getSelectedClassId() {
+        return selectedClassId;
+    }
+
     public void setSelectedClassIdChangedListener (OnSelectedClassIdChangedListener selectedClassIdChangedListener) {
         this.selectedClassIdChangedListener = selectedClassIdChangedListener;
     }
@@ -232,5 +227,11 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbarHome);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ((Babyguard_Application)getApplicationContext()).setDatabaseLoaded(false);
     }
 }

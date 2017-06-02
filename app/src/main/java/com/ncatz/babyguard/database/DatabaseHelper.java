@@ -2,6 +2,7 @@ package com.ncatz.babyguard.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.model.Chat;
@@ -25,16 +26,18 @@ import java.util.Map;
 public class DatabaseHelper  extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     private SQLiteDatabase database;
-    private boolean loaded;
+    private Context context;
 
     public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "Babyguard";
     public static final String DATABASE_EXTENSION = ".db";
 
+
     public DatabaseHelper(Context context, String userId) {
         super(context, DATABASE_NAME + "_" + userId + DATABASE_EXTENSION, null, DATABASE_VERSION);
         SQLiteDatabase.loadLibs(context);
-        loaded = false;
+        ((Babyguard_Application)context.getApplicationContext()).setDatabaseLoaded(false);
+        this.context = context;
     }
 
     static public synchronized DatabaseHelper getInstance(String userId) {
@@ -75,8 +78,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     }
 
     public void loadChatMessages() {
-
-        if (!loaded && Repository.getInstance().decreaseParentChats() == 0) { //Avoid duplicate chats
+        if (!((Babyguard_Application)context.getApplicationContext()).isDatabaseLoaded() && (Repository.getInstance().decreaseParentChats() == 0 || Babyguard_Application.isTeacher())) { //Avoid duplicate chats
+            ((Babyguard_Application)context.getApplicationContext()).setDatabaseLoaded(true);
             AsyncTask<Void, Void, Void> thread = new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
@@ -109,7 +112,6 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
                         }
                         c.close();
                     }
-                    loaded = true;
                     return null;
                 }
             };

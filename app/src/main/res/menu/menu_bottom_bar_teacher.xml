@@ -13,10 +13,6 @@
         android:icon="@drawable/ic_calendar_black_24dp"
         android:title="Calendar"/>
     <item
-        android:id="@+id/item_profile"
-        android:icon="@drawable/ic_profile_black_24dp"
-        android:title="Profile"/>
-    <item
         android:id="@+id/item_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Settings"/>

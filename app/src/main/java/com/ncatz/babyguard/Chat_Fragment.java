@@ -104,7 +104,11 @@ public class Chat_Fragment extends Fragment {
         if (!TextUtils.isEmpty(et)) {
             Long timeUnix = System.currentTimeMillis();
             ChatMessage message = new ChatMessage(teacherId, kidId, et, String.valueOf(timeUnix));
-            FirebaseManager.getInstance().sendMessage(teacherId, message);
+            if (Babyguard_Application.isTeacher()) {
+                FirebaseManager.getInstance().sendMessage(kidId, message);
+            } else {
+                FirebaseManager.getInstance().sendMessage(teacherId, message);
+            }
             if (Repository.getInstance().addMessage(message)) {
                 refreshList();
             }
@@ -116,6 +120,7 @@ public class Chat_Fragment extends Fragment {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_chat);
         //toolbar.setTitle("Chat");
         if (Babyguard_Application.isTeacher()) {
+            ((Home_Teacher_Activity)getActivity()).getSupportActionBar().hide();
             //((Home_Teacher_Activity)getActivity()).prepareChatToolbar(toolbar);
         } else {
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -124,12 +129,19 @@ public class Chat_Fragment extends Fragment {
 
     private void refreshList(){
         chat = Repository.getInstance().getChat(kidId,teacherId);
-        adapter = new Chat_Adapter(getContext(), chat.getMessages(),kidId);
+        if (Babyguard_Application.isTeacher()) {
+            adapter = new Chat_Adapter(getContext(), chat.getMessages(),teacherId);
+        } else {
+            adapter = new Chat_Adapter(getContext(), chat.getMessages(),kidId);
+        }
         lvChat.setAdapter(adapter);
     }
     @Override
     public void onStop() {
         super.onStop();
         ((Babyguard_Application)(getContext()).getApplicationContext()).removeChatListener();
+        if (Babyguard_Application.isTeacher()) {
+            ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
+        }
     }
 }
