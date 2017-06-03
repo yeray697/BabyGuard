@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Exclude;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,8 @@ import java.util.Map;
  */
 
 public class ChatMessage {
+    @Exclude
+    private boolean isMessageType;
     @Exclude
     private String key;
     private String teacher;
@@ -28,6 +31,17 @@ public class ChatMessage {
         this.teacher = teacher;
         this.message = message;
         this.datetime = datetime;
+        this.isMessageType = true;
+    }
+
+    @Exclude
+    public boolean isMessage() {
+        return isMessageType;
+    }
+
+    @Exclude
+    public void setIfIsMessage(boolean isMessage) {
+        this.isMessageType = isMessage;
     }
 
     public String getKey() {
@@ -60,6 +74,7 @@ public class ChatMessage {
 
     public void setMessage(String message) {
         this.message = message;
+        this.isMessageType = true;
     }
 
     public String getDatetime() {
@@ -93,4 +108,11 @@ public class ChatMessage {
 
         return aux;
     }
+
+    public static Comparator<ChatMessage> comparator = new Comparator<ChatMessage>() {
+        @Override
+        public int compare(ChatMessage o1, ChatMessage o2) {
+            return (int) (Long.parseLong(o1.getDatetime()) - Long.parseLong(o2.getDatetime()));
+        }
+    };
 }

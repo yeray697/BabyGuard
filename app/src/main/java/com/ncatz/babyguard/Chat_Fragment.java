@@ -19,7 +19,10 @@ import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.repository.Repository;
+import com.ncatz.babyguard.utils.Utils;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -69,7 +72,6 @@ public class Chat_Fragment extends Fragment {
         refreshList();
         tvName.setText(chat.getName());
         Picasso.with(getContext()).load(chat.getPhoto()).into(ivProfile);
-        //lvChat.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         lvChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         lvChat.setStackFromBottom(true);
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -88,12 +90,6 @@ public class Chat_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
-                /*if (Babyguard_Application.isTeacher()) {
-                    ((Home_Teacher_Activity)getActivity()).closeChatFragment();
-
-                } else {
-                    ((Home_Parent_Activity)getActivity()).closeChatFragment();
-                }*/
             }
         });
         return view;
@@ -129,10 +125,11 @@ public class Chat_Fragment extends Fragment {
 
     private void refreshList(){
         chat = Repository.getInstance().getChat(kidId,teacherId);
+        ArrayList<ChatMessage> messages = Utils.parseChatMessageToChat(chat.getMessages());
         if (Babyguard_Application.isTeacher()) {
-            adapter = new Chat_Adapter(getContext(), chat.getMessages(),teacherId);
+            adapter = new Chat_Adapter(getContext(), messages,teacherId);
         } else {
-            adapter = new Chat_Adapter(getContext(), chat.getMessages(),kidId);
+            adapter = new Chat_Adapter(getContext(), messages,kidId);
         }
         lvChat.setAdapter(adapter);
     }

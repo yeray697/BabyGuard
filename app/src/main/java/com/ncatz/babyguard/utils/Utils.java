@@ -35,10 +35,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ncatz.babyguard.R;
+import com.ncatz.babyguard.model.ChatMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 
 /**
@@ -78,8 +80,45 @@ public class Utils {
         ivExpandedImage.performClick();
     }
 
-    public static String encryptPassword(String password) {
-        return password;
+    public static ArrayList<ChatMessage> parseChatMessageToChat(ArrayList<ChatMessage> messages) {
+        Collections.sort(messages,ChatMessage.comparator);
+        ArrayList<ChatMessage> newMessages = new ArrayList<>();
+        String lastDate = "";
+        int size = messages.size();
+        ChatMessage messageAux;
+        ChatMessage auxDate;
+        boolean isTodayReached = false;
+        for (int i = 0; i < size ; i++) {
+            messageAux = messages.get(i);
+
+            if (!isUnixToday(messageAux.getDatetime())) {
+                if (lastDate.equals("")) {
+                    lastDate = messageAux.getDatetime();
+                    auxDate = new ChatMessage();
+                    auxDate.setIfIsMessage(false);
+                    auxDate.setDatetime(lastDate);
+                    newMessages.add(auxDate);
+                } else {
+                    if (!isSameDay(lastDate,messageAux.getDatetime())){
+                        auxDate = new ChatMessage();
+                        auxDate.setIfIsMessage(false);
+                        auxDate.setDatetime(lastDate);
+                        newMessages.add(auxDate);
+                        lastDate = auxDate.getDatetime();
+                    }
+                }
+            } else {
+                if (!isTodayReached) {
+                    auxDate = new ChatMessage();
+                    auxDate.setIfIsMessage(false);
+                    auxDate.setDatetime(messageAux.getDatetime());
+                    newMessages.add(auxDate);
+                    isTodayReached = true;
+                }
+            }
+            newMessages.add(messageAux);
+        }
+        return newMessages;
     }
 
     public interface OnAnimationEnded{
@@ -257,6 +296,58 @@ public class Utils {
         SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
         time = sdfTime.format(c.getTime());
         return time;
+    }
+
+    public static boolean isUnixToday(String unixTime) {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(Long.parseLong(unixTime));
+        SimpleDateFormat sdf;
+        return c.after(today);
+    }
+
+    public static boolean isSameDay(String unixTime1,String unixTime2) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTimeInMillis(Long.parseLong(unixTime1));
+        cal2.setTimeInMillis(Long.parseLong(unixTime2));
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+    }
+    public static String getDateByUnixChatDate(String unixTime){
+        String date;
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+
+        Calendar yesterday = Calendar.getInstance();
+        yesterday.set(Calendar.DAY_OF_MONTH,-1);
+        yesterday.set(Calendar.HOUR_OF_DAY, 0);
+        yesterday.set(Calendar.MINUTE, 0);
+        yesterday.set(Calendar.SECOND, 0);
+        yesterday.set(Calendar.MILLISECOND, 0);
+
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(Long.parseLong(unixTime));
+        SimpleDateFormat sdf;
+        if (c.after(today)) {
+            date = "Today";
+        } else {
+            if (c.after(yesterday)) {
+                date = "Yesterday";
+            } else {
+                sdf = new SimpleDateFormat("dd/MM/yy");
+                date = sdf.format(c.getTime());
+            }
+
+        }
+        return date;
     }
 
     public static String getDateByUnix(String unixTime){

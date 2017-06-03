@@ -190,8 +190,12 @@ public class Repository {
     public ArrayList<Chat> getChats(String classId) {
         ArrayList<Chat> aux = new ArrayList<>();
         for (Map.Entry<ChatKeyMap, Chat> chatAux: chats.entrySet()) {
-            if (chatAux.getValue().getNurseryClass().equals(classId))
-                aux.add(chatAux.getValue());
+            try {
+                if (chatAux.getValue().getNurseryClass().equals(classId))
+                    aux.add(chatAux.getValue());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
         return aux;
     }

@@ -52,42 +52,59 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
             holder.rlMessage = (RelativeLayout) view.findViewById(R.id.rlMessage);
             holder.message = (TextView) view.findViewById(R.id.tvMessage_chatItem);
             holder.time = (TextView) view.findViewById(R.id.tvDate_chatItem);
+            holder.rlDate = (RelativeLayout) view.findViewById(R.id.rlDate);
+            holder.onlyDate = (TextView) view.findViewById(R.id.tvOnlyDate_chatItem);
             view.setTag(holder);
         } else{
             holder = (MessageHolder) view.getTag();
         }
 
-        holder.message.setText(message.getMessage());
-        holder.time.setText(Utils.getTimeByUnix(message.getDatetime()));
+        if(message.isMessage()) {
+            holder.rlDate.setVisibility(View.GONE);
+            holder.rlMessage.setVisibility(View.VISIBLE);
+            holder.message.setText(message.getMessage());
+            holder.time.setText(Utils.getTimeByUnix(message.getDatetime()));
 
-        Drawable background;
-        int messageLayout = isSender ? R.drawable.bubble_receiver: R.drawable.bubble_sender;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            background = getMessageBackground(messageLayout);
+            Drawable background;
+            int messageLayout = isSender ? R.drawable.bubble_receiver: R.drawable.bubble_sender;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                background = getMessageBackground(messageLayout);
+            } else {
+                int messageLayoutPressed = isSender ? R.drawable.bubble_pressed_receiver: R.drawable.bubble_pressed_sender;
+                background = getMessageBackground(messageLayout, messageLayoutPressed);
+            }
+            holder.rlMessage.setBackground(background);
+
+            RelativeLayout.LayoutParams params  = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            if (isSender){
+                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_START);
+            } else {
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_END);
+            }
+            params.setMargins(marginMessage,marginMessage,marginMessage,marginMessage);
+            holder.rlMessage.setLayoutParams(params);
+
         } else {
-            int messageLayoutPressed = isSender ? R.drawable.bubble_pressed_receiver: R.drawable.bubble_pressed_sender;
-            background = getMessageBackground(messageLayout, messageLayoutPressed);
+            holder.rlDate.setVisibility(View.VISIBLE);
+            holder.rlMessage.setVisibility(View.GONE);
+            holder.onlyDate.setText(Utils.getDateByUnixChatDate(message.getDatetime()));
+            RelativeLayout.LayoutParams params  = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
+            holder.rlDate.setLayoutParams(params);
         }
-        holder.rlMessage.setBackground(background);
-        RelativeLayout.LayoutParams params  = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        if (isSender){
-            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            params.addRule(RelativeLayout.ALIGN_PARENT_START);
-        } else {
-            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            params.addRule(RelativeLayout.ALIGN_PARENT_END);
-        }
-        params.setMargins(marginMessage,marginMessage,marginMessage,marginMessage);
-        holder.rlMessage.setLayoutParams(params);
         return view;
     }
 
     private boolean isSender(ChatMessage message) {
-        boolean result;
-        if (isTeacher) {
-            result = message.getKid().equals(userId);
-        } else  {
-            result = message.getTeacher().equals(userId);
+        boolean result = false;
+        if (message.isMessage()) {
+            if (isTeacher) {
+                result = message.getKid().equals(userId);
+            } else  {
+                result = message.getTeacher().equals(userId);
+            }
         }
         return result;
     }
@@ -126,5 +143,7 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
         RelativeLayout rlMessage;
         TextView message;
         TextView time;
+        RelativeLayout rlDate;
+        TextView onlyDate;
     }
 }
