@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 
 public class Calendar_Fragment extends Fragment {
+    public static final String KID_KEY = "kid";
     public static final String ID_KEY = "id";
     private Kid kid;
     private DiaryCalendarView calendar;
@@ -67,7 +68,7 @@ public class Calendar_Fragment extends Fragment {
         if(Babyguard_Application.isTeacher()) {
             classId = getArguments().getString(ID_KEY);
         } else {
-            kid = Repository.getInstance().getKidById(getArguments().getString(Home_Parent_Activity.KID_KEY));
+            kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
         }
         refreshCalendar();
         return view;

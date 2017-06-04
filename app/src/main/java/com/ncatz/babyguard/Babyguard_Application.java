@@ -21,7 +21,15 @@ import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.model.UserCredentials;
 import com.ncatz.babyguard.repository.Repository;
-import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
+import com.ncatz.yeray.calendarview.*;
+import com.ncatz.yeray.calendarview.BuildConfig;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.CsvFormatStrategy;
+import com.orhanobut.logger.DiskLogAdapter;
+import com.orhanobut.logger.FormatStrategy;
+import com.orhanobut.logger.LogStrategy;
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.PrettyFormatStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +71,39 @@ public class Babyguard_Application extends Application {
         this.context = this;
         pref = getApplicationContext().getSharedPreferences(FILE_PREFERENCE, MODE_PRIVATE);
         FirebaseManager.getInstance().setListeners(firebaseListeners);
+        FormatStrategy formatStrategyLog = PrettyFormatStrategy.newBuilder()
+                .methodCount(5)
+                .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
+                .tag("Babyguard")
+                .build();
+        AndroidLogAdapter adapterLog = new AndroidLogAdapter(formatStrategyLog) {
+            @Override
+            public boolean isLoggable(int priority, String tag) {
+                return BuildConfig.DEBUG;
+            }
+        };
+
+        Logger.addLogAdapter(adapterLog);
+        FormatStrategy formatStrategyFile = CsvFormatStrategy.newBuilder()
+                .logStrategy(new LogStrategy() {
+
+                    @Override
+                    public void log(int priority, String tag, String message) {
+
+                    }
+                })
+                .build();
+        AndroidLogAdapter adapterFile = new AndroidLogAdapter(formatStrategyLog) {
+            @Override
+            public boolean isLoggable(int priority, String tag) {
+                return !BuildConfig.DEBUG;
+            }
+        };
+        Logger.addLogAdapter(new DiskLogAdapter());
+        Logger.d("Hello");
+        Logger.e("darkness");
+        Logger.i("my");
+        Logger.w("old");
     }
 
     public static Context getContext(){

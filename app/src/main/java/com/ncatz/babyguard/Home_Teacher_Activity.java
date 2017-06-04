@@ -97,6 +97,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
+                    fragment = TrackingList_Teacher_Fragment.newInstance(args);
                 }
                 selected = 0;
                 break;
@@ -220,6 +221,11 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         startActivity(intent);
         finishAffinity();
     }
+
+    public void setNavigationBottomBarHide(boolean navigationBottomBarHide) {
+        bottomNavigationView.setVisibility( navigationBottomBarHide ? View.GONE : View.VISIBLE);
+    }
+
     public interface OnSelectedClassIdChangedListener {
         void selectedClassIdChanged(String newId);
     }

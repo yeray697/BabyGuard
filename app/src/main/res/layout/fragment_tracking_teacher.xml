@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ncatz.babyguard.components.CustomToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar_tracking_teacher">
+
+        <ImageView
+            android:id="@+id/backButtonTeacher"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_arrow_back_white"
+            android:layout_marginRight="7dp"
+            android:scaleType="fitCenter"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ivProfile_tracking"
+            android:clickable="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/colorPrimaryDarkMore"/>
+        <TextView
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:layout_margin="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="name"
+            android:textSize="20sp"
+            android:id="@+id/tvName_tracking"/>
+    </com.ncatz.babyguard.components.CustomToolbar>
+
+    <com.yeray697.dotLineRecyclerView.DotLineRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvTrackingTeacher"
+        android:layout_below="@+id/toolbar_tracking_teacher"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabAdd_tracking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_fab"
+        android:src="@android:drawable/ic_input_add"/>
+</RelativeLayout>
+
+

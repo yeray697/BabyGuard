@@ -15,7 +15,6 @@ import com.ncatz.babyguard.model.Kid;
 
 public class Home_Parent_Activity extends AppCompatActivity {
 
-    public static final String KID_KEY = "kid";
     public static final String ACTION = "action";
     public static final String ACTION_OPEN_CALENDAR = "open_calendar";
     public static final String KID_NURSERY_KEY = "nursery";
@@ -73,12 +72,12 @@ public class Home_Parent_Activity extends AppCompatActivity {
         Bundle args = null;
         switch (itemDrawer.getItemId()) {
             case R.id.item_tracing:
-                tag = "tracing";
+                tag = "tracking";
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    args.putString(KID_KEY, kid.getId());
-                    fragment = Tracking_Fragment.newInstance(args);
+                    args.putString(Tracking_Parent_Fragment.KID_KEY, kid.getId());
+                    fragment = Tracking_Parent_Fragment.newInstance(args);
                 }
                 selected = 0;
                 break;
@@ -87,7 +86,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    args.putString(KID_KEY, kid.getId());
+                    args.putString(Tracking_Parent_Fragment.KID_KEY, kid.getId());
                     fragment = Calendar_Fragment.newInstance(args);
                 }
                 selected = 1;

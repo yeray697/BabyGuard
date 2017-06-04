@@ -32,8 +32,9 @@ import com.yeray697.dotLineRecyclerView.RecyclerData;
 
 import java.util.ArrayList;
 
-public class Tracking_Fragment extends Fragment implements Home_View{
+public class Tracking_Parent_Fragment extends Fragment implements Home_View{
 
+    public static final String KID_KEY = "kid";
     private static final String MULTIPLE_LISTENER = "multipleListener";
     private InfoKid_Adapter adapter;
     private DotLineRecyclerView rvInfoKid;
@@ -46,8 +47,8 @@ public class Tracking_Fragment extends Fragment implements Home_View{
     private boolean zoom;
     private ImageView ivKid;
 
-    public static Tracking_Fragment newInstance(Bundle args) {
-        Tracking_Fragment fragment = new Tracking_Fragment();
+    public static Tracking_Parent_Fragment newInstance(Bundle args) {
+        Tracking_Parent_Fragment fragment = new Tracking_Parent_Fragment();
         if (args != null)
             fragment.setArguments(args);
         return fragment;
@@ -57,8 +58,9 @@ public class Tracking_Fragment extends Fragment implements Home_View{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
-        final View view = inflater.inflate(R.layout.fragment_tracking,container,false);
-        kid = Repository.getInstance().getKidById(getArguments().getString(Home_Parent_Activity.KID_KEY));
+
+        final View view = inflater.inflate(R.layout.fragment_tracking_teacher,container,false);
+        kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
 
         setToolbar(view);
         setHasOptionsMenu(true);
@@ -91,8 +93,8 @@ public class Tracking_Fragment extends Fragment implements Home_View{
                 Utils.zoomImageFromThumb(getContext(), R.id.clHome, view, ivExpandedImage, ivKid.getDrawable(), new Utils.OnAnimationEnded() {
                     @Override
                     public void finishing() {
-                         zoom = false;
-                     }
+                        zoom = false;
+                    }
 
                     @Override
                     public void finished() {
@@ -119,13 +121,13 @@ public class Tracking_Fragment extends Fragment implements Home_View{
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
             public void onClick(View view, int i) {
-                    TrackingKid aux = (TrackingKid) adapter.getItemAtPosition(i);
-                    new LovelyInfoDialog(getContext())
-                            .setTopColorRes(R.color.colorPrimaryLightDark)
-                            .setIcon(R.mipmap.ic_info_outline_white_36dp)
-                            .setTitle(aux.getTitle())
-                            .setMessage(aux.getDescription())
-                            .show();
+                TrackingKid aux = (TrackingKid) adapter.getItemAtPosition(i);
+                new LovelyInfoDialog(getContext())
+                        .setTopColorRes(R.color.colorPrimaryLightDark)
+                        .setIcon(R.mipmap.ic_info_outline_white_36dp)
+                        .setTitle(aux.getTitle())
+                        .setMessage(aux.getDescription())
+                        .show();
             }
         });
         ((Babyguard_Application)getContext().getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
@@ -171,6 +173,7 @@ public class Tracking_Fragment extends Fragment implements Home_View{
 
     private void setToolbar(View rootView) {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarHome);
+        toolbar.setVisibility(View.VISIBLE);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null) {

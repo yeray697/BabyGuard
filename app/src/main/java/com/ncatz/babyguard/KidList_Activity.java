@@ -18,7 +18,10 @@ import com.ncatz.babyguard.interfaces.KidList_Presenter;
 import com.ncatz.babyguard.interfaces.KidList_View;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.presenter.KidListPresenterImpl;
+import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.babyguard.utils.Utils;
+
+import java.util.ArrayList;
 
 /**
  * KidList view
@@ -69,7 +72,7 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
 
     @Override
     public void setKids() {
-        adapter = new KidList_Adapter(KidList_Activity.this, new KidList_Adapter.OnImageClickListener() {
+        adapter = new KidList_Adapter(KidList_Activity.this, new ArrayList<>(Repository.getInstance().getKids()), new KidList_Adapter.OnImageClickListener() {
                 @Override
                 public void clicked(final View view, Drawable drawable) {
                 zoom = true;

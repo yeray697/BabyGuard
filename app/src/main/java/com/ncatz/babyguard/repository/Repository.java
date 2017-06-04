@@ -270,6 +270,16 @@ public class Repository {
         return getParentChats();
     }
 
+    public ArrayList<Kid> getKidsByClass(String classId) {
+        ArrayList<Kid> kidArrayList = new ArrayList<>();
+        for (Map.Entry<String, Kid> aux: user.getKids().entrySet()) {
+            if(aux.getValue().getId_nursery_class().equals(classId)) {
+                kidArrayList.add(aux.getValue());
+            }
+        }
+        return kidArrayList;
+    }
+
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Sort {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,6 +18,8 @@ import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -26,10 +29,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class KidList_Adapter extends ArrayAdapter<Kid>{
     OnImageClickListener mCallback;
-    public KidList_Adapter(Context context, OnImageClickListener onImageClickListener) {
-        super(context, R.layout.item_kid_list, Repository.getInstance().getKids());
-        this.mCallback = onImageClickListener;
+
+    public KidList_Adapter(Context context, List<Kid> objects, OnImageClickListener mCallback) {
+        super(context, R.layout.item_kid_list, objects);
+        this.mCallback = mCallback;
     }
+
     public interface OnImageClickListener{
         void clicked(View view, Drawable drawable);
     }

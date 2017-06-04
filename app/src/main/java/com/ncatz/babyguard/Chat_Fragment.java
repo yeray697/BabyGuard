@@ -117,6 +117,7 @@ public class Chat_Fragment extends Fragment {
         //toolbar.setTitle("Chat");
         if (Babyguard_Application.isTeacher()) {
             ((Home_Teacher_Activity)getActivity()).getSupportActionBar().hide();
+            ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(true);
             //((Home_Teacher_Activity)getActivity()).prepareChatToolbar(toolbar);
         } else {
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -139,6 +140,7 @@ public class Chat_Fragment extends Fragment {
         ((Babyguard_Application)(getContext()).getApplicationContext()).removeChatListener();
         if (Babyguard_Application.isTeacher()) {
             ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
+            ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(false);
         }
     }
 }

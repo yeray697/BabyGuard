@@ -18,7 +18,6 @@ import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.repository.Repository;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 
@@ -67,7 +66,7 @@ public class Conversations_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setRetainInstance(true);
-        View view = inflater.inflate(R.layout.fragment_chat_teacher, container, false);
+        View view = inflater.inflate(R.layout.fragment_conversation, container, false);
         toolbar = (CustomToolbar) view.findViewById(R.id.toolbar_conversation);
         lvChats = (ListView) view.findViewById(R.id.lvChat);
         lvChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
