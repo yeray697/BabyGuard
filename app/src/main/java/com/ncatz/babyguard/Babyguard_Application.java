@@ -2,9 +2,13 @@ package com.ncatz.babyguard;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +36,7 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +74,20 @@ public class Babyguard_Application extends Application {
     public void onCreate() {
         super.onCreate();
         this.context = this;
+        // Setup handler for uncaught exceptions.
+        Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler()
+        {
+            @Override
+            public void uncaughtException (final Thread thread, final Throwable e)
+            {
+                /*new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        handleUncaughtException (thread, e);
+                    }
+                });*/
+            }
+        });
         pref = getApplicationContext().getSharedPreferences(FILE_PREFERENCE, MODE_PRIVATE);
         FirebaseManager.getInstance().setListeners(firebaseListeners);
         FormatStrategy formatStrategyLog = PrettyFormatStrategy.newBuilder()
@@ -104,6 +123,27 @@ public class Babyguard_Application extends Application {
         Logger.e("darkness");
         Logger.i("my");
         Logger.w("old");
+    }
+
+    private void handleUncaughtException(Thread thread, Throwable e) {
+        /*String body =  "Cause:\n" + e.getCause() + "\n==================================================\n"
+                + "Stack trace:\n" + Arrays.toString(e.getStackTrace()) + "\n==================================================\n"
+                + "Throwable to string:\n" + e.toString();
+        Log.d("ERRORRRRR",body);*/
+
+        /*
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"yeray.1997.yr@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "BabyGuard Exception");
+        i.putExtra(Intent.EXTRA_TEXT   , "Cause:\n" + e.getCause() + "\n==================================================\n"
+                + "Stack trace:\n" + Arrays.toString(e.getStackTrace()) + "\n==================================================\n"
+                + "Throwable to string:\n" + e.toString());
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(context, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }*/
     }
 
     public static Context getContext(){

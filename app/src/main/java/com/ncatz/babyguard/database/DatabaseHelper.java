@@ -78,7 +78,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     }
 
     public void loadChatMessages() {
-        if (!((Babyguard_Application)context.getApplicationContext()).isDatabaseLoaded() && (Repository.getInstance().decreaseParentChats() == 0 || Babyguard_Application.isTeacher())) { //Avoid duplicate chats
+        if (!((Babyguard_Application)context.getApplicationContext()).isDatabaseLoaded() && (Babyguard_Application.isTeacher() || Repository.getInstance().decreaseParentChats() == 0)) { //Avoid duplicate chats
             ((Babyguard_Application)context.getApplicationContext()).setDatabaseLoaded(true);
             AsyncTask<Void, Void, Void> thread = new AsyncTask<Void, Void, Void>() {
                 @Override

@@ -57,6 +57,12 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                         return true;
                     }
                 });
+        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                //Empty to prevent double click on tab item
+            }
+        });
         selectItemMenu(bottomNavigationView.getMenu().getItem(0));
         setToolbar();
         ((Babyguard_Application)getApplicationContext()).addHomeTeacherListener(new Babyguard_Application.ActionEndListener() {
@@ -136,7 +142,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                         .beginTransaction()
                         //.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .replace(R.id.container_home, fragment,tag)
+                        .replace(R.id.container_home, fragment)
                         .commit();
         }
     }

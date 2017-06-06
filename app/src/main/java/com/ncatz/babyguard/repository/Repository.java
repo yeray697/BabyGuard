@@ -1,6 +1,7 @@
 package com.ncatz.babyguard.repository;
 
 import android.support.annotation.IntDef;
+import android.util.Log;
 
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.database.DatabaseHelper;
@@ -267,7 +268,7 @@ public class Repository {
     }
     public int decreaseParentChats() {
         parentChats -= 1;
-        return getParentChats();
+        return parentChats;
     }
 
     public ArrayList<Kid> getKidsByClass(String classId) {
