@@ -306,7 +306,6 @@ public class Utils {
         today.set(Calendar.MILLISECOND, 0);
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(Long.parseLong(unixTime));
-        SimpleDateFormat sdf;
         return c.after(today);
     }
 

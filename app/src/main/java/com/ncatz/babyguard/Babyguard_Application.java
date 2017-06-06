@@ -37,6 +37,7 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -429,11 +430,19 @@ public class Babyguard_Application extends Application {
                 HashMap<String,HashMap<String,String>> calendar = (HashMap<String,HashMap<String, String>>) ((HashMap<String, Object>)dataSnapshot.getValue()).get("calendar");
                 DiaryCalendarEvent calendarAux = null;
                 if (calendar != null) {
+                    Integer day,year,month;
+                    String unixTime;
                     for (Map.Entry<String, HashMap<String, String>> entry : calendar.entrySet()) {
+                        unixTime = entry.getValue().get("datetime");
+                        Calendar aux = Calendar.getInstance();
+                        aux.setTimeInMillis(Long.parseLong(unixTime));
+                        day = aux.get(Calendar.DAY_OF_MONTH);
+                        year = aux.get(Calendar.YEAR);
+                        month = aux.get(Calendar.MONTH) + 1;
                         calendarAux = new DiaryCalendarEvent(entry.getValue().get("title"),
-                                Integer.valueOf(entry.getValue().get("year")),
-                                Integer.valueOf(entry.getValue().get("month")),
-                                Integer.valueOf(entry.getValue().get("day")),
+                                year,
+                                month,
+                                day,
                                 entry.getValue().get("description"));
                         calendarListAux.add(calendarAux);
                     }
@@ -469,7 +478,7 @@ public class Babyguard_Application extends Application {
                     String idKid = dataSnapshot.getKey();
                     for (HashMap<String, String> kid : kids) {
                         trackingAux = new TrackingKid("", kid.get("title"),
-                                kid.get("time"),
+                                kid.get("datetime"),
                                 TrackingKid.parseIntToType(Integer.parseInt(kid.get("type"))),
                                 kid.get("description"));
                         trackingList.add(trackingAux);

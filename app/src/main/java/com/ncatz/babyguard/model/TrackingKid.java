@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
 
-import com.ncatz.babyguard.R;
+import com.google.firebase.database.Exclude;
 import com.yeray697.dotLineRecyclerView.RecyclerData;
 
 import java.lang.annotation.Retention;
@@ -17,44 +17,46 @@ import java.util.Comparator;
 
 public class TrackingKid extends RecyclerData implements Parcelable{
 
+    @Exclude
     private RecyclerData data;
+    @Exclude
     private String image;
-    private String title;
-    private String time;
-    private int type;
     private String description;
+    private String title;
+    private String datetime;
+    private int type;
 
     public static final Comparator<? super TrackingKid> CATEGORY = new Comparator<TrackingKid>() {
         @Override
         public int compare(TrackingKid o1, TrackingKid o2) {
             int result = o1.getType() - o2.getType();
             if (result == 0)
-                result = o2.getTime().compareTo(o1.getTime());
+                result = o2.datetime.compareTo(o1.datetime);
             return result;
         }
     };
     public static final Comparator<? super TrackingKid> CHRONOLOGIC = new Comparator<TrackingKid>() {
         @Override
         public int compare(TrackingKid o1, TrackingKid o2) {
-            return o2.getTime().compareTo(o1.getTime());
+            return o2.datetime.compareTo(o1.datetime);
         }
     };
 
-    public TrackingKid(String image, String title, String time, @Type int type, String description) {
-        super(image, title, time);
+    public TrackingKid(String image, String title, String datetime, @Type int type, String description) {
+        super(image, title, datetime);
         this.image = image;
         this.title = title;
-        this.time = time;
+        this.datetime = datetime;
         this.type = type;
         this.description = description;
-        this.data = new RecyclerData(this.image,this.title,this.time);
+        this.data = new RecyclerData(this.image,this.title,this.datetime);
     }
 
     protected TrackingKid(Parcel in) {
         super(in.readString(), in.readString(), in.readString());
         image = super.getImageUrl();
         title = super.getTitle();
-        time = super.getSubtitle();
+        datetime = super.getSubtitle();
         type = in.readInt();
         description = in.readString();
     }
@@ -80,7 +82,7 @@ public class TrackingKid extends RecyclerData implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(image);
         dest.writeString(title);
-        dest.writeString(time);
+        dest.writeString(datetime);
         dest.writeInt(type);
         dest.writeString(description);
     }
@@ -141,13 +143,13 @@ public class TrackingKid extends RecyclerData implements Parcelable{
         this.title = title;
     }
 
-    public String getTime() {
-        return time;
+    public String getDatetime() {
+        return datetime;
     }
 
-    public void setTime(String time) {
-        super.setSubtitle(time);
-        this.time = time;
+    public void setDatetime(String datetime) {
+        super.setSubtitle(datetime);
+        this.datetime = datetime;
     }
 
     public int getType() {

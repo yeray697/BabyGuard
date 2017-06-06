@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.TrackingKid;
+import com.ncatz.babyguard.utils.Utils;
 import com.yeray697.dotLineRecyclerView.DotLineRecyclerAdapter;
 import com.yeray697.dotLineRecyclerView.RecyclerData;
 
@@ -14,12 +15,12 @@ import java.util.ArrayList;
  * Created by yeray697 on 19/12/16.
  */
 
-public class InfoKid_Adapter extends DotLineRecyclerAdapter {
+public class TrackingKid_Adapter extends DotLineRecyclerAdapter {
 
 
     private Context context;
 
-    public InfoKid_Adapter(Context context, ArrayList<RecyclerData> data, int dotMarginLeft) {
+    public TrackingKid_Adapter(Context context, ArrayList<RecyclerData> data, int dotMarginLeft) {
         super(data, dotMarginLeft);
         this.context = context;
     }
@@ -47,7 +48,8 @@ public class InfoKid_Adapter extends DotLineRecyclerAdapter {
     @Override
     public void onBindViewHolder(DotLineRecyclerAdapter.Holder holder, int position) {
         super.onBindViewHolder(holder, position);
-        int type = ((TrackingKid)getItemAtPosition(position)).getType();
+        TrackingKid aux = ((TrackingKid)getItemAtPosition(position));
+        int type = aux.getType();
         int resource = 0;
         switch (type){
             case TrackingKid.Type.POOP:
@@ -65,6 +67,7 @@ public class InfoKid_Adapter extends DotLineRecyclerAdapter {
 
         }
         holder.iv_item.setImageResource(resource);
+        holder.message.setTextSubTitle(Utils.getTimeByUnix(aux.getDatetime()));
     }
 
     @Override

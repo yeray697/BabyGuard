@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.ncatz.babyguard.adapter.InfoKid_Adapter;
+import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
 import com.ncatz.babyguard.interfaces.Home_View;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.Kid;
@@ -36,7 +36,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
 
     public static final String KID_KEY = "kid";
     private static final String MULTIPLE_LISTENER = "multipleListener";
-    private InfoKid_Adapter adapter;
+    private TrackingKid_Adapter adapter;
     private DotLineRecyclerView rvInfoKid;
     private ArrayList<? extends RecyclerData> dataKid;
     private boolean orderedByCategory;
@@ -112,7 +112,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvHome);
         order = Repository.Sort.CHRONOLOGIC;
         dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
-        adapter = new InfoKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
+        adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rvInfoKid.setLayoutManager(mLayoutManager);
         rvInfoKid.setLineColor(ContextCompat.getColor(getContext(), R.color.colorLineColor));
@@ -135,7 +135,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
             public void onEnd() {
                 kid = Repository.getInstance().getKidById(kid.getId());
                 dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
-                adapter = new InfoKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
+                adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
                 rvInfoKid.setAdapter(adapter);
                 collapser.setTitle(kid.getName());
                 Picasso.with(getContext()).load(kid.getImg())

@@ -12,8 +12,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
+import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.repository.Repository;
+import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -306,6 +308,22 @@ public class FirebaseManager {
     public void close() {
         firebaseAuth.signOut();
         removeListeners();
+    }
+
+
+    public boolean addEvent(String nurseryId, String classId, DiaryCalendarEvent event) {
+        boolean result = false;
+
+
+        return result;
+    }
+
+    public boolean addTracking(String kid, TrackingKid trackingKid) {
+        boolean result = false;
+
+        database.getReference().child(TRACKING_REFERENCE).child(kid).push().setValue(trackingKid);
+
+        return result;
     }
 
 }
