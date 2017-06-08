@@ -49,6 +49,7 @@ class DiaryCalendarAdapter extends RecyclerView.Adapter<DiaryCalendarAdapter.Hol
     private ArrayList<DiaryCalendarEvent> events;
     private int selectedEvent = -1;
     private int currentEvent = -1;
+    private View.OnCreateContextMenuListener onCreateContextMenuListener;
 
     DiaryCalendarAdapter(Context context, ArrayList<DiaryCalendarEvent> events) {
         this.events = events;
@@ -76,7 +77,7 @@ class DiaryCalendarAdapter extends RecyclerView.Adapter<DiaryCalendarAdapter.Hol
             else
                 holder.rlHead.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.background_item_not_expanded));
         }
-
+        holder.root.setTag(event);
 
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,7 +186,10 @@ class DiaryCalendarAdapter extends RecyclerView.Adapter<DiaryCalendarAdapter.Hol
             btExpandCollapse = (ImageView) itemView.findViewById(R.id.btCalendarExpand_item);
             rlHead = (RelativeLayout) itemView.findViewById(R.id.header_item);
             rlBody = (RelativeLayout) itemView.findViewById(R.id.body_item);
-
+            /*if (onLongClickListener != null)
+                root.setOnLongClickListener(onLongClickListener);*/
+            if (onCreateContextMenuListener != null)
+                root.setOnCreateContextMenuListener(onCreateContextMenuListener);
             rlBody.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -193,5 +197,9 @@ class DiaryCalendarAdapter extends RecyclerView.Adapter<DiaryCalendarAdapter.Hol
                 }
             });
         }
+    }
+
+    public void setOnCreateContextMenuListenerItem(View.OnCreateContextMenuListener onCreateContextMenuListener) {
+        this.onCreateContextMenuListener = onCreateContextMenuListener;
     }
 }

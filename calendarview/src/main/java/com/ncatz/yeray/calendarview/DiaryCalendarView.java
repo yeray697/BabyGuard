@@ -440,4 +440,8 @@ public class DiaryCalendarView extends RelativeLayout {
                 = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN);
         ivDate.setColorFilter(colorFilter);
     }
+
+    public void setOnCreateContextMenuListenerItem(View.OnCreateContextMenuListener onCreateContextMenuListener) {
+        adapter.setOnCreateContextMenuListenerItem(onCreateContextMenuListener);
+    }
 }

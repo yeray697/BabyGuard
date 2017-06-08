@@ -2,11 +2,14 @@ package com.ncatz.babyguard;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -14,21 +17,23 @@ import android.widget.LinearLayout;
 import com.ncatz.babyguard.components.CustomToolbar;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
+import com.ncatz.babyguard.utils.OneClickListener;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 import com.ncatz.yeray.calendarview.DiaryCalendarView;
 
 import java.util.ArrayList;
 
 
-public class Calendar_Fragment extends Fragment {
+public class Calendar_Fragment extends Fragment implements View.OnCreateContextMenuListener {
     public static final String KID_KEY = "kid";
     public static final String ID_KEY = "id";
     private Kid kid;
     private DiaryCalendarView calendar;
     private ArrayList<DiaryCalendarEvent> calendarDates;
     private LinearLayout expandableDate;
+    private FloatingActionButton fabAddEvent;
     private Home_Teacher_Activity.OnSelectedClassIdChangedListener listener;
-
+    private String classId;
 
     public static Calendar_Fragment newInstance(Bundle args) {
         Calendar_Fragment fragment = new Calendar_Fragment();
@@ -47,8 +52,6 @@ public class Calendar_Fragment extends Fragment {
         };
     }
 
-    private String classId;
-
     private void refreshCalendar() {
         if(Babyguard_Application.isTeacher()) {
             calendarDates = Repository.getInstance().getCalendarByNursery(Repository.getInstance().getUser().getId_nursery(),classId);
@@ -63,15 +66,34 @@ public class Calendar_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        fabAddEvent = (FloatingActionButton) view.findViewById(R.id.fabAdd_calendar);
         calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
         setToolbar(view);
         if(Babyguard_Application.isTeacher()) {
+            fabAddEvent.setVisibility(View.VISIBLE);
             classId = getArguments().getString(ID_KEY);
+            calendar.setOnCreateContextMenuListenerItem(this);
         } else {
+            fabAddEvent.setVisibility(View.GONE);
             kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
         }
         refreshCalendar();
+        fabAddEvent.setOnClickListener(new OneClickListener() {
+            @Override
+            protected void onOneClick() {
+                openAddEventFragment(null);
+            }
+        });
         return view;
+    }
+
+    private void openAddEventFragment(Bundle args) {
+        Fragment fragment = AddEvent_Fragment.newInstance(args);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container_home, fragment,"addEvent")
+                .addToBackStack("addEvent")
+                .commit();
     }
 
     @Override
@@ -117,5 +139,27 @@ public class Calendar_Fragment extends Fragment {
             ((Babyguard_Application) getContext().getApplicationContext()).removeCalendarListener();
             ((ViewGroup) expandableDate.getParent()).removeView(expandableDate);
         }
+    }
+    private DiaryCalendarEvent selectedItemContextMenu;
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        selectedItemContextMenu = (DiaryCalendarEvent) v.getTag();
+        menu.setHeaderTitle("Select The Action");
+        menu.add(1, v.getId(), 0, "Edit");
+        menu.add(2, v.getId(), 0, "Remove");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getGroupId() == 1 && selectedItemContextMenu != null) { //Edit
+            Bundle args = new Bundle();
+            args.putParcelable(AddEvent_Fragment.EVENT_KEY,selectedItemContextMenu);
+            openAddEventFragment(args);
+            selectedItemContextMenu = null;
+        } else if (item.getGroupId() == 2) { //Remove
+
+        }
+        return super.onContextItemSelected(item);
     }
 }

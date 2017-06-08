@@ -60,7 +60,6 @@ public class Chat_Fragment extends Fragment {
         if (!Babyguard_Application.isTeacher())
             ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(false);
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
-        setToolbar(view);
         teacherId = getArguments().getString(TEACHER_ID_KEY);
         kidId = getArguments().getString(KID_ID_KEY);
         backButton = (ImageView) view.findViewById(R.id.backButtonChat);
@@ -112,8 +111,14 @@ public class Chat_Fragment extends Fragment {
         }
     }
 
-    private void setToolbar(View rootView) {
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_chat);
+    @Override
+    public void onResume() {
+        super.onResume();
+        setToolbar();
+    }
+
+    private void setToolbar() {
+        Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar_chat);
         //toolbar.setTitle("Chat");
         if (Babyguard_Application.isTeacher()) {
             ((Home_Teacher_Activity)getActivity()).getSupportActionBar().hide();
@@ -134,6 +139,7 @@ public class Chat_Fragment extends Fragment {
         }
         lvChat.setAdapter(adapter);
     }
+
     @Override
     public void onStop() {
         super.onStop();

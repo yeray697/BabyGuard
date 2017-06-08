@@ -46,12 +46,23 @@ public class DiaryCalendarEvent implements Parcelable {
             return result;
         }
     };
+    private String id;
     private String title;
     private int year,month,day;
     private String description;
     private boolean expanded;
 
     public DiaryCalendarEvent(String title, int year, int month, int day, String description) {
+        this.id = "";
+        this.title = title;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.description = description;
+        this.expanded = false;
+    }
+    public DiaryCalendarEvent(String id, String title, int year, int month, int day, String description) {
+        this.id = id;
         this.title = title;
         this.year = year;
         this.month = month;
@@ -61,6 +72,7 @@ public class DiaryCalendarEvent implements Parcelable {
     }
 
     public DiaryCalendarEvent(Parcel in) {
+        id = in.readString();
         title = in.readString();
         year = in.readInt();
         month = in.readInt();
@@ -80,6 +92,14 @@ public class DiaryCalendarEvent implements Parcelable {
             return new DiaryCalendarEvent[size];
         }
     };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -140,6 +160,7 @@ public class DiaryCalendarEvent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeInt(year);
         dest.writeInt(month);

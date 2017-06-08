@@ -433,7 +433,8 @@ public class Babyguard_Application extends Application {
                         day = aux.get(Calendar.DAY_OF_MONTH);
                         year = aux.get(Calendar.YEAR);
                         month = aux.get(Calendar.MONTH) + 1;
-                        calendarAux = new DiaryCalendarEvent(entry.getValue().get("title"),
+                        calendarAux = new DiaryCalendarEvent(entry.getKey(),
+                                entry.getValue().get("title"),
                                 year,
                                 month,
                                 day,
