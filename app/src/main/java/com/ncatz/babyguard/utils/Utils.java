@@ -84,10 +84,10 @@ public class Utils {
                 } else {
                     if (!isSameDay(lastDate,messageAux.getDatetime())){
                         auxDate = new ChatMessage();
+                        lastDate = messageAux.getDatetime();
                         auxDate.setIfIsMessage(false);
                         auxDate.setDatetime(lastDate);
                         newMessages.add(auxDate);
-                        lastDate = auxDate.getDatetime();
                     }
                 }
             } else {
@@ -303,19 +303,19 @@ public class Utils {
     public static String getDateByUnixChatDate(String unixTime){
         String date;
         Calendar today = Calendar.getInstance();
+        Calendar c = Calendar.getInstance();
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
         today.set(Calendar.MILLISECOND, 0);
 
         Calendar yesterday = Calendar.getInstance();
-        yesterday.set(Calendar.DAY_OF_MONTH,-1);
+        yesterday.add(Calendar.DATE,-1);
         yesterday.set(Calendar.HOUR_OF_DAY, 0);
         yesterday.set(Calendar.MINUTE, 0);
         yesterday.set(Calendar.SECOND, 0);
         yesterday.set(Calendar.MILLISECOND, 0);
 
-        Calendar c = Calendar.getInstance();
         c.setTimeInMillis(Long.parseLong(unixTime));
         SimpleDateFormat sdf;
         if (c.after(today)) {

@@ -53,6 +53,8 @@
         android:layout_toRightOf="@id/ivProfileChat_item"
         android:layout_toEndOf="@id/ivProfileChat_item"
         android:layout_below="@id/tvNameChat_item"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textSize="18sp"
         android:text="Message"/>
 </RelativeLayout>
