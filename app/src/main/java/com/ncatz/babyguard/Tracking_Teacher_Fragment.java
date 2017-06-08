@@ -33,6 +33,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
 
     public static final String KID_KEY = "kid";
     private TextView tvName;
+    private TextView tvInfo;
     private ImageView backButton;
     private CircleImageView ivProfile;
     private DotLineRecyclerView rvInfoKid;
@@ -52,15 +53,15 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        setRetainInstance(true);
         final View view = inflater.inflate(R.layout.fragment_tracking_teacher,container,false);
         kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
-        setToolbar(view);
         setHasOptionsMenu(true);
         tvName = (TextView) view.findViewById(R.id.tvName_tracking);
         backButton = (ImageView) view.findViewById(R.id.backButtonTeacher);
         ivProfile = (CircleImageView) view.findViewById(R.id.ivProfile_tracking);
         tvName = (TextView) view.findViewById(R.id.tvName_tracking);
+        tvInfo = (TextView) view.findViewById(R.id.tvInfoKid_tracking);
         fabAdd = (FloatingActionButton) view.findViewById(R.id.fabAdd_tracking);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +71,8 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
         });
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvTrackingTeacher);
         tvName.setText(kid.getName());
+        tvInfo.setSelected(true);
+        tvInfo.setText(kid.getInfo());
         Picasso.with(getContext()).load(kid.getImg()).into(ivProfile);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rvInfoKid.setLayoutManager(mLayoutManager);
@@ -103,13 +106,19 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setToolbar();
+    }
+
     private void refreshList() {
         dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), Repository.Sort.CHRONOLOGIC);
-        adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45); //TODO
+        adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
         rvInfoKid.setAdapter(adapter);
     }
 
-    private void setToolbar(View rootView) {
+    private void setToolbar() {
         ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.hide();
     }

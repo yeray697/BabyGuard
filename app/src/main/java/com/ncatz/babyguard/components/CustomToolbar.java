@@ -1,42 +1,38 @@
 package com.ncatz.babyguard.components;
 
-    import android.app.Activity;
-    import android.content.Context;
-    import android.graphics.ColorFilter;
-    import android.graphics.PorterDuff;
-    import android.graphics.PorterDuffColorFilter;
-    import android.support.v7.view.menu.ActionMenuItemView;
-    import android.support.v7.widget.ActionMenuView;
-    import android.support.v7.widget.Toolbar;
-    import android.util.AttributeSet;
-    import android.util.Log;
-    import android.view.View;
-    import android.view.ViewGroup;
-    import android.widget.AutoCompleteTextView;
-    import android.widget.EditText;
-    import android.widget.ImageButton;
-    import android.widget.ImageView;
-    import android.widget.TextView;
+import android.content.Context;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.support.v7.view.menu.ActionMenuItemView;
+import android.support.v7.widget.ActionMenuView;
+import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-    import com.ncatz.babyguard.R;
+import com.ncatz.babyguard.R;
 
 public class CustomToolbar extends Toolbar{
 
     public CustomToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        // TODO Auto-generated constructor stub
         itemColor = getContext().getResources().getColor(R.color.toolbar_text_color);
     }
 
     public CustomToolbar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
         itemColor = getContext().getResources().getColor(R.color.toolbar_text_color);
     }
 
     public CustomToolbar(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
         ctxt = context;
         itemColor = getContext().getResources().getColor(R.color.toolbar_text_color);
     }

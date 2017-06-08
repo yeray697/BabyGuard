@@ -2,34 +2,27 @@ package com.ncatz.babyguard;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.ncatz.babyguard.adapter.SpinnerKidsTeacher_Adapter;
-import com.ncatz.babyguard.components.CustomToolbar;
-import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.repository.Repository;
-
-import java.util.Collections;
 
 public class Home_Teacher_Activity extends AppCompatActivity {
 

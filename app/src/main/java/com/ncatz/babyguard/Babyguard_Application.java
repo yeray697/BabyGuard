@@ -2,13 +2,8 @@ package com.ncatz.babyguard;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,8 +20,8 @@ import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.model.UserCredentials;
 import com.ncatz.babyguard.repository.Repository;
-import com.ncatz.yeray.calendarview.*;
 import com.ncatz.yeray.calendarview.BuildConfig;
+import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.CsvFormatStrategy;
 import com.orhanobut.logger.DiskLogAdapter;
@@ -36,7 +31,6 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;

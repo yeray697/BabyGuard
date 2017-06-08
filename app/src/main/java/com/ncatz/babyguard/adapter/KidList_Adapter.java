@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.Kid;
-import com.ncatz.babyguard.repository.Repository;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

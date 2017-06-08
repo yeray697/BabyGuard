@@ -2,8 +2,8 @@ package com.ncatz.babyguard;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder;
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity;

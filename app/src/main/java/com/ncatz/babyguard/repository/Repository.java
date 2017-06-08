@@ -1,24 +1,22 @@
 package com.ncatz.babyguard.repository;
 
 import android.support.annotation.IntDef;
-import android.util.Log;
 
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
-import com.ncatz.babyguard.model.NurseryClass;
-import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.model.NurserySchool;
+import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

@@ -2,7 +2,6 @@ package com.ncatz.babyguard.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.model.Chat;
@@ -14,8 +13,6 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 

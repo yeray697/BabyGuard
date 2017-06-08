@@ -1,15 +1,9 @@
 package com.ncatz.babyguard.model;
 
-import android.util.Log;
-
-import com.google.firebase.database.DataSnapshot;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by yeray697 on 1/05/17.

@@ -1,7 +1,5 @@
 package com.ncatz.babyguard.model;
 
-import java.util.Objects;
-
 /**
  * Created by yeray697 on 31/05/17.
  */

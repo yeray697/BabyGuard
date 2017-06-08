@@ -20,10 +20,6 @@
     <string name="tvKidList_parent_text">Hijos en la guardería</string>
     <string name="action_sign_off">Cerrar sesión</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
     <!-- Multiple tag: Conversation_Adapter-->
     <item type="id" name="conversationHolder" />
     <item type="id" name="conversationId" />

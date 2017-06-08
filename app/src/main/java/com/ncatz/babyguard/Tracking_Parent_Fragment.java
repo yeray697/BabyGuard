@@ -1,11 +1,11 @@
 package com.ncatz.babyguard;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +20,8 @@ import android.widget.ImageView;
 
 import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
 import com.ncatz.babyguard.interfaces.Home_View;
-import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.babyguard.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -59,7 +59,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
 
-        final View view = inflater.inflate(R.layout.fragment_tracking_teacher,container,false);
+        final View view = inflater.inflate(R.layout.fragment_tracking_parent,container,false);
         kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
 
         setToolbar(view);

@@ -74,6 +74,7 @@ public class TrackingList_Teacher_Fragment extends Fragment{
         args.putString(Tracking_Parent_Fragment.KID_KEY, kid.getId());
         Fragment fragment = Tracking_Teacher_Fragment.newInstance(args);
         getActivity().getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, R.anim.fade_out,R.anim.fade_in,R.anim.fade_out)
                 .replace(R.id.container_home, fragment,"tracking")
                 .addToBackStack("tracking")
                 .commit();
