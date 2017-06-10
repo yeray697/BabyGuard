@@ -1,1 +1,1 @@
-include ':app', ':DotLineRecyclerView', ':imagezoomview', ':calendarview'
+include ':app', ':imagezoomview', ':calendarview', ':dotlinerecyclerview'
