@@ -1,20 +1,25 @@
 package com.ncatz.babyguard;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
+import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.interfaces.Home_View;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.TrackingKid;
@@ -42,6 +47,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
 
     private Kid kid;
     private ArrayList<? extends RecyclerData> dataKid;
+    private TrackingKid selectedItemContextMenu;
 
     public static Tracking_Teacher_Fragment newInstance(Bundle args) {
         Tracking_Teacher_Fragment fragment = new Tracking_Teacher_Fragment();
@@ -66,7 +72,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openAddTrackingFragment(null);
             }
         });
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvTrackingTeacher);
@@ -105,6 +111,20 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
         });
         return view;
     }
+    private void openAddTrackingFragment(Bundle args) {
+        Bundle args2 = null;
+        if (args == null) {
+            args2 = new Bundle();
+            args2.putString(AddTracking_Fragment.KID_ID,kid.getId());
+        } else
+            args.putString(AddTracking_Fragment.KID_ID,kid.getId());
+        Fragment fragment = AddTracking_Fragment.newInstance( (args == null) ? args2 : args);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container_home, fragment,"addTracking")
+                .addToBackStack("addTracking")
+                .commit();
+    }
 
     @Override
     public void onResume() {
@@ -129,5 +149,39 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
         ((Babyguard_Application)getContext().getApplicationContext()).removeTrackingListener();
         ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        selectedItemContextMenu = (TrackingKid) v.getTag();
+        menu.setHeaderTitle("Select The Action");
+        menu.add(1, v.getId(), 0, "Edit");
+        menu.add(2, v.getId(), 0, "Remove");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getGroupId() == 1 && selectedItemContextMenu != null) { //Edit
+            Bundle args = new Bundle();
+            args.putParcelable(AddTracking_Fragment.TRACKING_KEY,selectedItemContextMenu);
+            openAddTrackingFragment(args);
+            selectedItemContextMenu = null;
+        } else if (item.getGroupId() == 2) { //Remove
+            final String idTracking = selectedItemContextMenu.getId();
+            selectedItemContextMenu = null;
+            AlertDialog.Builder dialog  = new AlertDialog.Builder(getContext());
+            dialog.setTitle("¿Deseas borrar éste seguimiento?");
+            dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseManager.getInstance().removeTracking(kid.getId(),idTracking);
+                }
+            });
+            dialog.setNegativeButton(android.R.string.cancel,null);
+            dialog.show();
+            selectedItemContextMenu = null;
+        }
+        return super.onContextItemSelected(item);
     }
 }

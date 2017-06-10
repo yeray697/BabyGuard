@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Context application
@@ -469,13 +470,17 @@ public class Babyguard_Application extends Application {
                 ArrayList<TrackingKid> trackingList = new ArrayList<>();
                 TrackingKid trackingAux;
                 if (dataSnapshot.getValue() != null) {
-                    ArrayList<HashMap<String, String>> kids = (ArrayList<HashMap<String, String>>) dataSnapshot.getValue();
+                    HashMap<String, Object> kids = (HashMap<String, Object>) dataSnapshot.getValue();
                     String idKid = dataSnapshot.getKey();
-                    for (HashMap<String, String> kid : kids) {
-                        trackingAux = new TrackingKid("", kid.get("title"),
-                                kid.get("datetime"),
-                                TrackingKid.parseIntToType(Integer.parseInt(kid.get("type"))),
-                                kid.get("description"));
+                    HashMap<String,String> value;
+                    for (Map.Entry<String, Object> kid : kids.entrySet()) {
+                        value = (HashMap<String, String>) kid.getValue();
+                        trackingAux = new TrackingKid(kid.getKey(),
+                                "",
+                                value.get("title"),
+                                value.get("datetime"),
+                                TrackingKid.parseIntToType(Integer.parseInt(value.get("type"))),
+                                value.get("description"));
                         trackingList.add(trackingAux);
                     }
                     Repository.getInstance().addTracking(idKid, trackingList);

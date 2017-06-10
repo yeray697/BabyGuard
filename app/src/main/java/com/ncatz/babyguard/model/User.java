@@ -13,7 +13,6 @@ import java.util.Map;
 
 public class User {
     private String id;
-    private boolean deleted;
     private String mail;
     private String id_nursery;
     private ArrayList<String> id_nursery_classes_teacher;
@@ -49,14 +48,6 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 
     public String getMail() {
@@ -113,16 +104,15 @@ public class User {
         HashMap<String, Object> aux;
         for (HashMap.Entry<String,Object> entry : value.entrySet()) {
             aux = (HashMap<String, Object>) entry.getValue();
-            userAux.setId(String.valueOf(aux.get("id")));
-            userAux.setUser_type(Integer.parseInt(String.valueOf(aux.get("user_type"))));
-            userAux.setMail(String.valueOf(aux.get("mail")));
-            //userAux.setDeleted((Boolean) aux.get("deleted"));
-            userAux.setImg(String.valueOf(aux.get("img")));
-            userAux.setPhone_number(String.valueOf(aux.get("phone_number")));
-            userAux.setDbPass(String.valueOf(aux.get("db_pass")));
+            userAux.id = String.valueOf(aux.get("id"));
+            userAux.user_type = Integer.parseInt(String.valueOf(aux.get("user_type")));
+            userAux.mail = String.valueOf(aux.get("mail"));
+            userAux.img = String.valueOf(aux.get("img_profile"));
+            userAux.phone_number = String.valueOf(aux.get("phone_number"));
+            userAux.dbPass = String.valueOf(aux.get("db_pass"));
             if (userAux.getUser_type()==UserCredentials.TYPE_TEACHER) {
-                userAux.setId_nursery(String.valueOf(aux.get("id_nursery")));
-                userAux.setIdClassTeacher(new ArrayList<>(((HashMap<String,String>) aux.get("classes")).values()));
+                userAux.id_nursery = String.valueOf(aux.get("id_nursery"));
+                userAux.id_nursery_classes_teacher = new ArrayList<>(((HashMap<String,String>) aux.get("classes")).values());
             }
             break;
         }

@@ -4,14 +4,14 @@
     android:layout_height="match_parent">
 
     <com.ncatz.babyguard.components.CustomToolbar
-        android:id="@+id/toolbar_AddEvent"
+        android:id="@+id/toolbar_AddTracking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize">
 
         <ImageView
-            android:id="@+id/backButton_AddEvent"
+            android:id="@+id/backButton_AddTracking"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="7dp"
@@ -25,22 +25,22 @@
             android:layout_height="wrap_content"
             android:text="Añadir"
             android:textSize="20sp"
-            android:id="@+id/tvToolbar_AddEvent"/>
+            android:id="@+id/tvToolbar_AddTracking"/>
     </com.ncatz.babyguard.components.CustomToolbar>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
-        android:layout_below="@id/toolbar_AddEvent">
+        android:layout_below="@id/toolbar_AddTracking">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_marginTop="30dp"
-                android:id="@+id/tvTitle_AddEvent"
+                android:layout_marginTop="50dp"
+                android:id="@+id/tvTitle_AddTracking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title:"
@@ -50,20 +50,20 @@
                 android:layout_alignParentStart="true"
                 android:gravity="start" />
             <EditText
-                android:id="@+id/etTitle_AddEvent"
+                android:id="@+id/etTitle_AddTracking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_alignBaseline="@+id/tvTitle_AddEvent"
-                android:layout_alignBottom="@+id/tvTitle_AddEvent"
-                android:layout_toRightOf="@+id/tvDescription_AddEvent"
-                android:layout_toEndOf="@+id/tvDescription_AddEvent"  />
+                android:layout_alignBaseline="@+id/tvTitle_AddTracking"
+                android:layout_alignBottom="@+id/tvTitle_AddTracking"
+                android:layout_toRightOf="@+id/tvDescription_AddTracking"
+                android:layout_toEndOf="@+id/tvDescription_AddTracking"  />
 
 
             <TextView
-                android:layout_marginTop="20dp"
-                android:layout_below="@id/etTitle_AddEvent"
-                android:id="@+id/tvDescription_AddEvent"
+                android:layout_marginTop="40dp"
+                android:layout_below="@id/etTitle_AddTracking"
+                android:id="@+id/tvDescription_AddTracking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -75,61 +75,45 @@
                 android:layout_marginLeft="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/etDescription_AddEvent"
-                android:layout_below="@id/etTitle_AddEvent"
-                android:layout_alignBaseline="@+id/tvDescription_AddEvent"
-                android:layout_alignBottom="@+id/tvDescription_AddEvent"
-                android:layout_toRightOf="@+id/tvDescription_AddEvent"
-                android:layout_toEndOf="@+id/tvDescription_AddEvent" />
+                android:id="@+id/etDescription_AddTracking"
+                android:layout_below="@id/etTitle_AddTracking"
+                android:layout_alignBaseline="@+id/tvDescription_AddTracking"
+                android:layout_alignBottom="@+id/tvDescription_AddTracking"
+                android:layout_toRightOf="@+id/tvDescription_AddTracking"
+                android:layout_toEndOf="@+id/tvDescription_AddTracking" />
 
             <TextView
-                android:layout_marginTop="20dp"
-                android:id="@+id/tvDate1_AddEvent"
+                android:layout_marginTop="40dp"
+                android:id="@+id/tvType_AddTracking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date:"
+                android:text="Type:"
                 android:clickable="true"
                 android:textSize="19sp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/etDescription_AddEvent"
+                android:layout_below="@id/etDescription_AddTracking"
                 android:gravity="start"/>
-            <TextView
-                android:id="@+id/tvDate2_AddEvent"
+            <Spinner
+                android:id="@+id/spType_AddTracking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select"
                 android:clickable="true"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
-                android:layout_alignBaseline="@+id/tvDate1_AddEvent"
-                android:layout_alignBottom="@+id/tvDate1_AddEvent"
-                android:layout_below="@+id/etDescription_AddEvent"
-                android:layout_alignLeft="@+id/etTitle_AddEvent"
-                android:layout_alignStart="@+id/etTitle_AddEvent"
-                android:layout_toRightOf="@+id/tvDescription_AddEvent"
-                android:layout_toEndOf="@+id/tvDescription_AddEvent"  />
+                android:entries="@array/spinner_add_tracking"
+                android:layout_alignBaseline="@+id/tvType_AddTracking"
+                android:layout_alignBottom="@+id/tvType_AddTracking"
+                android:layout_below="@+id/etDescription_AddTracking"
+                android:layout_alignLeft="@+id/etTitle_AddTracking"
+                android:layout_alignStart="@+id/etTitle_AddTracking"
+                android:layout_toRightOf="@+id/tvDescription_AddTracking"
+                android:layout_toEndOf="@+id/tvDescription_AddTracking"  />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Select the class(es) to add the event:"
-                android:textSize="19sp"
-                android:layout_below="@id/tvDate1_AddEvent"
-                android:layout_marginTop="20dp"
-                android:id="@+id/tvSelectClass_AddEvent"/>
-            <LinearLayout
-                android:id="@+id/rlClassesList_AddEvent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvSelectClass_AddEvent"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
+
 
             <LinearLayout
-                android:id="@+id/llButtons_AddEvent"
+                android:id="@+id/llButtons_AddTracking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -137,10 +121,10 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/rlClassesList_AddEvent">
+                android:layout_marginTop="40dp"
+                android:layout_below="@+id/tvType_AddTracking">
                 <Button
-                    android:id="@+id/btCancel_AddEvent"
+                    android:id="@+id/btCancel_AddTracking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cancelar"
@@ -149,7 +133,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"/>
                 <Button
-                    android:id="@+id/btSubmit_AddEvent"
+                    android:id="@+id/btSubmit_AddTracking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Añadir"

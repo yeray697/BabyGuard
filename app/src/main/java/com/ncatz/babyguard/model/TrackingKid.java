@@ -21,6 +21,7 @@ public class TrackingKid extends RecyclerData implements Parcelable{
     private RecyclerData data;
     @Exclude
     private String image;
+    private String id;
     private String description;
     private String title;
     private String datetime;
@@ -52,6 +53,17 @@ public class TrackingKid extends RecyclerData implements Parcelable{
         this.data = new RecyclerData(this.image,this.title,this.datetime);
     }
 
+    public TrackingKid(String id, String image, String title, String datetime, @Type int type, String description) {
+        super(image, title, datetime);
+        this.id = id;
+        this.image = image;
+        this.title = title;
+        this.datetime = datetime;
+        this.type = type;
+        this.description = description;
+        this.data = new RecyclerData(this.image,this.title,this.datetime);
+    }
+
     protected TrackingKid(Parcel in) {
         super(in.readString(), in.readString(), in.readString());
         image = super.getImageUrl();
@@ -59,6 +71,7 @@ public class TrackingKid extends RecyclerData implements Parcelable{
         datetime = super.getSubtitle();
         type = in.readInt();
         description = in.readString();
+        id = in.readString();
     }
 
     public static final Creator<TrackingKid> CREATOR = new Creator<TrackingKid>() {
@@ -85,6 +98,7 @@ public class TrackingKid extends RecyclerData implements Parcelable{
         dest.writeString(datetime);
         dest.writeInt(type);
         dest.writeString(description);
+        dest.writeString(id);
     }
 
     @IntDef({Type.POOP, Type.FOOD, Type.SLEEP, Type.OTHER})
@@ -166,5 +180,13 @@ public class TrackingKid extends RecyclerData implements Parcelable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

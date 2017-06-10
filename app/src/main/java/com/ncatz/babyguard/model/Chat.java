@@ -126,7 +126,7 @@ public class Chat {
         Chat chat = null;
         chat = new Chat((String) dataSnapshot.get("id"),
                 (String) dataSnapshot.get("name"),
-                (String) dataSnapshot.get("img"),
+                (String) dataSnapshot.get("img_profile"),
                 (String) dataSnapshot.get("id_nursery"),
                 (String) dataSnapshot.get("id_nursery_class"),
                 new ArrayList<ChatMessage>());

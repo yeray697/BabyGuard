@@ -39,6 +39,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     private FloatingActionButton fabAddEvent;
     private Home_Teacher_Activity.OnSelectedClassIdChangedListener listener;
     private String classId;
+    private DiaryCalendarEvent selectedItemContextMenu;
 
     public static Calendar_Fragment newInstance(Bundle args) {
         Calendar_Fragment fragment = new Calendar_Fragment();
@@ -156,7 +157,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
             ((ViewGroup) expandableDate.getParent()).removeView(expandableDate);
         }
     }
-    private DiaryCalendarEvent selectedItemContextMenu;
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {

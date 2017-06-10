@@ -18,6 +18,7 @@ import com.ncatz.babyguard.utils.Utils;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +61,10 @@ public class FirebaseManager {
     }
 
     public void getTrackingKid(String userId) {
-        Query reference = database.getReference().child(TRACKING_REFERENCE).child(userId);
+        Calendar c = Utils.getTodayDateCalendar();
+        String todayUnix = String.valueOf(c.getTime().getTime());
+
+        Query reference = database.getReference().child(TRACKING_REFERENCE).child(userId).orderByChild("datetime").startAt(todayUnix);
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -309,6 +313,7 @@ public class FirebaseManager {
         firebaseAuth.signOut();
         removeListeners();
     }
+
     public void removeEvent(String nurseryId, String classId, String eventId) {
         database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").child(eventId).removeValue();
     }
@@ -319,8 +324,7 @@ public class FirebaseManager {
         eventPush.put("datetime",datetime);
         eventPush.put("description",event.getDescription());
         eventPush.put("title",event.getTitle());
-        DatabaseReference ref = database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").child(event.getId());
-        ref.setValue(eventPush);
+        database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").child(event.getId()).setValue(eventPush);
     }
 
     public DiaryCalendarEvent addEvent(String nurseryId, String classId, DiaryCalendarEvent event) {
@@ -336,12 +340,30 @@ public class FirebaseManager {
         return event;
     }
 
-    public boolean addTracking(String kid, TrackingKid trackingKid) {
-        boolean result = false;
 
-        database.getReference().child(TRACKING_REFERENCE).child(kid).push().setValue(trackingKid);
+    public void removeTracking(String kidId, String trackingId) {
+        database.getReference().child(TRACKING_REFERENCE).child(kidId).child(trackingId).removeValue();
+    }
 
-        return result;
+    public void updateTracking(String kidId, TrackingKid trackingKid) {
+        HashMap<String,String> trackingPush = new HashMap<>();
+        trackingPush.put("datetime",trackingKid.getDatetime());
+        trackingPush.put("description",trackingKid.getDescription());
+        trackingPush.put("title",trackingKid.getTitle());
+        trackingPush.put("type", String.valueOf(trackingKid.getType()));
+        database.getReference().child(TRACKING_REFERENCE).child(kidId).setValue(trackingPush);
+    }
+
+    public TrackingKid addTracking(String kidId, TrackingKid trackingKid) {
+        HashMap<String,String> trackingPush = new HashMap<>();
+        trackingPush.put("datetime",trackingKid.getDatetime());
+        trackingPush.put("description",trackingKid.getDescription());
+        trackingPush.put("title",trackingKid.getTitle());
+        trackingPush.put("type", String.valueOf(trackingKid.getType()));
+        DatabaseReference ref = database.getReference().child(TRACKING_REFERENCE).child(kidId).push();
+        trackingKid.setId(ref.getKey());
+        ref.setValue(trackingPush);
+        return trackingKid;
     }
 
 }

@@ -47,6 +47,7 @@ public class AddEvent_Fragment extends Fragment {
     private LinearLayout rlClassesList;
     private Button btSubmit;
     private Button btCancel;
+    private TextView tvToolbar;
 
     private ArrayList<CheckBox> classesCheckbox;
     private boolean editMode;
@@ -76,9 +77,10 @@ public class AddEvent_Fragment extends Fragment {
             editMode = false;
         }
         View view = inflater.inflate(R.layout.fragment_add_event, container, false);
+        tvToolbar = (TextView)  view.findViewById(R.id.tvToolbar_AddEvent);
         etTitle = (EditText) view.findViewById(R.id.etTitle_AddEvent);
         etDescription = (EditText) view.findViewById(R.id.etDescription_AddEvent);
-        tvDate = (TextView) view.findViewById(R.id.tvDate2_addEvent);
+        tvDate = (TextView) view.findViewById(R.id.tvDate2_AddEvent);
         rlClassesList = (LinearLayout) view.findViewById(R.id.rlClassesList_AddEvent);
         backButton = (ImageView) view.findViewById(R.id.backButton_AddEvent);
         tvSelectClass = (TextView) view.findViewById(R.id.tvSelectClass_AddEvent);
@@ -113,10 +115,12 @@ public class AddEvent_Fragment extends Fragment {
             etTitle.setText(event.getTitle());
             etDescription.setText(event.getDescription());
             tvDate.setText(event.getDate());
+            tvToolbar.setText("Editar");
             btSubmit.setText("Editar");
             tvSelectClass.setVisibility(View.GONE);
             rlClassesList.setVisibility(View.GONE);
         } else {
+            tvToolbar.setText("Añadir");
             btSubmit.setText("Añadir");
             tvSelectClass.setVisibility(View.VISIBLE);
             rlClassesList.setVisibility(View.VISIBLE);

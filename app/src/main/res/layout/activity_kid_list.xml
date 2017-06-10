@@ -16,14 +16,6 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:id="@+id/toolbar_kidlist" />
-        <TextView
-            android:id="@+id/tvKidList"
-            android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tvKidList_parent_text"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
 
         <ListView
             android:layout_width="match_parent"

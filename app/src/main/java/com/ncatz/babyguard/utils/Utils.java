@@ -297,11 +297,7 @@ public class Utils {
     }
 
     public static boolean isUnixToday(String unixTime) {
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
-        today.set(Calendar.MILLISECOND, 0);
+        Calendar today = getTodayDateCalendar();;
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(Long.parseLong(unixTime));
         return c.after(today);
@@ -318,18 +314,10 @@ public class Utils {
     public static String getDateByUnixChatDate(String unixTime){
         String date;
         Calendar today = Calendar.getInstance();
-        Calendar c = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
-        today.set(Calendar.MILLISECOND, 0);
+        Calendar c = getTodayDateCalendar();;
 
-        Calendar yesterday = Calendar.getInstance();
+        Calendar yesterday = getTodayDateCalendar();
         yesterday.add(Calendar.DATE,-1);
-        yesterday.set(Calendar.HOUR_OF_DAY, 0);
-        yesterday.set(Calendar.MINUTE, 0);
-        yesterday.set(Calendar.SECOND, 0);
-        yesterday.set(Calendar.MILLISECOND, 0);
 
         c.setTimeInMillis(Long.parseLong(unixTime));
         SimpleDateFormat sdf;
@@ -374,11 +362,7 @@ public class Utils {
     public static String parseDatetimeToChat(String unixTime) {
         String parsed = "";
         Long timeUnix = Long.parseLong(unixTime);
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
-        today.set(Calendar.MILLISECOND, 0);
+        Calendar today = getTodayDateCalendar();
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(timeUnix);
         SimpleDateFormat sdf;
@@ -394,6 +378,16 @@ public class Utils {
 
         return parsed;
     }
+
+    public static Calendar getTodayDateCalendar() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        return today;
+    }
+
     public static float pxFromDp(float dp) {
         return dp * Babyguard_Application.getContext().getResources().getDisplayMetrics().density;
     }

@@ -36,7 +36,6 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
     private KidList_Presenter presenter;
     private KidList_Adapter adapter;
     private ImageView ivExpandedImage;
-    private TextView tvKidList;
     private Toolbar toolbar;
     private boolean zoom;
     private boolean clicked;
@@ -64,10 +63,8 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
                 }
             }
         });
-        tvKidList = (TextView) findViewById(R.id.tvKidList);
         toolbar = (Toolbar) findViewById(R.id.toolbar_kidlist);
         setSupportActionBar(toolbar);
-        tvKidList.setText(R.string.tvKidList_parent_text);
     }
 
     @Override
