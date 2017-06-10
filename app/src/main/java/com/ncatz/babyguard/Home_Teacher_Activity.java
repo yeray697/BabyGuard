@@ -136,12 +136,11 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 break;
         }
         if (fragment != null) {
-                fragmentManager
-                        .beginTransaction()
-                        //.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                        //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .replace(R.id.container_home, fragment)
-                        .commit();
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container_home, fragment)
+                    .commit();
         }
     }
 

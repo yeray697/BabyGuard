@@ -85,25 +85,12 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         rvInfoKid.setLineColor(ContextCompat.getColor(getContext(), R.color.colorLineColor));
         rvInfoKid.setLineWidth(3);
         refreshList();
-        adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
-            @Override
-            public void onClick(View view, int i) {
-                TrackingKid aux = (TrackingKid) adapter.getItemAtPosition(i);
-                new LovelyInfoDialog(getContext())
-                        .setTopColorRes(R.color.colorPrimaryLightDark)
-                        .setIcon(R.mipmap.ic_info_outline_white_36dp)
-                        .setTitle(aux.getTitle())
-                        .setMessage(aux.getDescription())
-                        .show();
-            }
-        });
         ((Babyguard_Application)getContext().getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
                 refreshList();
             }
         });
-        adapter.setOnCreateContextMenuListenerItem(this);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +123,19 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     private void refreshList() {
         dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), Repository.Sort.CHRONOLOGIC);
         adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
+        adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
+            @Override
+            public void onClick(View view, int i) {
+                TrackingKid aux = (TrackingKid) adapter.getItemAtPosition(i);
+                new LovelyInfoDialog(getContext())
+                        .setTopColorRes(R.color.colorPrimaryLightDark)
+                        .setIcon(R.mipmap.ic_info_outline_white_36dp)
+                        .setTitle(aux.getTitle())
+                        .setMessage(aux.getDescription())
+                        .show();
+            }
+        });
+        adapter.setOnCreateContextMenuListenerItem(this);
         rvInfoKid.setAdapter(adapter);
     }
 

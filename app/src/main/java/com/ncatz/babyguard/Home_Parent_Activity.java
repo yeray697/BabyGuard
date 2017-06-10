@@ -119,6 +119,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 break;
         }
         if (fragment != null) {
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentManager.beginTransaction()
                         .replace(R.id.container_home, fragment,tag)
                         .commit();

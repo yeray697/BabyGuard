@@ -42,10 +42,12 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     private boolean orderedByCategory;
     private ImageView ivExpandedImage;
     private FloatingActionButton fabMessage;
+    private CollapsingToolbarLayout collapser;
 
     private Kid kid;
     private boolean zoom;
     private ImageView ivKid;
+    private int order;
 
     public static Tracking_Parent_Fragment newInstance(Bundle args) {
         Tracking_Parent_Fragment fragment = new Tracking_Parent_Fragment();
@@ -78,13 +80,9 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
             }
         });
         orderedByCategory= true;
-        final CollapsingToolbarLayout collapser =
-                (CollapsingToolbarLayout) view.findViewById(R.id.collapsingHome);
-        collapser.setTitle(kid.getName());
+        collapser = (CollapsingToolbarLayout) view.findViewById(R.id.collapsingHome);
         fabMessage = (FloatingActionButton) view.findViewById(R.id.fabMessage_Home);
         ivKid = (ImageView) view.findViewById(R.id.ivKid_Home);
-        Picasso.with(getContext()).load(kid.getImg())
-                .into(ivKid);
         ivExpandedImage = (ImageView) view.findViewById(R.id.ivExpanded_Home);
         ivKid.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,13 +109,29 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
         });
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvHome);
         order = Repository.Sort.CHRONOLOGIC;
-        dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
-        adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
+
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rvInfoKid.setLayoutManager(mLayoutManager);
         rvInfoKid.setLineColor(ContextCompat.getColor(getContext(), R.color.colorLineColor));
-        rvInfoKid.setAdapter(adapter);
         rvInfoKid.setLineWidth(3);
+        refreshTrackingList();
+        ((Babyguard_Application)getContext().getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
+            @Override
+            public void onEnd() {
+                refreshTrackingList();
+            }
+        });
+        return view;
+    }
+
+    private void refreshTrackingList() {
+        kid = Repository.getInstance().getKidById(kid.getId()); //Refreshing
+        dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
+        adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
+        rvInfoKid.setAdapter(adapter);
+        collapser.setTitle(kid.getName());
+        Picasso.with(getContext()).load(kid.getImg())
+                .into(ivKid);
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
             public void onClick(View view, int i) {
@@ -130,21 +144,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
                         .show();
             }
         });
-        ((Babyguard_Application)getContext().getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
-            @Override
-            public void onEnd() {
-                kid = Repository.getInstance().getKidById(kid.getId());
-                dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
-                adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
-                rvInfoKid.setAdapter(adapter);
-                collapser.setTitle(kid.getName());
-                Picasso.with(getContext()).load(kid.getImg())
-                        .into(ivKid);
-            }
-        });
-        return view;
     }
-    private int order;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

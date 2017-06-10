@@ -112,11 +112,8 @@ public class AddTracking_Fragment extends Fragment {
             if (editMode) {
                 trackingKid.setId(id);
                 FirebaseManager.getInstance().updateTracking(kidId,trackingKid);
-                //Repository.getInstance().getNurserySchool().updateEvent(eventClassId, event);
             } else {
                 trackingKid = FirebaseManager.getInstance().addTracking(kidId,trackingKid);
-                //Repository.getInstance().getNurserySchool().addEvent(idClass, event);
-
             }
             getActivity().onBackPressed();
         }
