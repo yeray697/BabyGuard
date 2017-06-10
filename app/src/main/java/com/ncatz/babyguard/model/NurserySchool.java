@@ -121,21 +121,20 @@ public class NurserySchool {
         nurseryClasses.put(nurseryClassId,nurseryClass);
     }
 
-    public void addEvent(String idClass, DiaryCalendarEvent event) {
-        for (Map.Entry<String, NurseryClass> nurseryClass : nurseryClasses.entrySet()) {
-            if (nurseryClass.getKey().equals(idClass)) {
-                nurseryClass.getValue().addEvent(event);
-                break;
-            }
-        }
-    }
+    public boolean removeEvent(String classId, String eventId) {
+        boolean result = false;
 
-    public void updateEvent(String idClass, DiaryCalendarEvent event) {
-        for (Map.Entry<String, NurseryClass> nurseryClass : nurseryClasses.entrySet()) {
-            if (nurseryClass.getKey().equals(idClass)) {
-                nurseryClass.getValue().updateEvent(event);
+        for (Map.Entry<String, NurseryClass> classAux : nurseryClasses.entrySet()) {
+            if (classAux.getKey().equals(classId)) {
+                for (DiaryCalendarEvent eventAux : classAux.getValue().getCalendar()) {
+                    if (eventAux.getId().equals(eventId)) {
+                        result = true;
+                        break;
+                    }
+                }
                 break;
             }
         }
+        return result;
     }
 }

@@ -279,6 +279,16 @@ public class Repository {
         return kidArrayList;
     }
 
+    public boolean removeTrackingItem(String kidId, String trackingId) {
+        Kid aux = getKidById(kidId);
+        return aux.removeTrackingItem(kidId,trackingId);
+    }
+
+    public boolean removeEvent(String nurseryId, String classId, String eventId) {
+        NurserySchool school = getNurserySchoolById(nurseryId);
+        return school.removeEvent(classId, eventId);
+    }
+
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Sort {

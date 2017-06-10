@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
+public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreateContextMenuListener, Home_View {
 
     public static final String KID_KEY = "kid";
     private TextView tvName;
@@ -103,6 +103,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
                 refreshList();
             }
         });
+        adapter.setOnCreateContextMenuListenerItem(this);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,7 +176,9 @@ public class Tracking_Teacher_Fragment extends Fragment implements Home_View{
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    FirebaseManager.getInstance().removeTracking(kid.getId(),idTracking);
+                    if (FirebaseManager.getInstance().removeTracking(kid.getId(),idTracking)) {
+                        refreshList();
+                    }
                 }
             });
             dialog.setNegativeButton(android.R.string.cancel,null);

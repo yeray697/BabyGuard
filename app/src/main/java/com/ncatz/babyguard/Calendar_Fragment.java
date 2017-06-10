@@ -183,7 +183,9 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    FirebaseManager.getInstance().removeEvent(Repository.getInstance().getUser().getId_nursery(),classId,idEvent);
+                    if (FirebaseManager.getInstance().removeEvent(Repository.getInstance().getUser().getId_nursery(),classId,idEvent)) {
+                        refreshCalendar();
+                    }
                 }
             });
             dialog.setNegativeButton(android.R.string.cancel,null);

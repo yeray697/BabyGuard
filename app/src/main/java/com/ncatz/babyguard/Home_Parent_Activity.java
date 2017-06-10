@@ -119,18 +119,9 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 break;
         }
         if (fragment != null) {
-            /*if (tag.equals("conversations")){
-                fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.container_home, fragment,tag)
-                        .addToBackStack(null)
-                        .commit();
-            } else {*/
-                fragmentManager
-                        .beginTransaction()
+            fragmentManager.beginTransaction()
                         .replace(R.id.container_home, fragment,tag)
                         .commit();
-            //}
         }
     }
 

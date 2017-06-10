@@ -159,11 +159,9 @@ public class AddEvent_Fragment extends Fragment {
                     if (editMode) {
                         event.setId(id);
                         FirebaseManager.getInstance().updateEvent(Repository.getInstance().getUser().getId_nursery(),eventClassId,event);
-                        Repository.getInstance().getNurserySchool().updateEvent(eventClassId, event);
                     } else {
                         for (String idClass : classesSelected) {
                             event = FirebaseManager.getInstance().addEvent(Repository.getInstance().getUser().getId_nursery(), idClass, event);
-                            Repository.getInstance().getNurserySchool().addEvent(idClass, event);
                         }
                     }
                     getActivity().onBackPressed();

@@ -86,7 +86,7 @@ public class AddTracking_Fragment extends Fragment {
             btSubmit.setText("Editar");
             etTitle.setText(trackingKid.getTitle());
             etDescription.setText(trackingKid.getDescription());
-            spType.setSelection(trackingKid.getType());
+            spType.setSelection(trackingKid.getType() - 1);
         } else {
             tvToolbar.setText("Añadir");
             btSubmit.setText("Añadir");

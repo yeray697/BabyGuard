@@ -314,8 +314,10 @@ public class FirebaseManager {
         removeListeners();
     }
 
-    public void removeEvent(String nurseryId, String classId, String eventId) {
+    public boolean removeEvent(String nurseryId, String classId, String eventId) {
+        boolean result = Repository.getInstance().removeEvent(nurseryId,classId,eventId);
         database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").child(eventId).removeValue();
+        return result;
     }
 
     public void updateEvent(String nurseryId, String classId, DiaryCalendarEvent event) {
@@ -341,8 +343,10 @@ public class FirebaseManager {
     }
 
 
-    public void removeTracking(String kidId, String trackingId) {
+    public boolean removeTracking(String kidId, String trackingId) {
+        boolean result = Repository.getInstance().removeTrackingItem(kidId,trackingId);
         database.getReference().child(TRACKING_REFERENCE).child(kidId).child(trackingId).removeValue();
+        return result;
     }
 
     public void updateTracking(String kidId, TrackingKid trackingKid) {
@@ -351,7 +355,7 @@ public class FirebaseManager {
         trackingPush.put("description",trackingKid.getDescription());
         trackingPush.put("title",trackingKid.getTitle());
         trackingPush.put("type", String.valueOf(trackingKid.getType()));
-        database.getReference().child(TRACKING_REFERENCE).child(kidId).setValue(trackingPush);
+        database.getReference().child(TRACKING_REFERENCE).child(kidId).child(trackingKid.getId()).setValue(trackingPush);
     }
 
     public TrackingKid addTracking(String kidId, TrackingKid trackingKid) {

@@ -2,6 +2,7 @@ package com.ncatz.babyguard.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.TrackingKid;
@@ -19,6 +20,7 @@ public class TrackingKid_Adapter extends DotLineRecyclerAdapter {
 
 
     private Context context;
+    private View.OnCreateContextMenuListener onCreateContextMenuListener;
 
     public TrackingKid_Adapter(Context context, ArrayList<RecyclerData> data, int dotMarginLeft) {
         super(data, dotMarginLeft);
@@ -66,8 +68,11 @@ public class TrackingKid_Adapter extends DotLineRecyclerAdapter {
                 break;
 
         }
+        if (onCreateContextMenuListener != null)
+            holder.message.setOnCreateContextMenuListener(onCreateContextMenuListener);
         holder.iv_item.setImageResource(resource);
         holder.message.setTextSubTitle(Utils.getTimeByUnix(aux.getDatetime()));
+        holder.message.setTag(aux);
     }
 
     @Override
@@ -88,5 +93,9 @@ public class TrackingKid_Adapter extends DotLineRecyclerAdapter {
     @Override
     public int getMessageMarginRight() {
         return 15;
+    }
+
+    public void setOnCreateContextMenuListenerItem(View.OnCreateContextMenuListener onCreateContextMenuListener) {
+        this.onCreateContextMenuListener = onCreateContextMenuListener;
     }
 }

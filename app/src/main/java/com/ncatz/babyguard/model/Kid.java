@@ -115,6 +115,20 @@ public class Kid implements Parcelable{
         this.tracking = tracking;
     }
 
+    public boolean removeTrackingItem(String kidId, String trackingId) {
+        int count = 0;
+        boolean result = false;
+        for (TrackingKid trackAux : tracking) {
+            if (trackAux.getId().equals(trackingId)) {
+                tracking.remove(count);
+                result = true;
+                break;
+            }
+            count++;
+        }
+        return result;
+    }
+
     public interface KidListener{
         void onKidGetListener(Kid kid);
     }
