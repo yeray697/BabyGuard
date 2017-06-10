@@ -17,13 +17,16 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.ChatMessage;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.TimeZone;
 
 
 /**
@@ -102,6 +105,18 @@ public class Utils {
             newMessages.add(messageAux);
         }
         return newMessages;
+    }
+
+    public static String parseDateToUnix(String date) {
+        String unix = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            unix = String.valueOf(sdf.parse(date).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return unix;
     }
 
     public interface OnAnimationEnded{
@@ -378,5 +393,8 @@ public class Utils {
 
 
         return parsed;
+    }
+    public static float pxFromDp(float dp) {
+        return dp * Babyguard_Application.getContext().getResources().getDisplayMetrics().density;
     }
 }

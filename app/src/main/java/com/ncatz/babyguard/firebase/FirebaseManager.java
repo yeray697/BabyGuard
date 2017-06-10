@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -13,6 +14,7 @@ import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.repository.Repository;
+import com.ncatz.babyguard.utils.Utils;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
@@ -307,13 +309,31 @@ public class FirebaseManager {
         firebaseAuth.signOut();
         removeListeners();
     }
+    public void removeEvent(String nurseryId, String classId, String eventId) {
+        database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").child(eventId).removeValue();
+    }
 
+    public void updateEvent(String nurseryId, String classId, DiaryCalendarEvent event) {
+        HashMap<String,String> eventPush = new HashMap<>();
+        String datetime = Utils.parseDateToUnix(event.getDate());
+        eventPush.put("datetime",datetime);
+        eventPush.put("description",event.getDescription());
+        eventPush.put("title",event.getTitle());
+        DatabaseReference ref = database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").child(event.getId());
+        ref.setValue(eventPush);
+    }
 
-    public boolean addEvent(String nurseryId, String classId, DiaryCalendarEvent event) {
-        boolean result = false;
+    public DiaryCalendarEvent addEvent(String nurseryId, String classId, DiaryCalendarEvent event) {
 
-
-        return result;
+        HashMap<String,String> eventPush = new HashMap<>();
+        String datetime = Utils.parseDateToUnix(event.getDate());
+        eventPush.put("datetime",datetime);
+        eventPush.put("description",event.getDescription());
+        eventPush.put("title",event.getTitle());
+        DatabaseReference ref = database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").push();
+        event.setId(ref.getKey());
+        ref.setValue(eventPush);
+        return event;
     }
 
     public boolean addTracking(String kid, TrackingKid trackingKid) {

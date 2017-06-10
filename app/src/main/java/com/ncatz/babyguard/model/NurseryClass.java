@@ -69,4 +69,21 @@ public class NurseryClass implements Comparable<NurseryClass>{
     public int compareTo(@NonNull NurseryClass o) {
         return 0;
     }
+
+    public void addEvent(DiaryCalendarEvent event) {
+        calendarEvents.add(event);
+    }
+
+    public void updateEvent(DiaryCalendarEvent event) {
+        for (DiaryCalendarEvent aux : calendarEvents){
+            if (aux.getId().equals(event.getId())) {
+                aux.setTitle(event.getTitle());
+                aux.setDescription(event.getDescription());
+                aux.setYear(event.getYear());
+                aux.setMonth(event.getMonth());
+                aux.setDay(event.getDay());
+                break;
+            }
+        }
+    }
 }

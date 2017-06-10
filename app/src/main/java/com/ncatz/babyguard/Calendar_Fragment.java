@@ -1,12 +1,15 @@
 package com.ncatz.babyguard;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,7 +18,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ncatz.babyguard.components.CustomToolbar;
+import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.babyguard.utils.OneClickListener;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
@@ -64,20 +69,24 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
+        setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         fabAddEvent = (FloatingActionButton) view.findViewById(R.id.fabAdd_calendar);
         calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
+        calendar.setSaveEnabled(true);
         setToolbar(view);
         if(Babyguard_Application.isTeacher()) {
             fabAddEvent.setVisibility(View.VISIBLE);
-            classId = getArguments().getString(ID_KEY);
+            if (savedInstanceState != null) {
+                classId = savedInstanceState.getString(ID_KEY,"");
+            }
+            if (TextUtils.isEmpty(classId))
+                classId = getArguments().getString(ID_KEY);
             calendar.setOnCreateContextMenuListenerItem(this);
         } else {
             fabAddEvent.setVisibility(View.GONE);
             kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
         }
-        refreshCalendar();
         fabAddEvent.setOnClickListener(new OneClickListener() {
             @Override
             protected void onOneClick() {
@@ -88,6 +97,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     }
 
     private void openAddEventFragment(Bundle args) {
+        calendar.setSaveEnabled(false);
         Fragment fragment = AddEvent_Fragment.newInstance(args);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
@@ -133,6 +143,12 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refreshCalendar();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         if (Babyguard_Application.isTeacher()) {
@@ -155,11 +171,30 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
         if (item.getGroupId() == 1 && selectedItemContextMenu != null) { //Edit
             Bundle args = new Bundle();
             args.putParcelable(AddEvent_Fragment.EVENT_KEY,selectedItemContextMenu);
+            args.putString(AddEvent_Fragment.CLASS_ID_KEY,classId);
             openAddEventFragment(args);
             selectedItemContextMenu = null;
         } else if (item.getGroupId() == 2) { //Remove
-
+            final String idEvent = selectedItemContextMenu.getId();
+            selectedItemContextMenu = null;
+            AlertDialog.Builder dialog  = new AlertDialog.Builder(getContext());
+            dialog.setTitle("¿Deseas borrar el evento?");
+            dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseManager.getInstance().removeEvent(Repository.getInstance().getUser().getId_nursery(),classId,idEvent);
+                }
+            });
+            dialog.setNegativeButton(android.R.string.cancel,null);
+            dialog.show();
+            selectedItemContextMenu = null;
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(classId,ID_KEY);
     }
 }

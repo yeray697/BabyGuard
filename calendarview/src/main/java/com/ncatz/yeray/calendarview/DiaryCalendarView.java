@@ -363,6 +363,7 @@ public class DiaryCalendarView extends RelativeLayout {
             this.eventColor = eventColor;
             ArrayList<DiaryCalendarEvent> tmp = new ArrayList<>(events);
             clearEvents();
+
             addEvent(tmp);
             eventDecorator.setColor(eventColor);
         }

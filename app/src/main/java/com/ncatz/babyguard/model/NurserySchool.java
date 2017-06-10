@@ -1,10 +1,12 @@
 package com.ncatz.babyguard.model;
 
 import com.google.firebase.database.DataSnapshot;
+import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by yeray697 on 26/12/16.
@@ -117,5 +119,23 @@ public class NurserySchool {
         if (nurseryClasses == null)
             nurseryClasses = new HashMap<>();
         nurseryClasses.put(nurseryClassId,nurseryClass);
+    }
+
+    public void addEvent(String idClass, DiaryCalendarEvent event) {
+        for (Map.Entry<String, NurseryClass> nurseryClass : nurseryClasses.entrySet()) {
+            if (nurseryClass.getKey().equals(idClass)) {
+                nurseryClass.getValue().addEvent(event);
+                break;
+            }
+        }
+    }
+
+    public void updateEvent(String idClass, DiaryCalendarEvent event) {
+        for (Map.Entry<String, NurseryClass> nurseryClass : nurseryClasses.entrySet()) {
+            if (nurseryClass.getKey().equals(idClass)) {
+                nurseryClass.getValue().updateEvent(event);
+                break;
+            }
+        }
     }
 }

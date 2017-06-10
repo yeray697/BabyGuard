@@ -432,7 +432,7 @@ public class Babyguard_Application extends Application {
                         aux.setTimeInMillis(Long.parseLong(unixTime));
                         day = aux.get(Calendar.DAY_OF_MONTH);
                         year = aux.get(Calendar.YEAR);
-                        month = aux.get(Calendar.MONTH) + 1;
+                        month = aux.get(Calendar.MONTH);
                         calendarAux = new DiaryCalendarEvent(entry.getKey(),
                                 entry.getValue().get("title"),
                                 year,

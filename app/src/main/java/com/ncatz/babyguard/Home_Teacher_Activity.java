@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,8 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     private Spinner spinner;
     private SpinnerKidsTeacher_Adapter adapter;
 
+    private View calendarDatePicker;
+
     private OnSelectedClassIdChangedListener selectedClassIdChangedListener;
 
     private BottomNavigationView bottomNavigationView;
@@ -39,6 +42,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("asdf","onCreate");
         setContentView(R.layout.activity_home_teacher);
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -70,6 +74,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         ((Babyguard_Application)getApplicationContext()).removeHomeTeacherListener();
+        Log.d("asdf","onStop");
     }
 
     public void refreshSpinner() {
@@ -193,15 +198,13 @@ public class Home_Teacher_Activity extends AppCompatActivity {
 
     public void prepareCalendarToolbar(LinearLayout dates) {
         toolbar.setTitle("");
+        if (calendarDatePicker != null) {
+            toolbar.removeView(calendarDatePicker);
+        }
+        calendarDatePicker = dates;
         toolbar.addView(dates);
     }
 
-    public void prepareChatToolbar(Toolbar toolbar) {
-        RelativeLayout container = (RelativeLayout) findViewById(R.id.activity_home_teacher);
-        container.removeView(this.toolbar);
-        ((ViewGroup) toolbar.getParent()).removeView(toolbar);
-        container.addView(toolbar);
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
