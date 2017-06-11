@@ -3,44 +3,45 @@
     <PreferenceCategory
         android:title="Profile">
         <EditTextPreference
-            android:key="profile_name_pref"
+            android:key="@string/profile_name_pref"
             android:title="Profile name"
             android:summary="current name"/>
+        <PreferenceScreen
+            android:key="@string/profile_password_pref"
+            android:title="Change password" />
         <EditTextPreference
-            android:key="profile_phone_pref"
+            android:key="@string/profile_phone_pref"
             android:title="Phone number"
             android:summary="current phone number"/>
         <PreferenceScreen
-            android:title="Kids">
+            android:title="Kids"
+            android:fragment="com.ncatz.babyguard.preferences.KidsSettings_Fragment">
             <!-- Inflated programmatically:
                 Name: EditTextPreference
                 Info: EditTextPreference
                 Image: ?-->
         </PreferenceScreen>
     </PreferenceCategory>
+
     <PreferenceCategory
         android:title="Notifications">
         <ListPreference
-            android:key="notifications_vibration_pref"
+            android:key="@string/notifications_vibration_pref"
             android:title="Vibración"
             android:defaultValue="0"
             android:entries="@array/notifications_vibration_pref_entries"
             android:entryValues="@array/notifications_vibration_pref_values"
             android:summary="current option" />
         <SwitchPreference
-            android:key="notifications_preview_pref"
+            android:key="@string/notifications_preview_pref"
             android:title="Message preview"
             android:defaultValue="true"/>
     </PreferenceCategory>
+
     <PreferenceCategory
         android:title="Support">
         <PreferenceScreen
             android:title="Pregunta o comunicanos cualquier cosa">
-            <intent android:action="android.intent.action.VIEW"
-                android:data="http://developer.android.com" />
-        </PreferenceScreen>
-        <PreferenceScreen
-            android:title="Preguntas frecuentes">
             <intent android:action="android.intent.action.VIEW"
                 android:data="@string/contact_developer_uri">
                 <extra android:name="android.intent.extra.TEXT"
@@ -50,6 +51,11 @@
             </intent>
         </PreferenceScreen>
         <PreferenceScreen
-            android:title="Ino. de la app"/>
+            android:title="Preguntas frecuentes">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="http://developer.android.com" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="Info. de la app"/>
     </PreferenceCategory>
 </PreferenceScreen>

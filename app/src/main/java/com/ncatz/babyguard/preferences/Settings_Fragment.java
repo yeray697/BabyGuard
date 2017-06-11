@@ -2,26 +2,43 @@ package com.ncatz.babyguard.preferences;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
-import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ncatz.babyguard.R;
 
+import static com.ncatz.babyguard.preferences.SettingsManager.getBooleanPreference;
+import static com.ncatz.babyguard.preferences.SettingsManager.getIntegerPreference;
+import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceByResourceId;
+import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreference;
+
 /**
  * Created by yeray697 on 11/06/17.
  */
 
 public class Settings_Fragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
-    private static final String TAG = Settings_Fragment.class.getSimpleName();
+    private SharedPreferences sharedPreferences;
 
-    SharedPreferences sharedPreferences;
+    private EditTextPreference nameProfilePref;
+    private EditTextPreference phoneProfilePref;
+    private PreferenceScreen passProfilePref;
+
+    private ListPreference vibrationNotifPref;
+    private SwitchPreference previewNotificationPref;
+
+
+    private String nameKey, passKey, phoneKey, notifVibrationKey, previewKey;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,12 +50,37 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //add xml
         addPreferencesFromResource(R.xml.settings);
+        nameKey = getKeyPreferenceByResourceId(R.string.profile_name_pref);
+        passKey = getKeyPreferenceByResourceId(R.string.profile_password_pref);
+        phoneKey = getKeyPreferenceByResourceId(R.string.profile_phone_pref);
+        notifVibrationKey = getKeyPreferenceByResourceId(R.string.notifications_vibration_pref);
+        previewKey = getKeyPreferenceByResourceId(R.string.notifications_preview_pref);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        nameProfilePref = (EditTextPreference) findPreference(nameKey);
+        passProfilePref = (PreferenceScreen) findPreference(passKey);
+        phoneProfilePref = (EditTextPreference) findPreference(phoneKey);
 
-        //onSharedPreferenceChanged(sharedPreferences, getString(R.string.movies_categories_key));
+        vibrationNotifPref = (ListPreference) findPreference(notifVibrationKey);
+        previewNotificationPref = (SwitchPreference) findPreference(previewKey);
+
+        nameProfilePref.setSummary(getStringPreference(nameKey,""));
+        phoneProfilePref.setSummary(getStringPreference(phoneKey,""));
+        try {
+            vibrationNotifPref.setSummary(getResources().getStringArray(R.array.notifications_vibration_pref_entries)[getIntegerPreference(notifVibrationKey, 0)]);
+        } catch (Exception e) {
+            Log.d("","");
+        }
+        previewNotificationPref.setChecked(getBooleanPreference(previewKey,true));
+
+        passProfilePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                return true;
+            }
+        });
     }
 
 
