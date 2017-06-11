@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import com.ncatz.babyguard.adapter.SpinnerKidsTeacher_Adapter;
 import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.model.NurserySchool;
+import com.ncatz.babyguard.preferences.Settings_Fragment;
 import com.ncatz.babyguard.repository.Repository;
 
 public class Home_Teacher_Activity extends AppCompatActivity {
@@ -92,13 +93,15 @@ public class Home_Teacher_Activity extends AppCompatActivity {
 
     private void selectItemMenu(MenuItem itemDrawer) {
         Fragment fragment = null;
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        Settings_Fragment settingsFragment = null;
+        FragmentManager fragmentManagerSupport = getSupportFragmentManager();
+        android.app.FragmentManager fragmentManager = getFragmentManager();
         String tag = "";
         Bundle args;
         switch (itemDrawer.getItemId()) {
             case R.id.item_tracing:
                 tag = "tracing";
-                fragment = fragmentManager.findFragmentByTag(tag);
+                fragment = fragmentManagerSupport.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
                     fragment = TrackingList_Teacher_Fragment.newInstance(args);
@@ -107,7 +110,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 break;
             case R.id.item_chat:
                 tag = "conversations";
-                fragment = fragmentManager.findFragmentByTag(tag);
+                fragment = fragmentManagerSupport.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
                     args.putString(Conversations_Fragment.ID_KEY, selectedClassId);
@@ -117,7 +120,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 break;
             case R.id.item_calendar:
                 tag = "calendar";
-                fragment = fragmentManager.findFragmentByTag(tag);
+                fragment = fragmentManagerSupport.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
                     args.putString(Calendar_Fragment.ID_KEY,selectedClassId);
@@ -127,19 +130,24 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 break;
             case R.id.item_settings:
                 tag = "settings";
-                fragment = fragmentManager.findFragmentByTag(tag);
+                settingsFragment = (Settings_Fragment) fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
-                    args = new Bundle();
-                    //fragment = Calendar_Fragment.newInstance(args);
+                    settingsFragment = new Settings_Fragment();
                 }
                 selected = 3;
                 break;
         }
         if (fragment != null) {
+            fragmentManagerSupport.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentManagerSupport
+                    .beginTransaction()
+                    .replace(R.id.container_home, fragment)
+                    .commit();
+        } else if (settingsFragment != null) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.container_home, fragment)
+                    .replace(R.id.container_home, settingsFragment)
                     .commit();
         }
     }

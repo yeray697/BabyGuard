@@ -18,15 +18,9 @@
     <string name="email_contact_text"><![CDATA[<b>Correo electrónico:</b> <i>%1$s</i>]]></string>
     <string name="tvNameProfile_text">Nombre</string>
     <string name="action_sign_off">Cerrar sesión</string>
+    <string name="contact_developer_uri">mailto:yeray@ncatz.com</string>
 
     <!-- Multiple tag: Conversation_Adapter-->
     <item type="id" name="conversationHolder" />
     <item type="id" name="conversationId" />
-
-    <string-array name="spinner_add_tracking">
-        <item>Deposición</item>
-        <item>Comida</item>
-        <item>Dormir</item>
-        <item>Otro</item>
-    </string-array>
 </resources>

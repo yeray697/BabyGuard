@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Profile">
+        <EditTextPreference
+            android:key="profile_name_pref"
+            android:title="Profile name"
+            android:summary="current name"/>
+        <EditTextPreference
+            android:key="profile_phone_pref"
+            android:title="Phone number"
+            android:summary="current phone number"/>
+        <PreferenceScreen
+            android:title="Kids">
+            <!-- Inflated programmatically:
+                Name: EditTextPreference
+                Info: EditTextPreference
+                Image: ?-->
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Notifications">
+        <ListPreference
+            android:key="notifications_vibration_pref"
+            android:title="Vibración"
+            android:defaultValue="0"
+            android:entries="@array/notifications_vibration_pref_entries"
+            android:entryValues="@array/notifications_vibration_pref_values"
+            android:summary="current option" />
+        <SwitchPreference
+            android:key="notifications_preview_pref"
+            android:title="Message preview"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Support">
+        <PreferenceScreen
+            android:title="Pregunta o comunicanos cualquier cosa">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="http://developer.android.com" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="Preguntas frecuentes">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="@string/contact_developer_uri">
+                <extra android:name="android.intent.extra.TEXT"
+                    android:value="What can I help you with?" />
+                <extra android:name="android.intent.extra.SUBJECT"
+                    android:value="Feedback about World Changing App" />
+            </intent>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="Ino. de la app"/>
+    </PreferenceCategory>
+</PreferenceScreen>

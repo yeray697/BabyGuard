@@ -313,9 +313,8 @@ public class Utils {
     }
     public static String getDateByUnixChatDate(String unixTime){
         String date;
-        Calendar today = Calendar.getInstance();
-        Calendar c = getTodayDateCalendar();;
-
+        Calendar today = getTodayDateCalendar();
+        Calendar c = Calendar.getInstance();
         Calendar yesterday = getTodayDateCalendar();
         yesterday.add(Calendar.DATE,-1);
 

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.preferences.Settings_Activity;
 
 public class Home_Parent_Activity extends AppCompatActivity {
 
@@ -67,6 +68,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
 
     private void selectItemDrawer(MenuItem itemDrawer) {
         Fragment fragment = null;
+        Intent intent = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
         String tag = "";
         Bundle args = null;
@@ -107,14 +109,15 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 //selected = 4;
                 args = new Bundle();
                 args.putString(KID_NURSERY_KEY, kid.getId());
-                Intent intent = new Intent(Home_Parent_Activity.this,AboutNursery_Activity.class);
+                intent = new Intent(Home_Parent_Activity.this,AboutNursery_Activity.class);
                 intent.putExtra(KID_NURSERY_KEY,kid.getId_nursery());
                 startActivity(intent);
                 navigationView.getMenu().getItem(3).setChecked(false);
                 break;
             case R.id.item_settings:
-                //TODO
-                //selected = 5;
+                tag = "settings";
+                Intent i = new Intent(this, Settings_Activity.class);
+                startActivity(i);
                 navigationView.getMenu().getItem(4).setChecked(false);
                 break;
         }
