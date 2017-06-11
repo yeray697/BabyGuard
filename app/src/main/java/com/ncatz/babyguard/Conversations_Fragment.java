@@ -1,8 +1,9 @@
 package com.ncatz.babyguard;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,8 @@ public class Conversations_Fragment extends Fragment {
     private String transmitterId;
     private Home_Teacher_Activity.OnSelectedClassIdChangedListener listener;
     private String classId;
+    private Context context;
+
     public Conversations_Fragment() {
         // Required empty public constructor
         listener = new Home_Teacher_Activity.OnSelectedClassIdChangedListener() {
@@ -51,7 +54,11 @@ public class Conversations_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context = getContext();
+        } else {
+            context = getActivity();
+        }
     }
 
     @Override
@@ -112,8 +119,8 @@ public class Conversations_Fragment extends Fragment {
             args.putString(Chat_Fragment.KID_ID_KEY, transmitterId);
         }
         Chat_Fragment fragment = Chat_Fragment.newInstance(args);
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, R.anim.fade_out,R.anim.fade_in,R.anim.fade_out)
+
+        getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.container_home, fragment,"chat")
                 .addToBackStack("chat")
                 .commit();
@@ -127,7 +134,7 @@ public class Conversations_Fragment extends Fragment {
             chats = Repository.getInstance().getChatByKidId(transmitterId);
         }
         Collections.sort(chats,Chat.comparator);
-        adapter = new Conversation_Adapter(getContext(), chats);
+        adapter = new Conversation_Adapter(context, chats);
         lvChats.setAdapter(adapter);
     }
 

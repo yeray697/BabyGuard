@@ -2,45 +2,48 @@ package com.ncatz.babyguard.preferences;
 
 import android.os.Bundle;
 import android.preference.ListPreference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.ncatz.babyguard.R;
+import com.ncatz.babyguard.components.CustomToolbar;
 
 /**
  * Created by yeray697 on 11/06/17.
  */
 
-public class Settings_Activity extends PreferenceActivity {
+public class Settings_Activity extends AppCompatActivity {
     private ListPreference mListPreference;
-    
-    /*@Override
+    private CustomToolbar toolbar;
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // PreferenceManager.setDefaultValues(getActivity(), R.xml.settings, false);
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.settings);
-        mListPreference = (ListPreference)  getPreferenceManager().findPreference("preference_key");
-        mListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                return false;
+        setContentView(R.layout.activity_settings);
+        toolbar = (CustomToolbar) findViewById(R.id.toolbar_settings);
+        setToolbar();
+        getFragmentManager().beginTransaction().replace(R.id.settings_container,
+                new Settings_Fragment()).commit();
+    }
+    private void setToolbar() {
+            setSupportActionBar(toolbar);
+            final ActionBar ab = getSupportActionBar();
+            if (ab != null) {
+                ab.setTitle("Settings");
+                ab.setDisplayHomeAsUpEnabled(true);
             }
-        });
-    }*/
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
     }
 
-    public static class MyPreferenceFragment extends PreferenceFragment
-    {
-        @Override
-        public void onCreate(final Bundle savedInstanceState)
-        {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.settings);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
+        return super.onOptionsItemSelected(item);
     }
+
 }

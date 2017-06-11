@@ -1,7 +1,9 @@
 package com.ncatz.babyguard;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -38,6 +40,7 @@ public class Chat_Fragment extends Fragment {
     private Button btSend;
     private EditText etSend;
     private Chat_Adapter adapter;
+    private Context context;
 
     private Chat chat;
     private String teacherId;
@@ -57,6 +60,12 @@ public class Chat_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context = getContext();
+        } else {
+            context = getActivity();
+        }
         if (!Babyguard_Application.isTeacher())
             ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(false);
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
@@ -70,7 +79,7 @@ public class Chat_Fragment extends Fragment {
         etSend = (EditText) view.findViewById(R.id.etMessage_chat);
         refreshList();
         tvName.setText(chat.getName());
-        Picasso.with(getContext()).load(chat.getPhoto()).into(ivProfile);
+        Picasso.with(context).load(chat.getPhoto()).into(ivProfile);
         lvChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         lvChat.setStackFromBottom(true);
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +88,7 @@ public class Chat_Fragment extends Fragment {
                 sendMessage();
             }
         });
-        ((Babyguard_Application)getContext().getApplicationContext()).addChatListener(new Babyguard_Application.ActionEndListener() {
+        ((Babyguard_Application)context.getApplicationContext()).addChatListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
                 refreshList();
@@ -133,9 +142,9 @@ public class Chat_Fragment extends Fragment {
         chat = Repository.getInstance().getChat(kidId,teacherId);
         ArrayList<ChatMessage> messages = Utils.parseChatMessageToChat(chat.getMessages());
         if (Babyguard_Application.isTeacher()) {
-            adapter = new Chat_Adapter(getContext(), messages,teacherId);
+            adapter = new Chat_Adapter(context, messages,teacherId);
         } else {
-            adapter = new Chat_Adapter(getContext(), messages,kidId);
+            adapter = new Chat_Adapter(context, messages,kidId);
         }
         lvChat.setAdapter(adapter);
     }
@@ -143,7 +152,7 @@ public class Chat_Fragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)(getContext()).getApplicationContext()).removeChatListener();
+        ((Babyguard_Application)(context).getApplicationContext()).removeChatListener();
         if (Babyguard_Application.isTeacher()) {
             ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
             ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(false);

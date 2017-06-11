@@ -1,10 +1,12 @@
 package com.ncatz.babyguard;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -44,6 +46,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     private DotLineRecyclerView rvInfoKid;
     private TrackingKid_Adapter adapter;
     private FloatingActionButton fabAdd;
+    private Context context;
 
     private Kid kid;
     private ArrayList<? extends RecyclerData> dataKid;
@@ -59,6 +62,11 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context = getContext();
+        } else {
+            context = getActivity();
+        }
         setRetainInstance(true);
         final View view = inflater.inflate(R.layout.fragment_tracking_teacher,container,false);
         kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
@@ -79,13 +87,13 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         tvName.setText(kid.getName());
         tvInfo.setSelected(true);
         tvInfo.setText(kid.getInfo());
-        Picasso.with(getContext()).load(kid.getImg()).into(ivProfile);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        Picasso.with(context).load(kid.getImg()).into(ivProfile);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         rvInfoKid.setLayoutManager(mLayoutManager);
-        rvInfoKid.setLineColor(ContextCompat.getColor(getContext(), R.color.colorLineColor));
+        rvInfoKid.setLineColor(ContextCompat.getColor(context, R.color.colorLineColor));
         rvInfoKid.setLineWidth(3);
         refreshList();
-        ((Babyguard_Application)getContext().getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
+        ((Babyguard_Application)context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
                 refreshList();
@@ -107,7 +115,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         } else
             args.putString(AddTracking_Fragment.KID_ID,kid.getId());
         Fragment fragment = AddTracking_Fragment.newInstance( (args == null) ? args2 : args);
-        getActivity().getSupportFragmentManager()
+        getActivity().getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container_home, fragment,"addTracking")
                 .addToBackStack("addTracking")
@@ -122,12 +130,12 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
 
     private void refreshList() {
         dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), Repository.Sort.CHRONOLOGIC);
-        adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
+        adapter = new TrackingKid_Adapter(context, (ArrayList<RecyclerData>) dataKid,45);
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
             public void onClick(View view, int i) {
                 TrackingKid aux = (TrackingKid) adapter.getItemAtPosition(i);
-                new LovelyInfoDialog(getContext())
+                new LovelyInfoDialog(context)
                         .setTopColorRes(R.color.colorPrimaryLightDark)
                         .setIcon(R.mipmap.ic_info_outline_white_36dp)
                         .setTitle(aux.getTitle())
@@ -147,7 +155,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)getContext().getApplicationContext()).removeTrackingListener();
+        ((Babyguard_Application)context.getApplicationContext()).removeTrackingListener();
         ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         ab.show();
     }
@@ -171,7 +179,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         } else if (item.getGroupId() == 2) { //Remove
             final String idTracking = selectedItemContextMenu.getId();
             selectedItemContextMenu = null;
-            AlertDialog.Builder dialog  = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder dialog  = new AlertDialog.Builder(context);
             dialog.setTitle("¿Deseas borrar éste seguimiento?");
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override

@@ -1,7 +1,9 @@
 package com.ncatz.babyguard;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,7 @@ public class AddTracking_Fragment extends Fragment {
     private TrackingKid trackingKid;
     private boolean editMode;
     private String kidId;
+    private Context context;
 
     public static AddTracking_Fragment newInstance(Bundle args) {
         AddTracking_Fragment fragment = new AddTracking_Fragment();
@@ -51,6 +54,11 @@ public class AddTracking_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context = getContext();
+        } else {
+            context = getActivity();
+        }
         Bundle args = getArguments();
         trackingKid = args.getParcelable(TRACKING_KEY);
         editMode = (trackingKid != null);
@@ -101,7 +109,7 @@ public class AddTracking_Fragment extends Fragment {
                 datetime;
         Integer type = spType.getSelectedItemPosition() + 1;
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description)) {
-            Toast.makeText(getContext(), "No has rellenado todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No has rellenado todos los campos", Toast.LENGTH_SHORT).show();
         } else {
             Calendar dateParsed = Calendar.getInstance();
             datetime = String.valueOf(dateParsed.getTime().getTime());
@@ -133,7 +141,7 @@ public class AddTracking_Fragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)(getContext()).getApplicationContext()).removeChatListener();
+        ((Babyguard_Application)context.getApplicationContext()).removeChatListener();
         ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
         ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(false);
     }

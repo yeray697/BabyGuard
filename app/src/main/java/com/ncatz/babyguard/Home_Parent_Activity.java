@@ -3,11 +3,12 @@ package com.ncatz.babyguard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -69,7 +70,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
     private void selectItemDrawer(MenuItem itemDrawer) {
         Fragment fragment = null;
         Intent intent = null;
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         String tag = "";
         Bundle args = null;
         switch (itemDrawer.getItemId()) {
@@ -115,9 +116,8 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 navigationView.getMenu().getItem(3).setChecked(false);
                 break;
             case R.id.item_settings:
-                tag = "settings";
-                Intent i = new Intent(this, Settings_Activity.class);
-                startActivity(i);
+                intent = new Intent(this, Settings_Activity.class);
+                startActivity(intent);
                 navigationView.getMenu().getItem(4).setChecked(false);
                 break;
         }

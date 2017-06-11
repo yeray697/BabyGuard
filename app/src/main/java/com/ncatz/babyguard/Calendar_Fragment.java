@@ -2,9 +2,10 @@ package com.ncatz.babyguard;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     private Home_Teacher_Activity.OnSelectedClassIdChangedListener listener;
     private String classId;
     private DiaryCalendarEvent selectedItemContextMenu;
+    private Context context;
 
     public static Calendar_Fragment newInstance(Bundle args) {
         Calendar_Fragment fragment = new Calendar_Fragment();
@@ -71,6 +73,11 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRetainInstance(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context = getContext();
+        } else {
+            context = getActivity();
+        }
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         fabAddEvent = (FloatingActionButton) view.findViewById(R.id.fabAdd_calendar);
         calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
@@ -100,7 +107,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     private void openAddEventFragment(Bundle args) {
         calendar.setSaveEnabled(false);
         Fragment fragment = AddEvent_Fragment.newInstance(args);
-        getActivity().getSupportFragmentManager()
+        getActivity().getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container_home, fragment,"addEvent")
                 .addToBackStack("addEvent")
@@ -131,7 +138,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
                 ab.setDisplayHomeAsUpEnabled(true);
                 ab.setHomeButtonEnabled(true);
             }
-            ((Babyguard_Application)getContext().getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
+            ((Babyguard_Application)context.getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
                 @Override
                 public void onEnd() {
                     refreshCalendar();
@@ -153,7 +160,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     public void onDetach() {
         super.onDetach();
         if (Babyguard_Application.isTeacher()) {
-            ((Babyguard_Application) getContext().getApplicationContext()).removeCalendarListener();
+            ((Babyguard_Application) context.getApplicationContext()).removeCalendarListener();
             ((ViewGroup) expandableDate.getParent()).removeView(expandableDate);
         }
     }
@@ -178,7 +185,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
         } else if (item.getGroupId() == 2) { //Remove
             final String idEvent = selectedItemContextMenu.getId();
             selectedItemContextMenu = null;
-            AlertDialog.Builder dialog  = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder dialog  = new AlertDialog.Builder(context);
             dialog.setTitle("¿Deseas borrar el evento?");
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override

@@ -3,7 +3,7 @@ package com.ncatz.babyguard;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,8 +73,7 @@ public class TrackingList_Teacher_Fragment extends Fragment{
         Bundle args = new Bundle();
         args.putString(Tracking_Parent_Fragment.KID_KEY, kid.getId());
         Fragment fragment = Tracking_Teacher_Fragment.newInstance(args);
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, R.anim.fade_out,R.anim.fade_in,R.anim.fade_out)
+        getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.container_home, fragment,"tracking")
                 .addToBackStack("tracking")
                 .commit();

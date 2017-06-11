@@ -5,8 +5,8 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,15 +14,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.ncatz.babyguard.adapter.SpinnerKidsTeacher_Adapter;
 import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.model.NurserySchool;
+import com.ncatz.babyguard.preferences.Settings_Activity;
 import com.ncatz.babyguard.preferences.Settings_Fragment;
 import com.ncatz.babyguard.repository.Repository;
 
@@ -51,8 +50,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        selectItemMenu(item);
-                        return true;
+                        return selectItemMenu(item);
                     }
                 });
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -91,17 +89,16 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         }
     }
 
-    private void selectItemMenu(MenuItem itemDrawer) {
+    private boolean selectItemMenu(MenuItem itemDrawer) {
         Fragment fragment = null;
-        Settings_Fragment settingsFragment = null;
-        FragmentManager fragmentManagerSupport = getSupportFragmentManager();
-        android.app.FragmentManager fragmentManager = getFragmentManager();
+        boolean selectedInNavBar = false;
+        FragmentManager fragmentManager = getFragmentManager();
         String tag = "";
         Bundle args;
         switch (itemDrawer.getItemId()) {
             case R.id.item_tracing:
                 tag = "tracing";
-                fragment = fragmentManagerSupport.findFragmentByTag(tag);
+                fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
                     fragment = TrackingList_Teacher_Fragment.newInstance(args);
@@ -110,7 +107,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 break;
             case R.id.item_chat:
                 tag = "conversations";
-                fragment = fragmentManagerSupport.findFragmentByTag(tag);
+                fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
                     args.putString(Conversations_Fragment.ID_KEY, selectedClassId);
@@ -120,7 +117,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 break;
             case R.id.item_calendar:
                 tag = "calendar";
-                fragment = fragmentManagerSupport.findFragmentByTag(tag);
+                fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
                     args.putString(Calendar_Fragment.ID_KEY,selectedClassId);
@@ -129,27 +126,20 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 selected = 2;
                 break;
             case R.id.item_settings:
-                tag = "settings";
-                settingsFragment = (Settings_Fragment) fragmentManager.findFragmentByTag(tag);
-                if (fragment == null) {
-                    settingsFragment = new Settings_Fragment();
-                }
-                selected = 3;
+                Intent intent = new Intent(this, Settings_Activity.class);
+                startActivity(intent);
+                selectedInNavBar = false;
                 break;
         }
         if (fragment != null) {
-            fragmentManagerSupport.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            fragmentManagerSupport
-                    .beginTransaction()
-                    .replace(R.id.container_home, fragment)
-                    .commit();
-        } else if (settingsFragment != null) {
+            selectedInNavBar = true;
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.container_home, settingsFragment)
+                    .replace(R.id.container_home, fragment)
                     .commit();
         }
+        return selectedInNavBar;
     }
 
     @Override
