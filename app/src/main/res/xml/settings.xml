@@ -15,6 +15,7 @@
             android:summary="current phone number"/>
         <PreferenceScreen
             android:title="Kids"
+            android:key="@string/profile_kids_pref"
             android:fragment="com.ncatz.babyguard.preferences.KidsSettings_Fragment">
             <!-- Inflated programmatically:
                 Name: EditTextPreference

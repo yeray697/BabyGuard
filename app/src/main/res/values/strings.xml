@@ -27,6 +27,7 @@
     <string name="profile_password_pref">profile_password_pref</string>
     <string name="notifications_vibration_pref">notifications_vibration_pref</string>
     <string name="notifications_preview_pref">notifications_preview_pref</string>
+    <string name="profile_kids_pref">profile_kids_pref</string>
 
     <!-- Multiple tag: Conversation_Adapter-->
     <item type="id" name="conversationHolder" />
