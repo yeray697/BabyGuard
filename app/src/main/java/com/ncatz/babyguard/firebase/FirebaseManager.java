@@ -370,4 +370,14 @@ public class FirebaseManager {
         return trackingKid;
     }
 
+    public boolean changeUserPassword() {
+        //TODO
+        return false;
+    }
+
+    public void changeUserName() {
+    }
+
+    public void changeUserPhone() {
+    }
 }

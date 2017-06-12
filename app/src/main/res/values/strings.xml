@@ -20,6 +20,8 @@
     <string name="action_sign_off">Cerrar sesión</string>
     <string name="contact_developer_uri">mailto:yeray@ncatz.com</string>
 
+    <string name="profile_username_pref">profile_username_pref</string>
+    <string name="profile_usertype_pref">profile_usertype_pref</string>
     <string name="profile_name_pref">profile_name_pref</string>
     <string name="profile_phone_pref">profile_phone_pref</string>
     <string name="profile_password_pref">profile_password_pref</string>

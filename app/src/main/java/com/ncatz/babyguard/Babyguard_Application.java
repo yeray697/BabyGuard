@@ -19,6 +19,7 @@ import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.model.UserCredentials;
+import com.ncatz.babyguard.preferences.SettingsManager;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.yeray.calendarview.BuildConfig;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
@@ -37,6 +38,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.ncatz.babyguard.preferences.SettingsManager.getIntegerPreference;
+import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceByResourceId;
+import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreference;
+import static com.ncatz.babyguard.preferences.SettingsManager.setIntegerPreference;
+import static com.ncatz.babyguard.preferences.SettingsManager.setStringPreference;
+
 /**
  * Context application
  * @author Yeray Ruiz Juárez
@@ -45,12 +52,8 @@ import java.util.Objects;
 public class Babyguard_Application extends Application {
 
     private final static String FILE_PREFERENCE = "credentials";
-    private final static String USER_PREFERENCE = "userCredentials";
-    private final static String PASS_PREFERENCE = "pass";
-    private final static String TYPE_PREFERENCE = "type";
 
     private UserCredentials userCredentials;
-    private SharedPreferences pref;
     private static Context context;
 
     private ActionEndListener loginListener;
@@ -84,7 +87,6 @@ public class Babyguard_Application extends Application {
                 });*/
             }
         });
-        pref = getApplicationContext().getSharedPreferences(FILE_PREFERENCE, MODE_PRIVATE);
         FirebaseManager.getInstance().setListeners(firebaseListeners);
         FormatStrategy formatStrategyLog = PrettyFormatStrategy.newBuilder()
                 .methodCount(5)
@@ -154,11 +156,10 @@ public class Babyguard_Application extends Application {
     public void setUserCredentials(UserCredentials userCredentials){
         this.userCredentials = userCredentials;
         if (userCredentials != null) {
-            pref.edit().putString(USER_PREFERENCE, userCredentials.getUser()).apply();
-            pref.edit().putString(PASS_PREFERENCE, userCredentials.getPass()).apply();
-            pref.edit().putInt(TYPE_PREFERENCE, userCredentials.getType()).apply();
+            SettingsManager.setProfileInfo(userCredentials);
         } else {
-            pref.edit().clear().apply();
+            //Signing off
+            SettingsManager.signOff();
         }
     }
 
@@ -202,7 +203,7 @@ public class Babyguard_Application extends Application {
      * @return Return the userCredentials's name
      */
     private String getUserIfExists() {
-        return pref.getString("userCredentials",null);
+        return getStringPreference(getKeyPreferenceByResourceId(R.string.profile_username_pref),null);
     }
 
     /**
@@ -210,7 +211,7 @@ public class Babyguard_Application extends Application {
      * @return Return the userCredentials's pass
      */
     private String getPassIfExists() {
-        return pref.getString("pass",null);
+        return getStringPreference(getKeyPreferenceByResourceId(R.string.profile_password_pref),null);
     }
 
     /**
@@ -218,7 +219,7 @@ public class Babyguard_Application extends Application {
      * @return Return the userCredentials's pass
      */
     private int getTypeIfExists() {
-        return pref.getInt("type",-1);
+        return getIntegerPreference(getKeyPreferenceByResourceId(R.string.profile_usertype_pref),-1);
     }
 
     public static boolean isTeacher() {

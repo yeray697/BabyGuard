@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 
 /**
@@ -387,7 +388,7 @@ public class Utils {
         return today;
     }
 
-    public static float pxFromDp(float dp) {
+    public static float dpToPx(float dp) {
         return dp * Babyguard_Application.getContext().getResources().getDisplayMetrics().density;
     }
 }

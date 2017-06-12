@@ -6,7 +6,7 @@
             android:key="@string/profile_name_pref"
             android:title="Profile name"
             android:summary="current name"/>
-        <PreferenceScreen
+        <com.ncatz.babyguard.preferences.DialogChangePasswordPreference
             android:key="@string/profile_password_pref"
             android:title="Change password" />
         <EditTextPreference
