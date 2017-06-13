@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -24,12 +28,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import static android.app.Activity.RESULT_OK;
 import static com.ncatz.babyguard.preferences.SettingsManager.getBooleanPreference;
@@ -91,7 +97,31 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
             screen.addPreference(category);
             image = getPreferenceManager().createPreferenceScreen(context);
             image.setTitle("Change the photo");
-            image.setIcon(R.drawable.food);
+            final PreferenceScreen finalImage = image;
+            new AsyncTask<Void, Void, Bitmap>() {
+                @Override
+                protected Bitmap doInBackground(Void... params) {
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = Glide.with(context).asBitmap().load(kid.getImg())
+                                .submit(200, 200).get(); // Width and height;
+
+                    } catch (final ExecutionException e) {
+                        e.getMessage();
+                    } catch (final InterruptedException e) {
+                        e.getMessage();
+                    }
+                    return bitmap;
+                }
+
+                @Override
+                protected void onPostExecute(Bitmap bitmap) {
+                    if (null != bitmap) {
+                        Drawable drawable = new BitmapDrawable(getResources(),bitmap);
+                        finalImage.setIcon(drawable);
+                    }
+                }
+            }.execute();
             image.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

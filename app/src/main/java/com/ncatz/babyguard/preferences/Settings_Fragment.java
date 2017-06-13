@@ -3,6 +3,10 @@ package com.ncatz.babyguard.preferences;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -17,10 +21,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.repository.Repository;
+
+import java.util.concurrent.ExecutionException;
 
 import static com.ncatz.babyguard.preferences.SettingsManager.getBooleanPreference;
 import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceByResourceId;
@@ -104,6 +111,30 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
                 return true;
             }
         });
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                Bitmap bitmap = null;
+                try {
+                    bitmap = Glide.with(context).asBitmap().load(Repository.getInstance().getUser().getImg())
+                            .submit(200, 200).get(); // Width and height;
+
+                } catch (final ExecutionException e) {
+                    e.getMessage();
+                } catch (final InterruptedException e) {
+                    e.getMessage();
+                }
+                return bitmap;
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                if (null != bitmap) {
+                    Drawable drawable = new BitmapDrawable(getResources(),bitmap);
+                    imgPref.setIcon(drawable);
+                }
+            }
+        }.execute();
 
         if (Babyguard_Application.isTeacher()) {
             PreferenceCategory profileCategory = (PreferenceCategory) findPreference("profileCategoryKey");
