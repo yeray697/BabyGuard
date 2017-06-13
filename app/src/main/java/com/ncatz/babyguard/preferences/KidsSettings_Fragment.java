@@ -1,7 +1,10 @@
 package com.ncatz.babyguard.preferences;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -13,11 +16,13 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.firebase.FirebaseManager;
@@ -26,6 +31,7 @@ import com.ncatz.babyguard.repository.Repository;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
 import static com.ncatz.babyguard.preferences.SettingsManager.getBooleanPreference;
 import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceByResourceId;
 import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreference;
@@ -62,100 +68,109 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context = getContext();
         } else {
             context = getActivity();
         }
 
+        ((Settings_Activity)getActivity()).getSupportActionBar().setTitle("Kids");
         kids = (ArrayList<Kid>) Repository.getInstance().getKids();
         PreferenceScreen screen;
         PreferenceCategory category;
-        IconPreferenceScreen iconPreferenceScreen;
+        PreferenceScreen image;
+        EditTextPreference etpName;
+        EditTextPreference etpInfo;
 
         screen = getPreferenceManager().createPreferenceScreen(context);
 
-        category = new PreferenceCategory(context);
-        category.setTitle("category name");
+        for (final Kid kid : kids) {
+            category = new PreferenceCategory(context);
+            category.setTitle(kid.getName());
+            screen.addPreference(category);
+            image = getPreferenceManager().createPreferenceScreen(context);
+            image.setTitle("Change the photo");
+            image.setIcon(R.drawable.food);
+            image.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    int PICK_IMAGE = 1;
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                    return true;
+                }
+            });
+            category.addPreference(image);
 
-        screen.addPreference(category);
+            etpName = new EditTextPreference(context);
+            etpName.setTitle("Change the name");
+            final PreferenceCategory finalCategory = category;
+            etpName.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    finalCategory.setTitle(newValue.toString());
+                    kid.setName(newValue.toString());
+                    FirebaseManager.getInstance().changeKidName(kid.getId(),newValue.toString());
+                    return false;
+                }
+            });
+            category.addPreference(etpName);
 
-        iconPreferenceScreen = new IconPreferenceScreen(context);
-        iconPreferenceScreen.setTitle("agasg");
-        iconPreferenceScreen.setIcon(R.drawable.food);
-
-        category.addPreference(iconPreferenceScreen);
-
+            etpInfo = new EditTextPreference(context);
+            etpInfo.setTitle("Change the information");
+            etpInfo.setSummary(kid.getInfo());
+            etpInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    preference.setSummary(newValue.toString());
+                    kid.setInfo(newValue.toString());
+                    FirebaseManager.getInstance().changeKidInfo(kid.getId(),newValue.toString());
+                    return false;
+                }
+            });
+            category.addPreference(etpInfo);
+        }
 
         setPreferenceScreen(screen);
-        /*nameKey = getKeyPreferenceByResourceId(R.string.profile_name_pref);
-        passKey = getKeyPreferenceByResourceId(R.string.profile_password_pref);
-        phoneKey = getKeyPreferenceByResourceId(R.string.profile_phone_pref);
-        kidKey = getKeyPreferenceByResourceId(R.string.profile_kids_pref);
-        notifVibrationKey = getKeyPreferenceByResourceId(R.string.notifications_vibration_pref);
-        previewKey = getKeyPreferenceByResourceId(R.string.notifications_preview_pref);
+    }
 
-        addPreferencesFromResource(R.xml.settings);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        nameProfilePref = (EditTextPreference) findPreference(nameKey);
-        phoneProfilePref = (EditTextPreference) findPreference(phoneKey);
+        if (resultCode == RESULT_OK) {
+            Uri selectedImage = imageReturnedIntent.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-        vibrationNotifPref = (ListPreference) findPreference(notifVibrationKey);
-        previewNotificationPref = (SwitchPreference) findPreference(previewKey);
+            /*Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
 
-        kidsPref = (PreferenceScreen) findPreference(kidKey);
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String filePath = cursor.getString(columnIndex);
+            cursor.close();
 
-        kidsPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                return true;
-            }
-        });
-        nameProfilePref.setSummary(getStringPreference(nameKey, ""));
-        phoneProfilePref.setSummary(getStringPreference(phoneKey, ""));
-        vibrationNotifPref.setSummary(getResources().getStringArray(R.array.notifications_vibration_pref_entries)[Integer.parseInt(getStringPreference(notifVibrationKey, "0"))]);
-        previewNotificationPref.setChecked(getBooleanPreference(previewKey, true));*/
 
+            Log.d(LOG_TAG, "Data Recieved! " + filePath);*/
+
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        /*Preference preference = findPreference(key);
-        if (preference instanceof ListPreference) {
-            ListPreference listPreference = (ListPreference) preference;
-            if (key.equals(notifVibrationKey)) {
-                int prefIndex = listPreference.findIndexOfValue(getStringPreference(key, ""));
-                if (prefIndex >= 0) {
-                    preference.setSummary(listPreference.getEntries()[prefIndex]);
-                }
-            } else {
-                preference.setSummary(sharedPreferences.getString(key, ""));
-            }
-        } else if (preference instanceof EditTextPreference) {
-            if (key.equals(nameKey)) {
-                FirebaseManager.getInstance().changeUserName();
-                preference.setSummary(sharedPreferences.getString(key, ""));
-            } else if (key.equals(phoneKey)) {
-                FirebaseManager.getInstance().changeUserPhone();
-                preference.setSummary(sharedPreferences.getString(key, ""));
-            } else {
-                preference.setSummary(sharedPreferences.getString(key, ""));
-            }
-        } else {
-            preference.setSummary(sharedPreferences.getString(key, ""));
-        }*/
+        ((Settings_Activity)getActivity()).setHasBeenModifedSomething(true);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        //getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="Profile">
+        android:title="Profile"
+        android:key="profileCategoryKey">
         <EditTextPreference
             android:key="@string/profile_name_pref"
             android:title="Profile name"

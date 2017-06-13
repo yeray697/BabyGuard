@@ -1,6 +1,8 @@
 package com.ncatz.babyguard.model;
 
 import com.google.firebase.database.DataSnapshot;
+import com.ncatz.babyguard.R;
+import com.ncatz.babyguard.preferences.SettingsManager;
 import com.ncatz.babyguard.repository.Repository;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class User {
     private String phone_number;
     private String dbPass;
     private int user_type;
+    private String name;
     private HashMap<String,Kid> kids;
 
     public User(){
@@ -94,6 +97,14 @@ public class User {
         this.id_nursery = id_nursery;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public static User parseFromDataSnapshot(DataSnapshot dataSnapshot) {
 
         User userAux = Repository.getInstance().getUser();
@@ -110,10 +121,15 @@ public class User {
             userAux.img = String.valueOf(aux.get("img_profile"));
             userAux.phone_number = String.valueOf(aux.get("phone_number"));
             userAux.dbPass = String.valueOf(aux.get("db_pass"));
+            userAux.name = String.valueOf(aux.get("name"));
             if (userAux.getUser_type()==UserCredentials.TYPE_TEACHER) {
                 userAux.id_nursery = String.valueOf(aux.get("id_nursery"));
                 userAux.id_nursery_classes_teacher = new ArrayList<>(((HashMap<String,String>) aux.get("classes")).values());
             }
+            String phoneKey = SettingsManager.getKeyPreferenceByResourceId(R.string.profile_phone_pref);
+            String nameKey = SettingsManager.getKeyPreferenceByResourceId(R.string.profile_name_pref);
+            SettingsManager.setStringPreference(phoneKey,userAux.phone_number);
+            SettingsManager.setStringPreference(nameKey,userAux.name);
             break;
         }
 

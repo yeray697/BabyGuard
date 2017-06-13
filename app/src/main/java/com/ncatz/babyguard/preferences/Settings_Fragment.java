@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.firebase.FirebaseManager;
+import com.ncatz.babyguard.repository.Repository;
 
 import static com.ncatz.babyguard.preferences.SettingsManager.getBooleanPreference;
 import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceByResourceId;
@@ -44,6 +46,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+        ((Settings_Activity)getActivity()).getSupportActionBar().setTitle("Settings");
         //view.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
         return view;
     }
@@ -90,7 +93,8 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
         previewNotificationPref.setChecked(getBooleanPreference(previewKey, true));
 
         if (Babyguard_Application.isTeacher()) {
-            getPreferenceScreen().removePreference(kidsPref);
+            PreferenceCategory profileCategory = (PreferenceCategory) findPreference("profileCategoryKey");
+            profileCategory.removePreference(kidsPref);
         }
     }
 
@@ -115,9 +119,11 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
             }
         } else if (preference instanceof EditTextPreference) {
             if (key.equals(nameKey)) {
+                Repository.getInstance().getUser().setName(sharedPreferences.getString(key, ""));
                 FirebaseManager.getInstance().changeUserName();
                 preference.setSummary(sharedPreferences.getString(key, ""));
             } else if (key.equals(phoneKey)) {
+                Repository.getInstance().getUser().setPhone_number(sharedPreferences.getString(key, ""));
                 FirebaseManager.getInstance().changeUserPhone();
                 preference.setSummary(sharedPreferences.getString(key, ""));
             } else {
@@ -128,6 +134,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
         } else {
             preference.setSummary(sharedPreferences.getString(key, ""));
         }
+        ((Settings_Activity)getActivity()).setHasBeenModifedSomething(true);
     }
 
     @Override

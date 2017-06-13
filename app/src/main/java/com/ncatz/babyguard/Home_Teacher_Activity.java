@@ -42,7 +42,6 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("asdf","onCreate");
         setContentView(R.layout.activity_home_teacher);
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -73,7 +72,6 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         ((Babyguard_Application)getApplicationContext()).removeHomeTeacherListener();
-        Log.d("asdf","onStop");
     }
 
     public void refreshSpinner() {

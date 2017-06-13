@@ -130,6 +130,7 @@ public class DialogChangePasswordPreference extends DialogPreference{
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
+        super.onClick(dialog,which);
         boolean validPass = true;
         if (which == DialogInterface.BUTTON_POSITIVE)
         {
@@ -186,14 +187,9 @@ public class DialogChangePasswordPreference extends DialogPreference{
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
-
         if(positiveResult) {
-
-            SharedPreferences.Editor editor = getEditor();
             String passKey = getKeyPreferenceByResourceId(R.string.profile_password_pref);
-            if (FirebaseManager.getInstance().changeUserPassword()) {
-                setStringPreference(passKey,etNewPass1.getText().toString());
-            }
+            FirebaseManager.getInstance().changeUserPassword(etNewPass1.getText().toString(), passKey);
         }
     }
 }

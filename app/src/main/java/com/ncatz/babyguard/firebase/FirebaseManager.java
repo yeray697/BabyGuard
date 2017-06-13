@@ -1,6 +1,14 @@
 package com.ncatz.babyguard.firebase;
 
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.ncatz.babyguard.preferences.SettingsManager.setStringPreference;
 
 /**
  * Created by yeray697 on 12/04/17.
@@ -370,15 +380,39 @@ public class FirebaseManager {
         return trackingKid;
     }
 
-    public boolean changeUserPassword() {
-        //TODO
-        return false;
+    public void changeUserPassword(final String newPass, final String passKey) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        AuthCredential credential =
+                EmailAuthProvider.getCredential(
+                        Repository.getInstance().getUser().getMail(),
+                        newPass);
+
+        user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    setStringPreference(passKey,newPass);
+                } else {
+                }
+            }
+        });
     }
 
     public void changeUserName() {
-
+        User user = Repository.getInstance().getUser();
+        database.getReference(USER_REFERENCE).child(user.getId()).child("name").setValue(user.getName());
     }
 
     public void changeUserPhone() {
+        User user = Repository.getInstance().getUser();
+        database.getReference(USER_REFERENCE).child(user.getId()).child("phone_number").setValue(user.getPhone_number());
+    }
+
+    public void changeKidName(String id, String name) {
+        database.getReference(KID_REFERENCE).child(id).child("name").setValue(name);
+    }
+
+    public void changeKidInfo(String id, String info) {
+        database.getReference(KID_REFERENCE).child(id).child("info").setValue(info);
     }
 }
