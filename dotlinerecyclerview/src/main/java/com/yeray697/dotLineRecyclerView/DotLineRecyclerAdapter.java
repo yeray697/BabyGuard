@@ -2,6 +2,7 @@ package com.yeray697.dotLineRecyclerView;
 
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -10,7 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 
 import java.util.ArrayList;
 
@@ -101,9 +103,9 @@ public abstract class DotLineRecyclerAdapter extends RecyclerView.Adapter<DotLin
         } else if (aux.isImageAResource()){
             holder.iv_item.setImageResource(aux.getImageResource());
         } else if (aux.isImageAnURL()){
-            Picasso.with(holder.iv_item.getContext())
+            Glide.with(holder.iv_item.getContext())
                     .load(aux.getImageUrl())
-                    .error(getImageError())
+                    //TODO .placeholder(getImageError())
                     .into(holder.iv_item);
         } else
             holder.iv_item.setImageDrawable(null);

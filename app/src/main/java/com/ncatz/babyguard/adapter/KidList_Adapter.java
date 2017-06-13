@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.Kid;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -75,7 +75,7 @@ public class KidList_Adapter extends ArrayAdapter<Kid>{
                 return false;
             }
         });
-        Picasso.with(getContext()).load(getItem(position).getImg()).noFade().into(holder.ivKid);
+        Glide.with(getContext()).load(getItem(position).getImg()).into(holder.ivKid);
         holder.tvKidName.setText(getItem(position).getName());
         return view;
     }

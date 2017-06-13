@@ -1,5 +1,7 @@
 package com.ncatz.babyguard;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -18,13 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
 import com.ncatz.babyguard.interfaces.Home_View;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.babyguard.utils.Utils;
-import com.squareup.picasso.Picasso;
 import com.yarolegovich.lovelydialog.LovelyInfoDialog;
 import com.yeray697.dotLineRecyclerView.DotLineRecyclerView;
 import com.yeray697.dotLineRecyclerView.Message_View;
@@ -48,6 +50,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     private boolean zoom;
     private ImageView ivKid;
     private int order;
+    private Context context;
 
     public static Tracking_Parent_Fragment newInstance(Bundle args) {
         Tracking_Parent_Fragment fragment = new Tracking_Parent_Fragment();
@@ -61,6 +64,11 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context = getContext();
+        } else {
+            context = getActivity();
+        }
         final View view = inflater.inflate(R.layout.fragment_tracking_parent,container,false);
         kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
 
@@ -88,7 +96,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
             @Override
             public void onClick(View v) {
                 fabMessage.setVisibility(View.GONE);
-                Utils.zoomImageFromThumb(getContext(), R.id.clHome, view, ivExpandedImage, ivKid.getDrawable(), new Utils.OnAnimationEnded() {
+                Utils.zoomImageFromThumb(context, R.id.clHome, view, ivExpandedImage, ivKid.getDrawable(), new Utils.OnAnimationEnded() {
                     @Override
                     public void finishing() {
                         zoom = false;
@@ -110,12 +118,12 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvHome);
         order = Repository.Sort.CHRONOLOGIC;
 
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         rvInfoKid.setLayoutManager(mLayoutManager);
-        rvInfoKid.setLineColor(ContextCompat.getColor(getContext(), R.color.colorLineColor));
+        rvInfoKid.setLineColor(ContextCompat.getColor(context, R.color.colorLineColor));
         rvInfoKid.setLineWidth(3);
         refreshTrackingList();
-        ((Babyguard_Application)getContext().getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
+        ((Babyguard_Application)context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
                 refreshTrackingList();
@@ -127,16 +135,16 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     private void refreshTrackingList() {
         kid = Repository.getInstance().getKidById(kid.getId()); //Refreshing
         dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
-        adapter = new TrackingKid_Adapter(getContext(), (ArrayList<RecyclerData>) dataKid,45);
+        adapter = new TrackingKid_Adapter(context, (ArrayList<RecyclerData>) dataKid,45);
         rvInfoKid.setAdapter(adapter);
         collapser.setTitle(kid.getName());
-        Picasso.with(getContext()).load(kid.getImg())
+        Glide.with(context).load(kid.getImg())
                 .into(ivKid);
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
             public void onClick(View view, int i) {
                 TrackingKid aux = (TrackingKid) adapter.getItemAtPosition(i);
-                new LovelyInfoDialog(getContext())
+                new LovelyInfoDialog(context)
                         .setTopColorRes(R.color.colorPrimaryLightDark)
                         .setIcon(R.mipmap.ic_info_outline_white_36dp)
                         .setTitle(aux.getTitle())
@@ -190,6 +198,6 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)getContext().getApplicationContext()).removeTrackingListener();
+        ((Babyguard_Application)context.getApplicationContext()).removeTrackingListener();
     }
 }

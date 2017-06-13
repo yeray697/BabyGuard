@@ -3,6 +3,9 @@
     <PreferenceCategory
         android:title="Profile"
         android:key="profileCategoryKey">
+        <PreferenceScreen
+            android:title="Change your image profile"
+            android:key="@string/profile_img_pref"/>
         <EditTextPreference
             android:key="@string/profile_name_pref"
             android:title="Profile name"
@@ -17,12 +20,7 @@
         <PreferenceScreen
             android:title="Kids"
             android:key="@string/profile_kids_pref"
-            android:fragment="com.ncatz.babyguard.preferences.KidsSettings_Fragment">
-            <!-- Inflated programmatically:
-                Name: EditTextPreference
-                Info: EditTextPreference
-                Image: ?-->
-        </PreferenceScreen>
+            android:fragment="com.ncatz.babyguard.preferences.KidsSettings_Fragment"/>
     </PreferenceCategory>
 
     <PreferenceCategory

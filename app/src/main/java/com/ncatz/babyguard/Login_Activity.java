@@ -20,7 +20,6 @@ import com.ncatz.babyguard.model.ErrorClass;
 import com.ncatz.babyguard.presenter.LoginPresenterImpl;
 import com.ncatz.babyguard.utils.OneClickMultiple;
 import com.ncatz.babyguard.utils.OneClickMultipleListener;
-import com.orhanobut.logger.Logger;
 
 /**
  * Login view
@@ -46,7 +45,6 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.wtf("friend");
         setContentView(R.layout.activity_login);if (savedInstanceState != null) {
             oneClickMultiple = (OneClickMultiple) savedInstanceState.getSerializable(MULTIPLE_CLICK_LISTENER);
         } else {

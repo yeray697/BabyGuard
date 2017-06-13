@@ -23,13 +23,6 @@ import com.ncatz.babyguard.preferences.SettingsManager;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.yeray.calendarview.BuildConfig;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.CsvFormatStrategy;
-import com.orhanobut.logger.DiskLogAdapter;
-import com.orhanobut.logger.FormatStrategy;
-import com.orhanobut.logger.LogStrategy;
-import com.orhanobut.logger.Logger;
-import com.orhanobut.logger.PrettyFormatStrategy;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,8 +34,6 @@ import java.util.Objects;
 import static com.ncatz.babyguard.preferences.SettingsManager.getIntegerPreference;
 import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceByResourceId;
 import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreference;
-import static com.ncatz.babyguard.preferences.SettingsManager.setIntegerPreference;
-import static com.ncatz.babyguard.preferences.SettingsManager.setStringPreference;
 
 /**
  * Context application
@@ -88,39 +79,6 @@ public class Babyguard_Application extends Application {
             }
         });
         FirebaseManager.getInstance().setListeners(firebaseListeners);
-        FormatStrategy formatStrategyLog = PrettyFormatStrategy.newBuilder()
-                .methodCount(5)
-                .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
-                .tag("Babyguard")
-                .build();
-        AndroidLogAdapter adapterLog = new AndroidLogAdapter(formatStrategyLog) {
-            @Override
-            public boolean isLoggable(int priority, String tag) {
-                return BuildConfig.DEBUG;
-            }
-        };
-
-        Logger.addLogAdapter(adapterLog);
-        FormatStrategy formatStrategyFile = CsvFormatStrategy.newBuilder()
-                .logStrategy(new LogStrategy() {
-
-                    @Override
-                    public void log(int priority, String tag, String message) {
-
-                    }
-                })
-                .build();
-        AndroidLogAdapter adapterFile = new AndroidLogAdapter(formatStrategyLog) {
-            @Override
-            public boolean isLoggable(int priority, String tag) {
-                return !BuildConfig.DEBUG;
-            }
-        };
-        Logger.addLogAdapter(new DiskLogAdapter());
-        Logger.d("Hello");
-        Logger.e("darkness");
-        Logger.i("my");
-        Logger.w("old");
     }
 
     private void handleUncaughtException(Thread thread, Throwable e) {

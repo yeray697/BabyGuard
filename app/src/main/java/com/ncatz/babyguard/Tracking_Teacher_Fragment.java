@@ -20,13 +20,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.interfaces.Home_View;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.repository.Repository;
-import com.squareup.picasso.Picasso;
 import com.yarolegovich.lovelydialog.LovelyInfoDialog;
 import com.yeray697.dotLineRecyclerView.DotLineRecyclerView;
 import com.yeray697.dotLineRecyclerView.Message_View;
@@ -87,7 +87,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         tvName.setText(kid.getName());
         tvInfo.setSelected(true);
         tvInfo.setText(kid.getInfo());
-        Picasso.with(context).load(kid.getImg()).into(ivProfile);
+        Glide.with(context).load(kid.getImg()).into(ivProfile);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         rvInfoKid.setLayoutManager(mLayoutManager);
         rvInfoKid.setLineColor(ContextCompat.getColor(context, R.color.colorLineColor));

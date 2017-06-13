@@ -9,11 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class Conversation_Adapter extends ArrayAdapter<Chat> {
         }
         Chat aux = getItem(position);
         holder.tvName.setText(aux.getName());
-        Picasso.with(getContext())
+        Glide.with(getContext())
                 .load(aux.getPhoto())
                 .into(holder.ivProfile);
         ChatMessage lastMessage = aux.getLastMessage();

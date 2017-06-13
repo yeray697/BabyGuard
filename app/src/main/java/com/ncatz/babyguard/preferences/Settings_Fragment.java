@@ -1,6 +1,7 @@
 package com.ncatz.babyguard.preferences;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,17 +31,17 @@ import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreferenc
  */
 
 public class Settings_Fragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private PreferenceScreen imgPref;
     private EditTextPreference nameProfilePref;
     private EditTextPreference phoneProfilePref;
+    private PreferenceScreen kidsPref;
 
     private ListPreference vibrationNotifPref;
     private SwitchPreference previewNotificationPref;
 
-    private PreferenceScreen kidsPref;
-
     private Context context;
 
-    private String nameKey, passKey, kidKey, phoneKey, notifVibrationKey, previewKey;
+    private String imgKey, nameKey, passKey, kidKey, phoneKey, notifVibrationKey, previewKey;
 
 
     @Override
@@ -59,6 +60,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
         } else {
             context = getActivity();
         }
+        imgKey = getKeyPreferenceByResourceId(R.string.profile_img_pref);
         nameKey = getKeyPreferenceByResourceId(R.string.profile_name_pref);
         passKey = getKeyPreferenceByResourceId(R.string.profile_password_pref);
         phoneKey = getKeyPreferenceByResourceId(R.string.profile_phone_pref);
@@ -68,13 +70,13 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
 
         addPreferencesFromResource(R.xml.settings);
 
+        imgPref = (PreferenceScreen) findPreference(imgKey);
         nameProfilePref = (EditTextPreference) findPreference(nameKey);
         phoneProfilePref = (EditTextPreference) findPreference(phoneKey);
+        kidsPref = (PreferenceScreen) findPreference(kidKey);
 
         vibrationNotifPref = (ListPreference) findPreference(notifVibrationKey);
         previewNotificationPref = (SwitchPreference) findPreference(previewKey);
-
-        kidsPref = (PreferenceScreen) findPreference(kidKey);
 
         kidsPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -91,6 +93,17 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
         phoneProfilePref.setSummary(getStringPreference(phoneKey, ""));
         vibrationNotifPref.setSummary(getResources().getStringArray(R.array.notifications_vibration_pref_entries)[Integer.parseInt(getStringPreference(notifVibrationKey, "0"))]);
         previewNotificationPref.setChecked(getBooleanPreference(previewKey, true));
+
+        imgPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                int PICK_IMAGE = 1;
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                return true;
+            }
+        });
 
         if (Babyguard_Application.isTeacher()) {
             PreferenceCategory profileCategory = (PreferenceCategory) findPreference("profileCategoryKey");

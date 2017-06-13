@@ -16,13 +16,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ncatz.babyguard.adapter.Chat_Adapter;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.babyguard.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -79,7 +79,7 @@ public class Chat_Fragment extends Fragment {
         etSend = (EditText) view.findViewById(R.id.etMessage_chat);
         refreshList();
         tvName.setText(chat.getName());
-        Picasso.with(context).load(chat.getPhoto()).into(ivProfile);
+        Glide.with(context).load(chat.getPhoto()).into(ivProfile);
         lvChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         lvChat.setStackFromBottom(true);
         btSend.setOnClickListener(new View.OnClickListener() {
