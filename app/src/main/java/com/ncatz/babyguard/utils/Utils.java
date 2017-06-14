@@ -7,11 +7,17 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +27,9 @@ import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.ChatMessage;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -390,5 +399,57 @@ public class Utils {
 
     public static float dpToPx(float dp) {
         return dp * Babyguard_Application.getContext().getResources().getDisplayMetrics().density;
+    }
+
+    public static Bitmap shrinkImage(Bitmap bitmap, int maxDimensionSize) {
+        int originalWidth = bitmap.getWidth();
+        int originalHeigth = bitmap.getHeight();
+        Bitmap shrinked;
+        if (originalHeigth > maxDimensionSize || originalWidth > maxDimensionSize) {
+            int newWidth, newHeight;
+            if (originalHeigth > originalWidth) {
+                newHeight = maxDimensionSize;
+                newWidth = maxDimensionSize * originalWidth / originalHeigth;
+            } else {
+                newWidth = maxDimensionSize;
+                newHeight = maxDimensionSize * originalHeigth / originalWidth;
+            }
+            float scaleWidth = ((float) newWidth) / originalWidth;
+            float scaleHeight = ((float) newHeight) / originalHeigth;
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth, scaleHeight);
+            shrinked = Bitmap.createBitmap(bitmap, 0, 0, originalWidth, originalHeigth, matrix, false);
+
+        } else {
+            shrinked = bitmap;
+        }
+
+        return shrinked;
+    }
+
+    public static Bitmap uriToBitmap(Uri uri) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(Babyguard_Application.getContext().getContentResolver() , uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public static byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        return baos.toByteArray();
+    }
+
+    public static byte[] prepareImageToUpload(Uri uri, int maxSize) {
+        Bitmap bitmap = uriToBitmap(uri);
+        byte[] image = null;
+        if (bitmap != null) {
+            bitmap = shrinkImage(bitmap,maxSize);
+            image = bitmapToByteArray(bitmap);
+        }
+        return image;
     }
 }

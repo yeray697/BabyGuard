@@ -1,11 +1,15 @@
 package com.ncatz.babyguard.firebase;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,9 +20,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
+import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.repository.Repository;
@@ -45,10 +53,13 @@ public class FirebaseManager {
     private static final String TEACHER_REFERENCE = "teacher";
     private static final String CHAT_REFERENCE = "chat";
     private static final String CHAT_PARENT_REFERENCE = "chat_room_parent";
+    private static final String ROOT_STORAGE_REFERENCE = "gs://babyguard-4536a.appspot.com";
+    private static final String PROFILE_IMG_STORAGE_REFERENCE = "profile_img";
 
     private static FirebaseManager instance;
     private FirebaseDatabase database;
     private FirebaseAuth firebaseAuth;
+    private FirebaseStorage storage;
     private FirebaseListeners listeners;
     private HashMap<Query,ArrayList<ValueEventListener>> activeValueListeners;
     private HashMap<Query,ArrayList<ChildEventListener>> activeChildListeners;
@@ -278,6 +289,7 @@ public class FirebaseManager {
         database = FirebaseDatabase.getInstance();
         database.setPersistenceEnabled(true);
         firebaseAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
     }
 
     public static FirebaseManager getInstance() {
@@ -414,5 +426,37 @@ public class FirebaseManager {
 
     public void changeKidInfo(String id, String info) {
         database.getReference(KID_REFERENCE).child(id).child("info").setValue(info);
+    }
+
+    public void uploadImageToFirebase(Uri uri, final boolean isKid, final String id, OnFailureListener onFailureListener, OnSuccessListener<UploadTask.TaskSnapshot> onSuccessListener) {
+        StorageReference ref;
+        if (isKid) {
+            ref = storage.getReferenceFromUrl(ROOT_STORAGE_REFERENCE).child(PROFILE_IMG_STORAGE_REFERENCE + "/" + KID_REFERENCE + "/" + id + ".jpg");
+        } else {
+            ref = storage.getReferenceFromUrl(ROOT_STORAGE_REFERENCE).child(PROFILE_IMG_STORAGE_REFERENCE + "/" + USER_REFERENCE + "/" + id + ".jpg");
+        }
+        byte[] imageBytes = Utils.prepareImageToUpload(uri,3840);
+
+        UploadTask uploadTask = ref.putBytes(imageBytes);
+
+        uploadTask.addOnFailureListener(onFailureListener)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                @SuppressWarnings("VisibleForTests")
+                String urlImage = taskSnapshot.getDownloadUrl().toString();
+                if (isKid) {
+                    database.getReference(KID_REFERENCE).child(id).child("img").setValue(urlImage);
+                } else {
+                    if (!Babyguard_Application.isTeacher()){
+                        ArrayList<Kid> kids = (ArrayList<Kid>) Repository.getInstance().getKids();
+                        for (Kid aux : kids)
+                            database.getReference(KID_REFERENCE).child(aux.getId()).child("img_profile").setValue(urlImage);
+                    }
+                    database.getReference(USER_REFERENCE).child(id).child("img_profile").setValue(urlImage);
+                }
+            }
+        })
+                .addOnSuccessListener(onSuccessListener);
     }
 }

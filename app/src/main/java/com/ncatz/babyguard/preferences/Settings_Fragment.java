@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,12 +17,16 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.UploadTask;
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.firebase.FirebaseManager;
@@ -29,6 +34,7 @@ import com.ncatz.babyguard.repository.Repository;
 
 import java.util.concurrent.ExecutionException;
 
+import static android.app.Activity.RESULT_OK;
 import static com.ncatz.babyguard.preferences.SettingsManager.getBooleanPreference;
 import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceByResourceId;
 import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreference;
@@ -50,7 +56,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
 
     private String imgKey, nameKey, passKey, kidKey, phoneKey, notifVibrationKey, previewKey;
 
-
+    private static final int PICK_IMAGE_REQUEST_CODE = 1;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
@@ -106,17 +112,26 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
             public boolean onPreferenceClick(Preference preference) {
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                int PICK_IMAGE = 1;
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_CODE);
                 return true;
             }
         });
+
+        loadImage(Repository.getInstance().getUser().getImg());
+
+        if (Babyguard_Application.isTeacher()) {
+            PreferenceCategory profileCategory = (PreferenceCategory) findPreference("profileCategoryKey");
+            profileCategory.removePreference(kidsPref);
+        }
+    }
+
+    private void loadImage(final String url) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
                 Bitmap bitmap = null;
                 try {
-                    bitmap = Glide.with(context).asBitmap().load(Repository.getInstance().getUser().getImg())
+                    bitmap = Glide.with(context).asBitmap().load(url)
                             .submit(200, 200).get(); // Width and height;
 
                 } catch (final ExecutionException e) {
@@ -135,11 +150,6 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
                 }
             }
         }.execute();
-
-        if (Babyguard_Application.isTeacher()) {
-            PreferenceCategory profileCategory = (PreferenceCategory) findPreference("profileCategoryKey");
-            profileCategory.removePreference(kidsPref);
-        }
     }
 
     @Override
@@ -185,5 +195,30 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
     public void onPause() {
         super.onPause();
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_IMAGE_REQUEST_CODE) {
+                Uri selectedImage = imageReturnedIntent.getData();
+                FirebaseManager.getInstance().uploadImageToFirebase(selectedImage, false, Repository.getInstance().getUser().getId(), new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                }, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        @SuppressWarnings("VisibleForTests")
+                        String urlImage = taskSnapshot.getDownloadUrl().toString();
+                        loadImage(urlImage);
+                    }
+                });
+            }
+        }
     }
 }
