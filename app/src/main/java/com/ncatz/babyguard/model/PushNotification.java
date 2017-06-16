@@ -1,20 +1,28 @@
 package com.ncatz.babyguard.model;
 
+import android.widget.Toast;
+
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.ncatz.babyguard.Babyguard_Application;
+import com.ncatz.babyguard.utils.RestClient;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Map;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
  * Created by yeray697 on 15/06/17.
  */
 
-public class Notification {
+public class PushNotification {
 
     public static final int TYPE_CALENDAR_ADD = 1;
     public static final int TYPE_CALENDAR_EDIT = 2;
@@ -24,12 +32,23 @@ public class Notification {
     public static final int TYPE_TRACKING_REMOVE = 6;
     public static final int TYPE_MESSAGE = 7;
 
+    public static final String FCM_URL = "https://fcm.googleapis.com/fcm/send";
+    public static final String FCM_APIKEY = "AAAAyEDg-zI:APA91bG6YvY7BpWGphY70EMuJVktx9f77STPBbatuqL19eZCS2IK9AJkWJ9SiJwFCo8E9-XQBOKzJwcbW6lFpv9QSHrr9r6AsAWYMaXgtOr7a-g64p8XEoPnfJC4TrWB48O4w7A_Ji6v";
+
     private int type;
-    private String from;
-    private String to;
+    private String fromUser;
+    private String toUser;
     private MessageNotif message;
     private TrackingNotif tracking;
     private CalendarNotif calendar;
+
+    public void setChatMessage(ChatMessage chatMessage) {
+        message = new MessageNotif();
+        message.teacher = chatMessage.getTeacher();
+        message.kid = chatMessage.getKid();
+        message.message = chatMessage.getMessage();
+        message.datetime = chatMessage.getDatetime();
+    }
 
     public class MessageNotif {
         private String teacher,
@@ -179,20 +198,20 @@ public class Notification {
         this.type = type;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromUser() {
+        return fromUser;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
     }
 
-    public String getTo() {
-        return to;
+    public String getToUser() {
+        return toUser;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
     }
 
     public MessageNotif getMessage() {
@@ -219,18 +238,18 @@ public class Notification {
         this.calendar = calendar;
     }
 
-    public static Notification parseReceivedNotif(Map<String, String> data) {
+    public static PushNotification parseReceivedNotif(Map<String, String> data) {
 
         Gson gson = new Gson();
-        Notification notification = new Notification();
-        notification.setType(Integer.valueOf(data.get("type")));
+        PushNotification pushNotification = new PushNotification();
+        pushNotification.setType(Integer.valueOf(data.get("type")));
 
         String calendar = data.get("calendar");
         if (calendar != null) {
             try {
                 JSONObject calendarJSON = new JSONObject(calendar);
-                Notification.CalendarNotif calendarNotif = gson.fromJson(calendarJSON.toString(), Notification.CalendarNotif.class);
-                notification.setCalendar(calendarNotif);
+                PushNotification.CalendarNotif calendarNotif = gson.fromJson(calendarJSON.toString(), PushNotification.CalendarNotif.class);
+                pushNotification.setCalendar(calendarNotif);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -240,8 +259,8 @@ public class Notification {
         if (tracking != null) {
             try {
                 JSONObject trackingJSON = new JSONObject(tracking);
-                Notification.TrackingNotif trackingNotif = gson.fromJson(trackingJSON.toString(), Notification.TrackingNotif.class);
-                notification.setTracking(trackingNotif);
+                PushNotification.TrackingNotif trackingNotif = gson.fromJson(trackingJSON.toString(), PushNotification.TrackingNotif.class);
+                pushNotification.setTracking(trackingNotif);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -251,12 +270,53 @@ public class Notification {
         if (message != null) {
             try {
                 JSONObject messageJSON = new JSONObject(message);
-                Notification.MessageNotif messageNotif = gson.fromJson(messageJSON.toString(), Notification.MessageNotif.class);
-                notification.setMessage(messageNotif);
+                PushNotification.MessageNotif messageNotif = gson.fromJson(messageJSON.toString(), PushNotification.MessageNotif.class);
+                pushNotification.setMessage(messageNotif);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        return notification;
+        return pushNotification;
+    }
+
+    public void pushNotification(String deviceId) {
+        try {
+            JSONObject root = new JSONObject();
+           // JSONArray j = this.toJSON();
+            try {
+                JSONObject j = toJSON();
+                root.put("data",j);
+                root.put("to",deviceId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            StringEntity entity = new StringEntity(root.toString());
+            RestClient.post(FCM_URL,FCM_APIKEY,entity, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    Toast.makeText(Babyguard_Application.getContext(), "statusCode: " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(Babyguard_Application.getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private JSONObject toJSON() {
+        JSONObject jsonArray = null;
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(this);
+        try {
+            jsonArray = new JSONObject(jsonString);
+            //jsonObject = new JSONObject(jsonString);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return jsonArray;
     }
 }

@@ -21,6 +21,7 @@ import com.ncatz.babyguard.adapter.Chat_Adapter;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
+import com.ncatz.babyguard.model.PushNotification;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.babyguard.utils.Utils;
 
@@ -33,6 +34,7 @@ public class Chat_Fragment extends Fragment {
 
     public static final String TEACHER_ID_KEY = "id";
     public static final String KID_ID_KEY = "kid";
+    public static final String DEVICE_ID_KEY = "deviceId";
     private TextView tvName;
     private ImageView backButton;
     private CircleImageView ivProfile;
@@ -42,6 +44,8 @@ public class Chat_Fragment extends Fragment {
     private Chat_Adapter adapter;
     private Context context;
 
+
+    private String deviceId;
     private Chat chat;
     private String teacherId;
     private String kidId;
@@ -70,6 +74,7 @@ public class Chat_Fragment extends Fragment {
             ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(false);
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         teacherId = getArguments().getString(TEACHER_ID_KEY);
+        deviceId = getArguments().getString(DEVICE_ID_KEY);
         kidId = getArguments().getString(KID_ID_KEY);
         backButton = (ImageView) view.findViewById(R.id.backButtonChat);
         ivProfile = (CircleImageView) view.findViewById(R.id.ivProfile_chat);
@@ -108,13 +113,24 @@ public class Chat_Fragment extends Fragment {
         if (!TextUtils.isEmpty(et)) {
             Long timeUnix = System.currentTimeMillis();
             ChatMessage message = new ChatMessage(teacherId, kidId, et, String.valueOf(timeUnix));
+            String to, from;
             if (Babyguard_Application.isTeacher()) {
                 FirebaseManager.getInstance().sendMessage(kidId, message);
+                to = kidId;
+                from = teacherId;
             } else {
                 FirebaseManager.getInstance().sendMessage(teacherId, message);
+                to = teacherId;
+                from = kidId;
             }
             if (Repository.getInstance().addMessage(message)) {
                 refreshList();
+                PushNotification notification = new PushNotification();
+                notification.setType(PushNotification.TYPE_MESSAGE);
+                notification.setChatMessage(message);
+                notification.setToUser(to);
+                notification.setFromUser(from);
+                notification.pushNotification(deviceId);
             }
             etSend.setText("");
         }

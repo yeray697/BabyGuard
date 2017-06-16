@@ -65,6 +65,7 @@ public class Conversation_Adapter extends ArrayAdapter<Chat> {
         }
         holder.tvName.setLayoutParams(params);
         view.setTag(R.id.conversationId,aux.getId());
+        view.setTag(R.id.deviceId,aux.getFcmToken());
         return view;
     }
 

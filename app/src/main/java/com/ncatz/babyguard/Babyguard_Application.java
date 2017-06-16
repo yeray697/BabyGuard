@@ -2,7 +2,6 @@ package com.ncatz.babyguard;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,7 +14,6 @@ import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.model.Kid;
-import com.ncatz.babyguard.model.Notification;
 import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.model.TrackingKid;
@@ -23,8 +21,6 @@ import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.model.UserCredentials;
 import com.ncatz.babyguard.preferences.SettingsManager;
 import com.ncatz.babyguard.repository.Repository;
-import com.ncatz.babyguard.services.FCMService;
-import com.ncatz.yeray.calendarview.BuildConfig;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import java.util.ArrayList;
@@ -32,7 +28,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.ncatz.babyguard.preferences.SettingsManager.getIntegerPreference;
 import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceByResourceId;

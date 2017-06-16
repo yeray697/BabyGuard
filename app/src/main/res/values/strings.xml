@@ -33,4 +33,5 @@
     <!-- Multiple tag: Conversation_Adapter-->
     <item type="id" name="conversationHolder" />
     <item type="id" name="conversationId" />
+    <item type="id" name="deviceId" />
 </resources>

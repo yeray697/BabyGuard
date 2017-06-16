@@ -15,17 +15,19 @@ public class Chat {
     private String photo;
     private String nursery;
     private String nurseryClass;
+    private String fcmToken;
     private ArrayList<ChatMessage> messages;
 
     public Chat() {
     }
 
-    public Chat(String id, String name, String photo, String nursery, String nurseryClass, ArrayList<ChatMessage> messages) {
+    public Chat(String id, String name, String photo, String nursery, String nurseryClass, String fcmToken, ArrayList<ChatMessage> messages) {
         this.id = id;
         this.name = name;
         this.photo = photo;
         this.nursery = nursery;
         this.nurseryClass = nurseryClass;
+        this.fcmToken = fcmToken;
         this.messages = messages;
     }
 
@@ -75,6 +77,14 @@ public class Chat {
 
     public void setMessages(ArrayList<ChatMessage> messages) {
         this.messages = messages;
+    }
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 
     public void addMessage(ChatMessage chatMessage) {
@@ -129,12 +139,13 @@ public class Chat {
                 (String) dataSnapshot.get("img_profile"),
                 (String) dataSnapshot.get("id_nursery"),
                 (String) dataSnapshot.get("id_nursery_class"),
+                (String) dataSnapshot.get("fcmToken"),
                 new ArrayList<ChatMessage>());
 
         return chat;
     }
 
     public static Chat duplicate(Chat chat) {
-        return new Chat(chat.id,chat.name,chat.photo,chat.nursery,chat.nurseryClass,new ArrayList<ChatMessage>());
+        return new Chat(chat.id,chat.name,chat.photo,chat.nursery,chat.nurseryClass,chat.fcmToken,new ArrayList<ChatMessage>());
     }
 }

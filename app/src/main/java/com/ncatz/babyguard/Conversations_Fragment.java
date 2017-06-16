@@ -87,7 +87,8 @@ public class Conversations_Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String chatId = (String) view.getTag(R.id.conversationId);
-                openChat(chatId);
+                String deviceId = (String) view.getTag(R.id.deviceId);
+                openChat(chatId,deviceId);
             }
         });
         setToolbar();
@@ -116,7 +117,7 @@ public class Conversations_Fragment extends Fragment {
         }
     }
 
-    private void openChat(String chatId) {
+    private void openChat(String chatId, String deviceId) {
         Bundle args = new Bundle();
         if (Babyguard_Application.isTeacher()) {
             args.putString(Chat_Fragment.TEACHER_ID_KEY, transmitterId);
@@ -125,6 +126,7 @@ public class Conversations_Fragment extends Fragment {
             args.putString(Chat_Fragment.TEACHER_ID_KEY, chatId);
             args.putString(Chat_Fragment.KID_ID_KEY, transmitterId);
         }
+        args.putString(Chat_Fragment.DEVICE_ID_KEY,deviceId);
         Chat_Fragment fragment = Chat_Fragment.newInstance(args);
 
         getActivity().getFragmentManager().beginTransaction()
