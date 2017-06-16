@@ -101,6 +101,28 @@ public class TrackingKid extends RecyclerData implements Parcelable{
         dest.writeString(id);
     }
 
+    public String getTypeString() {
+        String result;
+        switch (type) {
+            case 1:
+                result = "Poop";
+                break;
+            case 2:
+                result = "Food";
+                break;
+            case 3:
+                result = "Sleep";
+                break;
+            case 4:
+                result = "Other";
+                break;
+            default:
+                result = "";
+                break;
+        }
+        return result;
+    }
+
     @IntDef({Type.POOP, Type.FOOD, Type.SLEEP, Type.OTHER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Type {

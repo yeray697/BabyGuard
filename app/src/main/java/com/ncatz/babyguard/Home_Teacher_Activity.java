@@ -237,4 +237,16 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         super.onBackPressed();
         ((Babyguard_Application)getApplicationContext()).setDatabaseLoaded(false);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Babyguard_Application.setCurrentActivity("Home_Teacher_Activity");
+    }
 }

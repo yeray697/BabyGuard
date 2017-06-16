@@ -131,6 +131,13 @@ public class AddTracking_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         setToolbar();
+        Babyguard_Application.setCurrentActivity("AddTracking_Fragment");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
     }
 
     private void setToolbar() {

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,6 +15,7 @@ import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.model.Notification;
 import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.model.TrackingKid;
@@ -21,6 +23,7 @@ import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.model.UserCredentials;
 import com.ncatz.babyguard.preferences.SettingsManager;
 import com.ncatz.babyguard.repository.Repository;
+import com.ncatz.babyguard.services.FCMService;
 import com.ncatz.yeray.calendarview.BuildConfig;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
@@ -59,6 +62,17 @@ public class Babyguard_Application extends Application {
     boolean kidsInfoLoadedFirstTime;
 
     private boolean databaseLoaded;
+    private static String currentActivity;
+
+    public static void setCurrentActivity(String currentActivity) {
+        Babyguard_Application.currentActivity = currentActivity;
+        Log.d("asdf","setCurrentActivity: " + currentActivity);
+    }
+
+    public static String getCurrentActivity() {
+        Log.d("asdf","getCurrentActivity: " + currentActivity);
+        return currentActivity;
+    }
 
     @Override
     public void onCreate() {

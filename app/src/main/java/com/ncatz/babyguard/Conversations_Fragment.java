@@ -67,6 +67,13 @@ public class Conversations_Fragment extends Fragment {
         if (!Babyguard_Application.isTeacher()) {
             ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
         }
+        Babyguard_Application.setCurrentActivity("Conversations_Fragment");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
     }
 
     @Override

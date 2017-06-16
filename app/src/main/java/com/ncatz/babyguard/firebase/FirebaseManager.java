@@ -1,9 +1,7 @@
 package com.ncatz.babyguard.firebase;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -60,6 +60,7 @@ public class FirebaseManager {
     private FirebaseDatabase database;
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
+    private FirebaseMessaging mFCMInteractor;
     private FirebaseListeners listeners;
     private HashMap<Query,ArrayList<ValueEventListener>> activeValueListeners;
     private HashMap<Query,ArrayList<ChildEventListener>> activeChildListeners;
@@ -231,6 +232,7 @@ public class FirebaseManager {
                 }
             });
     }
+
     public void getChatInfoTeacher(String nurseryClass) {
         final ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -290,6 +292,7 @@ public class FirebaseManager {
         database.setPersistenceEnabled(true);
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
+        mFCMInteractor = FirebaseMessaging.getInstance();
     }
 
     public static FirebaseManager getInstance() {
@@ -458,5 +461,20 @@ public class FirebaseManager {
             }
         })
                 .addOnSuccessListener(onSuccessListener);
+    }
+
+    public void setDeviceId() {
+        User user = Repository.getInstance().getUser();
+        if (user != null) {
+            String token = FirebaseInstanceId.getInstance().getToken();
+            user.setFcmID(token);
+            database.getReference(USER_REFERENCE).child(user.getId()).child("fcmToken").setValue(token);
+            if (!Babyguard_Application.isTeacher()) {
+                for (Kid aux : Repository.getInstance().getKids()) {
+                    aux.setFcmID(token);
+                    database.getReference(KID_REFERENCE).child(aux.getId()).child("fcmToken").setValue(token);
+                }
+            }
+        }
     }
 }

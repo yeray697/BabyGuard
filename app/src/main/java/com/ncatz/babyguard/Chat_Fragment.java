@@ -124,6 +124,7 @@ public class Chat_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         setToolbar();
+        Babyguard_Application.setCurrentActivity("Chat_Fragment");
     }
 
     private void setToolbar() {
@@ -157,5 +158,11 @@ public class Chat_Fragment extends Fragment {
             ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
             ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(false);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
     }
 }

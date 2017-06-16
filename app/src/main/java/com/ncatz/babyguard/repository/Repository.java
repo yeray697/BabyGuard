@@ -289,6 +289,17 @@ public class Repository {
         return school.removeEvent(classId, eventId);
     }
 
+    public String getNameByUserId(String id) {
+        String name = "";
+        for (Map.Entry<ChatKeyMap, Chat> chat : chats.entrySet()) {
+            if (chat.getKey().getKidId().equals(id) || chat.getKey().getTeacherId().equals(id)) {
+                name = chat.getValue().getName();
+                break;
+            }
+        }
+        return name;
+    }
+
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Sort {

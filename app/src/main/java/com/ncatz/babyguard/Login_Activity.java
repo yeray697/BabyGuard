@@ -182,4 +182,16 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         outState.putString(LOGIN_PASS,etPassword.getText().toString());
         outState.putSerializable(MULTIPLE_CLICK_LISTENER,oneClickMultiple);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Babyguard_Application.setCurrentActivity("Login");
+    }
 }

@@ -187,4 +187,16 @@ public class Home_Parent_Activity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Babyguard_Application.setCurrentActivity("Home_Parent_Activity");
+    }
 }

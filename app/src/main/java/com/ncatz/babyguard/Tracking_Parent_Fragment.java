@@ -200,4 +200,16 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
         super.onStop();
         ((Babyguard_Application)context.getApplicationContext()).removeTrackingListener();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Babyguard_Application.setCurrentActivity("Tracking_Parent_Fragment");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
+    }
 }

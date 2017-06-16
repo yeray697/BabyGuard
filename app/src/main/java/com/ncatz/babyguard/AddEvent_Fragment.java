@@ -1,6 +1,8 @@
 package com.ncatz.babyguard;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.TextUtils;
@@ -53,6 +55,8 @@ public class AddEvent_Fragment extends Fragment {
     private String eventClassId;
     SimpleDateFormat sdf;
 
+    private Context context;
+
     public static AddEvent_Fragment newInstance(Bundle args) {
         AddEvent_Fragment fragment = new AddEvent_Fragment();
         if (args != null)
@@ -66,6 +70,11 @@ public class AddEvent_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            context = getContext();
+        } else {
+            context = getActivity();
+        }
         Bundle args = getArguments();
         if (args != null) {
             editMode = true;
@@ -133,7 +142,7 @@ public class AddEvent_Fragment extends Fragment {
                 date = tvDate.getText().toString();
         ArrayList<String> classesSelected = new ArrayList<>();
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description) || date.equals("Select")) {
-            Toast.makeText(getContext(), "No has rellenado todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No has rellenado todos los campos", Toast.LENGTH_SHORT).show();
         } else {
             if (!editMode) {
                 for (CheckBox checkBox : classesCheckbox) {
@@ -142,7 +151,7 @@ public class AddEvent_Fragment extends Fragment {
                 }
             }
             if (!editMode && classesSelected.size() == 0) {
-                Toast.makeText(getContext(), "Selecciona al menos una clase", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Selecciona al menos una clase", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     Calendar dateParsed = Calendar.getInstance();
@@ -164,7 +173,7 @@ public class AddEvent_Fragment extends Fragment {
                     }
                     getActivity().onBackPressed();
                 } catch (ParseException e) {
-                    Toast.makeText(getContext(), "No es una fecha válida", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "No es una fecha válida", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -176,7 +185,7 @@ public class AddEvent_Fragment extends Fragment {
         CheckBox aux;
         ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         for (NurseryClass nurseryClass : classes) {
-            aux = new CheckBox(getContext());
+            aux = new CheckBox(context);
             aux.setText(nurseryClass.getName());
             aux.setTag(nurseryClass.getId());
             aux.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
@@ -193,7 +202,7 @@ public class AddEvent_Fragment extends Fragment {
         } catch (Exception e){
         }
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                getContext(), new DatePickerDialog.OnDateSetListener() {
+                context, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String date = ((dayOfMonth < 10) ? ("0") : "") + dayOfMonth + "/" + (((month + 1) < 10) ? "0" : "") + (month + 1) + "/" + year;
@@ -207,6 +216,7 @@ public class AddEvent_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         setToolbar();
+        Babyguard_Application.setCurrentActivity("AddEvent_Fragment");
     }
 
     private void setToolbar() {
@@ -217,8 +227,13 @@ public class AddEvent_Fragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)(getContext()).getApplicationContext()).removeChatListener();
+        ((Babyguard_Application)(context).getApplicationContext()).removeChatListener();
         ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
         ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(false);
     }
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
 }

@@ -23,6 +23,7 @@ public class User {
     private String dbPass;
     private int user_type;
     private String name;
+    private String fcmID;
     private HashMap<String,Kid> kids;
 
     public User(){
@@ -122,6 +123,7 @@ public class User {
             userAux.phone_number = String.valueOf(aux.get("phone_number"));
             userAux.dbPass = String.valueOf(aux.get("db_pass"));
             userAux.name = String.valueOf(aux.get("name"));
+            userAux.fcmID = String.valueOf(aux.get("fcmToken"));
             if (userAux.getUser_type()==UserCredentials.TYPE_TEACHER) {
                 userAux.id_nursery = String.valueOf(aux.get("id_nursery"));
                 userAux.id_nursery_classes_teacher = new ArrayList<>(((HashMap<String,String>) aux.get("classes")).values());
@@ -142,5 +144,13 @@ public class User {
 
     public void setIdClassTeacher(ArrayList<String> ids) {
         id_nursery_classes_teacher = ids;
+    }
+
+    public String getFcmID() {
+        return fcmID;
+    }
+
+    public void setFcmID(String fcmID) {
+        this.fcmID = fcmID;
     }
 }

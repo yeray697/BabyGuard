@@ -93,6 +93,7 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
     protected void onResume() {
         super.onResume();
         setKids();
+        Babyguard_Application.setCurrentActivity("KidList_Activity");
     }
 
     @Override
@@ -137,5 +138,11 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
     protected void onStop() {
         super.onStop();
         presenter.removeListener();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
     }
 }

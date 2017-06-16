@@ -154,6 +154,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     public void onResume() {
         super.onResume();
         refreshCalendar();
+        Babyguard_Application.setCurrentActivity("Calendar_Fragment");
     }
 
     @Override
@@ -163,6 +164,12 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
             ((Babyguard_Application) context.getApplicationContext()).removeCalendarListener();
             ((ViewGroup) expandableDate.getParent()).removeView(expandableDate);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
     }
 
     @Override

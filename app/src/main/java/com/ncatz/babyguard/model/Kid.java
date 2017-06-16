@@ -23,6 +23,7 @@ public class Kid implements Parcelable{
     private String parent;
     private String img;
     private ArrayList<TrackingKid> tracking;
+    private String fcmID;
 
     public Kid(){
 
@@ -37,6 +38,7 @@ public class Kid implements Parcelable{
         parent = in.readString();
         img = in.readString();
         tracking = in.createTypedArrayList(TrackingKid.CREATOR);
+        fcmID = in.readString();
     }
 
     public static final Creator<Kid> CREATOR = new Creator<Kid>() {
@@ -115,6 +117,14 @@ public class Kid implements Parcelable{
         this.tracking = tracking;
     }
 
+    public String getFcmID() {
+        return fcmID;
+    }
+
+    public void setFcmID(String fcmID) {
+        this.fcmID = fcmID;
+    }
+
     public boolean removeTrackingItem(String kidId, String trackingId) {
         int count = 0;
         boolean result = false;
@@ -141,14 +151,15 @@ public class Kid implements Parcelable{
                 kids.entrySet()) {
             auxEntry = entry.getValue();
             kidAux = new Kid();
-            kidAux.setId(entry.getKey());
-            kidAux.setInfo((String) auxEntry.get("info"));
-            kidAux.setName((String) auxEntry.get("name"));
-            kidAux.setId_nursery((String) auxEntry.get("id_nursery"));
-            kidAux.setId_nursery_class((String) auxEntry.get("id_nursery_class"));
-            kidAux.setParent((String) auxEntry.get("id_parent"));
-            kidAux.setImg((String) auxEntry.get("img"));
-            kidAux.setTracking(new ArrayList<TrackingKid>());
+            kidAux.id = entry.getKey();
+            kidAux.info = (String) auxEntry.get("info");
+            kidAux.name = (String) auxEntry.get("name");
+            kidAux.id_nursery = (String) auxEntry.get("id_nursery");
+            kidAux.id_nursery_class = (String) auxEntry.get("id_nursery_class");
+            kidAux.parent = (String) auxEntry.get("id_parent");
+            kidAux.img = (String) auxEntry.get("img");
+            kidAux.fcmID = (String) auxEntry.get("fcmToken");
+            kidAux.tracking = new ArrayList<TrackingKid>();
             FirebaseManager.getInstance().getTrackingKid(kidAux.getId());
             kidsList.put(kidAux.getId(),kidAux);
         }
@@ -170,5 +181,6 @@ public class Kid implements Parcelable{
         dest.writeString(parent);
         dest.writeString(img);
         dest.writeTypedList(tracking);
+        dest.writeString(fcmID);
     }
 }

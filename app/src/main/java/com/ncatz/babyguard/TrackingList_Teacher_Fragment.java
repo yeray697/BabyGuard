@@ -99,4 +99,16 @@ public class TrackingList_Teacher_Fragment extends Fragment{
         super.onAttach(context);
         ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Babyguard_Application.setCurrentActivity("TrackingList_Teacher_Fragment");
+    }
 }

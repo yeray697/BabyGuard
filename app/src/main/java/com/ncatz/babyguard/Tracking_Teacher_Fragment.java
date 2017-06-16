@@ -126,6 +126,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     public void onResume() {
         super.onResume();
         setToolbar();
+        Babyguard_Application.setCurrentActivity("Tracking_Teacher_Fragment");
     }
 
     private void refreshList() {
@@ -194,5 +195,11 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
             selectedItemContextMenu = null;
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
     }
 }

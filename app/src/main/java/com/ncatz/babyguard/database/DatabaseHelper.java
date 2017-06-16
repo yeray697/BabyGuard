@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.ncatz.babyguard.Babyguard_Application;
+import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
@@ -109,6 +110,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
                         }
                         c.close();
                     }
+                    FirebaseManager.getInstance().setDeviceId();
                     return null;
                 }
             };

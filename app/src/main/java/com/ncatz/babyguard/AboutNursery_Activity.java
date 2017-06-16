@@ -94,4 +94,16 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
         super.onStop();
         ((Babyguard_Application)getApplicationContext()).removeNurseryListener();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Babyguard_Application.setCurrentActivity("");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Babyguard_Application.setCurrentActivity("Login");
+    }
 }
