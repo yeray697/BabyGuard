@@ -289,7 +289,8 @@ public class Babyguard_Application extends Application {
         }
 
         @Override
-        public void onKidModified(DataSnapshot dataSnapshot) {if (dataSnapshot.exists()){
+        public void onKidModified(DataSnapshot dataSnapshot) {
+            if (dataSnapshot.exists()){
                 HashMap<String, HashMap<String, Object>> value = (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
                 HashMap<String, Kid> kids = Kid.parseFromDataSnapshot(value);
                 List<String> aux;

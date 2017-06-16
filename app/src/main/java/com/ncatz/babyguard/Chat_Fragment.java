@@ -112,9 +112,11 @@ public class Chat_Fragment extends Fragment {
         String et = etSend.getText().toString();
         if (!TextUtils.isEmpty(et)) {
             Long timeUnix = System.currentTimeMillis();
-            ChatMessage message = new ChatMessage(teacherId, kidId, et, String.valueOf(timeUnix));
+            boolean isTeacher = Babyguard_Application.isTeacher();
+            int id = isTeacher ? 0 : 1;
+            ChatMessage message = new ChatMessage(id, teacherId, kidId, et, String.valueOf(timeUnix));
             String to, from;
-            if (Babyguard_Application.isTeacher()) {
+            if (isTeacher) {
                 FirebaseManager.getInstance().sendMessage(kidId, message);
                 to = kidId;
                 from = teacherId;

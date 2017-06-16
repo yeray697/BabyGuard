@@ -26,7 +26,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     private SQLiteDatabase database;
     private Context context;
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Babyguard";
     public static final String DATABASE_EXTENSION = ".db";
 
@@ -70,8 +70,9 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 
     public void addMessage(ChatMessage message) {
         String sql = "INSERT INTO "+DatabaseContract.Messages.TABLE_NAME +
-                "("+DatabaseContract.Messages.MESSAGE_COL+","+DatabaseContract.Messages.KID_COL+","+DatabaseContract.Messages.TEACHER_COL+","+DatabaseContract.Messages.DATETIME_COL+")" +
-                " VALUES ('"+message.getMessage()+"','"+message.getKid()+"','"+message.getTeacher()+"','"+message.getDatetime()+"')";
+                "("+DatabaseContract.Messages.SENDER_COL+","+DatabaseContract.Messages.MESSAGE_COL+","+DatabaseContract.Messages.KID_COL+","+
+                DatabaseContract.Messages.TEACHER_COL+","+DatabaseContract.Messages.DATETIME_COL+")" +
+                " VALUES ('"+message.getSender() + "','" + message.getMessage()+"','"+message.getKid()+"','"+message.getTeacher()+"','"+message.getDatetime()+"')";
         database.rawExecSQL(sql);
     }
 
@@ -101,10 +102,11 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
                         if (c.moveToFirst()) {
                             do {
                                 aux = new ChatMessage();
-                                aux.setMessage(c.getString(1));
-                                aux.setDatetime(c.getString(2));
-                                aux.setTeacher(c.getString(3));
-                                aux.setKid(c.getString(4));
+                                aux.setSender(Integer.parseInt(c.getString(1)));
+                                aux.setMessage(c.getString(2));
+                                aux.setDatetime(c.getString(3));
+                                aux.setTeacher(c.getString(4));
+                                aux.setKid(c.getString(5));
                                 chat.getValue().addMessage(aux);
                             } while (c.moveToNext());
                         }

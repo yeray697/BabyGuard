@@ -253,36 +253,43 @@ public class FirebaseManager {
         addListener(reference,listener);
     }
 
+    public String chatIdTeacher;
     public void getChat(String kid_id){
-        Query reference = database.getReference().child(CHAT_REFERENCE).child(kid_id);
-        ChildEventListener listener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (listeners != null) {
-                    listeners.onChatAdded(dataSnapshot);
+        boolean isTeacher = Babyguard_Application.isTeacher();
+        if (isTeacher && chatIdTeacher.equals("")) {
+            if (isTeacher)
+                chatIdTeacher = kid_id;
+            Query reference = database.getReference().child(CHAT_REFERENCE).child(kid_id);
+            ChildEventListener listener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    if (listeners != null) {
+                        listeners.onChatAdded(dataSnapshot);
+                    }
                 }
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                if (listeners != null) {
-                    listeners.onChatCancelled(databaseError);
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 }
-            }
-        };
-        addListener(reference,listener);
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    if (listeners != null) {
+                        listeners.onChatCancelled(databaseError);
+                    }
+                }
+            };
+            addListener(reference,listener);
+
+        }
     }
 
     private FirebaseManager (){
@@ -293,6 +300,7 @@ public class FirebaseManager {
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         mFCMInteractor = FirebaseMessaging.getInstance();
+        chatIdTeacher = "";
     }
 
     public static FirebaseManager getInstance() {
@@ -336,6 +344,7 @@ public class FirebaseManager {
 
     public void close() {
         firebaseAuth.signOut();
+        chatIdTeacher = "";
         removeListeners();
     }
 

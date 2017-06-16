@@ -85,7 +85,8 @@ public class PushNotification {
         }
 
         public ChatMessage getMessage() {
-            return new ChatMessage(teacher,kid,message,datetime);
+            int id = Babyguard_Application.isTeacher() ? 0 : 1;
+            return new ChatMessage(id, teacher,kid,message,datetime);
         }
     }
 
@@ -296,11 +297,9 @@ public class PushNotification {
             RestClient.post(FCM_URL,FCM_APIKEY,entity, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Toast.makeText(Babyguard_Application.getContext(), "statusCode: " + statusCode, Toast.LENGTH_SHORT).show();
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Toast.makeText(Babyguard_Application.getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (UnsupportedEncodingException e) {

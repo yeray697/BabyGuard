@@ -20,16 +20,18 @@ public class ChatMessage {
     private String kid;
     private String message;
     private String datetime;
+    private int sender; //0 = teacher; 1 = kid
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String teacher, String kid, String message, String datetime) {
+    public ChatMessage(int sender, String teacher, String kid, String message, String datetime) {
         this.kid = kid;
         this.teacher = teacher;
         this.message = message;
         this.datetime = datetime;
         this.isMessageType = true;
+        this.sender = sender;
     }
 
     @Exclude
@@ -75,6 +77,14 @@ public class ChatMessage {
         this.isMessageType = true;
     }
 
+    public int getSender() {
+        return sender;
+    }
+
+    public void setSender(int sender) {
+        this.sender = sender;
+    }
+
     public String getDatetime() {
         return datetime;
     }
@@ -89,19 +99,23 @@ public class ChatMessage {
 
             switch (entry.getKey()){
                 case "datetime": //String (Long) Unix time
-                    aux.setDatetime((String)entry.getValue());
+                    aux.datetime = (String)entry.getValue();
                     break;
                 case "message": //String message
-                    aux.setMessage((String) entry.getValue());
+                    aux.message = (String) entry.getValue();
                     break;
                 case "kid": //String kid
-                    aux.setKid((String) entry.getValue());
+                    aux.kid = (String) entry.getValue();
                     break;
                 case "teacher": //String teacher
-                    aux.setTeacher((String) entry.getValue());
+                    aux.teacher = (String) entry.getValue();
+                    break;
+                case "sender": //String teacher
+                    aux.sender = ((Long) entry.getValue()).intValue();
                     break;
             }
         }
+        aux.setIfIsMessage(true);
         aux.setKey(dataSnapshot.getKey());
 
         return aux;

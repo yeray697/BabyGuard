@@ -100,10 +100,11 @@ public class Chat_Adapter extends ArrayAdapter<ChatMessage> {
     private boolean isSender(ChatMessage message) {
         boolean result = false;
         if (message.isMessage()) {
+            int sender = message.getSender();
             if (isTeacher) {
-                result = message.getKid().equals(userId);
+                result = sender == 1;
             } else  {
-                result = message.getTeacher().equals(userId);
+                result = sender == 0;
             }
         }
         return result;
