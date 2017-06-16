@@ -140,7 +140,7 @@ public class Chat_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         setToolbar();
-        Babyguard_Application.setCurrentActivity("Chat_Fragment");
+        Babyguard_Application.setCurrentActivity("Chat_Fragment_"+chat.getId());
     }
 
     private void setToolbar() {

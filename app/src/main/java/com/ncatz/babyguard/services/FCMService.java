@@ -144,12 +144,17 @@ public class FCMService extends FirebaseMessagingService {
                 intent.setAction(ACTION_LAUNCH_CHAT);
                 break;
         }
-        intent.putExtra("from", pushNotification.getFromUser());
-        intent.putExtra("to", pushNotification.getToUser());
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-        int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-        sendNotification(notificationId, title,message, pendingIntent);
+        String[] splittedActivity = currentActivity.split("_");
+        if (!(currentActivity.startsWith("Chat_Fragment_") &&
+                splittedActivity[2].equals(pushNotification.getFromUser()))) { //User is not in the chat
+
+            intent.putExtra("from", pushNotification.getFromUser());
+            intent.putExtra("to", pushNotification.getToUser());
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                    PendingIntent.FLAG_ONE_SHOT);
+            int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+            sendNotification(notificationId, title,message, pendingIntent);
+        }
     }
 
     private void sendNotification(int notificationId, String title, String messageBody, PendingIntent pendingIntent) {

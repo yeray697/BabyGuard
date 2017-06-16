@@ -242,14 +242,16 @@ public class PushNotification {
 
         Gson gson = new Gson();
         PushNotification pushNotification = new PushNotification();
-        pushNotification.setType(Integer.valueOf(data.get("type")));
+        pushNotification.type = Integer.valueOf(data.get("type"));
+        pushNotification.fromUser = data.get("fromUser");
+        pushNotification.toUser = data.get("toUser");
 
         String calendar = data.get("calendar");
         if (calendar != null) {
             try {
                 JSONObject calendarJSON = new JSONObject(calendar);
                 PushNotification.CalendarNotif calendarNotif = gson.fromJson(calendarJSON.toString(), PushNotification.CalendarNotif.class);
-                pushNotification.setCalendar(calendarNotif);
+                pushNotification.calendar = calendarNotif;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -260,7 +262,7 @@ public class PushNotification {
             try {
                 JSONObject trackingJSON = new JSONObject(tracking);
                 PushNotification.TrackingNotif trackingNotif = gson.fromJson(trackingJSON.toString(), PushNotification.TrackingNotif.class);
-                pushNotification.setTracking(trackingNotif);
+                pushNotification.tracking  = trackingNotif;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -271,7 +273,7 @@ public class PushNotification {
             try {
                 JSONObject messageJSON = new JSONObject(message);
                 PushNotification.MessageNotif messageNotif = gson.fromJson(messageJSON.toString(), PushNotification.MessageNotif.class);
-                pushNotification.setMessage(messageNotif);
+                pushNotification.message = messageNotif;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
