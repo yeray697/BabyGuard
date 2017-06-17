@@ -23,7 +23,7 @@ import java.util.Map;
  * Created by yeray697 on 14/05/17.
  */
 
-public class DatabaseHelper  extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     private SQLiteDatabase database;
     private Context context;
@@ -36,13 +36,13 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     public DatabaseHelper(Context context, String userId) {
         super(context, DATABASE_NAME + "_" + userId + DATABASE_EXTENSION, null, DATABASE_VERSION);
         SQLiteDatabase.loadLibs(context);
-        ((Babyguard_Application)context.getApplicationContext()).setDatabaseLoaded(false);
+        ((Babyguard_Application) context.getApplicationContext()).setDatabaseLoaded(false);
         this.context = context;
     }
 
     static public synchronized DatabaseHelper getInstance(String userId) {
         if (instance == null) {
-            instance = new DatabaseHelper(Babyguard_Application.getContext(),userId);
+            instance = new DatabaseHelper(Babyguard_Application.getContext(), userId);
         }
         return instance;
     }
@@ -57,6 +57,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DatabaseContract.Messages.SQL_CREATE_ENTRIES);
     }
+
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DatabaseContract.Messages.SQL_DELETE_ENTRIES);
         onCreate(db);
@@ -66,21 +67,21 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
         database = getWritableDatabase(password);
     }
 
-    public SQLiteDatabase getDatabase(){
+    public SQLiteDatabase getDatabase() {
         return database;
     }
 
     public void addMessage(ChatMessage message) {
-        String sql = "INSERT INTO "+DatabaseContract.Messages.TABLE_NAME +
-                "("+DatabaseContract.Messages.SENDER_COL+","+DatabaseContract.Messages.MESSAGE_COL+","+DatabaseContract.Messages.KID_COL+","+
-                DatabaseContract.Messages.TEACHER_COL+","+DatabaseContract.Messages.DATETIME_COL+")" +
-                " VALUES ('"+message.getSender() + "','" + message.getMessage()+"','"+message.getKid()+"','"+message.getTeacher()+"','"+message.getDatetime()+"')";
+        String sql = "INSERT INTO " + DatabaseContract.Messages.TABLE_NAME +
+                "(" + DatabaseContract.Messages.SENDER_COL + "," + DatabaseContract.Messages.MESSAGE_COL + "," + DatabaseContract.Messages.KID_COL + "," +
+                DatabaseContract.Messages.TEACHER_COL + "," + DatabaseContract.Messages.DATETIME_COL + ")" +
+                " VALUES ('" + message.getSender() + "','" + message.getMessage() + "','" + message.getKid() + "','" + message.getTeacher() + "','" + message.getDatetime() + "')";
         database.rawExecSQL(sql);
     }
 
     public void loadChatMessages() {
-        if (!((Babyguard_Application)context.getApplicationContext()).isDatabaseLoaded() && (Babyguard_Application.isTeacher() || Repository.getInstance().decreaseParentChats() == 0)) { //Avoid duplicate chats
-            ((Babyguard_Application)context.getApplicationContext()).setDatabaseLoaded(true);
+        if (!((Babyguard_Application) context.getApplicationContext()).isDatabaseLoaded() && (Babyguard_Application.isTeacher() || Repository.getInstance().decreaseParentChats() == 0)) { //Avoid duplicate chats
+            ((Babyguard_Application) context.getApplicationContext()).setDatabaseLoaded(true);
             AsyncTask<Void, Void, Void> thread = new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
