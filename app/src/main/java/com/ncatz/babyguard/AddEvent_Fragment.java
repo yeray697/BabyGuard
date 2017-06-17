@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by yeray697 on 8/06/17.
+ * Fragment used to add and edit events
  */
 
 public class AddEvent_Fragment extends Fragment {
@@ -123,13 +123,13 @@ public class AddEvent_Fragment extends Fragment {
             etTitle.setText(event.getTitle());
             etDescription.setText(event.getDescription());
             tvDate.setText(event.getDate());
-            tvToolbar.setText("Editar");
-            btSubmit.setText("Editar");
+            tvToolbar.setText(R.string.edit);
+            btSubmit.setText(R.string.edit);
             tvSelectClass.setVisibility(View.GONE);
             rlClassesList.setVisibility(View.GONE);
         } else {
-            tvToolbar.setText("Añadir");
-            btSubmit.setText("Añadir");
+            tvToolbar.setText(R.string.add);
+            btSubmit.setText(R.string.add);
             tvSelectClass.setVisibility(View.VISIBLE);
             rlClassesList.setVisibility(View.VISIBLE);
         }
@@ -142,8 +142,8 @@ public class AddEvent_Fragment extends Fragment {
                 description = etDescription.getText().toString(),
                 date = tvDate.getText().toString();
         ArrayList<String> classesSelected = new ArrayList<>();
-        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description) || date.equals("Select")) {
-            Toast.makeText(context, "No has rellenado todos los campos", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description) || date.equals(getString(R.string.select))) {
+            Toast.makeText(context,R.string.fields_empty_error, Toast.LENGTH_SHORT).show();
         } else {
             if (!editMode) {
                 for (CheckBox checkBox : classesCheckbox) {
@@ -152,7 +152,7 @@ public class AddEvent_Fragment extends Fragment {
                 }
             }
             if (!editMode && classesSelected.size() == 0) {
-                Toast.makeText(context, "Selecciona al menos una clase", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.empty_class_error, Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     Calendar dateParsed = Calendar.getInstance();
@@ -192,7 +192,7 @@ public class AddEvent_Fragment extends Fragment {
                     }
                     getActivity().onBackPressed();
                 } catch (ParseException e) {
-                    Toast.makeText(context, "No es una fecha válida", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.invalid_date_error, Toast.LENGTH_SHORT).show();
                 }
             }
         }

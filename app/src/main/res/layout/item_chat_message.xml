@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvMessage_chatItem"
             android:textSize="18sp"
-            android:text="títulotítulotítulotítulo" />
+            android:text="title" />
 
         <TextView
             android:layout_width="wrap_content"

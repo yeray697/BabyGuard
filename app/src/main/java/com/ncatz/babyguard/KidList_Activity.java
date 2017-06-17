@@ -23,7 +23,7 @@ import com.ncatz.babyguard.utils.Utils;
 import java.util.ArrayList;
 
 /**
- * KidList view
+ * List of parent kids
  *
  * @author Yeray Ruiz Juárez
  * @version 1.0

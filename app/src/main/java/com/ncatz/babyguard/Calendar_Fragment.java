@@ -30,6 +30,9 @@ import com.ncatz.yeray.calendarview.DiaryCalendarView;
 import java.util.ArrayList;
 
 
+/**
+ * Fragment used to show events
+ */
 public class Calendar_Fragment extends Fragment implements View.OnCreateContextMenuListener {
     public static final String KID_KEY = "kid";
     public static final String ID_KEY = "id";
@@ -176,9 +179,9 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         selectedItemContextMenu = (DiaryCalendarEvent) v.getTag();
-        menu.setHeaderTitle("Select The Action");
-        menu.add(1, v.getId(), 0, "Edit");
-        menu.add(2, v.getId(), 0, "Remove");
+        menu.setHeaderTitle(R.string.select_action);
+        menu.add(1, v.getId(), 0, R.string.edit);
+        menu.add(2, v.getId(), 0, R.string.remove);
     }
 
     @Override
@@ -193,7 +196,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
             final String idEvent = selectedItemContextMenu.getId();
             selectedItemContextMenu = null;
             AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-            dialog.setTitle("¿Deseas borrar el evento?");
+            dialog.setTitle(R.string.remove_event_dialog);
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

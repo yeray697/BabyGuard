@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by yeray697 on 13/04/17.
+ * User POJO class
  */
 
 public class User {

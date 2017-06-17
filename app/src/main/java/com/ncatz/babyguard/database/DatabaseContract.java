@@ -3,7 +3,7 @@ package com.ncatz.babyguard.database;
 import android.provider.BaseColumns;
 
 /**
- * Created by yeray697 on 14/05/17.
+ * Class with database items names
  */
 
 public class DatabaseContract {

@@ -21,7 +21,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by yeray697 on 20/05/17.
+ * Adapter used to list chats
  */
 
 public class Conversation_Adapter extends ArrayAdapter<Chat> {

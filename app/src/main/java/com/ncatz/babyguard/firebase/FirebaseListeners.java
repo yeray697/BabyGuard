@@ -4,14 +4,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 /**
- * Created by yeray697 on 12/04/17.
+ * Abstract class with all listeners triggered when current firebase data is modified
  */
 
 public abstract class FirebaseListeners {
     public abstract void onUserModified(DataSnapshot dataSnapshot);
 
     public abstract void onUserCancelled(DatabaseError databaseError);
-
 
     public abstract void onKidModified(DataSnapshot dataSnapshot);
 

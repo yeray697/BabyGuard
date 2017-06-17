@@ -22,10 +22,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * KidList adapter
- *
- * @author Yeray Ruiz Juárez
- * @version 1.0
+ * Adapter to list kids that a parent has
  */
 public class KidList_Adapter extends ArrayAdapter<Kid> {
     OnImageClickListener mCallback;

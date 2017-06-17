@@ -27,6 +27,6 @@
         android:layout_marginLeft="5dp"
         android:id="@+id/tvNameKid_item"
         android:textSize="20sp"
-        android:text="Joselito"
+        android:text="name"
         android:textStyle="bold" />
 </LinearLayout>

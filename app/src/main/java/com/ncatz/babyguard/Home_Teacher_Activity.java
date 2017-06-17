@@ -23,6 +23,9 @@ import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.preferences.Settings_Activity;
 import com.ncatz.babyguard.repository.Repository;
 
+/**
+ * Activity shown to a teacher with actions to manage kids
+ */
 public class Home_Teacher_Activity extends AppCompatActivity {
 
     private int selected;

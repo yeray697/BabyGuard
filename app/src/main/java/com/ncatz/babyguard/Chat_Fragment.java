@@ -30,7 +30,9 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
+/**
+ * Fragment that show a chat with a person
+ */
 public class Chat_Fragment extends Fragment {
 
     public static final String TEACHER_ID_KEY = "id";
@@ -152,11 +154,9 @@ public class Chat_Fragment extends Fragment {
 
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar_chat);
-        //toolbar.setTitle("Chat");
         if (Babyguard_Application.isTeacher()) {
             ((Home_Teacher_Activity) getActivity()).getSupportActionBar().hide();
             ((Home_Teacher_Activity) getActivity()).setNavigationBottomBarHide(true);
-            //((Home_Teacher_Activity)getActivity()).prepareChatToolbar(toolbar);
         } else {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         }

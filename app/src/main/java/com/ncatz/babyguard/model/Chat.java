@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by yeray697 on 1/05/17.
+ * Chat POJO class
  */
 
 public class Chat {

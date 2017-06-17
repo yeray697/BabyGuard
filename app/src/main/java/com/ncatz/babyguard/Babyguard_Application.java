@@ -41,8 +41,6 @@ import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreferenc
  */
 public class Babyguard_Application extends Application {
 
-    private final static String FILE_PREFERENCE = "credentials";
-
     private UserCredentials userCredentials;
     private static Context context;
 

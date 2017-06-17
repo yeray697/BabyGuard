@@ -29,7 +29,6 @@ import com.ncatz.babyguard.utils.OneClickMultipleListener;
  * @version 1.0
  */
 public class Login_Activity extends AppCompatActivity implements LoginView, LoginPresenterImpl.OnLoginFinishedListener {
-    private static final String FORGOTTEN_PASS_URL = "http://www.google.com";
     private static final String LOGIN_PASS = "pass";
     private static final String LOGIN_MAIL = "mail";
 
@@ -41,7 +40,6 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     private MaterialRippleLayout btLogin;
 
     private OneClickMultiple oneClickMultiple;
-    private static final String MULTIPLE_CLICK_LISTENER = "multipleClickListener";
 
 
     @Override
@@ -79,7 +77,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         tvForgotPass.setOnClickListener(oneClickMultiple.addListener("forgotPass", new OneClickMultipleListener() {
             @Override
             public void onClick() {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FORGOTTEN_PASS_URL));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.pass_forgotten_url)));
                 startActivity(browserIntent);
                 oneClickMultiple.setClicked(false);
             }

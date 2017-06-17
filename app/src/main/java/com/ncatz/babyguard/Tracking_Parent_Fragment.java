@@ -13,9 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,7 +20,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
-import com.ncatz.babyguard.interfaces.Home_View;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.repository.Repository;
@@ -35,14 +31,15 @@ import com.yeray697.dotLineRecyclerView.RecyclerData;
 
 import java.util.ArrayList;
 
-public class Tracking_Parent_Fragment extends Fragment implements Home_View {
+/**
+ * Fragment that shows tracing elements of a kid
+ */
+public class Tracking_Parent_Fragment extends Fragment {
 
     public static final String KID_KEY = "kid";
-    private static final String MULTIPLE_LISTENER = "multipleListener";
     private TrackingKid_Adapter adapter;
     private DotLineRecyclerView rvInfoKid;
     private ArrayList<? extends RecyclerData> dataKid;
-    private boolean orderedByCategory;
     private ImageView ivExpandedImage;
     private FloatingActionButton fabMessage;
     private CollapsingToolbarLayout collapser;
@@ -50,7 +47,6 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View {
     private Kid kid;
     private boolean zoom;
     private ImageView ivKid;
-    private int order;
     private Context context;
 
     public static Tracking_Parent_Fragment newInstance(Bundle args) {
@@ -88,7 +84,6 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View {
                 return result;
             }
         });
-        orderedByCategory = true;
         collapser = (CollapsingToolbarLayout) view.findViewById(R.id.collapsingHome);
         fabMessage = (FloatingActionButton) view.findViewById(R.id.fabMessage_Home);
         ivKid = (ImageView) view.findViewById(R.id.ivKid_Home);
@@ -118,7 +113,6 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View {
             }
         });
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvHome);
-        order = Repository.Sort.CHRONOLOGIC;
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         rvInfoKid.setLayoutManager(mLayoutManager);
@@ -136,7 +130,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View {
 
     private void refreshTrackingList() {
         kid = Repository.getInstance().getKidById(kid.getId()); //Refreshing
-        dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
+        dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking());
         adapter = new TrackingKid_Adapter(context, (ArrayList<RecyclerData>) dataKid, 45);
         rvInfoKid.setAdapter(adapter);
         collapser.setTitle(kid.getName());
@@ -160,31 +154,6 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View {
                         .show();
             }
         });
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.home_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sort_home:
-                if (orderedByCategory) {
-                    order = Repository.Sort.CATEGORY;
-                    item.setIcon(R.drawable.ic_sort_by_category);
-                } else {
-                    order = Repository.Sort.CHRONOLOGIC;
-                    item.setIcon(R.mipmap.ic_sort_chronologically);
-                }
-                dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
-                adapter.clear();
-                adapter.addAll((ArrayList<RecyclerData>) dataKid);
-                orderedByCategory = !orderedByCategory;
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void setToolbar(View rootView) {

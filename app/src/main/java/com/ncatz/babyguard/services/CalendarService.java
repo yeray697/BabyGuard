@@ -29,6 +29,9 @@ import java.util.Date;
  * Created by yeray697 on 17/06/17.
  */
 
+/**
+    Services to check if there is an event tomorrow or today, and send a notification if true
+ */
 public class CalendarService extends Service {
     private static final long DELAY = 5000;
     private Date today, tomorrow, aftertomorrow;
@@ -89,7 +92,7 @@ public class CalendarService extends Service {
         NotificationCompat.BigTextStyle notiStyle = new
                 NotificationCompat.BigTextStyle();
         notiStyle.setBigContentTitle(event.getTitle());
-        String date = (isToday) ? "Today" : "Tomorrow";
+        String date = (isToday) ? getString(R.string.today) : getString(R.string.tomorrow);
         notiStyle.setSummaryText(date + " - " + event.getTitle() + " - " + event.getDate());
         notiStyle.bigText(event.getDescription());
 

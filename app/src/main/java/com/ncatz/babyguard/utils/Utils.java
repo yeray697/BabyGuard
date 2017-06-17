@@ -334,10 +334,10 @@ public class Utils {
         c.setTimeInMillis(Long.parseLong(unixTime));
         SimpleDateFormat sdf;
         if (c.after(today)) {
-            date = "Today";
+            date = Babyguard_Application.getContext().getString(R.string.today);
         } else {
             if (c.after(yesterday)) {
-                date = "Yesterday";
+                date = Babyguard_Application.getContext().getString(R.string.yesterday);
             } else {
                 sdf = new SimpleDateFormat("dd/MM/yy");
                 date = sdf.format(c.getTime());
@@ -345,30 +345,6 @@ public class Utils {
 
         }
         return date;
-    }
-
-    public static String getDateByUnix(String unixTime) {
-        String date = "";
-        Long timeUnix = Long.parseLong(unixTime);
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(timeUnix);
-        SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
-        date = sdfDate.format(c.getTime());
-        return date;
-    }
-
-    public static String getTimeNow() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        sdf.setTimeZone(c.getTimeZone());
-        return sdf.format(c.getTime());
-    }
-
-    public static String getTodayDate() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY_MM_dd");
-        sdf.setTimeZone(c.getTimeZone());
-        return sdf.format(c.getTime());
     }
 
     public static String parseDatetimeToChat(String unixTime) {

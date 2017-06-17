@@ -44,7 +44,7 @@
         android:layout_alignParentBottom="true">
 
         <Button
-            android:text="Send"
+            android:text="@string/send"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:id="@+id/btSendMessage"

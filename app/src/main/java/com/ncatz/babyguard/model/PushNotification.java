@@ -19,7 +19,7 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
- * Created by yeray697 on 15/06/17.
+ * Model class of push notifications, with methods to send a push notification
  */
 
 public class PushNotification {

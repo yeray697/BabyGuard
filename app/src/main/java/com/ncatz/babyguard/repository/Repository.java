@@ -224,47 +224,8 @@ public class Repository {
         chats.put(key, null);
     }
 
-    /*public void addMessage(ChatMessage chatMessage) {
-        boolean result = false;
-        if (chats == null)
-            chats = new HashMap<>();
-        boolean isKid = false;
-        boolean isTeacher = false;
-        for (Map.Entry<ChatKeyMap, Chat> chat : chats.entrySet()) {
-            isTeacher = chatMessage.getTeacher().equals(chat.getValue().getId());
-            isKid = chatMessage.getKid().equals(chat.getValue().getId());
-            if (isTeacher || isKid){
-                try {
-                    DatabaseHelper.getInstance().addMessage(chatMessage);
-                    chat.getValue().addMessage(chatMessage);
-                    result = true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            }
-        }
-        if (!result) {
-            Chat aux = new Chat();
-            String idTo;
-            if (isTeacher) {
-                idTo = chatMessage.getTeacher();
-            } else { //isKid
-                idTo = chatMessage.getKid();
-            }
-            aux.setId(idTo);
-            aux.addMessage(chatMessage);
-            addChat(new ChatKeyMap(chatMessage.getTeacher(),chatMessage.getKid()), Chat.duplicate(aux));
-            result = true;
-        }
-    }*/
-
     public void setParentChats(int parentChats) {
         this.parentChats = parentChats;
-    }
-
-    public int getParentChats() {
-        return parentChats;
     }
 
     public int decreaseParentChats() {
@@ -341,13 +302,6 @@ public class Repository {
         return event;
     }
 
-    @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Sort {
-        int CHRONOLOGIC = 1;
-        int CATEGORY = 2;
-    }
-
     private Repository() {
 
     }
@@ -368,13 +322,9 @@ public class Repository {
         return (user == null || user.getKids() == null) ? new ArrayList<Kid>() : new ArrayList<>(user.getKids().values());
     }
 
-    public ArrayList<TrackingKid> getOrderedInfoKid(ArrayList<TrackingKid> trackingKid, @Sort int sortType) {
+    public ArrayList<TrackingKid> getOrderedInfoKid(ArrayList<TrackingKid> trackingKid) {
         ArrayList<TrackingKid> newTrackingKid = new ArrayList<>(trackingKid);
-        if (sortType == Sort.CATEGORY) {
-            Collections.sort(newTrackingKid, TrackingKid.CATEGORY);
-        } else {
-            Collections.sort(newTrackingKid, TrackingKid.CHRONOLOGIC);
-        }
+        Collections.sort(newTrackingKid, TrackingKid.CHRONOLOGIC);
         return newTrackingKid;
     }
 

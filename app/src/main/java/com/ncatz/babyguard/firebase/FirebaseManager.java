@@ -41,7 +41,7 @@ import java.util.Map;
 import static com.ncatz.babyguard.preferences.SettingsManager.setStringPreference;
 
 /**
- * Created by yeray697 on 12/04/17.
+ * Class that manage all firebase actions: database, authentication and storage
  */
 
 public class FirebaseManager {
@@ -52,7 +52,6 @@ public class FirebaseManager {
     private static final String NURSERY_CLASS_REFERENCE = "nursery_class";
     private static final String TEACHER_REFERENCE = "teacher";
     private static final String CHAT_REFERENCE = "chat";
-    private static final String CHAT_PARENT_REFERENCE = "chat_room_parent";
     private static final String ROOT_STORAGE_REFERENCE = "gs://babyguard-4536a.appspot.com";
     private static final String PROFILE_IMG_STORAGE_REFERENCE = "profile_img";
 
@@ -60,7 +59,6 @@ public class FirebaseManager {
     private FirebaseDatabase database;
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
-    private FirebaseMessaging mFCMInteractor;
     private FirebaseListeners listeners;
     private HashMap<Query, ArrayList<ValueEventListener>> activeValueListeners;
     private HashMap<Query, ArrayList<ChildEventListener>> activeChildListeners;
@@ -301,7 +299,6 @@ public class FirebaseManager {
         database.setPersistenceEnabled(true);
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
-        mFCMInteractor = FirebaseMessaging.getInstance();
         chatIdTeacher = "";
     }
 
@@ -377,7 +374,6 @@ public class FirebaseManager {
         ref.setValue(eventPush);
         return event;
     }
-
 
     public boolean removeTracking(String kidId, String trackingId) {
         boolean result = Repository.getInstance().removeTrackingItem(kidId, trackingId);

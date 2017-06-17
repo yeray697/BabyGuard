@@ -17,7 +17,7 @@ import com.ncatz.babyguard.repository.Repository;
 import java.util.ArrayList;
 
 /**
- * Created by yeray697 on 3/06/17.
+ * Fragment with a list of kids to trace
  */
 
 public class TrackingList_Teacher_Fragment extends Fragment {
@@ -81,7 +81,7 @@ public class TrackingList_Teacher_Fragment extends Fragment {
     }
 
     private void setToolbar() {
-        ((Home_Teacher_Activity) getActivity()).getSupportActionBar().setTitle("Babyguard");
+        ((Home_Teacher_Activity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
     }
 
     private void refreshKidList() {

@@ -14,6 +14,9 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.repository.Repository;
 
+/**
+ * Activity that shows nursery information
+ */
 public class AboutNursery_Activity extends MaterialAboutActivity {
 
     private NurserySchool nursery;
@@ -48,18 +51,18 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
 
         authorCardBuilder.addItem(ConvenienceBuilder.createEmailItem(c,
                 c.getResources().getDrawable(R.drawable.ic_contact_email),
-                "Send an email",
+                getString(R.string.send_email_about),
                 true,
                 nursery.getEmail(),
                 ""));
         authorCardBuilder.addItem(ConvenienceBuilder.createMapItem(c,
                 c.getResources().getDrawable(R.drawable.ic_contact_map),
-                "Visit us",
+                getString(R.string.visit_us_about),
                 nursery.getAddress(),
                 nursery.getAddress()));
 
         authorCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Visit Website")
+                .text(R.string.visit_web_about)
                 .subText(nursery.getWeb())
                 .icon(c.getResources().getDrawable(R.drawable.ic_contact_web))
                 .setOnClickListener(ConvenienceBuilder.createWebsiteOnClickAction(c, Uri.parse(nursery.getWeb())))
@@ -67,14 +70,14 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
 
         MaterialAboutCard.Builder convenienceCardBuilder = new MaterialAboutCard.Builder();
 
-        convenienceCardBuilder.title("Phones");
+        convenienceCardBuilder.title(getString(R.string.phones_about));
 
         int count = 1;
         for (String phone : nursery.getTelephone()) {
 
             convenienceCardBuilder.addItem(ConvenienceBuilder.createPhoneItem(c,
                     c.getResources().getDrawable(R.drawable.ic_contact_phone),
-                    "Phone " + count++,
+                    getString(R.string.phone_about)+ " " + count++,
                     true,
                     phone));
         }

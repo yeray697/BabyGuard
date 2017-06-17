@@ -21,7 +21,9 @@ import com.ncatz.babyguard.repository.Repository;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * Fragment that shows a list of persons to chat
+ */
 public class Conversations_Fragment extends Fragment {
 
     public static final String ID_KEY = "id";
@@ -105,7 +107,7 @@ public class Conversations_Fragment extends Fragment {
     private void setToolbar() {
         if (Babyguard_Application.isTeacher()) {
             toolbar.setVisibility(View.GONE);
-            ((Home_Teacher_Activity) getActivity()).getSupportActionBar().setTitle("Babyguard");
+            ((Home_Teacher_Activity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
         } else {
             toolbar.setVisibility(View.VISIBLE);
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);

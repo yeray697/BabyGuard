@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by yeray697 on 1/05/17.
+ * Chat message POJO class
  */
 
 public class ChatMessage {

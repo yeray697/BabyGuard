@@ -24,7 +24,7 @@ import com.ncatz.babyguard.utils.Utils;
 import java.util.ArrayList;
 
 /**
- * Created by yeray697 on 1/05/17.
+ * Adapter used to load messages of a conversation
  */
 
 public class Chat_Adapter extends ArrayAdapter<ChatMessage> {

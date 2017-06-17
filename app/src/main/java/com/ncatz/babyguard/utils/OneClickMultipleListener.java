@@ -3,7 +3,7 @@ package com.ncatz.babyguard.utils;
 import android.view.View;
 
 /**
- * Created by yeray697 on 2/03/17.
+ * Class to handle multiple clicks on views
  */
 public interface OneClickMultipleListener {
     /**

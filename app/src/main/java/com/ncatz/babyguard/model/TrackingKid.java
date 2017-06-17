@@ -12,7 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.Comparator;
 
 /**
- * Created by yeray697 on 19/12/16.
+ * Tracking element kid POJO class
  */
 
 public class TrackingKid extends RecyclerData implements Parcelable {
@@ -27,15 +27,6 @@ public class TrackingKid extends RecyclerData implements Parcelable {
     private String datetime;
     private int type;
 
-    public static final Comparator<? super TrackingKid> CATEGORY = new Comparator<TrackingKid>() {
-        @Override
-        public int compare(TrackingKid o1, TrackingKid o2) {
-            int result = o1.getType() - o2.getType();
-            if (result == 0)
-                result = o2.datetime.compareTo(o1.datetime);
-            return result;
-        }
-    };
     public static final Comparator<? super TrackingKid> CHRONOLOGIC = new Comparator<TrackingKid>() {
         @Override
         public int compare(TrackingKid o1, TrackingKid o2) {

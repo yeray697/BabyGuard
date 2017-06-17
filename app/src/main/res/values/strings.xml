@@ -5,21 +5,91 @@
     <string name="ivLogo_contentDescription_login">Logo de la aplicación</string>
     <string name="btLogin_text">Inicia sesión</string>
     <string name="tvForgotPass_text">¿Has olvidado la contraseña?</string>
-    <string name="action_sort_home_title">Ordenar</string>
     <string name="item_tracing">Seguimiento</string>
     <string name="item_settings">Configuración</string>
     <string name="item_contacto">Contacto</string>
     <string name="item_calendar">Calendario</string>
     <string name="item_chat">Chat</string>
 
-    <string name="telephone_contact_text"><b>Teléfonos:</b></string>
-    <string name="address_contact_text"><![CDATA[<b>Dirección:</b> <i>%1$s</i>]]></string>
-    <string name="web_contact_text"><![CDATA[<b>Página web:</b> <i>%1$s</i>]]></string>
-    <string name="email_contact_text"><![CDATA[<b>Correo electrónico:</b> <i>%1$s</i>]]></string>
-    <string name="tvNameProfile_text">Nombre</string>
+    <!-- Actions -->
+    <string name="edit">Editar</string>
+    <string name="add">Añadir</string>
+    <string name="select">Seleccionar</string>
+    <string name="remove">Eliminar</string>
+    <string name="send">Enviar</string>
+    <string name="today">Hoy</string>
+    <string name="tomorrow">Mañana</string>
+    <string name="yesterday">Ayer</string>
+    <string name="cancel">Cancelar</string>
     <string name="action_sign_off">Cerrar sesión</string>
-    <string name="contact_developer_uri">mailto:yeray@ncatz.com</string>
 
+    <!-- Add/Edit events and tacing elements -->
+    <string name="remove_event_dialog">¿Deseas borrar el evento?</string>
+    <string name="select_action">Selecciona una acción</string>
+    <string name="remove_tracing_dialog">¿Deseas borrar éste seguimiento?</string>
+    <string name="title_add_event">Título:</string>
+    <string name="description_add_event">Descripción:</string>
+    <string name="date_add_event">Fecha:</string>
+    <string name="title_classes_add_event">Selecciona una o más clases</string>
+    <string name="type_add_tracing">Tipo:</string>
+    <string name="description_add_tracing">Descripción:</string>
+    <string name="title_add_tracing">Título:</string>
+
+    <!-- About nursery-->
+    <string name="send_email_about">Enviar un correo</string>
+    <string name="visit_us_about">Visítanos</string>
+    <string name="visit_web_about">Visita la web</string>
+    <string name="phones_about">Teléfonos</string>
+    <string name="phone_about">Teléfono</string>
+
+    <!-- Notifications -->
+    <string name="event_added_notif">Evento añadido</string>
+    <string name="event_edited_notif">Evento editado</string>
+    <string name="event_removed_notif">Evento eliminado</string>
+    <string name="tracking_added_notif">Seguimiento añadido</string>
+    <string name="tracking_edited_notif">Seguimiento editado</string>
+    <string name="tracking_removed_notif">Seguimiento eliminado</string>
+    <string name="new_message_notif">Nuevo mensaje</string>
+
+    <!-- Urls -->
+    <string name="contact_developer_uri">mailto:yeray@ncatz.com</string>
+    <string name="pass_forgotten_url">https://babyguard.ncatz.com/forgotpass.php</string>
+
+    <!-- Errors -->
+    <string name="uplaod_photo_error">Error al subir la imagen</string>
+    <string name="fields_empty_error">No has rellenado todos los campos</string>
+    <string name="empty_class_error">Selecciona al menos una clase</string>
+    <string name="invalid_date_error">No es una fecha válida</string>
+    <string name="oldPass_empty_error">Rellena todos los campos</string>
+    <string name="newPass1_empty_error">Rellena todos los campos</string>
+    <string name="newPass2_empty_error">Rellena todos los campos</string>
+    <string name="newPass1_minLength_error">Mínimo 6 caracteres</string>
+    <string name="newPass1_maxLength_error">Máximo 20 caracteres</string>
+    <string name="newPass_doesnt_match_error">Las contraseñas no coinciden</string>
+    <string name="oldPass_wrong_error">Contraseña errónea</string>
+
+    <!-- Settings -->
+    <string name="kid_settings_toolbar">Niños</string>
+    <string name="main_settings_toolbar">Ajustes</string>
+    <string name="change_photo_dialog_pref">Selecciona una foto</string>
+    <string name="change_name_pref">Nombre</string>
+    <string name="change_info_pref">Información</string>
+    <string name="vibration_setting_title">Vibración</string>
+    <string name="phone_number_setting_title">Teléfono</string>
+    <string name="change_pass_setting_title">Cambiar contraseña</string>
+    <string name="profile_name_setting_title">Nombre</string>
+    <string name="change_img_setting_title">Cambia la imagen de perfil</string>
+    <string name="msg_preview_setting_title">Vista previa del mensaje</string>
+    <string name="ask_us_setting_title">Pregunta o comunicanos cualquier cosa</string>
+    <string name="mail_subject_setting">Asunto</string>
+    <string name="faq_settings_title">Preguntas frecuentes</string>
+    <string name="notifications_category_settings">Notificaciones</string>
+    <string name="support_category_settings">Soporte</string>
+    <string name="profile_category_setting">Perfil</string>
+    <string name="oldPass_dialog_pref">Antigua contraseña</string>
+    <string name="newPass1_dialog_pref">Nueva contraseña</string>
+    <string name="newPass2_dialog_pref">Repite la contraseña</string>
+    <!-- Preference key -->
     <string name="profile_username_pref">profile_username_pref</string>
     <string name="profile_usertype_pref">profile_usertype_pref</string>
     <string name="profile_name_pref">profile_name_pref</string>
@@ -29,7 +99,7 @@
     <string name="notifications_preview_pref">notifications_preview_pref</string>
     <string name="profile_kids_pref">profile_kids_pref</string>
     <string name="profile_img_pref">profile_img_pref</string>
-
+    
     <!-- Multiple tag: Conversation_Adapter-->
     <item type="id" name="conversationHolder" />
     <item type="id" name="conversationId" />

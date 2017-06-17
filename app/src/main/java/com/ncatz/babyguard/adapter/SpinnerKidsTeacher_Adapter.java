@@ -14,7 +14,7 @@ import com.ncatz.babyguard.model.NurseryClass;
 import java.util.List;
 
 /**
- * Created by yeray697 on 27/05/17.
+ * Adapter used in spinner to select active class (teacher view)
  */
 
 public class SpinnerKidsTeacher_Adapter extends ArrayAdapter<NurseryClass> {

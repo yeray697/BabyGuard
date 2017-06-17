@@ -23,7 +23,7 @@ import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceBy
 import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreference;
 
 /**
- * Created by yeray697 on 12/06/17.
+ * Custom preference used to change password
  */
 
 public class DialogChangePasswordPreference extends DialogPreference {
@@ -64,9 +64,9 @@ public class DialogChangePasswordPreference extends DialogPreference {
         etNewPass1.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etNewPass2.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-        etOldPass.setHint("Old password");
-        etNewPass1.setHint("New password");
-        etNewPass2.setHint("Repeat your new password");
+        etOldPass.setHint(R.string.oldPass_dialog_pref);
+        etNewPass1.setHint(R.string.newPass1_dialog_pref);
+        etNewPass2.setHint(R.string.newPass2_dialog_pref);
 
         etOldPass.addTextChangedListener(new TextWatcher() {
             @Override
@@ -133,15 +133,15 @@ public class DialogChangePasswordPreference extends DialogPreference {
             String newPass1Et = etNewPass1.getText().toString();
             String newPass2Et = etNewPass2.getText().toString();
             if (oldPassEt.length() < 1) {
-                etOldPass.setError("Rellena todos los campos");
+                etOldPass.setError(getContext().getString(R.string.oldPass_empty_error));
                 validPass = false;
             }
             if (newPass1Et.length() < 1) {
-                etNewPass1.setError("Rellena todos los campos");
+                etNewPass1.setError(getContext().getString(R.string.newPass1_empty_error));
                 validPass = false;
             }
             if (newPass2Et.length() < 1) {
-                etNewPass2.setError("Rellena todos los campos");
+                etNewPass2.setError(getContext().getString(R.string.newPass2_empty_error));
                 validPass = false;
             }
             if (validPass) {
@@ -149,21 +149,21 @@ public class DialogChangePasswordPreference extends DialogPreference {
                 String oldPass = getStringPreference(passKey, "");
                 if (oldPass.equals("") || oldPass.equals(oldPassEt)) {
                     if (newPass1Et.length() < 6) {
-                        etNewPass1.setError("Mínimo 6 caracteres");
+                        etNewPass1.setError(getContext().getString(R.string.newPass1_minLength_error));
                         validPass = false;
                     } else if (newPass1Et.length() > 20) {
-                        etNewPass1.setError("Máximo 20 caracteres");
+                        etNewPass1.setError(getContext().getString(R.string.newPass1_maxLength_error));
                         validPass = false;
                     } else if (!newPass1Et.equals(etNewPass2.getText().toString())) {
-                        etNewPass1.setError("Las contraseñas no coinciden");
-                        etNewPass2.setError("Las contraseñas no coinciden");
+                        etNewPass1.setError(getContext().getString(R.string.newPass_doesnt_match_error));
+                        etNewPass2.setError(getContext().getString(R.string.newPass_doesnt_match_error));
                         validPass = false;
                     } else { //All fields were validated
                         validPass = true;
                     }
 
                 } else {
-                    etOldPass.setError("Contraseña errónea");
+                    etOldPass.setError(getContext().getString(R.string.oldPass_wrong_error));
                     validPass = false;
                 }
             }

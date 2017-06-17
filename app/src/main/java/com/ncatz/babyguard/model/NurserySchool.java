@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by yeray697 on 26/12/16.
+ * Nursery School POJO class
  */
 
 public class NurserySchool {

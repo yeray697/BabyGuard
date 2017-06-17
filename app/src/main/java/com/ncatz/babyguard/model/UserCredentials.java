@@ -1,7 +1,7 @@
 package com.ncatz.babyguard.model;
 
 /**
- * UserCredentials's credentials
+ * User credentials POJO class
  *
  * @author Yeray Ruiz Juárez
  * @version 1.0

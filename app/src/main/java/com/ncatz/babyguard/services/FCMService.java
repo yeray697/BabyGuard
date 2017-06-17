@@ -25,11 +25,10 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * Created by yeray697 on 14/06/17.
+ * Firebase service that handle notifications received
  */
 
 public class FCMService extends FirebaseMessagingService {
-    private static final String TAG = "MyFirebaseMsgService";
     public static final String ACTION_LAUNCH_CALENDAR = "calendar";
     public static final String ACTION_LAUNCH_TRACKING = "tracking";
     public static final String ACTION_LAUNCH_CHAT = "chat";
@@ -37,8 +36,6 @@ public class FCMService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         String currentActivity = Babyguard_Application.getCurrentActivity();
-        boolean inForeground = currentActivity != null && !currentActivity.equals("");
-        boolean isTeacher;
         Map<String, String> data = remoteMessage.getData();
         PushNotification pushNotification = PushNotification.parseReceivedNotif(data);
         boolean messagePreview = SettingsManager.getBooleanPreference(SettingsManager.getKeyPreferenceByResourceId(R.string.notifications_preview_pref), true);
@@ -46,12 +43,11 @@ public class FCMService extends FirebaseMessagingService {
                 message = "";
         DiaryCalendarEvent event = null;
         TrackingKid tracking = null;
-        //Intent intent = new Intent(this, NotificationActionService.class);
         Intent intent = new Intent(this, Login_Activity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         switch (pushNotification.getType()) {
             case PushNotification.TYPE_CALENDAR_ADD:
-                title = "Event added";
+                title = getString(R.string.event_added_notif);
                 event = pushNotification.getCalendar().getEvent();
                 if (messagePreview) {
                     title += " - " + event.getTitle() + " - " + event.getDate();
@@ -62,7 +58,7 @@ public class FCMService extends FirebaseMessagingService {
                 intent.setAction(ACTION_LAUNCH_CALENDAR);
                 break;
             case PushNotification.TYPE_CALENDAR_EDIT:
-                title = "Event edited";
+                title = getString(R.string.event_edited_notif);
                 event = pushNotification.getCalendar().getEvent();
                 if (messagePreview) {
                     title += " - " + event.getTitle() + " - " + event.getDate();
@@ -73,7 +69,7 @@ public class FCMService extends FirebaseMessagingService {
                 intent.setAction(ACTION_LAUNCH_CALENDAR);
                 break;
             case PushNotification.TYPE_CALENDAR_REMOVE:
-                title = "Event removed";
+                title = getString(R.string.event_removed_notif);
                 event = pushNotification.getCalendar().getEvent();
                 if (messagePreview) {
                     title += " - " + event.getTitle() + " - " + event.getDate();
@@ -84,7 +80,7 @@ public class FCMService extends FirebaseMessagingService {
                 intent.setAction(ACTION_LAUNCH_CALENDAR);
                 break;
             case PushNotification.TYPE_TRACKING_ADD:
-                title = "Tracking added";
+                title = getString(R.string.tracking_added_notif);
                 tracking = pushNotification.getTracking().getTracking();
                 if (messagePreview) {
                     title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
@@ -95,7 +91,7 @@ public class FCMService extends FirebaseMessagingService {
                 intent.setAction(ACTION_LAUNCH_TRACKING);
                 break;
             case PushNotification.TYPE_TRACKING_EDIT:
-                title = "Tracking edited";
+                title = getString(R.string.tracking_edited_notif);
                 tracking = pushNotification.getTracking().getTracking();
                 if (messagePreview) {
                     title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
@@ -106,7 +102,7 @@ public class FCMService extends FirebaseMessagingService {
                 intent.setAction(ACTION_LAUNCH_TRACKING);
                 break;
             case PushNotification.TYPE_TRACKING_REMOVE:
-                title = "Tracking removed";
+                title = getString(R.string.tracking_removed_notif);
                 tracking = pushNotification.getTracking().getTracking();
                 if (messagePreview) {
                     title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
@@ -135,11 +131,11 @@ public class FCMService extends FirebaseMessagingService {
                         title = name;
                         message = chatMessage.getMessage();
                     } else {
-                        title = "New message";
+                        title = getString(R.string.new_message_notif);
                         message = name;
                     }
                 } catch (Exception e) {
-                    title = "New message";
+                    title = getString(R.string.new_message_notif);
                     message = "";
                 }
                 intent.setAction(ACTION_LAUNCH_CHAT);
@@ -204,8 +200,6 @@ public class FCMService extends FirebaseMessagingService {
 
         @Override
         protected void onHandleIntent(Intent intent) {
-            String currentActivity = Babyguard_Application.getCurrentActivity();
-            boolean inForeground = currentActivity != null && !currentActivity.equals("");
             String action = intent.getAction();
             if (ACTION_LAUNCH_CALENDAR.equals(action)) {
 

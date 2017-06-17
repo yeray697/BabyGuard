@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.UploadTask;
+import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.repository.Repository;
@@ -38,7 +39,7 @@ import java.util.concurrent.ExecutionException;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * Created by yeray697 on 11/06/17.
+ * Fragments with preferences to change kid information (parent view)
  */
 
 public class KidsSettings_Fragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -79,7 +80,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
             context = getActivity();
         }
 
-        ((Settings_Activity) getActivity()).getSupportActionBar().setTitle("Kids");
+        ((Settings_Activity) getActivity()).getSupportActionBar().setTitle(R.string.kid_settings_toolbar);
         kids = (ArrayList<Kid>) Repository.getInstance().getKids();
         PreferenceScreen screen;
         PreferenceCategory category;
@@ -95,7 +96,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
             category.setKey("category_" + kid.getId());
             screen.addPreference(category);
             image = getPreferenceManager().createPreferenceScreen(context);
-            image.setTitle("Change the photo");
+            image.setTitle(R.string.change_img_setting_title);
             image.setKey(kid.getId());
             loadImage(image, kid.getImg());
             image.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -104,14 +105,14 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
                     Intent intent = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     kidActivityResult = kid;
-                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_CODE);
+                    startActivityForResult(Intent.createChooser(intent, getString(R.string.change_photo_dialog_pref)), PICK_IMAGE_REQUEST_CODE);
                     return true;
                 }
             });
             category.addPreference(image);
 
             etpName = new EditTextPreference(context);
-            etpName.setTitle("Change the name");
+            etpName.setTitle(R.string.change_name_pref);
             final PreferenceCategory finalCategory = category;
             etpName.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
@@ -125,7 +126,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
             category.addPreference(etpName);
 
             etpInfo = new EditTextPreference(context);
-            etpInfo.setTitle("Change the information");
+            etpInfo.setTitle(R.string.change_info_pref);
             etpInfo.setSummary(kid.getInfo());
             etpInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
@@ -153,7 +154,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
                 FirebaseManager.getInstance().uploadImageToFirebase(selectedImage, true, kidActivityResult.getId(), new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, "Error while loading the image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.uplaod_photo_error, Toast.LENGTH_SHORT).show();
                     }
                 }, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

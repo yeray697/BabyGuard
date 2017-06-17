@@ -14,6 +14,9 @@ import android.view.MenuItem;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.preferences.Settings_Activity;
 
+/**
+ * Activity shown to a parent with actions to trace their kids
+ */
 public class Home_Parent_Activity extends AppCompatActivity {
 
     public static final String ACTION = "action";

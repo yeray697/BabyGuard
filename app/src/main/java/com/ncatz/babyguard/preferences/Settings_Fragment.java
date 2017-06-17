@@ -41,7 +41,7 @@ import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceBy
 import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreference;
 
 /**
- * Created by yeray697 on 11/06/17.
+ * Fragment with user preferences
  */
 
 public class Settings_Fragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -62,7 +62,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        ((Settings_Activity) getActivity()).getSupportActionBar().setTitle("Settings");
+        ((Settings_Activity) getActivity()).getSupportActionBar().setTitle(R.string.main_settings_toolbar);
         //view.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
         return view;
     }
@@ -114,7 +114,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
             public boolean onPreferenceClick(Preference preference) {
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST_CODE);
+                startActivityForResult(Intent.createChooser(intent, getString(R.string.change_photo_dialog_pref)), PICK_IMAGE_REQUEST_CODE);
                 return true;
             }
         });

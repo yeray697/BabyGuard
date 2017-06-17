@@ -9,7 +9,7 @@ import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.UserCredentials;
 
 /**
- * Created by yeray697 on 11/06/17.
+ * Class to manage SharedPreferences
  */
 
 public class SettingsManager {

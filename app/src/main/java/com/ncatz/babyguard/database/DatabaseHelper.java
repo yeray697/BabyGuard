@@ -20,7 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by yeray697 on 14/05/17.
+ * Class that instantiate a database ciphered, with methods to add and read data and
+ * change between databases (user log in and sign off trigger it)
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper {

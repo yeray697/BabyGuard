@@ -11,7 +11,7 @@ import cz.msebera.android.httpclient.client.params.ClientPNames;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
- * Created by yeray697 on 16/06/17.
+ * Class to make http petitions
  */
 
 public class RestClient {

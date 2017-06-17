@@ -8,7 +8,6 @@ import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -42,7 +41,6 @@ public class CustomToolbar extends Toolbar {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        Log.d("LL", "onLayout");
         super.onLayout(changed, l, t, r, b);
         colorizeToolbar(this, itemColor);
     }

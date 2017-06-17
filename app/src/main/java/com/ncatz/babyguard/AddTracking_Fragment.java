@@ -23,7 +23,7 @@ import com.ncatz.babyguard.repository.Repository;
 import java.util.Calendar;
 
 /**
- * Created by yeray697 on 10/06/17.
+ * Fragment used to add or edit tracking elements to a kid
  */
 
 public class AddTracking_Fragment extends Fragment {
@@ -95,14 +95,14 @@ public class AddTracking_Fragment extends Fragment {
             }
         });
         if (editMode) {
-            tvToolbar.setText("Editar");
-            btSubmit.setText("Editar");
+            tvToolbar.setText(R.string.edit);
+            btSubmit.setText(R.string.edit);
             etTitle.setText(trackingKid.getTitle());
             etDescription.setText(trackingKid.getDescription());
             spType.setSelection(trackingKid.getType() - 1);
         } else {
-            tvToolbar.setText("Añadir");
-            btSubmit.setText("Añadir");
+            tvToolbar.setText(R.string.add);
+            btSubmit.setText(R.string.add);
         }
         return view;
     }
@@ -114,7 +114,7 @@ public class AddTracking_Fragment extends Fragment {
                 datetime;
         Integer type = spType.getSelectedItemPosition() + 1;
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description)) {
-            Toast.makeText(context, "No has rellenado todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.fields_empty_error, Toast.LENGTH_SHORT).show();
         } else {
             Calendar dateParsed = Calendar.getInstance();
             datetime = String.valueOf(dateParsed.getTime().getTime());

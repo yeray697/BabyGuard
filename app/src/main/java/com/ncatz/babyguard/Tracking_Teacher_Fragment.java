@@ -24,7 +24,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
 import com.ncatz.babyguard.firebase.FirebaseManager;
-import com.ncatz.babyguard.interfaces.Home_View;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.PushNotification;
 import com.ncatz.babyguard.model.TrackingKid;
@@ -38,7 +37,10 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreateContextMenuListener, Home_View {
+/**
+ * Fragment that shows tracing elements to manage a kid
+ */
+public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreateContextMenuListener {
 
     public static final String KID_KEY = "kid";
     private TextView tvName;
@@ -140,7 +142,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     }
 
     private void refreshList() {
-        dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), Repository.Sort.CHRONOLOGIC);
+        dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking());
         adapter = new TrackingKid_Adapter(context, (ArrayList<RecyclerData>) dataKid, 45);
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
@@ -175,9 +177,9 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         selectedItemContextMenu = (TrackingKid) v.getTag();
-        menu.setHeaderTitle("Select The Action");
-        menu.add(1, v.getId(), 0, "Edit");
-        menu.add(2, v.getId(), 0, "Remove");
+        menu.setHeaderTitle(R.string.select_action);
+        menu.add(1, v.getId(), 0, R.string.edit);
+        menu.add(2, v.getId(), 0, R.string.remove);
     }
 
     @Override
@@ -191,7 +193,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
             final String idTracking = selectedItemContextMenu.getId();
             selectedItemContextMenu = null;
             AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-            dialog.setTitle("¿Deseas borrar éste seguimiento?");
+            dialog.setTitle(R.string.remove_tracing_dialog);
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

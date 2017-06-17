@@ -1,7 +1,7 @@
 package com.ncatz.babyguard.model;
 
 /**
- * Created by yeray697 on 31/05/17.
+ * Chat POJO class
  */
 
 public class ChatKeyMap {

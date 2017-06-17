@@ -24,7 +24,7 @@
             android:layout_margin="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Añadir"
+            android:text="@string/add"
             android:textSize="20sp"
             android:id="@+id/tvToolbar_AddEvent" />
     </com.ncatz.babyguard.components.CustomToolbar>
@@ -44,7 +44,7 @@
                 android:id="@+id/tvTitle_AddEvent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title:"
+                android:text="@string/title_add_event"
                 android:textSize="19sp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
@@ -71,7 +71,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:gravity="start"
-                android:text="Description:"
+                android:text="@string/description_add_event"
                 android:textSize="19sp" />
 
             <EditText
@@ -90,7 +90,7 @@
                 android:id="@+id/tvDate1_AddEvent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date:"
+                android:text="@string/date_add_event"
                 android:clickable="true"
                 android:textSize="19sp"
                 android:layout_alignParentLeft="true"
@@ -102,7 +102,7 @@
                 android:id="@+id/tvDate2_AddEvent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select"
+                android:text="@string/select"
                 android:clickable="true"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
@@ -117,7 +117,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select the class(es) toUser add the event:"
+                android:text="@string/title_classes_add_event"
                 android:textSize="19sp"
                 android:layout_below="@id/tvDate1_AddEvent"
                 android:layout_marginTop="20dp"
@@ -149,7 +149,7 @@
                     android:id="@+id/btCancel_AddEvent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancelar"
+                    android:text="@string/cancel"
                     android:background="@color/colorPrimary"
                     android:textColor="@color/white"
                     android:layout_marginRight="10dp"
@@ -159,7 +159,7 @@
                     android:id="@+id/btSubmit_AddEvent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Añadir"
+                    android:text="@string/add"
                     android:background="@color/colorPrimary"
                     android:textColor="@color/white"
                     android:layout_marginRight="10dp"

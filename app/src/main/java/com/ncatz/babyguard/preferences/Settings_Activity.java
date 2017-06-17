@@ -10,7 +10,7 @@ import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.components.CustomToolbar;
 
 /**
- * Created by yeray697 on 11/06/17.
+ * Activity were fragment settings are displayed
  */
 
 public class Settings_Activity extends AppCompatActivity {

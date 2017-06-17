@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
- * Created by yeray697 on 27/05/17.
+ * Nursery class POJO class
  */
 
 public class NurseryClass implements Comparable<NurseryClass> {

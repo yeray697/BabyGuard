@@ -13,7 +13,7 @@ import com.yeray697.dotLineRecyclerView.RecyclerData;
 import java.util.ArrayList;
 
 /**
- * Created by yeray697 on 19/12/16.
+ * Adapter used to list tracking elements from a kid
  */
 
 public class TrackingKid_Adapter extends DotLineRecyclerAdapter {

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Kid credentials
+ * Kid POJO class
  *
  * @author Yeray Ruiz Juárez
  * @version 1.0
