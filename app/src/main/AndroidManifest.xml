@@ -21,7 +21,8 @@
         <activity
             android:name=".Login_Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,24 +32,25 @@
         <activity
             android:name=".KidList_Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".Home_Parent_Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNavigation" />
-        <activity
-            android:name=".About_Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.MaterialAboutActivity.Light.DarkActionBar" />
+            android:theme="@style/AppThemeNavigation"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".AboutNursery_Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.MaterialAboutActivity.Light.DarkActionBar" />
+            android:theme="@style/AppTheme.MaterialAboutActivity.Light.DarkActionBar"
+            android:launchMode="singleInstance" />
         <activity android:name=".Home_Teacher_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".preferences.Settings_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
         <service android:name=".services.FCMService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

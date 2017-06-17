@@ -12,6 +12,8 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.ncatz.babyguard.Babyguard_Application;
+import com.ncatz.babyguard.Calendar_Fragment;
+import com.ncatz.babyguard.Login_Activity;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.model.ChatMessage;
@@ -46,8 +48,9 @@ public class FCMService extends FirebaseMessagingService {
                 message = "";
         DiaryCalendarEvent event = null;
         TrackingKid tracking = null;
-        Intent intent = new Intent(this, NotificationActionService.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //Intent intent = new Intent(this, NotificationActionService.class);
+        Intent intent = new Intent(this, Login_Activity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP|   Intent.FLAG_ACTIVITY_NEW_TASK);
         switch (pushNotification.getType()) {
             case PushNotification.TYPE_CALENDAR_ADD:
                 title = "Event added";
@@ -207,14 +210,12 @@ public class FCMService extends FirebaseMessagingService {
             boolean inForeground = currentActivity != null && !currentActivity.equals("");
             String action = intent.getAction();
             if (ACTION_LAUNCH_CALENDAR.equals(action)) {
-                // If you want to cancel the notification: NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
+
             } else if (ACTION_LAUNCH_TRACKING.equals(action)) {
-                // TODO: handle action 1.
-                // If you want to cancel the notification: NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
             } else if (ACTION_LAUNCH_CHAT.equals(action)) {
-                // TODO: handle action 1.
-                // If you want to cancel the notification: NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
             }
+            Intent aintent = new Intent(this, Login_Activity.class);
+            startActivity(aintent);
         }
     }
 }
