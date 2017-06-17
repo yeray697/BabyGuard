@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="incorrect_login">Usuario y/o contraseña incorrectos</string>
+    <string name="incorrect_login">Correo y/o contraseña incorrectos</string>
     <string name="server_no_connection_login">Ha ocurrido un problema al conectarse con el servidor</string>
-    <string name="user_no_connection_login">Comprueba que tienes conexión a internet</string>
     <string name="data_empty">No puede estar vacío</string>
 </resources>

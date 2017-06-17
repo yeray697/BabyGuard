@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="incorrect_login">Incorrect mail and/or password</string>
+    <string name="server_no_connection_login">There was a problem connecting to the server</string>
+    <string name="data_empty">It can not be empty</string>
+</resources>

@@ -11,11 +11,9 @@ import com.ncatz.babyguard.utils.ErrorMapUtils;
  * @version 1.0
  */
 public class ErrorClass {
-    public static final int CORRECT = 0;                    //Login done successfully
     //COMMON ERRORS
     public static final int INCORRECT = 1;                  //Login: UserCredentials and/or password is incorrect
     public static final int SERVER_CONNECTION_ERROR = 2;    //Unable to connect to server
-    public static final int USER_CONNECTION_ERROR = 3;      //Unable to connect to server
     //Individual log in errors
     public static final int USER_EMPTY = 10;               //LogIn: UserCredentials field is empty
     public static final int PASS_EMPTY = 11;                //LogIn: Pass field is empty

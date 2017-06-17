@@ -98,7 +98,7 @@ public class CalendarService extends Service {
 
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        String vibrationCode = SettingsManager.getStringPreference(SettingsManager.getKeyPreferenceByResourceId(R.string.notifications_vibration_pref), "0");
+        String vibrationCode = SettingsManager.getStringPreference(SettingsManager.getKeyPreferenceByResourceId(R.string.notifications_vibration_pref), "1");
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_notification)
                 .setContentTitle(event.getTitle())

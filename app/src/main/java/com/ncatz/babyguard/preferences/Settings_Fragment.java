@@ -106,7 +106,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
         });
         nameProfilePref.setSummary(getStringPreference(nameKey, ""));
         phoneProfilePref.setSummary(getStringPreference(phoneKey, ""));
-        vibrationNotifPref.setSummary(getResources().getStringArray(R.array.notifications_vibration_pref_entries)[Integer.parseInt(getStringPreference(notifVibrationKey, "0"))]);
+        vibrationNotifPref.setSummary(getResources().getStringArray(R.array.notifications_vibration_pref_entries)[Integer.parseInt(getStringPreference(notifVibrationKey, "1"))]);
         previewNotificationPref.setChecked(getBooleanPreference(previewKey, true));
 
         imgPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

@@ -74,6 +74,7 @@ public class Babyguard_Application extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(final Thread thread, final Throwable e) {
+                e.printStackTrace();
                 /*new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {

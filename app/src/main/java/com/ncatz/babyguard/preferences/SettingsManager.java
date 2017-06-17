@@ -19,7 +19,7 @@ public class SettingsManager {
     public static void setDefaultValues() {
         String notifVibrationKey = getKeyPreferenceByResourceId(R.string.notifications_vibration_pref);
         String previewKey = getKeyPreferenceByResourceId(R.string.notifications_preview_pref);
-        setStringPreference(notifVibrationKey, "0");
+        setStringPreference(notifVibrationKey, "1");
         setBooleanPreference(previewKey, true);
     }
 

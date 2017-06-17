@@ -27,7 +27,7 @@
         <ListPreference
             android:key="@string/notifications_vibration_pref"
             android:title="@string/vibration_setting_title"
-            android:defaultValue="0"
+            android:defaultValue="1"
             android:entries="@array/notifications_vibration_pref_entries"
             android:entryValues="@array/notifications_vibration_pref_values"
             android:summary="current option" />
@@ -41,16 +41,12 @@
         <PreferenceScreen android:title="@string/faq_settings_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="http://developer.android.com" />
+                android:data="@string/faq_url" />
         </PreferenceScreen>
         <PreferenceScreen android:title="@string/ask_us_setting_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/contact_developer_uri">
-                <extra
-                    android:name="android.intent.extra.SUBJECT"
-                    android:value="@string/mail_subject_setting" />
-            </intent>
+                android:data="@string/contact_developer_uri"/>
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

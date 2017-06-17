@@ -2,7 +2,6 @@
 <map linked="true">
     <entry key="1">incorrect_login</entry>
     <entry key="2">server_no_connection_login</entry>
-    <entry key="3">user_no_connection_login</entry>
     <entry key="10">data_empty</entry>
     <entry key="11">data_empty</entry>
 </map>
