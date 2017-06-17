@@ -3,17 +3,17 @@
     <item
         android:id="@+id/item_tracing"
         android:icon="@drawable/ic_tracking_black_24dp"
-        android:title="Tracking"/>
+        android:title="Tracking" />
     <item
         android:id="@+id/item_chat"
         android:icon="@drawable/ic_chat_black_24dp"
-        android:title="Chat"/>
+        android:title="Chat" />
     <item
         android:id="@+id/item_calendar"
         android:icon="@drawable/ic_calendar_black_24dp"
-        android:title="Calendar"/>
+        android:title="Calendar" />
     <item
         android:id="@+id/item_settings"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:title="Settings"/>
+        android:title="Settings" />
 </menu>

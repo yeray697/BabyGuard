@@ -14,7 +14,7 @@
         android:id="@+id/ivLogo"
         android:layout_marginLeft="@dimen/item_margin_login"
         android:layout_marginRight="@dimen/item_margin_login"
-        android:layout_marginTop="@dimen/item_margin_top_login"/>
+        android:layout_marginTop="@dimen/item_margin_top_login" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -24,6 +24,7 @@
         android:layout_marginRight="@dimen/item_margin_login"
         android:id="@+id/tilUser_login"
         android:layout_below="@id/ivLogo">
+
         <EditText
             android:id="@+id/etUser_login"
             android:layout_width="match_parent"
@@ -41,13 +42,14 @@
         android:layout_marginLeft="@dimen/item_margin_login"
         android:layout_marginRight="@dimen/item_margin_login"
         android:layout_below="@id/tilUser_login">
+
         <EditText
             android:id="@+id/etPass_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:imeOptions="actionDone"
-            android:hint="@string/etpass_login_hint"/>
+            android:hint="@string/etpass_login_hint" />
     </android.support.design.widget.TextInputLayout>
 
     <TextView
@@ -62,7 +64,7 @@
         android:id="@+id/tvForgotPass"
         android:text="@string/tvForgotPass_text"
         android:textColor="@color/colorAccent"
-        android:layout_marginTop="@dimen/item_margin_top_login"/>
+        android:layout_marginTop="@dimen/item_margin_top_login" />
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:layout_alignParentBottom="true"
@@ -75,13 +77,13 @@
         app:mrl_rippleDelayClick="false"
         app:mrl_rippleHover="true"
         android:id="@+id/rlButton">
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="@dimen/btLogin_height"
             android:text="@string/btLogin_text"
             android:background="@drawable/bt_selecter"
-            android:textColor="@color/colorPrimaryLight"
-            />
+            android:textColor="@color/colorPrimaryLight" />
     </com.balysv.materialripple.MaterialRippleLayout>
 
 </RelativeLayout>

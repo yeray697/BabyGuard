@@ -24,7 +24,7 @@ public class RestClient {
 
     public static void get(String url, String authorization, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.removeAllHeaders();
-        client.addHeader("Authorization","key="+authorization);
+        client.addHeader("Authorization", "key=" + authorization);
         client.addHeader("Content-Type:", "application/json");
         client.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
         client.get(url, params, responseHandler);
@@ -32,13 +32,13 @@ public class RestClient {
 
     public static void post(String url, String authorization, StringEntity entity, AsyncHttpResponseHandler responseHandler) {
         client.removeAllHeaders();
-        client.addHeader("Authorization", "key="+authorization);
+        client.addHeader("Authorization", "key=" + authorization);
         client.addHeader("Content-Type:", "application/json");
         client.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
         client.post(Babyguard_Application.getContext(), url, entity, "application/json", responseHandler);
     }
 
-    public static void cancelRequests(Context c, boolean  flag) {
+    public static void cancelRequests(Context c, boolean flag) {
         client.cancelRequests(c, flag);
     }
 }

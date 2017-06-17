@@ -37,12 +37,14 @@ import java.util.TimeZone;
 
 /**
  * Class with useful methods
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */
 public class Utils {
     /**
      * Method that check if device has internet
+     *
      * @param context Context of the application
      * @return Return a boolean with the result
      */
@@ -54,9 +56,10 @@ public class Utils {
 
     /**
      * Method that hide the keyboard if it is possible
+     *
      * @param activity Activity that is active
      */
-    public static void hideKeyboard(Activity activity){
+    public static void hideKeyboard(Activity activity) {
         View view = activity.findViewById(android.R.id.content);
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -73,14 +76,14 @@ public class Utils {
     }
 
     public static ArrayList<ChatMessage> parseChatMessageToChat(ArrayList<ChatMessage> messages) {
-        Collections.sort(messages,ChatMessage.comparator);
+        Collections.sort(messages, ChatMessage.comparator);
         ArrayList<ChatMessage> newMessages = new ArrayList<>();
         String lastDate = "";
         int size = messages.size();
         ChatMessage messageAux;
         ChatMessage auxDate;
         boolean isTodayReached = false;
-        for (int i = 0; i < size ; i++) {
+        for (int i = 0; i < size; i++) {
             messageAux = messages.get(i);
 
             if (!isUnixToday(messageAux.getDatetime())) {
@@ -91,7 +94,7 @@ public class Utils {
                     auxDate.setDatetime(lastDate);
                     newMessages.add(auxDate);
                 } else {
-                    if (!isSameDay(lastDate,messageAux.getDatetime())){
+                    if (!isSameDay(lastDate, messageAux.getDatetime())) {
                         auxDate = new ChatMessage();
                         lastDate = messageAux.getDatetime();
                         auxDate.setIfIsMessage(false);
@@ -125,16 +128,18 @@ public class Utils {
         return unix;
     }
 
-    public interface OnAnimationEnded{
+    public interface OnAnimationEnded {
         void finishing();
+
         void finished();
     }
 
     /**
      * Main source: https://developer.android.com/training/animation/zoom.html
      * Added too: http://stackoverflow.com/questions/15582434/using-a-valueanimator-to-make-a-textview-blink-different-colors
-     * @param context Context
-     * @param thumbView Where is going to be displayed the image
+     *
+     * @param context       Context
+     * @param thumbView     Where is going to be displayed the image
      * @param imageDrawable Image that is going to be displayed
      */
     public static void zoomImageFromThumb(final Context context, int containerId, final View thumbView, final ImageView destination, Drawable imageDrawable, final OnAnimationEnded onAnimationEnded) {
@@ -154,7 +159,7 @@ public class Utils {
 
 
         thumbView.getGlobalVisibleRect(startBounds);
-        ((Activity)context).findViewById(containerId)
+        ((Activity) context).findViewById(containerId)
                 .getGlobalVisibleRect(finalBounds, globalOffset);
         startBounds.offset(-globalOffset.x, -globalOffset.y);
         finalBounds.offset(-globalOffset.x, -globalOffset.y);
@@ -177,7 +182,7 @@ public class Utils {
         }
 
         destination.setVisibility(View.VISIBLE);
-        ((View)destination.getParent()).setVisibility(View.VISIBLE);
+        ((View) destination.getParent()).setVisibility(View.VISIBLE);
 
 
         destination.setPivotX(0f);
@@ -209,7 +214,7 @@ public class Utils {
             }
         });
         set.start();
-        AnimatorSet setBackground = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.image_zoom_in);
+        AnimatorSet setBackground = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.image_zoom_in);
 
         setBackground.setTarget(destination.getParent());
 
@@ -242,7 +247,7 @@ public class Utils {
                         .ofFloat(destination, View.X, startBounds.left))
                         .with(ObjectAnimator
                                 .ofFloat(destination,
-                                        View.Y,startBounds.top))
+                                        View.Y, startBounds.top))
                         .with(ObjectAnimator
                                 .ofFloat(destination,
                                         View.SCALE_X, startScaleFinal))
@@ -257,19 +262,19 @@ public class Utils {
                     public void onAnimationEnd(Animator animation) {
                         thumbView.setAlpha(1f);
                         destination.setVisibility(View.GONE);
-                        ((View)destination.getParent()).setVisibility(View.GONE);
+                        ((View) destination.getParent()).setVisibility(View.GONE);
                         mCurrentAnimator = null;
                     }
 
                     @Override
                     public void onAnimationCancel(Animator animation) {
                         destination.setVisibility(View.GONE);
-                        ((View)destination.getParent()).setVisibility(View.GONE);
+                        ((View) destination.getParent()).setVisibility(View.GONE);
                         mCurrentAnimator = null;
                     }
                 });
                 set.start();
-                AnimatorSet setBackground = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.image_zoom_out);
+                AnimatorSet setBackground = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.image_zoom_out);
 
                 setBackground.setTarget(destination.getParent());
 
@@ -292,7 +297,7 @@ public class Utils {
         });
     }
 
-    public static String getTimeByUnix(String unixTime){
+    public static String getTimeByUnix(String unixTime) {
         String time = "";
         Long timeUnix = Long.parseLong(unixTime);
         Calendar c = Calendar.getInstance();
@@ -303,13 +308,14 @@ public class Utils {
     }
 
     public static boolean isUnixToday(String unixTime) {
-        Calendar today = getTodayDateCalendar();;
+        Calendar today = getTodayDateCalendar();
+        ;
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(Long.parseLong(unixTime));
         return c.after(today);
     }
 
-    public static boolean isSameDay(String unixTime1,String unixTime2) {
+    public static boolean isSameDay(String unixTime1, String unixTime2) {
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
         cal1.setTimeInMillis(Long.parseLong(unixTime1));
@@ -317,12 +323,13 @@ public class Utils {
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                 cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
     }
-    public static String getDateByUnixChatDate(String unixTime){
+
+    public static String getDateByUnixChatDate(String unixTime) {
         String date;
         Calendar today = getTodayDateCalendar();
         Calendar c = Calendar.getInstance();
         Calendar yesterday = getTodayDateCalendar();
-        yesterday.add(Calendar.DATE,-1);
+        yesterday.add(Calendar.DATE, -1);
 
         c.setTimeInMillis(Long.parseLong(unixTime));
         SimpleDateFormat sdf;
@@ -340,7 +347,7 @@ public class Utils {
         return date;
     }
 
-    public static String getDateByUnix(String unixTime){
+    public static String getDateByUnix(String unixTime) {
         String date = "";
         Long timeUnix = Long.parseLong(unixTime);
         Calendar c = Calendar.getInstance();
@@ -350,14 +357,14 @@ public class Utils {
         return date;
     }
 
-    public static String getTimeNow(){
+    public static String getTimeNow() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         sdf.setTimeZone(c.getTimeZone());
         return sdf.format(c.getTime());
     }
 
-    public static String getTodayDate(){
+    public static String getTodayDate() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY_MM_dd");
         sdf.setTimeZone(c.getTimeZone());
@@ -426,7 +433,7 @@ public class Utils {
     public static Bitmap uriToBitmap(Uri uri) {
         Bitmap bitmap = null;
         try {
-            bitmap = MediaStore.Images.Media.getBitmap(Babyguard_Application.getContext().getContentResolver() , uri);
+            bitmap = MediaStore.Images.Media.getBitmap(Babyguard_Application.getContext().getContentResolver(), uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -443,7 +450,7 @@ public class Utils {
         Bitmap bitmap = uriToBitmap(uri);
         byte[] image = null;
         if (bitmap != null) {
-            bitmap = shrinkImage(bitmap,maxSize);
+            bitmap = shrinkImage(bitmap, maxSize);
             image = bitmapToByteArray(bitmap);
         }
         return image;

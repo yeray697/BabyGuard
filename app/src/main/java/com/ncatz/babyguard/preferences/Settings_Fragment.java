@@ -58,10 +58,11 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
     private String imgKey, nameKey, passKey, kidKey, phoneKey, notifVibrationKey, previewKey;
 
     private static final int PICK_IMAGE_REQUEST_CODE = 1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        ((Settings_Activity)getActivity()).getSupportActionBar().setTitle("Settings");
+        ((Settings_Activity) getActivity()).getSupportActionBar().setTitle("Settings");
         //view.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
         return view;
     }
@@ -150,7 +151,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
             @Override
             protected void onPostExecute(Bitmap bitmap) {
                 if (null != bitmap) {
-                    Drawable drawable = new BitmapDrawable(getResources(),bitmap);
+                    Drawable drawable = new BitmapDrawable(getResources(), bitmap);
                     imgPref.setIcon(drawable);
                 }
             }
@@ -193,7 +194,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
         } else {
             preference.setSummary(sharedPreferences.getString(key, ""));
         }
-        ((Settings_Activity)getActivity()).setHasBeenModifedSomething(true);
+        ((Settings_Activity) getActivity()).setHasBeenModifedSomething(true);
     }
 
     @Override

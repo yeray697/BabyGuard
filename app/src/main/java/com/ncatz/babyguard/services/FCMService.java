@@ -41,14 +41,14 @@ public class FCMService extends FirebaseMessagingService {
         boolean isTeacher;
         Map<String, String> data = remoteMessage.getData();
         PushNotification pushNotification = PushNotification.parseReceivedNotif(data);
-        boolean messagePreview = SettingsManager.getBooleanPreference(SettingsManager.getKeyPreferenceByResourceId(R.string.notifications_preview_pref),true);
+        boolean messagePreview = SettingsManager.getBooleanPreference(SettingsManager.getKeyPreferenceByResourceId(R.string.notifications_preview_pref), true);
         String title = "",
                 message = "";
         DiaryCalendarEvent event = null;
         TrackingKid tracking = null;
         //Intent intent = new Intent(this, NotificationActionService.class);
         Intent intent = new Intent(this, Login_Activity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP|   Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         switch (pushNotification.getType()) {
             case PushNotification.TYPE_CALENDAR_ADD:
                 title = "Event added";
@@ -130,7 +130,7 @@ public class FCMService extends FirebaseMessagingService {
                 }*/
                 String name;
                 try {
-                    name = Repository.getInstance().getNameByUserId( (Babyguard_Application.isTeacher()) ? chatMessage.getKid() : chatMessage.getTeacher());
+                    name = Repository.getInstance().getNameByUserId((Babyguard_Application.isTeacher()) ? chatMessage.getKid() : chatMessage.getTeacher());
                     if (messagePreview) {
                         title = name;
                         message = chatMessage.getMessage();
@@ -154,14 +154,14 @@ public class FCMService extends FirebaseMessagingService {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                     PendingIntent.FLAG_ONE_SHOT);
             int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-            sendNotification(notificationId, title,message, pendingIntent);
+            sendNotification(notificationId, title, message, pendingIntent);
         }
     }
 
     private void sendNotification(int notificationId, String title, String messageBody, PendingIntent pendingIntent) {
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        String vibrationCode = SettingsManager.getStringPreference(SettingsManager.getKeyPreferenceByResourceId(R.string.notifications_vibration_pref),"0");
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        String vibrationCode = SettingsManager.getStringPreference(SettingsManager.getKeyPreferenceByResourceId(R.string.notifications_vibration_pref), "0");
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_notification)
                 .setContentTitle(title)

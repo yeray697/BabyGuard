@@ -57,7 +57,7 @@ public class AddTracking_Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context = getContext();
         } else {
@@ -121,14 +121,14 @@ public class AddTracking_Fragment extends Fragment {
             String id = "";
             if (editMode)
                 id = trackingKid.getId();
-            trackingKid = new TrackingKid("", title, datetime ,TrackingKid.parseIntToType(type),description);
+            trackingKid = new TrackingKid("", title, datetime, TrackingKid.parseIntToType(type), description);
             PushNotification notification = new PushNotification();
             if (editMode) {
                 trackingKid.setId(id);
-                FirebaseManager.getInstance().updateTracking(kidId,trackingKid);
+                FirebaseManager.getInstance().updateTracking(kidId, trackingKid);
                 notification.setType(PushNotification.TYPE_TRACKING_EDIT);
             } else {
-                trackingKid = FirebaseManager.getInstance().addTracking(kidId,trackingKid);
+                trackingKid = FirebaseManager.getInstance().addTracking(kidId, trackingKid);
                 notification.setType(PushNotification.TYPE_TRACKING_ADD);
             }
             notification.setTrackingKid(trackingKid);
@@ -153,15 +153,15 @@ public class AddTracking_Fragment extends Fragment {
     }
 
     private void setToolbar() {
-        ((Home_Teacher_Activity)getActivity()).getSupportActionBar().hide();
-        ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(true);
+        ((Home_Teacher_Activity) getActivity()).getSupportActionBar().hide();
+        ((Home_Teacher_Activity) getActivity()).setNavigationBottomBarHide(true);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)context.getApplicationContext()).removeChatListener();
+        ((Babyguard_Application) context.getApplicationContext()).removeChatListener();
         ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
-        ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(false);
+        ((Home_Teacher_Activity) getActivity()).setNavigationBottomBarHide(false);
     }
 }

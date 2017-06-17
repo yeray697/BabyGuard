@@ -2,6 +2,7 @@ package com.ncatz.babyguard.interfaces;
 
 /**
  * KidList view's interface
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */

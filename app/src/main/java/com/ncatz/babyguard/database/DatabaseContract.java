@@ -16,7 +16,7 @@ public class DatabaseContract {
         public static final String TEACHER_COL = "teacher";
         public static final String KID_COL = "kid";
         public static final String MESSAGE_COL = "message";
-        public static final String DATETIME_COL= "datetime";
+        public static final String DATETIME_COL = "datetime";
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + Messages.TABLE_NAME + " (" +
                         Messages._ID + " INTEGER PRIMARY KEY," +

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout android:id="@+id/container_home"
+    <RelativeLayout
+        android:id="@+id/container_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -18,7 +19,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header_drawer"
-        android:windowTranslucentStatus = "true"
+        android:windowTranslucentStatus="true"
         app:itemTextColor="@drawable/navigation_text_color"
         app:menu="@menu/menu_drawer" />
 

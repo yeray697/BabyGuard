@@ -24,10 +24,11 @@ import java.util.ArrayList;
 
 /**
  * KidList view
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */
-public class KidList_Activity extends AppCompatActivity implements KidList_View{
+public class KidList_Activity extends AppCompatActivity implements KidList_View {
 
     private static final String CLICKED = "clicked";
     private ListView lvKids;
@@ -56,7 +57,7 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
                 if (!clicked) {
                     clicked = true;
                     Intent intent = new Intent(KidList_Activity.this, Home_Parent_Activity.class);
-                    intent.putExtra(KID_EXTRA,(Kid)lvKids.getItemAtPosition(i));
+                    intent.putExtra(KID_EXTRA, (Kid) lvKids.getItemAtPosition(i));
                     startActivity(intent);
                     clicked = false;
                 }
@@ -69,10 +70,10 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
     @Override
     public void setKids() {
         adapter = new KidList_Adapter(KidList_Activity.this, new ArrayList<>(Repository.getInstance().getKids()), new KidList_Adapter.OnImageClickListener() {
-                @Override
-                public void clicked(final View view, Drawable drawable) {
+            @Override
+            public void clicked(final View view, Drawable drawable) {
                 zoom = true;
-                Utils.zoomImageFromThumb(view.getContext(),R.id.activity_kid_list, view, ivExpandedImage, drawable, new Utils.OnAnimationEnded() {
+                Utils.zoomImageFromThumb(view.getContext(), R.id.activity_kid_list, view, ivExpandedImage, drawable, new Utils.OnAnimationEnded() {
                     @Override
                     public void finishing() {
                         zoom = false;
@@ -104,7 +105,7 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_sign_off:
                 signOff();
                 break;
@@ -113,8 +114,8 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
     }
 
     public void signOff() {
-        ((Babyguard_Application)getApplicationContext()).signOff();
-        Intent intent = new Intent(KidList_Activity.this,Login_Activity.class);
+        ((Babyguard_Application) getApplicationContext()).signOff();
+        Intent intent = new Intent(KidList_Activity.this, Login_Activity.class);
         startActivity(intent);
         finish();
     }
@@ -130,7 +131,7 @@ public class KidList_Activity extends AppCompatActivity implements KidList_View{
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(CLICKED,clicked);
+        outState.putBoolean(CLICKED, clicked);
     }
 
     @Override

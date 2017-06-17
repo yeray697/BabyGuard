@@ -20,6 +20,7 @@ import com.ncatz.babyguard.utils.Utils;
 
 /**
  * Login presenter
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */
@@ -39,7 +40,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     /**
      * Used when login is finished (with or without error)
      */
-    public interface OnLoginFinishedListener{
+    public interface OnLoginFinishedListener {
         /**
          * Used to start the next activity
          */
@@ -54,16 +55,16 @@ public class LoginPresenterImpl implements LoginPresenter {
             error.setCode(ErrorClass.USER_EMPTY);
             error.setIdView(idViewUser);
             error.setIfThereIsAnError(true);
-            view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
+            view.setMessageError(error.getMessageError((Context) view, error.getCode()), error.getIdView());
         }
         if (TextUtils.isEmpty(password)) {
             error.setCode(ErrorClass.PASS_EMPTY);
             error.setIdView(idViewPass);
             error.setIfThereIsAnError(true);
-            view.setMessageError(error.getMessageError((Context) view,error.getCode()),error.getIdView());
+            view.setMessageError(error.getMessageError((Context) view, error.getCode()), error.getIdView());
         }
         if (!error.isThereAnError()) {
-            databaseLogin(username,password);
+            databaseLogin(username, password);
         }
     }
 
@@ -75,7 +76,7 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void isUserSet() {
-        UserCredentials userCredentials = ((Babyguard_Application)((Context)view).getApplicationContext()).getUserCredentials();
+        UserCredentials userCredentials = ((Babyguard_Application) ((Context) view).getApplicationContext()).getUserCredentials();
         if (userCredentials != null && !TextUtils.isEmpty(userCredentials.getUser())) {
             view.setCredentials(userCredentials.getUser(), userCredentials.getPass());
             login(userCredentials.getUser(), userCredentials.getPass());
@@ -84,7 +85,8 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     /**
      * Tries to login
-     * @param mail UserCredentials's mail
+     *
+     * @param mail     UserCredentials's mail
      * @param password UserCredentials's pass
      */
     private void databaseLogin(final String mail, final String password) {

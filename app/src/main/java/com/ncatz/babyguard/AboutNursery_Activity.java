@@ -22,7 +22,7 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         String idNursery = getIntent().getExtras().getString(Home_Parent_Activity.KID_NURSERY_KEY);
         nursery = Repository.getInstance().getNurserySchoolById(idNursery);
-        ((Babyguard_Application)getApplicationContext()).addNurseryListener(new Babyguard_Application.ActionEndListener() {
+        ((Babyguard_Application) getApplicationContext()).addNurseryListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
                 refreshActivity();
@@ -70,11 +70,11 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
         convenienceCardBuilder.title("Phones");
 
         int count = 1;
-        for (String phone : nursery.getTelephone()){
+        for (String phone : nursery.getTelephone()) {
 
             convenienceCardBuilder.addItem(ConvenienceBuilder.createPhoneItem(c,
                     c.getResources().getDrawable(R.drawable.ic_contact_phone),
-                    "Phone "+count++,
+                    "Phone " + count++,
                     true,
                     phone));
         }
@@ -92,7 +92,7 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        ((Babyguard_Application)getApplicationContext()).removeNurseryListener();
+        ((Babyguard_Application) getApplicationContext()).removeNurseryListener();
     }
 
     @Override

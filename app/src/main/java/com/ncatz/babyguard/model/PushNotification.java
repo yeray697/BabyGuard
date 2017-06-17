@@ -101,7 +101,7 @@ public class PushNotification {
 
         public ChatMessage getMessage() {
             int id = Babyguard_Application.isTeacher() ? 0 : 1;
-            return new ChatMessage(id, teacher,kid,message,datetime);
+            return new ChatMessage(id, teacher, kid, message, datetime);
         }
     }
 
@@ -144,7 +144,7 @@ public class PushNotification {
         }
 
         public TrackingKid getTracking() {
-            return new TrackingKid("",title,datetime,type,description);
+            return new TrackingKid("", title, datetime, type, description);
         }
     }
 
@@ -178,7 +178,7 @@ public class PushNotification {
         }
 
         public DiaryCalendarEvent getEvent() {
-            int year,month,day;
+            int year, month, day;
             boolean error = false;
             Calendar c = Calendar.getInstance();
             try {
@@ -198,7 +198,7 @@ public class PushNotification {
                 year = c.get(Calendar.YEAR);
                 month = c.get(Calendar.MONTH);
                 day = c.get(Calendar.DAY_OF_MONTH);
-                event = new DiaryCalendarEvent(title,year,month,day,description);
+                event = new DiaryCalendarEvent(title, year, month, day, description);
             }
             return event;
         }
@@ -276,7 +276,7 @@ public class PushNotification {
             try {
                 JSONObject trackingJSON = new JSONObject(tracking);
                 PushNotification.TrackingNotif trackingNotif = gson.fromJson(trackingJSON.toString(), PushNotification.TrackingNotif.class);
-                pushNotification.tracking  = trackingNotif;
+                pushNotification.tracking = trackingNotif;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -298,19 +298,20 @@ public class PushNotification {
     public void pushNotification(String deviceId) {
         try {
             JSONObject root = new JSONObject();
-           // JSONArray j = this.toJSON();
+            // JSONArray j = this.toJSON();
             try {
                 JSONObject j = toJSON();
-                root.put("data",j);
-                root.put("to",deviceId);
+                root.put("data", j);
+                root.put("to", deviceId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             StringEntity entity = new StringEntity(root.toString());
-            RestClient.post(FCM_URL,FCM_APIKEY,entity, new AsyncHttpResponseHandler() {
+            RestClient.post(FCM_URL, FCM_APIKEY, entity, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 }
+
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 }

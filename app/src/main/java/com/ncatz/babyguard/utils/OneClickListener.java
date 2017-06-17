@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author yeray697
  * @version 1.0
  */
-public abstract class OneClickListener implements View.OnClickListener, Serializable{
+public abstract class OneClickListener implements View.OnClickListener, Serializable {
     private boolean clicked;
 
     /**
@@ -32,6 +32,7 @@ public abstract class OneClickListener implements View.OnClickListener, Serializ
 
     /**
      * Check if now it is clicked
+     *
      * @return Return true if it is clicked
      */
     public boolean isClicked() {
@@ -40,6 +41,7 @@ public abstract class OneClickListener implements View.OnClickListener, Serializ
 
     /**
      * Set if it is clicked.
+     *
      * @param clicked If you pass 'false' you will be able to click again
      */
     public void setClicked(boolean clicked) {
@@ -54,5 +56,6 @@ public abstract class OneClickListener implements View.OnClickListener, Serializ
     /**
      * Handle if user click again if method has not finished yet
      */
-    protected void onDoubleClick(){}
+    protected void onDoubleClick() {
+    }
 }

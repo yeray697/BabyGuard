@@ -16,7 +16,7 @@
 
     <!-- Calendar colors -->
     <color name="selected_day">@color/colorPrimaryDarkMore</color>
-    <color name="current_day" >@color/colorAccent</color>
+    <color name="current_day">@color/colorAccent</color>
     <color name="selected_day_diary">@color/colorPrimaryDark</color>
     <color name="background_item_not_expanded">@color/colorPrimaryLightDark</color>
     <color name="background_item_expanded">#d4e8f2</color>

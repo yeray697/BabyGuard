@@ -70,7 +70,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
             context = getActivity();
         }
         setRetainInstance(true);
-        final View view = inflater.inflate(R.layout.fragment_tracking_teacher,container,false);
+        final View view = inflater.inflate(R.layout.fragment_tracking_teacher, container, false);
         kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
         setHasOptionsMenu(true);
         tvName = (TextView) view.findViewById(R.id.tvName_tracking);
@@ -99,7 +99,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         rvInfoKid.setLineColor(ContextCompat.getColor(context, R.color.colorLineColor));
         rvInfoKid.setLineWidth(3);
         refreshList();
-        ((Babyguard_Application)context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
+        ((Babyguard_Application) context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
                 refreshList();
@@ -113,20 +113,21 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         });
         return view;
     }
+
     private void openAddTrackingFragment(Bundle args) {
         Bundle args2 = null;
         if (args == null) {
             args2 = new Bundle();
-            args2.putString(AddTracking_Fragment.KID_ID,kid.getId());
+            args2.putString(AddTracking_Fragment.KID_ID, kid.getId());
             args2.putString(AddTracking_Fragment.DEVICE_ID_KEY, kid.getFcmID());
         } else {
             args.putString(AddTracking_Fragment.KID_ID, kid.getId());
             args.putString(AddTracking_Fragment.DEVICE_ID_KEY, kid.getFcmID());
         }
-        Fragment fragment = AddTracking_Fragment.newInstance( (args == null) ? args2 : args);
+        Fragment fragment = AddTracking_Fragment.newInstance((args == null) ? args2 : args);
         getActivity().getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container_home, fragment,"addTracking")
+                .replace(R.id.container_home, fragment, "addTracking")
                 .addToBackStack("addTracking")
                 .commit();
     }
@@ -140,7 +141,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
 
     private void refreshList() {
         dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), Repository.Sort.CHRONOLOGIC);
-        adapter = new TrackingKid_Adapter(context, (ArrayList<RecyclerData>) dataKid,45);
+        adapter = new TrackingKid_Adapter(context, (ArrayList<RecyclerData>) dataKid, 45);
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
             public void onClick(View view, int i) {
@@ -158,15 +159,15 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     }
 
     private void setToolbar() {
-        ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.hide();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)context.getApplicationContext()).removeTrackingListener();
-        ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ((Babyguard_Application) context.getApplicationContext()).removeTrackingListener();
+        ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.show();
     }
 
@@ -183,19 +184,19 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getGroupId() == 1 && selectedItemContextMenu != null) { //Edit
             Bundle args = new Bundle();
-            args.putParcelable(AddTracking_Fragment.TRACKING_KEY,selectedItemContextMenu);
+            args.putParcelable(AddTracking_Fragment.TRACKING_KEY, selectedItemContextMenu);
             openAddTrackingFragment(args);
             selectedItemContextMenu = null;
         } else if (item.getGroupId() == 2) { //Remove
             final String idTracking = selectedItemContextMenu.getId();
             selectedItemContextMenu = null;
-            AlertDialog.Builder dialog  = new AlertDialog.Builder(context);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
             dialog.setTitle("¿Deseas borrar éste seguimiento?");
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    TrackingKid trackingKid = Repository.getInstance().getTrackingById(kid.getId(),idTracking);
-                    if (FirebaseManager.getInstance().removeTracking(kid.getId(),idTracking)) {
+                    TrackingKid trackingKid = Repository.getInstance().getTrackingById(kid.getId(), idTracking);
+                    if (FirebaseManager.getInstance().removeTracking(kid.getId(), idTracking)) {
                         refreshList();
                         PushNotification notification = new PushNotification();
                         notification.setType(PushNotification.TYPE_TRACKING_REMOVE);
@@ -207,7 +208,7 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
                     }
                 }
             });
-            dialog.setNegativeButton(android.R.string.cancel,null);
+            dialog.setNegativeButton(android.R.string.cancel, null);
             dialog.show();
             selectedItemContextMenu = null;
         }

@@ -6,6 +6,7 @@ import com.ncatz.babyguard.utils.ErrorMapUtils;
 
 /**
  * Error class with all errors
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */
@@ -28,6 +29,7 @@ public class ErrorClass {
     public ErrorClass() {
         this.setIfThereIsAnError(false);
     }
+
     public ErrorClass(int idView, int codeError) {
         setIdView(idView);
         setCode(codeError);

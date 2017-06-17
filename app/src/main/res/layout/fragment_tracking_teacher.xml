@@ -16,15 +16,16 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_arrow_back_white"
             android:layout_marginRight="7dp"
-            android:scaleType="fitCenter"/>
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:scaleType="fitCenter" />
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ivProfile_tracking"
             android:clickable="true"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:civ_border_width="1dp"
-            app:civ_border_color="@color/colorPrimaryDarkMore"/>
+            app:civ_border_color="@color/colorPrimaryDarkMore" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:text="name"
                 android:textSize="18sp"
-                android:id="@+id/tvName_tracking"/>
+                android:id="@+id/tvName_tracking" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +53,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:scrollHorizontally="true"
-                android:id="@+id/tvInfoKid_tracking"/>
+                android:id="@+id/tvInfoKid_tracking" />
         </LinearLayout>
     </com.ncatz.babyguard.components.CustomToolbar>
 
@@ -59,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rvTrackingTeacher"
-        android:layout_below="@+id/toolbar_tracking_teacher"/>
+        android:layout_below="@+id/toolbar_tracking_teacher" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAdd_tracking"
@@ -69,7 +71,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_fab"
-        android:src="@drawable/ic_add_white_24dp"/>
+        android:src="@drawable/ic_add_white_24dp" />
 </RelativeLayout>
 
 

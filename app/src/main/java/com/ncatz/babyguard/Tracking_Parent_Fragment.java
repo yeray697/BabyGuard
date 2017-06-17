@@ -35,7 +35,7 @@ import com.yeray697.dotLineRecyclerView.RecyclerData;
 
 import java.util.ArrayList;
 
-public class Tracking_Parent_Fragment extends Fragment implements Home_View{
+public class Tracking_Parent_Fragment extends Fragment implements Home_View {
 
     public static final String KID_KEY = "kid";
     private static final String MULTIPLE_LISTENER = "multipleListener";
@@ -63,19 +63,19 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
+        ((Home_Parent_Activity) getActivity()).enableNavigationDrawer(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context = getContext();
         } else {
             context = getActivity();
         }
-        final View view = inflater.inflate(R.layout.fragment_tracking_parent,container,false);
+        final View view = inflater.inflate(R.layout.fragment_tracking_parent, container, false);
         kid = Repository.getInstance().getKidById(getArguments().getString(KID_KEY));
 
         setToolbar(view);
         setHasOptionsMenu(true);
-        ((Home_Parent_Activity)getActivity()).setOnBackPressedTracingListener(new Home_Parent_Activity.OnBackPressedTracingListener() {
+        ((Home_Parent_Activity) getActivity()).setOnBackPressedTracingListener(new Home_Parent_Activity.OnBackPressedTracingListener() {
             @Override
             public boolean doBack() {
                 boolean result = true;
@@ -88,7 +88,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
                 return result;
             }
         });
-        orderedByCategory= true;
+        orderedByCategory = true;
         collapser = (CollapsingToolbarLayout) view.findViewById(R.id.collapsingHome);
         fabMessage = (FloatingActionButton) view.findViewById(R.id.fabMessage_Home);
         ivKid = (ImageView) view.findViewById(R.id.ivKid_Home);
@@ -114,7 +114,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
         fabMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Home_Parent_Activity)getActivity()).openChat();
+                ((Home_Parent_Activity) getActivity()).openChat();
             }
         });
         rvInfoKid = (DotLineRecyclerView) view.findViewById(R.id.rvHome);
@@ -125,7 +125,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
         rvInfoKid.setLineColor(ContextCompat.getColor(context, R.color.colorLineColor));
         rvInfoKid.setLineWidth(3);
         refreshTrackingList();
-        ((Babyguard_Application)context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
+        ((Babyguard_Application) context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
                 refreshTrackingList();
@@ -137,7 +137,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     private void refreshTrackingList() {
         kid = Repository.getInstance().getKidById(kid.getId()); //Refreshing
         dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
-        adapter = new TrackingKid_Adapter(context, (ArrayList<RecyclerData>) dataKid,45);
+        adapter = new TrackingKid_Adapter(context, (ArrayList<RecyclerData>) dataKid, 45);
         rvInfoKid.setAdapter(adapter);
         collapser.setTitle(kid.getName());
 
@@ -164,23 +164,23 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.home_menu,menu);
+        inflater.inflate(R.menu.home_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort_home:
-                if (orderedByCategory){
+                if (orderedByCategory) {
                     order = Repository.Sort.CATEGORY;
                     item.setIcon(R.drawable.ic_sort_by_category);
-                }else {
+                } else {
                     order = Repository.Sort.CHRONOLOGIC;
                     item.setIcon(R.mipmap.ic_sort_chronologically);
                 }
                 dataKid = Repository.getInstance().getOrderedInfoKid(kid.getTracking(), order);
                 adapter.clear();
-                adapter.addAll((ArrayList<RecyclerData>)dataKid);
+                adapter.addAll((ArrayList<RecyclerData>) dataKid);
                 orderedByCategory = !orderedByCategory;
                 break;
         }
@@ -190,8 +190,8 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     private void setToolbar(View rootView) {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarHome);
         toolbar.setVisibility(View.VISIBLE);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (ab != null) {
             ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
             ab.setDisplayHomeAsUpEnabled(true);
@@ -206,7 +206,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)context.getApplicationContext()).removeTrackingListener();
+        ((Babyguard_Application) context.getApplicationContext()).removeTrackingListener();
     }
 
     @Override

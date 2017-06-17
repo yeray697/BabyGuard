@@ -17,6 +17,7 @@
             android:layout_marginRight="7dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_arrow_back_white" />
+
         <TextView
             android:paddingLeft="10dp"
             android:paddingStart="10dp"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Añadir"
             android:textSize="20sp"
-            android:id="@+id/tvToolbar_AddEvent"/>
+            android:id="@+id/tvToolbar_AddEvent" />
     </com.ncatz.babyguard.components.CustomToolbar>
 
     <ScrollView
@@ -49,6 +50,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:gravity="start" />
+
             <EditText
                 android:id="@+id/etTitle_AddEvent"
                 android:layout_width="match_parent"
@@ -57,7 +59,7 @@
                 android:layout_alignBaseline="@+id/tvTitle_AddEvent"
                 android:layout_alignBottom="@+id/tvTitle_AddEvent"
                 android:layout_toRightOf="@+id/tvDescription_AddEvent"
-                android:layout_toEndOf="@+id/tvDescription_AddEvent"  />
+                android:layout_toEndOf="@+id/tvDescription_AddEvent" />
 
 
             <TextView
@@ -71,6 +73,7 @@
                 android:gravity="start"
                 android:text="Description:"
                 android:textSize="19sp" />
+
             <EditText
                 android:layout_marginLeft="15dp"
                 android:layout_width="match_parent"
@@ -93,7 +96,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/etDescription_AddEvent"
-                android:gravity="start"/>
+                android:gravity="start" />
+
             <TextView
                 android:id="@+id/tvDate2_AddEvent"
                 android:layout_width="wrap_content"
@@ -108,7 +112,7 @@
                 android:layout_alignLeft="@+id/etTitle_AddEvent"
                 android:layout_alignStart="@+id/etTitle_AddEvent"
                 android:layout_toRightOf="@+id/tvDescription_AddEvent"
-                android:layout_toEndOf="@+id/tvDescription_AddEvent"  />
+                android:layout_toEndOf="@+id/tvDescription_AddEvent" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -117,7 +121,8 @@
                 android:textSize="19sp"
                 android:layout_below="@id/tvDate1_AddEvent"
                 android:layout_marginTop="20dp"
-                android:id="@+id/tvSelectClass_AddEvent"/>
+                android:id="@+id/tvSelectClass_AddEvent" />
+
             <LinearLayout
                 android:id="@+id/rlClassesList_AddEvent"
                 android:layout_width="match_parent"
@@ -126,7 +131,7 @@
                 android:layout_marginTop="5dp"
                 android:orientation="vertical"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp" />
 
             <LinearLayout
                 android:id="@+id/llButtons_AddEvent"
@@ -139,6 +144,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/rlClassesList_AddEvent">
+
                 <Button
                     android:id="@+id/btCancel_AddEvent"
                     android:layout_width="wrap_content"
@@ -147,7 +153,8 @@
                     android:background="@color/colorPrimary"
                     android:textColor="@color/white"
                     android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp" />
+
                 <Button
                     android:id="@+id/btSubmit_AddEvent"
                     android:layout_width="wrap_content"
@@ -156,7 +163,7 @@
                     android:background="@color/colorPrimary"
                     android:textColor="@color/white"
                     android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp" />
             </LinearLayout>
         </RelativeLayout>
 

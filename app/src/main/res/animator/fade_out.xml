@@ -3,4 +3,4 @@
     android:valueFrom="1"
     android:valueTo="0"
     android:propertyName="alpha"
-    android:duration="100"/>
+    android:duration="100" />

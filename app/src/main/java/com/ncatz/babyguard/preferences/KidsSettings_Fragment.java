@@ -79,7 +79,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
             context = getActivity();
         }
 
-        ((Settings_Activity)getActivity()).getSupportActionBar().setTitle("Kids");
+        ((Settings_Activity) getActivity()).getSupportActionBar().setTitle("Kids");
         kids = (ArrayList<Kid>) Repository.getInstance().getKids();
         PreferenceScreen screen;
         PreferenceCategory category;
@@ -97,7 +97,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
             image = getPreferenceManager().createPreferenceScreen(context);
             image.setTitle("Change the photo");
             image.setKey(kid.getId());
-            loadImage(image,kid.getImg());
+            loadImage(image, kid.getImg());
             image.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -118,7 +118,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     finalCategory.setTitle(newValue.toString());
                     kid.setName(newValue.toString());
-                    FirebaseManager.getInstance().changeKidName(kid.getId(),newValue.toString());
+                    FirebaseManager.getInstance().changeKidName(kid.getId(), newValue.toString());
                     return false;
                 }
             });
@@ -132,7 +132,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     preference.setSummary(newValue.toString());
                     kid.setInfo(newValue.toString());
-                    FirebaseManager.getInstance().changeKidInfo(kid.getId(),newValue.toString());
+                    FirebaseManager.getInstance().changeKidInfo(kid.getId(), newValue.toString());
                     return false;
                 }
             });
@@ -160,7 +160,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         @SuppressWarnings("VisibleForTests") String downloadUrl = taskSnapshot.getDownloadUrl().toString();
                         kidActivityResult.setImg(downloadUrl);
-                        loadImage(imgPref,downloadUrl);
+                        loadImage(imgPref, downloadUrl);
                     }
                 });
             }
@@ -175,7 +175,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        ((Settings_Activity)getActivity()).setHasBeenModifedSomething(true);
+        ((Settings_Activity) getActivity()).setHasBeenModifedSomething(true);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
             @Override
             protected void onPostExecute(Bitmap bitmap) {
                 if (null != bitmap) {
-                    Drawable drawable = new BitmapDrawable(getResources(),bitmap);
+                    Drawable drawable = new BitmapDrawable(getResources(), bitmap);
                     pref.setIcon(drawable);
                 }
             }

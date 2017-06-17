@@ -17,6 +17,7 @@
             android:layout_marginRight="7dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_arrow_back_white" />
+
         <TextView
             android:paddingLeft="10dp"
             android:paddingStart="10dp"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Añadir"
             android:textSize="20sp"
-            android:id="@+id/tvToolbar_AddTracking"/>
+            android:id="@+id/tvToolbar_AddTracking" />
     </com.ncatz.babyguard.components.CustomToolbar>
 
     <ScrollView
@@ -49,6 +50,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:gravity="start" />
+
             <EditText
                 android:id="@+id/etTitle_AddTracking"
                 android:layout_width="match_parent"
@@ -57,7 +59,7 @@
                 android:layout_alignBaseline="@+id/tvTitle_AddTracking"
                 android:layout_alignBottom="@+id/tvTitle_AddTracking"
                 android:layout_toRightOf="@+id/tvDescription_AddTracking"
-                android:layout_toEndOf="@+id/tvDescription_AddTracking"  />
+                android:layout_toEndOf="@+id/tvDescription_AddTracking" />
 
 
             <TextView
@@ -71,6 +73,7 @@
                 android:gravity="start"
                 android:text="Description:"
                 android:textSize="19sp" />
+
             <EditText
                 android:layout_marginLeft="15dp"
                 android:layout_width="match_parent"
@@ -93,7 +96,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/etDescription_AddTracking"
-                android:gravity="start"/>
+                android:gravity="start" />
+
             <Spinner
                 android:id="@+id/spType_AddTracking"
                 android:layout_width="wrap_content"
@@ -108,8 +112,7 @@
                 android:layout_alignLeft="@+id/etTitle_AddTracking"
                 android:layout_alignStart="@+id/etTitle_AddTracking"
                 android:layout_toRightOf="@+id/tvDescription_AddTracking"
-                android:layout_toEndOf="@+id/tvDescription_AddTracking"  />
-
+                android:layout_toEndOf="@+id/tvDescription_AddTracking" />
 
 
             <LinearLayout
@@ -123,6 +126,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="40dp"
                 android:layout_below="@+id/tvType_AddTracking">
+
                 <Button
                     android:id="@+id/btCancel_AddTracking"
                     android:layout_width="wrap_content"
@@ -131,7 +135,8 @@
                     android:background="@color/colorPrimary"
                     android:textColor="@color/white"
                     android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp" />
+
                 <Button
                     android:id="@+id/btSubmit_AddTracking"
                     android:layout_width="wrap_content"
@@ -140,7 +145,7 @@
                     android:background="@color/colorPrimary"
                     android:textColor="@color/white"
                     android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp" />
             </LinearLayout>
         </RelativeLayout>
 

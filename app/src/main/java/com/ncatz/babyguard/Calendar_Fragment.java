@@ -61,8 +61,8 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     }
 
     private void refreshCalendar() {
-        if(Babyguard_Application.isTeacher()) {
-            calendarDates = Repository.getInstance().getCalendarByNursery(Repository.getInstance().getUser().getId_nursery(),classId);
+        if (Babyguard_Application.isTeacher()) {
+            calendarDates = Repository.getInstance().getCalendarByNursery(Repository.getInstance().getUser().getId_nursery(), classId);
         } else {
             calendarDates = Repository.getInstance().getCalendarByNursery(kid.getId_nursery(), kid.getId_nursery_class());
         }
@@ -83,10 +83,10 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
         calendar = (DiaryCalendarView) view.findViewById(R.id.calendar);
         calendar.setSaveEnabled(true);
         setToolbar(view);
-        if(Babyguard_Application.isTeacher()) {
+        if (Babyguard_Application.isTeacher()) {
             fabAddEvent.setVisibility(View.VISIBLE);
             if (savedInstanceState != null) {
-                classId = savedInstanceState.getString(ID_KEY,"");
+                classId = savedInstanceState.getString(ID_KEY, "");
             }
             if (TextUtils.isEmpty(classId))
                 classId = getArguments().getString(ID_KEY);
@@ -109,7 +109,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
         Fragment fragment = AddEvent_Fragment.newInstance(args);
         getActivity().getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container_home, fragment,"addEvent")
+                .replace(R.id.container_home, fragment, "addEvent")
                 .addToBackStack("addEvent")
                 .commit();
     }
@@ -118,7 +118,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     public void onAttach(Context context) {
         super.onAttach(context);
         if (Babyguard_Application.isTeacher())
-            ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
+            ((Home_Teacher_Activity) getActivity()).setSelectedClassIdChangedListener(listener);
     }
 
     private void setToolbar(View view) {
@@ -131,14 +131,14 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
             customToolbar.setVisibility(View.VISIBLE);
             customToolbar.setTitle("");
             customToolbar.addView(expandableDate);
-            ((AppCompatActivity)getActivity()).setSupportActionBar(customToolbar);
-            final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+            ((AppCompatActivity) getActivity()).setSupportActionBar(customToolbar);
+            final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (ab != null) {
                 ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
                 ab.setDisplayHomeAsUpEnabled(true);
                 ab.setHomeButtonEnabled(true);
             }
-            ((Babyguard_Application)context.getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
+            ((Babyguard_Application) context.getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
                 @Override
                 public void onEnd() {
                     refreshCalendar();
@@ -146,7 +146,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
             });
         } else {
             customToolbar.setVisibility(View.GONE);
-            ((Home_Teacher_Activity)getActivity()).prepareCalendarToolbar(expandableDate);
+            ((Home_Teacher_Activity) getActivity()).prepareCalendarToolbar(expandableDate);
         }
     }
 
@@ -185,23 +185,23 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getGroupId() == 1 && selectedItemContextMenu != null) { //Edit
             Bundle args = new Bundle();
-            args.putParcelable(AddEvent_Fragment.EVENT_KEY,selectedItemContextMenu);
-            args.putString(AddEvent_Fragment.CLASS_ID_KEY,classId);
+            args.putParcelable(AddEvent_Fragment.EVENT_KEY, selectedItemContextMenu);
+            args.putString(AddEvent_Fragment.CLASS_ID_KEY, classId);
             openAddEventFragment(args);
             selectedItemContextMenu = null;
         } else if (item.getGroupId() == 2) { //Remove
             final String idEvent = selectedItemContextMenu.getId();
             selectedItemContextMenu = null;
-            AlertDialog.Builder dialog  = new AlertDialog.Builder(context);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
             dialog.setTitle("¿Deseas borrar el evento?");
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    if (FirebaseManager.getInstance().removeEvent(Repository.getInstance().getUser().getId_nursery(),classId,idEvent)) {
+                    if (FirebaseManager.getInstance().removeEvent(Repository.getInstance().getUser().getId_nursery(), classId, idEvent)) {
                         PushNotification notification = new PushNotification();
                         notification.setFromUser(Repository.getInstance().getUser().getId());
-                        notification.setDiaryCalendarEvent(Repository.getInstance().getEventById(Repository.getInstance().getUser().getId_nursery(),classId, idEvent));
+                        notification.setDiaryCalendarEvent(Repository.getInstance().getEventById(Repository.getInstance().getUser().getId_nursery(), classId, idEvent));
                         notification.setType(PushNotification.TYPE_CALENDAR_REMOVE);
 
                         for (Kid aux : Repository.getInstance().getKids()) {
@@ -214,7 +214,7 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
                     }
                 }
             });
-            dialog.setNegativeButton(android.R.string.cancel,null);
+            dialog.setNegativeButton(android.R.string.cancel, null);
             dialog.show();
             selectedItemContextMenu = null;
         }
@@ -224,6 +224,6 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(classId,ID_KEY);
+        outState.putString(classId, ID_KEY);
     }
 }

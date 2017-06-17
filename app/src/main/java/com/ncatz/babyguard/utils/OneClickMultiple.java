@@ -11,9 +11,9 @@ import java.util.HashMap;
  * @author yeray697
  * @version 1.0
  */
-public class OneClickMultiple implements Serializable{
+public class OneClickMultiple implements Serializable {
     private boolean clicked;
-    private HashMap<String,View.OnClickListener> listeners;
+    private HashMap<String, View.OnClickListener> listeners;
 
     /**
      * It will not be able to be clicked again until you call setClicked(false)
@@ -23,7 +23,7 @@ public class OneClickMultiple implements Serializable{
         this.listeners = new HashMap<>();
     }
 
-    public View.OnClickListener addListener(String viewName, final OneClickMultipleListener listener){
+    public View.OnClickListener addListener(String viewName, final OneClickMultipleListener listener) {
         View.OnClickListener newListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,16 +35,17 @@ public class OneClickMultiple implements Serializable{
                 }
             }
         };
-        listeners.put(viewName,newListener);
+        listeners.put(viewName, newListener);
         return newListener;
     }
 
-    public View.OnClickListener getListener(String viewName){
+    public View.OnClickListener getListener(String viewName) {
         return listeners.get(viewName);
     }
 
     /**
      * Check if now it is clicked
+     *
      * @return Return true if it is clicked
      */
     public boolean isClicked() {
@@ -53,6 +54,7 @@ public class OneClickMultiple implements Serializable{
 
     /**
      * Set if it is clicked.
+     *
      * @param clicked If you pass 'false' you will be able to click again
      */
     public void setClicked(boolean clicked) {

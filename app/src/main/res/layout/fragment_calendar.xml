@@ -3,18 +3,21 @@
     android:id="@+id/clCalendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.ncatz.babyguard.components.CustomToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbarCalendarParent"
-        android:elevation="4dp"/>
+        android:elevation="4dp" />
+
     <com.ncatz.yeray.calendarview.DiaryCalendarView
         android:layout_below="@id/toolbarCalendarParent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/calendar"/>
+        android:id="@+id/calendar" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAdd_calendar"
         android:layout_width="wrap_content"
@@ -23,5 +26,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_fab"
-        android:src="@drawable/ic_add_white_24dp"/>
+        android:src="@drawable/ic_add_white_24dp" />
 </RelativeLayout>

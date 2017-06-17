@@ -11,7 +11,7 @@ import java.util.Comparator;
  * Created by yeray697 on 27/05/17.
  */
 
-public class NurseryClass implements Comparable<NurseryClass>{
+public class NurseryClass implements Comparable<NurseryClass> {
     public static Comparator<? super NurseryClass> comparatorName = new Comparator<NurseryClass>() {
         @Override
         public int compare(NurseryClass o1, NurseryClass o2) {
@@ -75,7 +75,7 @@ public class NurseryClass implements Comparable<NurseryClass>{
     }
 
     public void updateEvent(DiaryCalendarEvent event) {
-        for (DiaryCalendarEvent aux : calendarEvents){
+        for (DiaryCalendarEvent aux : calendarEvents) {
             if (aux.getId().equals(event.getId())) {
                 aux.setTitle(event.getTitle());
                 aux.setDescription(event.getDescription());

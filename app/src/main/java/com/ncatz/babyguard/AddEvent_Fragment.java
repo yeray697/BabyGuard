@@ -70,7 +70,7 @@ public class AddEvent_Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context = getContext();
         } else {
@@ -85,7 +85,7 @@ public class AddEvent_Fragment extends Fragment {
             editMode = false;
         }
         View view = inflater.inflate(R.layout.fragment_add_event, container, false);
-        tvToolbar = (TextView)  view.findViewById(R.id.tvToolbar_AddEvent);
+        tvToolbar = (TextView) view.findViewById(R.id.tvToolbar_AddEvent);
         etTitle = (EditText) view.findViewById(R.id.etTitle_AddEvent);
         etDescription = (EditText) view.findViewById(R.id.etDescription_AddEvent);
         tvDate = (TextView) view.findViewById(R.id.tvDate2_AddEvent);
@@ -163,13 +163,13 @@ public class AddEvent_Fragment extends Fragment {
                     String id = "";
                     if (editMode)
                         id = event.getId();
-                    event = new DiaryCalendarEvent(title,year,month,day,description);
+                    event = new DiaryCalendarEvent(title, year, month, day, description);
                     PushNotification notification = new PushNotification();
                     notification.setFromUser(Repository.getInstance().getUser().getId());
                     notification.setDiaryCalendarEvent(event);
                     if (editMode) {
                         event.setId(id);
-                        FirebaseManager.getInstance().updateEvent(Repository.getInstance().getUser().getId_nursery(),eventClassId,event);
+                        FirebaseManager.getInstance().updateEvent(Repository.getInstance().getUser().getId_nursery(), eventClassId, event);
                         notification.setType(PushNotification.TYPE_CALENDAR_EDIT);
 
                         for (Kid aux : Repository.getInstance().getKids()) {
@@ -207,7 +207,7 @@ public class AddEvent_Fragment extends Fragment {
             aux = new CheckBox(context);
             aux.setText(nurseryClass.getName());
             aux.setTag(nurseryClass.getId());
-            aux.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+            aux.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
             aux.setLayoutParams(params);
             rlClassesList.addView(aux);
             classesCheckbox.add(aux);
@@ -218,7 +218,7 @@ public class AddEvent_Fragment extends Fragment {
         Calendar c = Calendar.getInstance();
         try {
             c.setTime(sdf.parse(tvDate.getText().toString()));
-        } catch (Exception e){
+        } catch (Exception e) {
         }
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 context, new DatePickerDialog.OnDateSetListener() {
@@ -239,17 +239,18 @@ public class AddEvent_Fragment extends Fragment {
     }
 
     private void setToolbar() {
-        ((Home_Teacher_Activity)getActivity()).getSupportActionBar().hide();
-        ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(true);
+        ((Home_Teacher_Activity) getActivity()).getSupportActionBar().hide();
+        ((Home_Teacher_Activity) getActivity()).setNavigationBottomBarHide(true);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)(context).getApplicationContext()).removeChatListener();
+        ((Babyguard_Application) (context).getApplicationContext()).removeChatListener();
         ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
-        ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(false);
+        ((Home_Teacher_Activity) getActivity()).setNavigationBottomBarHide(false);
     }
+
     @Override
     public void onPause() {
         super.onPause();

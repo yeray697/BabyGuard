@@ -98,13 +98,13 @@ public class Chat {
         if (messages == null)
             messages = new ArrayList<>();
         if (chatMessages != null) {
-            for (ChatMessage aux:chatMessages)
+            for (ChatMessage aux : chatMessages)
                 messages.add(aux);
         }
     }
 
     public ChatMessage getLastMessage() {
-        return (messages != null && messages.size() > 0)?messages.get(messages.size() - 1):null;
+        return (messages != null && messages.size() > 0) ? messages.get(messages.size() - 1) : null;
     }
 
     public static Comparator<Chat> comparator = new Comparator<Chat>() {
@@ -146,6 +146,6 @@ public class Chat {
     }
 
     public static Chat duplicate(Chat chat) {
-        return new Chat(chat.id,chat.name,chat.photo,chat.nursery,chat.nurseryClass,chat.fcmToken,new ArrayList<ChatMessage>());
+        return new Chat(chat.id, chat.name, chat.photo, chat.nursery, chat.nurseryClass, chat.fcmToken, new ArrayList<ChatMessage>());
     }
 }

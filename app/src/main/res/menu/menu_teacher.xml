@@ -5,5 +5,5 @@
         android:id="@+id/spinner"
         android:title="ActionBar Spinner"
         app:showAsAction="always"
-        app:actionViewClass="android.widget.Spinner"  />
+        app:actionViewClass="android.widget.Spinner" />
 </menu>

@@ -58,7 +58,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         });
         selectItemMenu(bottomNavigationView.getMenu().getItem(0));
         setToolbar();
-        ((Babyguard_Application)getApplicationContext()).addHomeTeacherListener(new Babyguard_Application.ActionEndListener() {
+        ((Babyguard_Application) getApplicationContext()).addHomeTeacherListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
                 refreshSpinner();
@@ -69,13 +69,13 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        ((Babyguard_Application)getApplicationContext()).removeHomeTeacherListener();
+        ((Babyguard_Application) getApplicationContext()).removeHomeTeacherListener();
     }
 
     public void refreshSpinner() {
         NurserySchool school = Repository.getInstance().getNurserySchool();
         if (school != null) {
-            adapter = new SpinnerKidsTeacher_Adapter(this,school.getNurseryClassesList());
+            adapter = new SpinnerKidsTeacher_Adapter(this, school.getNurseryClassesList());
             if (spinner != null) {
                 spinner.setAdapter(adapter);
                 NurseryClass aux = (NurseryClass) spinner.getSelectedItem();
@@ -116,7 +116,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    args.putString(Calendar_Fragment.ID_KEY,selectedClassId);
+                    args.putString(Calendar_Fragment.ID_KEY, selectedClassId);
                     fragment = Calendar_Fragment.newInstance(args);
                 }
                 selected = 2;
@@ -141,13 +141,13 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("selected",selected);
+        outState.putInt("selected", selected);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        selected = savedInstanceState.getInt("selected",0);
+        selected = savedInstanceState.getInt("selected", 0);
         selectItemMenu(bottomNavigationView.getMenu().getItem(selected));
     }
 
@@ -185,7 +185,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
         return selectedClassId;
     }
 
-    public void setSelectedClassIdChangedListener (OnSelectedClassIdChangedListener selectedClassIdChangedListener) {
+    public void setSelectedClassIdChangedListener(OnSelectedClassIdChangedListener selectedClassIdChangedListener) {
         this.selectedClassIdChangedListener = selectedClassIdChangedListener;
     }
 
@@ -211,14 +211,14 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     }
 
     public void signOff() {
-        ((Babyguard_Application)getApplicationContext()).signOff();
-        Intent intent = new Intent(Home_Teacher_Activity.this,Login_Activity.class);
+        ((Babyguard_Application) getApplicationContext()).signOff();
+        Intent intent = new Intent(Home_Teacher_Activity.this, Login_Activity.class);
         startActivity(intent);
         finishAffinity();
     }
 
     public void setNavigationBottomBarHide(boolean navigationBottomBarHide) {
-        bottomNavigationView.setVisibility( navigationBottomBarHide ? View.GONE : View.VISIBLE);
+        bottomNavigationView.setVisibility(navigationBottomBarHide ? View.GONE : View.VISIBLE);
     }
 
     public interface OnSelectedClassIdChangedListener {
@@ -233,7 +233,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        ((Babyguard_Application)getApplicationContext()).setDatabaseLoaded(false);
+        ((Babyguard_Application) getApplicationContext()).setDatabaseLoaded(false);
     }
 
     @Override

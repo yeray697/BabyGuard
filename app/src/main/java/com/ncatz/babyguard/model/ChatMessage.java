@@ -95,11 +95,11 @@ public class ChatMessage {
 
     public static ChatMessage parseFromDataSnapshot(DataSnapshot dataSnapshot) {
         ChatMessage aux = new ChatMessage();
-        for (Map.Entry<String, Object> entry:((HashMap<String,Object>) dataSnapshot.getValue()).entrySet()) {
+        for (Map.Entry<String, Object> entry : ((HashMap<String, Object>) dataSnapshot.getValue()).entrySet()) {
 
-            switch (entry.getKey()){
+            switch (entry.getKey()) {
                 case "datetime": //String (Long) Unix time
-                    aux.datetime = (String)entry.getValue();
+                    aux.datetime = (String) entry.getValue();
                     break;
                 case "message": //String message
                     aux.message = (String) entry.getValue();

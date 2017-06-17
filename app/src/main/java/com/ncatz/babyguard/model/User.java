@@ -24,9 +24,9 @@ public class User {
     private int user_type;
     private String name;
     private String fcmID;
-    private HashMap<String,Kid> kids;
+    private HashMap<String, Kid> kids;
 
-    public User(){
+    public User() {
         id_nursery_classes_teacher = new ArrayList<>();
     }
 
@@ -78,15 +78,15 @@ public class User {
         this.user_type = user_type;
     }
 
-    public HashMap<String,Kid> getKids() {
+    public HashMap<String, Kid> getKids() {
         return kids;
     }
 
-    public void setKids(HashMap<String,Kid> kids) {
+    public void setKids(HashMap<String, Kid> kids) {
         if (this.kids == null)
             this.kids = new HashMap<>();
         for (Map.Entry<String, Kid> aux : kids.entrySet()) {
-            this.kids.put(aux.getKey(),aux.getValue());
+            this.kids.put(aux.getKey(), aux.getValue());
         }
     }
 
@@ -111,10 +111,10 @@ public class User {
         User userAux = Repository.getInstance().getUser();
         if (userAux == null)
             userAux = new User();
-        HashMap<String,Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
 
         HashMap<String, Object> aux;
-        for (HashMap.Entry<String,Object> entry : value.entrySet()) {
+        for (HashMap.Entry<String, Object> entry : value.entrySet()) {
             aux = (HashMap<String, Object>) entry.getValue();
             userAux.id = String.valueOf(aux.get("id"));
             userAux.user_type = Integer.parseInt(String.valueOf(aux.get("user_type")));
@@ -124,14 +124,14 @@ public class User {
             userAux.dbPass = String.valueOf(aux.get("db_pass"));
             userAux.name = String.valueOf(aux.get("name"));
             userAux.fcmID = String.valueOf(aux.get("fcmToken"));
-            if (userAux.getUser_type()==UserCredentials.TYPE_TEACHER) {
+            if (userAux.getUser_type() == UserCredentials.TYPE_TEACHER) {
                 userAux.id_nursery = String.valueOf(aux.get("id_nursery"));
-                userAux.id_nursery_classes_teacher = new ArrayList<>(((HashMap<String,String>) aux.get("classes")).values());
+                userAux.id_nursery_classes_teacher = new ArrayList<>(((HashMap<String, String>) aux.get("classes")).values());
             }
             String phoneKey = SettingsManager.getKeyPreferenceByResourceId(R.string.profile_phone_pref);
             String nameKey = SettingsManager.getKeyPreferenceByResourceId(R.string.profile_name_pref);
-            SettingsManager.setStringPreference(phoneKey,userAux.phone_number);
-            SettingsManager.setStringPreference(nameKey,userAux.name);
+            SettingsManager.setStringPreference(phoneKey, userAux.phone_number);
+            SettingsManager.setStringPreference(nameKey, userAux.name);
             break;
         }
 

@@ -50,10 +50,10 @@ public class TrackingKid_Adapter extends DotLineRecyclerAdapter {
     @Override
     public void onBindViewHolder(DotLineRecyclerAdapter.Holder holder, int position) {
         super.onBindViewHolder(holder, position);
-        TrackingKid aux = ((TrackingKid)getItemAtPosition(position));
+        TrackingKid aux = ((TrackingKid) getItemAtPosition(position));
         int type = aux.getType();
         int resource = 0;
-        switch (type){
+        switch (type) {
             case TrackingKid.Type.POOP:
                 resource = R.drawable.poop;
                 break;

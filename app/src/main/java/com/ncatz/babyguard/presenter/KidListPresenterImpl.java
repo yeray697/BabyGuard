@@ -9,6 +9,7 @@ import com.ncatz.babyguard.interfaces.KidList_View;
 
 /**
  * KidList presenter
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */
@@ -18,21 +19,21 @@ public class KidListPresenterImpl implements KidList_Presenter {
 
     @Override
     public void addListener() {
-        ((Babyguard_Application)((Context)view).getApplicationContext()).addKidListListener(mCallback);
+        ((Babyguard_Application) ((Context) view).getApplicationContext()).addKidListListener(mCallback);
     }
 
     @Override
     public void removeListener() {
-        ((Babyguard_Application)((Context)view).getApplicationContext()).removeKidListListener();
+        ((Babyguard_Application) ((Context) view).getApplicationContext()).removeKidListListener();
     }
 
     @Override
     public void startLoading() {
-        String mail = ((Babyguard_Application)((Context)view).getApplicationContext()).getUserCredentials().getUser();
+        String mail = ((Babyguard_Application) ((Context) view).getApplicationContext()).getUserCredentials().getUser();
         FirebaseManager.getInstance().getUserInfo(mail);
     }
 
-    public KidListPresenterImpl(final KidList_View view){
+    public KidListPresenterImpl(final KidList_View view) {
         this.view = view;
         mCallback = new Babyguard_Application.ActionEndListener() {
             @Override

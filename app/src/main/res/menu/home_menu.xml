@@ -6,5 +6,5 @@
         android:title="@string/action_sort_home_title"
         android:orderInCategory="1"
         android:icon="@mipmap/ic_sort_chronologically"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 </menu>

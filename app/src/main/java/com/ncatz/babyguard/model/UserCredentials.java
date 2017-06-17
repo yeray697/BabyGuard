@@ -2,6 +2,7 @@ package com.ncatz.babyguard.model;
 
 /**
  * UserCredentials's credentials
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */

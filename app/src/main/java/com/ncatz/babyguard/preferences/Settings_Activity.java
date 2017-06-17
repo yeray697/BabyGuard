@@ -28,12 +28,13 @@ public class Settings_Activity extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(R.id.settings_container,
                 new Settings_Fragment()).commit();
     }
+
     private void setToolbar() {
-            setSupportActionBar(toolbar);
-            final ActionBar ab = getSupportActionBar();
-            if (ab != null) {
-                ab.setDisplayHomeAsUpEnabled(true);
-            }
+        setSupportActionBar(toolbar);
+        final ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override

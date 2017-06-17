@@ -24,6 +24,7 @@ import com.ncatz.babyguard.utils.OneClickMultipleListener;
 
 /**
  * Login view
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */
@@ -131,16 +132,16 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
                 return result;
             }
         });
-        if (savedInstanceState != null){
-            etUser.setText(savedInstanceState.getString(LOGIN_MAIL,""));
-            etPassword.setText(savedInstanceState.getString(LOGIN_PASS,""));
+        if (savedInstanceState != null) {
+            etUser.setText(savedInstanceState.getString(LOGIN_MAIL, ""));
+            etPassword.setText(savedInstanceState.getString(LOGIN_PASS, ""));
         }
     }
 
     @Override
     public void setMessageError(String messageError, int idView) {
         oneClickMultiple.setClicked(false);
-        switch (idView){
+        switch (idView) {
             case R.id.tilUser_login:
                 tilUser.setError(messageError);
                 break;
@@ -172,7 +173,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     public void onSuccess() {
         oneClickMultiple.setClicked(false);
         Intent intent;
-        if(Babyguard_Application.isTeacher()) {
+        if (Babyguard_Application.isTeacher()) {
             intent = new Intent(Login_Activity.this, Home_Teacher_Activity.class);
         } else {
             intent = new Intent(Login_Activity.this, KidList_Activity.class);
@@ -191,8 +192,8 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(LOGIN_MAIL,etUser.getText().toString());
-        outState.putString(LOGIN_PASS,etPassword.getText().toString());
+        outState.putString(LOGIN_MAIL, etUser.getText().toString());
+        outState.putString(LOGIN_PASS, etPassword.getText().toString());
     }
 
     @Override

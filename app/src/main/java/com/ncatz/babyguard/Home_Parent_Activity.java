@@ -37,7 +37,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             prepareDrawer(navigationView);
-            if (getIntent().getExtras().getString(ACTION,"").equals(ACTION_OPEN_CALENDAR)){
+            if (getIntent().getExtras().getString(ACTION, "").equals(ACTION_OPEN_CALENDAR)) {
                 selectItemDrawer(navigationView.getMenu().getItem(1));
             } else {
                 selectItemDrawer(navigationView.getMenu().getItem(0));
@@ -46,6 +46,7 @@ public class Home_Parent_Activity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
     }
+
     private void prepareDrawer(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -109,8 +110,8 @@ public class Home_Parent_Activity extends AppCompatActivity {
                 //selected = 4;
                 args = new Bundle();
                 args.putString(KID_NURSERY_KEY, kid.getId());
-                intent = new Intent(Home_Parent_Activity.this,AboutNursery_Activity.class);
-                intent.putExtra(KID_NURSERY_KEY,kid.getId_nursery());
+                intent = new Intent(Home_Parent_Activity.this, AboutNursery_Activity.class);
+                intent.putExtra(KID_NURSERY_KEY, kid.getId_nursery());
                 startActivity(intent);
                 navigationView.getMenu().getItem(3).setChecked(false);
                 break;
@@ -123,8 +124,8 @@ public class Home_Parent_Activity extends AppCompatActivity {
         if (fragment != null) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentManager.beginTransaction()
-                        .replace(R.id.container_home, fragment,tag)
-                        .commit();
+                    .replace(R.id.container_home, fragment, tag)
+                    .commit();
         }
     }
 
@@ -154,8 +155,8 @@ public class Home_Parent_Activity extends AppCompatActivity {
     }
 
     public void signOff() {
-        ((Babyguard_Application)getApplicationContext()).signOff();
-        Intent intent = new Intent(Home_Parent_Activity.this,Login_Activity.class);
+        ((Babyguard_Application) getApplicationContext()).signOff();
+        Intent intent = new Intent(Home_Parent_Activity.this, Login_Activity.class);
         startActivity(intent);
         finishAffinity();
     }
@@ -163,23 +164,23 @@ public class Home_Parent_Activity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("selected",selected);
+        outState.putInt("selected", selected);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        selected = savedInstanceState.getInt("selected",0);
+        selected = savedInstanceState.getInt("selected", 0);
         selectItemDrawer(navigationView.getMenu().getItem(selected));
     }
 
-    public void openChat(){
+    public void openChat() {
         selectItemDrawer(navigationView.getMenu().getItem(2));
     }
 
-    public void enableNavigationDrawer(boolean enable){
+    public void enableNavigationDrawer(boolean enable) {
         if (drawerLayout != null) {
-            if (enable){
+            if (enable) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             } else {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);

@@ -5,26 +5,25 @@
         android:key="profileCategoryKey">
         <PreferenceScreen
             android:title="Change your image profile"
-            android:key="@string/profile_img_pref"/>
+            android:key="@string/profile_img_pref" />
         <EditTextPreference
             android:key="@string/profile_name_pref"
             android:title="Profile name"
-            android:summary="current name"/>
+            android:summary="current name" />
         <com.ncatz.babyguard.preferences.DialogChangePasswordPreference
             android:key="@string/profile_password_pref"
             android:title="Change password" />
         <EditTextPreference
             android:key="@string/profile_phone_pref"
             android:title="Phone number"
-            android:summary="current phone number"/>
+            android:summary="current phone number" />
         <PreferenceScreen
             android:title="Kids"
             android:key="@string/profile_kids_pref"
-            android:fragment="com.ncatz.babyguard.preferences.KidsSettings_Fragment"/>
+            android:fragment="com.ncatz.babyguard.preferences.KidsSettings_Fragment" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Notifications">
+    <PreferenceCategory android:title="Notifications">
         <ListPreference
             android:key="@string/notifications_vibration_pref"
             android:title="Vibración"
@@ -35,27 +34,27 @@
         <SwitchPreference
             android:key="@string/notifications_preview_pref"
             android:title="Message preview"
-            android:defaultValue="true"/>
+            android:defaultValue="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Support">
-        <PreferenceScreen
-            android:title="Pregunta o comunicanos cualquier cosa">
-            <intent android:action="android.intent.action.VIEW"
+    <PreferenceCategory android:title="Support">
+        <PreferenceScreen android:title="Pregunta o comunicanos cualquier cosa">
+            <intent
+                android:action="android.intent.action.VIEW"
                 android:data="@string/contact_developer_uri">
-                <extra android:name="android.intent.extra.TEXT"
+                <extra
+                    android:name="android.intent.extra.TEXT"
                     android:value="What can I help you with?" />
-                <extra android:name="android.intent.extra.SUBJECT"
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
                     android:value="Feedback about World Changing App" />
             </intent>
         </PreferenceScreen>
-        <PreferenceScreen
-            android:title="Preguntas frecuentes">
-            <intent android:action="android.intent.action.VIEW"
+        <PreferenceScreen android:title="Preguntas frecuentes">
+            <intent
+                android:action="android.intent.action.VIEW"
                 android:data="http://developer.android.com" />
         </PreferenceScreen>
-        <PreferenceScreen
-            android:title="Info. de la app"/>
+        <PreferenceScreen android:title="Info. de la app" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -19,9 +19,9 @@ public class NurserySchool {
     private String email;
     private String web;
     private ArrayList<String> telephone;
-    private HashMap<String,NurseryClass> nurseryClasses;
+    private HashMap<String, NurseryClass> nurseryClasses;
 
-    public NurserySchool(String id,String name, String address, String email, String web, ArrayList<String> telephone,HashMap<String,NurseryClass> nurseryClasses) {
+    public NurserySchool(String id, String name, String address, String email, String web, ArrayList<String> telephone, HashMap<String, NurseryClass> nurseryClasses) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -79,31 +79,31 @@ public class NurserySchool {
         this.telephone = telephone;
     }
 
-    public HashMap<String,NurseryClass> getNurseryClasses() {
+    public HashMap<String, NurseryClass> getNurseryClasses() {
         return nurseryClasses;
     }
 
     public ArrayList<NurseryClass> getNurseryClassesList() {
         ArrayList<NurseryClass> classes = new ArrayList<>(nurseryClasses.values());
-        Collections.sort(classes,NurseryClass.comparatorName);
+        Collections.sort(classes, NurseryClass.comparatorName);
         return classes;
     }
 
-    public void setNurseryClasses(HashMap<String,NurseryClass> nurseryClasses) {
+    public void setNurseryClasses(HashMap<String, NurseryClass> nurseryClasses) {
         this.nurseryClasses = nurseryClasses;
     }
 
     public static NurserySchool parseFromDataSnapshot(DataSnapshot dataSnapshot) {
         NurserySchool nurserySchool = null;
         if (dataSnapshot.exists()) {
-            HashMap<String,Object> value = ((HashMap<String,Object>)dataSnapshot.getValue());
-            HashMap<String,NurseryClass> nurseryClass = new HashMap<>();
+            HashMap<String, Object> value = ((HashMap<String, Object>) dataSnapshot.getValue());
+            HashMap<String, NurseryClass> nurseryClass = new HashMap<>();
             nurserySchool = new NurserySchool(dataSnapshot.getKey(),
                     value.get("name").toString(),
                     value.get("address").toString(),
                     value.get("email").toString(),
                     value.get("web").toString(),
-                    ((ArrayList)((HashMap<String,Object>)dataSnapshot.getValue()).get("telephone")),
+                    ((ArrayList) ((HashMap<String, Object>) dataSnapshot.getValue()).get("telephone")),
                     nurseryClass);
         }
         return nurserySchool;
@@ -112,13 +112,13 @@ public class NurserySchool {
     public void addNurseryClasses(String nursery_class, NurseryClass nurseryClass) {
         if (nurseryClasses == null)
             nurseryClasses = new HashMap<>();
-        nurseryClasses.put(nursery_class,nurseryClass);
+        nurseryClasses.put(nursery_class, nurseryClass);
     }
 
     public void addNurseryClass(String nurseryClassId, NurseryClass nurseryClass) {
         if (nurseryClasses == null)
             nurseryClasses = new HashMap<>();
-        nurseryClasses.put(nurseryClassId,nurseryClass);
+        nurseryClasses.put(nurseryClassId, nurseryClass);
     }
 
     public boolean removeEvent(String classId, String eventId) {

@@ -20,13 +20,14 @@ import java.util.ArrayList;
  * Created by yeray697 on 3/06/17.
  */
 
-public class TrackingList_Teacher_Fragment extends Fragment{
+public class TrackingList_Teacher_Fragment extends Fragment {
 
     private KidList_Adapter adapter;
     private ListView lvKids;
     private Home_Teacher_Activity.OnSelectedClassIdChangedListener listener;
     private String classId;
     private boolean clicked;
+
     public TrackingList_Teacher_Fragment() {
         // Required empty public constructor
         listener = new Home_Teacher_Activity.OnSelectedClassIdChangedListener() {
@@ -57,7 +58,7 @@ public class TrackingList_Teacher_Fragment extends Fragment{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!clicked) {
                     clicked = true;
-                    openKid((Kid)lvKids.getItemAtPosition(i));
+                    openKid((Kid) lvKids.getItemAtPosition(i));
                     clicked = false;
                 }
             }
@@ -74,7 +75,7 @@ public class TrackingList_Teacher_Fragment extends Fragment{
         args.putString(Tracking_Parent_Fragment.KID_KEY, kid.getId());
         Fragment fragment = Tracking_Teacher_Fragment.newInstance(args);
         getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.container_home, fragment,"tracking")
+                .replace(R.id.container_home, fragment, "tracking")
                 .addToBackStack("tracking")
                 .commit();
     }
@@ -97,7 +98,7 @@ public class TrackingList_Teacher_Fragment extends Fragment{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
+        ((Home_Teacher_Activity) getActivity()).setSelectedClassIdChangedListener(listener);
     }
 
     @Override

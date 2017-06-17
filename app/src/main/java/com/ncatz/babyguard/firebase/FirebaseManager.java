@@ -62,24 +62,25 @@ public class FirebaseManager {
     private FirebaseStorage storage;
     private FirebaseMessaging mFCMInteractor;
     private FirebaseListeners listeners;
-    private HashMap<Query,ArrayList<ValueEventListener>> activeValueListeners;
-    private HashMap<Query,ArrayList<ChildEventListener>> activeChildListeners;
+    private HashMap<Query, ArrayList<ValueEventListener>> activeValueListeners;
+    private HashMap<Query, ArrayList<ChildEventListener>> activeChildListeners;
 
-    private void addListener(Query reference, ValueEventListener listener){
+    private void addListener(Query reference, ValueEventListener listener) {
         reference.addValueEventListener(listener);
         ArrayList<ValueEventListener> aux = activeValueListeners.get(reference);
         if (aux == null)
             aux = new ArrayList<>();
         aux.add(listener);
-        activeValueListeners.put(reference,aux);
+        activeValueListeners.put(reference, aux);
     }
-    private void addListener(Query reference, ChildEventListener listener){
+
+    private void addListener(Query reference, ChildEventListener listener) {
         reference.addChildEventListener(listener);
         ArrayList<ChildEventListener> aux = activeChildListeners.get(reference);
         if (aux == null)
             aux = new ArrayList<>();
         aux.add(listener);
-        activeChildListeners.put(reference,aux);
+        activeChildListeners.put(reference, aux);
     }
 
     public void getTrackingKid(String userId) {
@@ -102,10 +103,10 @@ public class FirebaseManager {
                 }
             }
         };
-        addListener(reference,listener);
+        addListener(reference, listener);
     }
 
-    public void getUserInfo(String user_mail){
+    public void getUserInfo(String user_mail) {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -125,7 +126,7 @@ public class FirebaseManager {
         addListener(reference, listener);
     }
 
-    public void getKidsInfo(User user){
+    public void getKidsInfo(User user) {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -142,9 +143,9 @@ public class FirebaseManager {
             }
         };
         Query reference;
-        if (Babyguard_Application.isTeacher()){
+        if (Babyguard_Application.isTeacher()) {
             ArrayList<String> classIds = user.getIdNurseryClasses();
-            for (String id:classIds) {
+            for (String id : classIds) {
                 reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(id);
                 addListener(reference, listener);
             }
@@ -154,7 +155,7 @@ public class FirebaseManager {
         }
     }
 
-    public void getNursery(String nurseryId){
+    public void getNursery(String nurseryId) {
         Query reference = database.getReference().child(NURSERY_REFERENCE).child(nurseryId);
         ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -171,10 +172,10 @@ public class FirebaseManager {
                 }
             }
         };
-        addListener(reference,listener);
+        addListener(reference, listener);
     }
 
-    public void getNurseryClass(String nurseryId, String nurseryClass){
+    public void getNurseryClass(String nurseryId, String nurseryClass) {
         Query reference = database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(nurseryClass);
         ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -191,46 +192,46 @@ public class FirebaseManager {
                 }
             }
         };
-        addListener(reference,listener);
+        addListener(reference, listener);
     }
 
     public void getChatInfoParent(String idNursery, String idNurseryClass, final String idKid) {
         Query reference = database.getReference().child(TEACHER_REFERENCE).child(idNursery).child(idNurseryClass);
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Query referenceChat;
-                    ValueEventListener listenerChat;
-                    int count = 0;
-                    for (DataSnapshot aux:dataSnapshot.getChildren()) {
-                        final String idTeacher = aux.getKey();
-                        referenceChat = database.getReference().child(USER_REFERENCE).child(idTeacher);
-                        listenerChat = new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                ChatKeyMap key = new ChatKeyMap(idTeacher,idKid);
-                                Repository.getInstance().addKeyChat(key);
-                                if (listeners != null) {
-                                    listeners.onChatNameChanged(dataSnapshot);
-                                }
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Query referenceChat;
+                ValueEventListener listenerChat;
+                int count = 0;
+                for (DataSnapshot aux : dataSnapshot.getChildren()) {
+                    final String idTeacher = aux.getKey();
+                    referenceChat = database.getReference().child(USER_REFERENCE).child(idTeacher);
+                    listenerChat = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            ChatKeyMap key = new ChatKeyMap(idTeacher, idKid);
+                            Repository.getInstance().addKeyChat(key);
+                            if (listeners != null) {
+                                listeners.onChatNameChanged(dataSnapshot);
                             }
+                        }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        };
-                        referenceChat.addListenerForSingleValueEvent(listenerChat);
-                        count++;
-                    }
-                    Repository.getInstance().setParentChats(count);
+                        }
+                    };
+                    referenceChat.addListenerForSingleValueEvent(listenerChat);
+                    count++;
                 }
+                Repository.getInstance().setParentChats(count);
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+            }
+        });
     }
 
     public void getChatInfoTeacher(String nurseryClass) {
@@ -250,11 +251,12 @@ public class FirebaseManager {
             }
         };
         Query reference = database.getReference().child(KID_REFERENCE).orderByChild("id_nursery_class").equalTo(nurseryClass);
-        addListener(reference,listener);
+        addListener(reference, listener);
     }
 
     public String chatIdTeacher;
-    public void getChat(String kid_id){
+
+    public void getChat(String kid_id) {
         boolean isTeacher = Babyguard_Application.isTeacher();
         if (isTeacher && chatIdTeacher.equals("")) {
             if (isTeacher)
@@ -287,12 +289,12 @@ public class FirebaseManager {
                     }
                 }
             };
-            addListener(reference,listener);
+            addListener(reference, listener);
 
         }
     }
 
-    private FirebaseManager (){
+    private FirebaseManager() {
         activeValueListeners = new HashMap<>();
         activeChildListeners = new HashMap<>();
         database = FirebaseDatabase.getInstance();
@@ -304,7 +306,7 @@ public class FirebaseManager {
     }
 
     public static FirebaseManager getInstance() {
-        if (instance==null)
+        if (instance == null)
             instance = new FirebaseManager();
         return instance;
     }
@@ -321,14 +323,14 @@ public class FirebaseManager {
         this.listeners = listeners;
     }
 
-    public void removeListeners(){
-        for (Map.Entry<Query, ArrayList<ChildEventListener>> listenerEntry: activeChildListeners.entrySet()) {
-            for (ChildEventListener singleListener : listenerEntry.getValue()){
+    public void removeListeners() {
+        for (Map.Entry<Query, ArrayList<ChildEventListener>> listenerEntry : activeChildListeners.entrySet()) {
+            for (ChildEventListener singleListener : listenerEntry.getValue()) {
                 listenerEntry.getKey().removeEventListener(singleListener);
             }
         }
-        for (Map.Entry<Query, ArrayList<ValueEventListener>> listenerEntry: activeValueListeners.entrySet()) {
-            for (ValueEventListener singleListener : listenerEntry.getValue()){
+        for (Map.Entry<Query, ArrayList<ValueEventListener>> listenerEntry : activeValueListeners.entrySet()) {
+            for (ValueEventListener singleListener : listenerEntry.getValue()) {
                 listenerEntry.getKey().removeEventListener(singleListener);
             }
         }
@@ -349,27 +351,27 @@ public class FirebaseManager {
     }
 
     public boolean removeEvent(String nurseryId, String classId, String eventId) {
-        boolean result = Repository.getInstance().removeEvent(nurseryId,classId,eventId);
+        boolean result = Repository.getInstance().removeEvent(nurseryId, classId, eventId);
         database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").child(eventId).removeValue();
         return result;
     }
 
     public void updateEvent(String nurseryId, String classId, DiaryCalendarEvent event) {
-        HashMap<String,String> eventPush = new HashMap<>();
+        HashMap<String, String> eventPush = new HashMap<>();
         String datetime = Utils.parseDateToUnix(event.getDate());
-        eventPush.put("datetime",datetime);
-        eventPush.put("description",event.getDescription());
-        eventPush.put("title",event.getTitle());
+        eventPush.put("datetime", datetime);
+        eventPush.put("description", event.getDescription());
+        eventPush.put("title", event.getTitle());
         database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").child(event.getId()).setValue(eventPush);
     }
 
     public DiaryCalendarEvent addEvent(String nurseryId, String classId, DiaryCalendarEvent event) {
 
-        HashMap<String,String> eventPush = new HashMap<>();
+        HashMap<String, String> eventPush = new HashMap<>();
         String datetime = Utils.parseDateToUnix(event.getDate());
-        eventPush.put("datetime",datetime);
-        eventPush.put("description",event.getDescription());
-        eventPush.put("title",event.getTitle());
+        eventPush.put("datetime", datetime);
+        eventPush.put("description", event.getDescription());
+        eventPush.put("title", event.getTitle());
         DatabaseReference ref = database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").push();
         event.setId(ref.getKey());
         ref.setValue(eventPush);
@@ -378,25 +380,25 @@ public class FirebaseManager {
 
 
     public boolean removeTracking(String kidId, String trackingId) {
-        boolean result = Repository.getInstance().removeTrackingItem(kidId,trackingId);
+        boolean result = Repository.getInstance().removeTrackingItem(kidId, trackingId);
         database.getReference().child(TRACKING_REFERENCE).child(kidId).child(trackingId).removeValue();
         return result;
     }
 
     public void updateTracking(String kidId, TrackingKid trackingKid) {
-        HashMap<String,String> trackingPush = new HashMap<>();
-        trackingPush.put("datetime",trackingKid.getDatetime());
-        trackingPush.put("description",trackingKid.getDescription());
-        trackingPush.put("title",trackingKid.getTitle());
+        HashMap<String, String> trackingPush = new HashMap<>();
+        trackingPush.put("datetime", trackingKid.getDatetime());
+        trackingPush.put("description", trackingKid.getDescription());
+        trackingPush.put("title", trackingKid.getTitle());
         trackingPush.put("type", String.valueOf(trackingKid.getType()));
         database.getReference().child(TRACKING_REFERENCE).child(kidId).child(trackingKid.getId()).setValue(trackingPush);
     }
 
     public TrackingKid addTracking(String kidId, TrackingKid trackingKid) {
-        HashMap<String,String> trackingPush = new HashMap<>();
-        trackingPush.put("datetime",trackingKid.getDatetime());
-        trackingPush.put("description",trackingKid.getDescription());
-        trackingPush.put("title",trackingKid.getTitle());
+        HashMap<String, String> trackingPush = new HashMap<>();
+        trackingPush.put("datetime", trackingKid.getDatetime());
+        trackingPush.put("description", trackingKid.getDescription());
+        trackingPush.put("title", trackingKid.getTitle());
         trackingPush.put("type", String.valueOf(trackingKid.getType()));
         DatabaseReference ref = database.getReference().child(TRACKING_REFERENCE).child(kidId).push();
         trackingKid.setId(ref.getKey());
@@ -415,7 +417,7 @@ public class FirebaseManager {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    setStringPreference(passKey,newPass);
+                    setStringPreference(passKey, newPass);
                 } else {
                 }
             }
@@ -447,28 +449,28 @@ public class FirebaseManager {
         } else {
             ref = storage.getReferenceFromUrl(ROOT_STORAGE_REFERENCE).child(PROFILE_IMG_STORAGE_REFERENCE + "/" + USER_REFERENCE + "/" + id + ".jpg");
         }
-        byte[] imageBytes = Utils.prepareImageToUpload(uri,3840);
+        byte[] imageBytes = Utils.prepareImageToUpload(uri, 3840);
 
         UploadTask uploadTask = ref.putBytes(imageBytes);
 
         uploadTask.addOnFailureListener(onFailureListener)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                @SuppressWarnings("VisibleForTests")
-                String urlImage = taskSnapshot.getDownloadUrl().toString();
-                if (isKid) {
-                    database.getReference(KID_REFERENCE).child(id).child("img").setValue(urlImage);
-                } else {
-                    if (!Babyguard_Application.isTeacher()){
-                        ArrayList<Kid> kids = (ArrayList<Kid>) Repository.getInstance().getKids();
-                        for (Kid aux : kids)
-                            database.getReference(KID_REFERENCE).child(aux.getId()).child("img_profile").setValue(urlImage);
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        @SuppressWarnings("VisibleForTests")
+                        String urlImage = taskSnapshot.getDownloadUrl().toString();
+                        if (isKid) {
+                            database.getReference(KID_REFERENCE).child(id).child("img").setValue(urlImage);
+                        } else {
+                            if (!Babyguard_Application.isTeacher()) {
+                                ArrayList<Kid> kids = (ArrayList<Kid>) Repository.getInstance().getKids();
+                                for (Kid aux : kids)
+                                    database.getReference(KID_REFERENCE).child(aux.getId()).child("img_profile").setValue(urlImage);
+                            }
+                            database.getReference(USER_REFERENCE).child(id).child("img_profile").setValue(urlImage);
+                        }
                     }
-                    database.getReference(USER_REFERENCE).child(id).child("img_profile").setValue(urlImage);
-                }
-            }
-        })
+                })
                 .addOnSuccessListener(onSuccessListener);
     }
 

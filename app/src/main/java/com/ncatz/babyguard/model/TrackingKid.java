@@ -15,7 +15,7 @@ import java.util.Comparator;
  * Created by yeray697 on 19/12/16.
  */
 
-public class TrackingKid extends RecyclerData implements Parcelable{
+public class TrackingKid extends RecyclerData implements Parcelable {
 
     @Exclude
     private RecyclerData data;
@@ -50,7 +50,7 @@ public class TrackingKid extends RecyclerData implements Parcelable{
         this.datetime = datetime;
         this.type = type;
         this.description = description;
-        this.data = new RecyclerData(this.image,this.title,this.datetime);
+        this.data = new RecyclerData(this.image, this.title, this.datetime);
     }
 
     public TrackingKid(String id, String image, String title, String datetime, @Type int type, String description) {
@@ -61,7 +61,7 @@ public class TrackingKid extends RecyclerData implements Parcelable{
         this.datetime = datetime;
         this.type = type;
         this.description = description;
-        this.data = new RecyclerData(this.image,this.title,this.datetime);
+        this.data = new RecyclerData(this.image, this.title, this.datetime);
     }
 
     protected TrackingKid(Parcel in) {
@@ -132,9 +132,11 @@ public class TrackingKid extends RecyclerData implements Parcelable{
         int OTHER = 4;
     }
 
-    public static @TrackingKid.Type int parseIntToType(int type){
+    public static
+    @TrackingKid.Type
+    int parseIntToType(int type) {
         @Type int result = Type.OTHER;
-        switch (type){
+        switch (type) {
             case 1:
                 result = Type.POOP;
                 break;

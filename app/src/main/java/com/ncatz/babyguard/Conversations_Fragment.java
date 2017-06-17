@@ -65,7 +65,7 @@ public class Conversations_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (!Babyguard_Application.isTeacher()) {
-            ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(true);
+            ((Home_Parent_Activity) getActivity()).enableNavigationDrawer(true);
         }
         Babyguard_Application.setCurrentActivity("Conversations_Fragment");
     }
@@ -88,7 +88,7 @@ public class Conversations_Fragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String chatId = (String) view.getTag(R.id.conversationId);
                 String deviceId = (String) view.getTag(R.id.deviceId);
-                openChat(chatId,deviceId);
+                openChat(chatId, deviceId);
             }
         });
         setToolbar();
@@ -108,8 +108,8 @@ public class Conversations_Fragment extends Fragment {
             ((Home_Teacher_Activity) getActivity()).getSupportActionBar().setTitle("Babyguard");
         } else {
             toolbar.setVisibility(View.VISIBLE);
-            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-            final ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (ab != null) {
                 ab.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
                 ab.setDisplayHomeAsUpEnabled(true);
@@ -126,11 +126,11 @@ public class Conversations_Fragment extends Fragment {
             args.putString(Chat_Fragment.TEACHER_ID_KEY, chatId);
             args.putString(Chat_Fragment.KID_ID_KEY, transmitterId);
         }
-        args.putString(Chat_Fragment.DEVICE_ID_KEY,deviceId);
+        args.putString(Chat_Fragment.DEVICE_ID_KEY, deviceId);
         Chat_Fragment fragment = Chat_Fragment.newInstance(args);
 
         getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.container_home, fragment,"chat")
+                .replace(R.id.container_home, fragment, "chat")
                 .addToBackStack("chat")
                 .commit();
     }
@@ -142,7 +142,7 @@ public class Conversations_Fragment extends Fragment {
         } else {
             chats = Repository.getInstance().getChatByKidId(transmitterId);
         }
-        Collections.sort(chats,Chat.comparator);
+        Collections.sort(chats, Chat.comparator);
         adapter = new Conversation_Adapter(context, chats);
         lvChats.setAdapter(adapter);
     }
@@ -151,6 +151,6 @@ public class Conversations_Fragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (Babyguard_Application.isTeacher())
-            ((Home_Teacher_Activity)getActivity()).setSelectedClassIdChangedListener(listener);
+            ((Home_Teacher_Activity) getActivity()).setSelectedClassIdChangedListener(listener);
     }
 }

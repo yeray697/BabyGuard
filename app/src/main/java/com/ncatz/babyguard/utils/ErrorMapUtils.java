@@ -19,7 +19,7 @@ import java.util.Map;
 public class ErrorMapUtils {
 
     private static Map<String, String> map = null;
-    private static int hashMapResId= R.xml.map_error;
+    private static int hashMapResId = R.xml.map_error;
 
     public static Map<String, String> getErrorMap(Context context) {
         if (map == null) {

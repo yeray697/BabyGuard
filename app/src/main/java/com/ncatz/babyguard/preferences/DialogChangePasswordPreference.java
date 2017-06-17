@@ -26,7 +26,7 @@ import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreferenc
  * Created by yeray697 on 12/06/17.
  */
 
-public class DialogChangePasswordPreference extends DialogPreference{
+public class DialogChangePasswordPreference extends DialogPreference {
 
     private EditText etOldPass;
     private EditText etNewPass1;
@@ -49,9 +49,9 @@ public class DialogChangePasswordPreference extends DialogPreference{
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         int marginTopBot = (int) Utils.dpToPx(48);
         int padding = (int) Utils.dpToPx(20);
-        params.setMargins(0,marginTopBot,0,marginTopBot);
+        params.setMargins(0, marginTopBot, 0, marginTopBot);
         view.setLayoutParams(params);
-        view.setPadding(padding,padding,padding,padding);
+        view.setPadding(padding, padding, padding, padding);
         etOldPass = new EditText(getContext());
         etNewPass1 = new EditText(getContext());
         etNewPass2 = new EditText(getContext());
@@ -126,10 +126,9 @@ public class DialogChangePasswordPreference extends DialogPreference{
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        super.onClick(dialog,which);
+        super.onClick(dialog, which);
         boolean validPass = true;
-        if (which == DialogInterface.BUTTON_POSITIVE)
-        {
+        if (which == DialogInterface.BUTTON_POSITIVE) {
             String oldPassEt = etOldPass.getText().toString();
             String newPass1Et = etNewPass1.getText().toString();
             String newPass2Et = etNewPass2.getText().toString();
@@ -183,7 +182,7 @@ public class DialogChangePasswordPreference extends DialogPreference{
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
-        if(positiveResult) {
+        if (positiveResult) {
             String passKey = getKeyPreferenceByResourceId(R.string.profile_password_pref);
             FirebaseManager.getInstance().changeUserPassword(etNewPass1.getText().toString(), passKey);
         }

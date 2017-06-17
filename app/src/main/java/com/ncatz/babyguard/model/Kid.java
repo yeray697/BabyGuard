@@ -11,10 +11,11 @@ import java.util.Map;
 
 /**
  * Kid credentials
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */
-public class Kid implements Parcelable{
+public class Kid implements Parcelable {
     private String id;
     private String info;
     private String name;
@@ -25,7 +26,7 @@ public class Kid implements Parcelable{
     private ArrayList<TrackingKid> tracking;
     private String fcmID;
 
-    public Kid(){
+    public Kid() {
 
     }
 
@@ -139,9 +140,10 @@ public class Kid implements Parcelable{
         return result;
     }
 
-    public interface KidListener{
+    public interface KidListener {
         void onKidGetListener(Kid kid);
     }
+
     public static HashMap<String, Kid> parseFromDataSnapshot(HashMap<String, HashMap<String, Object>> kids) {
         HashMap<String, Kid> kidsList = new HashMap<>();
         HashMap<String, Object> auxEntry;
@@ -161,7 +163,7 @@ public class Kid implements Parcelable{
             kidAux.fcmID = (String) auxEntry.get("fcmToken");
             kidAux.tracking = new ArrayList<TrackingKid>();
             FirebaseManager.getInstance().getTrackingKid(kidAux.getId());
-            kidsList.put(kidAux.getId(),kidAux);
+            kidsList.put(kidAux.getId(), kidAux);
         }
         return kidsList;
     }

@@ -72,7 +72,7 @@ public class Chat_Fragment extends Fragment {
             context = getActivity();
         }
         if (!Babyguard_Application.isTeacher())
-            ((Home_Parent_Activity)getActivity()).enableNavigationDrawer(false);
+            ((Home_Parent_Activity) getActivity()).enableNavigationDrawer(false);
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         teacherId = getArguments().getString(TEACHER_ID_KEY);
         deviceId = getArguments().getString(DEVICE_ID_KEY);
@@ -98,7 +98,7 @@ public class Chat_Fragment extends Fragment {
                 sendMessage();
             }
         });
-        ((Babyguard_Application)context.getApplicationContext()).addChatListener(new Babyguard_Application.ActionEndListener() {
+        ((Babyguard_Application) context.getApplicationContext()).addChatListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {
                 refreshList();
@@ -147,28 +147,28 @@ public class Chat_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         setToolbar();
-        Babyguard_Application.setCurrentActivity("Chat_Fragment_"+chat.getId());
+        Babyguard_Application.setCurrentActivity("Chat_Fragment_" + chat.getId());
     }
 
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar_chat);
         //toolbar.setTitle("Chat");
         if (Babyguard_Application.isTeacher()) {
-            ((Home_Teacher_Activity)getActivity()).getSupportActionBar().hide();
-            ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(true);
+            ((Home_Teacher_Activity) getActivity()).getSupportActionBar().hide();
+            ((Home_Teacher_Activity) getActivity()).setNavigationBottomBarHide(true);
             //((Home_Teacher_Activity)getActivity()).prepareChatToolbar(toolbar);
         } else {
-            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         }
     }
 
-    private void refreshList(){
-        chat = Repository.getInstance().getChat(kidId,teacherId);
+    private void refreshList() {
+        chat = Repository.getInstance().getChat(kidId, teacherId);
         ArrayList<ChatMessage> messages = Utils.parseChatMessageToChat(chat.getMessages());
         if (Babyguard_Application.isTeacher()) {
-            adapter = new Chat_Adapter(context, messages,teacherId);
+            adapter = new Chat_Adapter(context, messages, teacherId);
         } else {
-            adapter = new Chat_Adapter(context, messages,kidId);
+            adapter = new Chat_Adapter(context, messages, kidId);
         }
         lvChat.setAdapter(adapter);
     }
@@ -176,10 +176,10 @@ public class Chat_Fragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application)(context).getApplicationContext()).removeChatListener();
+        ((Babyguard_Application) (context).getApplicationContext()).removeChatListener();
         if (Babyguard_Application.isTeacher()) {
             ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
-            ((Home_Teacher_Activity)getActivity()).setNavigationBottomBarHide(false);
+            ((Home_Teacher_Activity) getActivity()).setNavigationBottomBarHide(false);
         }
     }
 

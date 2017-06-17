@@ -35,6 +35,7 @@ import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreferenc
 
 /**
  * Context application
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */
@@ -72,11 +73,9 @@ public class Babyguard_Application extends Application {
         super.onCreate();
         this.context = this;
         // Setup handler for uncaught exceptions.
-        Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler()
-        {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
-            public void uncaughtException (final Thread thread, final Throwable e)
-            {
+            public void uncaughtException(final Thread thread, final Throwable e) {
                 /*new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
@@ -109,16 +108,17 @@ public class Babyguard_Application extends Application {
         }*/
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return context;
     }
 
     /**
      * Set userCredentials credentials.
      * If userCredentials is null, it cleans preferences
+     *
      * @param userCredentials
      */
-    public void setUserCredentials(UserCredentials userCredentials){
+    public void setUserCredentials(UserCredentials userCredentials) {
         this.userCredentials = userCredentials;
         if (userCredentials != null) {
             SettingsManager.setProfileInfo(userCredentials);
@@ -147,9 +147,10 @@ public class Babyguard_Application extends Application {
 
     /**
      * Get userCredentials's credentials
+     *
      * @return Return the userCredentials
      */
-    public UserCredentials getUserCredentials(){
+    public UserCredentials getUserCredentials() {
         String name;
         String pass;
         int type;
@@ -168,30 +169,33 @@ public class Babyguard_Application extends Application {
 
     /**
      * Get the userCredentials's name is exists
+     *
      * @return Return the userCredentials's name
      */
     private String getUserIfExists() {
-        return getStringPreference(getKeyPreferenceByResourceId(R.string.profile_username_pref),null);
+        return getStringPreference(getKeyPreferenceByResourceId(R.string.profile_username_pref), null);
     }
 
     /**
      * Get the userCredentials's pass is exists
+     *
      * @return Return the userCredentials's pass
      */
     private String getPassIfExists() {
-        return getStringPreference(getKeyPreferenceByResourceId(R.string.profile_password_pref),null);
+        return getStringPreference(getKeyPreferenceByResourceId(R.string.profile_password_pref), null);
     }
 
     /**
      * Get the userCredentials's pass is exists
+     *
      * @return Return the userCredentials's pass
      */
     private int getTypeIfExists() {
-        return getIntegerPreference(getKeyPreferenceByResourceId(R.string.profile_usertype_pref),-1);
+        return getIntegerPreference(getKeyPreferenceByResourceId(R.string.profile_usertype_pref), -1);
     }
 
     public static boolean isTeacher() {
-        return ((Babyguard_Application)Babyguard_Application.getContext()).getUserCredentials().getType() == UserCredentials.TYPE_TEACHER;
+        return ((Babyguard_Application) Babyguard_Application.getContext()).getUserCredentials().getType() == UserCredentials.TYPE_TEACHER;
     }
 
     public void addLoginListener(ActionEndListener loginListener) {
@@ -253,21 +257,22 @@ public class Babyguard_Application extends Application {
     public void removeHomeTeacherListener() {
         homeTeacherListener = null;
     }
+
     private FirebaseListeners firebaseListeners = new FirebaseListeners() {
 
         @Override
         public void onUserModified(DataSnapshot dataSnapshot) {
-            if (dataSnapshot.exists()){
+            if (dataSnapshot.exists()) {
                 User user = User.parseFromDataSnapshot(dataSnapshot);
                 DatabaseHelper.getInstance(user.getId()).setPassword(user.getDbPass());
                 Repository.getInstance().setUser(user);
                 userCredentials.setType(user.getUser_type());
-                if(isTeacher()) {
+                if (isTeacher()) {
                     FirebaseManager.getInstance().getNursery(user.getId_nursery());
                 }
                 //if (!kidsInfoLoadedFirstTime) {
-                    FirebaseManager.getInstance().getKidsInfo(user);
-                    kidsInfoLoadedFirstTime = true;
+                FirebaseManager.getInstance().getKidsInfo(user);
+                kidsInfoLoadedFirstTime = true;
                 //}
                 if (loginListener != null)
                     loginListener.onEnd();
@@ -291,38 +296,38 @@ public class Babyguard_Application extends Application {
 
         @Override
         public void onKidModified(DataSnapshot dataSnapshot) {
-            if (dataSnapshot.exists()){
+            if (dataSnapshot.exists()) {
                 HashMap<String, HashMap<String, Object>> value = (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
                 HashMap<String, Kid> kids = Kid.parseFromDataSnapshot(value);
                 List<String> aux;
                 boolean isTeacher = Babyguard_Application.isTeacher();
                 if (kids.size() > 0) {
-                    if (kids.size() > 1){
-                        HashMap<String,List<String>> nurseryClasses = new HashMap<>();
+                    if (kids.size() > 1) {
+                        HashMap<String, List<String>> nurseryClasses = new HashMap<>();
                         String id_nursery;
                         String id_class;
                         for (Map.Entry<String, Kid> kidAux : kids.entrySet()) {
                             id_nursery = kidAux.getValue().getId_nursery();
                             id_class = kidAux.getValue().getId_nursery_class();
-                            if (nurseryClasses.containsKey(id_nursery)){
+                            if (nurseryClasses.containsKey(id_nursery)) {
                                 aux = nurseryClasses.get(id_nursery);
-                                if (!aux.contains(id_class)){
+                                if (!aux.contains(id_class)) {
                                     aux.add(id_class);
-                                    nurseryClasses.put(id_nursery,aux);
+                                    nurseryClasses.put(id_nursery, aux);
                                 }
                             } else {
                                 aux = new ArrayList<>();
                                 aux.add(id_class);
-                                nurseryClasses.put(id_nursery,aux);
+                                nurseryClasses.put(id_nursery, aux);
                             }
                         }
 
-                        for (HashMap.Entry<String,List<String>> entry:nurseryClasses.entrySet()){
+                        for (HashMap.Entry<String, List<String>> entry : nurseryClasses.entrySet()) {
                             if (!isTeacher) {
                                 FirebaseManager.getInstance().getNursery(entry.getKey());
                             }
-                            for (String classId: entry.getValue()){
-                                FirebaseManager.getInstance().getNurseryClass(entry.getKey(),classId);
+                            for (String classId : entry.getValue()) {
+                                FirebaseManager.getInstance().getNurseryClass(entry.getKey(), classId);
                                 if (isTeacher) {
                                     FirebaseManager.getInstance().getChatInfoTeacher(classId);
                                 }
@@ -330,7 +335,7 @@ public class Babyguard_Application extends Application {
                         }
                         if (!isTeacher) {
                             for (Map.Entry<String, Kid> kidAux : kids.entrySet()) {
-                                FirebaseManager.getInstance().getChatInfoParent(kidAux.getValue().getId_nursery(),kidAux.getValue().getId_nursery_class(),kidAux.getKey());
+                                FirebaseManager.getInstance().getChatInfoParent(kidAux.getValue().getId_nursery(), kidAux.getValue().getId_nursery_class(), kidAux.getKey());
                                 FirebaseManager.getInstance().getChat(kidAux.getKey());
                             }
                         } else {
@@ -353,7 +358,7 @@ public class Babyguard_Application extends Application {
                         if (isTeacher) {
                             FirebaseManager.getInstance().getChatInfoTeacher(idNurseryClass);
                         } else {
-                            FirebaseManager.getInstance().getChatInfoParent(idNursery,idNurseryClass,kidAux.getId());
+                            FirebaseManager.getInstance().getChatInfoParent(idNursery, idNurseryClass, kidAux.getId());
                         }
                         FirebaseManager.getInstance().getChat(idChat);
                     }
@@ -373,7 +378,7 @@ public class Babyguard_Application extends Application {
 
         @Override
         public void onNurseryModified(DataSnapshot dataSnapshot) {
-            if (dataSnapshot.exists()){
+            if (dataSnapshot.exists()) {
                 Repository.getInstance().setNursery(NurserySchool.parseFromDataSnapshot(dataSnapshot));
                 if (nurseryListener != null)
                     nurseryListener.onEnd();
@@ -389,13 +394,13 @@ public class Babyguard_Application extends Application {
         public void onNurseryClassModified(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()) {
                 ArrayList<DiaryCalendarEvent> calendarListAux = new ArrayList<>();
-                String name = (String) ((HashMap<String, Object>)dataSnapshot.getValue()).get("name");
+                String name = (String) ((HashMap<String, Object>) dataSnapshot.getValue()).get("name");
                 String nursery_id = dataSnapshot.getRef().getParent().getKey();
                 String nursery_class = dataSnapshot.getKey();
-                HashMap<String,HashMap<String,String>> calendar = (HashMap<String,HashMap<String, String>>) ((HashMap<String, Object>)dataSnapshot.getValue()).get("calendar");
+                HashMap<String, HashMap<String, String>> calendar = (HashMap<String, HashMap<String, String>>) ((HashMap<String, Object>) dataSnapshot.getValue()).get("calendar");
                 DiaryCalendarEvent calendarAux = null;
                 if (calendar != null) {
-                    Integer day,year,month;
+                    Integer day, year, month;
                     String unixTime;
                     for (Map.Entry<String, HashMap<String, String>> entry : calendar.entrySet()) {
                         unixTime = entry.getValue().get("datetime");
@@ -417,7 +422,7 @@ public class Babyguard_Application extends Application {
                 nurseryClass.setId(nursery_class);
                 nurseryClass.setCalendar(calendarListAux);
                 nurseryClass.setName(name);
-                Repository.getInstance().setNurseryClass(nursery_id,nursery_class,nurseryClass);
+                Repository.getInstance().setNurseryClass(nursery_id, nursery_class, nurseryClass);
                 if (loginListener != null)
                     loginListener.onEnd();
                 if (nurseryListener != null)
@@ -442,7 +447,7 @@ public class Babyguard_Application extends Application {
                 if (dataSnapshot.getValue() != null) {
                     HashMap<String, Object> kids = (HashMap<String, Object>) dataSnapshot.getValue();
                     String idKid = dataSnapshot.getKey();
-                    HashMap<String,String> value;
+                    HashMap<String, String> value;
                     for (Map.Entry<String, Object> kid : kids.entrySet()) {
                         value = (HashMap<String, String>) kid.getValue();
                         trackingAux = new TrackingKid(kid.getKey(),
@@ -472,7 +477,7 @@ public class Babyguard_Application extends Application {
                     String id = dataSnapshot.getRef().getParent().getKey();
                     ChatMessage chatMessage = ChatMessage.parseFromDataSnapshot(dataSnapshot);
                     if (Repository.getInstance().addMessage(chatMessage)) {
-                        FirebaseManager.getInstance().deleteMessage(id,chatMessage.getKey());
+                        FirebaseManager.getInstance().deleteMessage(id, chatMessage.getKey());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -495,10 +500,10 @@ public class Babyguard_Application extends Application {
                     for (HashMap.Entry<String, HashMap<String, Object>> chatData : ((HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue()).entrySet()) {
                         chat = Chat.parseFromDataSnapshot(chatData.getValue());
                         String teacherId = Repository.getInstance().getUser().getId();
-                        Repository.getInstance().addChat(new ChatKeyMap(teacherId,chat.getId()),chat);
+                        Repository.getInstance().addChat(new ChatKeyMap(teacherId, chat.getId()), chat);
                     }
                 } else {
-                    chat = Chat.parseFromDataSnapshot((HashMap<String,Object>) dataSnapshot.getValue());
+                    chat = Chat.parseFromDataSnapshot((HashMap<String, Object>) dataSnapshot.getValue());
                     Repository.getInstance().addChat(chat);
                 }
                 try {
