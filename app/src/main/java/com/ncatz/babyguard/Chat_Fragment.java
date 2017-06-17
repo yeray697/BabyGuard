@@ -100,12 +100,6 @@ public class Chat_Fragment extends Fragment {
                 sendMessage();
             }
         });
-        ((Babyguard_Application) context.getApplicationContext()).addChatListener(new Babyguard_Application.ActionEndListener() {
-            @Override
-            public void onEnd() {
-                refreshList();
-            }
-        });
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,11 +170,27 @@ public class Chat_Fragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application) (context).getApplicationContext()).removeChatListener();
         if (Babyguard_Application.isTeacher()) {
             ((Home_Teacher_Activity) getActivity()).getSupportActionBar().show();
             ((Home_Teacher_Activity) getActivity()).setNavigationBottomBarHide(false);
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((Babyguard_Application) context.getApplicationContext()).addChatListener(new Babyguard_Application.ActionEndListener() {
+            @Override
+            public void onEnd() {
+                refreshList();
+            }
+        });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((Babyguard_Application) (context).getApplicationContext()).removeChatListener();
     }
 
     @Override

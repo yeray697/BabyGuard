@@ -119,12 +119,6 @@ public class Tracking_Parent_Fragment extends Fragment {
         rvInfoKid.setLineColor(ContextCompat.getColor(context, R.color.colorLineColor));
         rvInfoKid.setLineWidth(3);
         refreshTrackingList();
-        ((Babyguard_Application) context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
-            @Override
-            public void onEnd() {
-                refreshTrackingList();
-            }
-        });
         return view;
     }
 
@@ -173,8 +167,8 @@ public class Tracking_Parent_Fragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDetach() {
+        super.onDetach();
         ((Babyguard_Application) context.getApplicationContext()).removeTrackingListener();
     }
 
@@ -182,6 +176,17 @@ public class Tracking_Parent_Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         Babyguard_Application.setCurrentActivity("Tracking_Parent_Fragment");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((Babyguard_Application) context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
+            @Override
+            public void onEnd() {
+                refreshTrackingList();
+            }
+        });
     }
 
     @Override

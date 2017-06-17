@@ -120,6 +120,12 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        ((Babyguard_Application) context.getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
+            @Override
+            public void onEnd() {
+                refreshCalendar();
+            }
+        });
         if (Babyguard_Application.isTeacher())
             ((Home_Teacher_Activity) getActivity()).setSelectedClassIdChangedListener(listener);
     }
@@ -145,12 +151,6 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
             customToolbar.setVisibility(View.GONE);
             ((Home_Teacher_Activity) getActivity()).prepareCalendarToolbar(expandableDate);
         }
-        ((Babyguard_Application) context.getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
-            @Override
-            public void onEnd() {
-                refreshCalendar();
-            }
-        });
     }
 
     @Override

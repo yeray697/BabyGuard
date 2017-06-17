@@ -101,12 +101,6 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         rvInfoKid.setLineColor(ContextCompat.getColor(context, R.color.colorLineColor));
         rvInfoKid.setLineWidth(3);
         refreshList();
-        ((Babyguard_Application) context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
-            @Override
-            public void onEnd() {
-                refreshList();
-            }
-        });
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,7 +162,6 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     @Override
     public void onStop() {
         super.onStop();
-        ((Babyguard_Application) context.getApplicationContext()).removeTrackingListener();
         ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.show();
     }
@@ -221,5 +214,22 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
     public void onPause() {
         super.onPause();
         Babyguard_Application.setCurrentActivity("");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((Babyguard_Application) context.getApplicationContext()).addTrackingListener(new Babyguard_Application.ActionEndListener() {
+            @Override
+            public void onEnd() {
+                refreshList();
+            }
+        });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((Babyguard_Application) context.getApplicationContext()).removeTrackingListener();
     }
 }
