@@ -1,6 +1,7 @@
 package com.ncatz.babyguard;
 
 import android.app.Application;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -142,6 +143,9 @@ public class Babyguard_Application extends Application {
         kidsInfoLoadedFirstTime = false;
         nurseryAndChatsLoadedFirstTime = false;
         databaseLoaded = false;
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
     }
 
     /**

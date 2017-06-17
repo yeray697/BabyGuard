@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -45,7 +46,8 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);if (savedInstanceState != null) {
+        setContentView(R.layout.activity_login);
+        if (savedInstanceState != null) {
             oneClickMultiple = (OneClickMultiple) savedInstanceState.getSerializable(MULTIPLE_CLICK_LISTENER);
         } else {
             oneClickMultiple = new OneClickMultiple();
@@ -53,12 +55,18 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         etUser = (EditText) findViewById(R.id.etUser_login);
         etPassword = (EditText) findViewById(R.id.etPass_login);
 
-        presenter = new LoginPresenterImpl(this, this);
-        presenter.isUserSet();
         tilUser = (TextInputLayout) findViewById(R.id.tilUser_login);
         tilPassword = (TextInputLayout) findViewById(R.id.tilPass_login);
         tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
         btLogin = (MaterialRippleLayout) findViewById(R.id.rlButton);
+
+        etPassword.setVisibility(View.VISIBLE);
+        etUser.setVisibility(View.VISIBLE);
+        tvForgotPass.setVisibility(View.VISIBLE);
+        btLogin.setVisibility(View.VISIBLE);
+
+        presenter = new LoginPresenterImpl(this, this);
+        presenter.isUserSet();
 
         btLogin.setOnClickListener(oneClickMultiple.addListener("btLogin", new OneClickMultipleListener() {
             @Override
@@ -147,12 +155,21 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
                 Toast.makeText(this, messageError, Toast.LENGTH_SHORT).show();
                 break;
         }
+        etPassword.setVisibility(View.VISIBLE);
+        etUser.setVisibility(View.VISIBLE);
+        tvForgotPass.setVisibility(View.VISIBLE);
+        btLogin.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void setCredentials(String user, String pass) {
         etUser.setText(user);
         etPassword.setText(pass);
+
+        etPassword.setVisibility(View.GONE);
+        etUser.setVisibility(View.GONE);
+        tvForgotPass.setVisibility(View.GONE);
+        btLogin.setVisibility(View.GONE);
     }
 
     @Override
