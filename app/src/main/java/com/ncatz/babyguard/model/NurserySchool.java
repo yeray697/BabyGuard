@@ -121,16 +121,22 @@ public class NurserySchool {
         nurseryClasses.put(nurseryClassId, nurseryClass);
     }
 
-    public boolean removeEvent(String classId, String eventId) {
-        boolean result = false;
+    public DiaryCalendarEvent removeEvent(String classId, String eventId) {
+        DiaryCalendarEvent result = null;
 
+        int count;
+        ArrayList<DiaryCalendarEvent> events;
         for (Map.Entry<String, NurseryClass> classAux : nurseryClasses.entrySet()) {
             if (classAux.getKey().equals(classId)) {
+                count = 0;
+                events = classAux.getValue().getCalendar();
                 for (DiaryCalendarEvent eventAux : classAux.getValue().getCalendar()) {
                     if (eventAux.getId().equals(eventId)) {
-                        result = true;
+                        result = eventAux;
+                        events.remove(count);
                         break;
                     }
+                    count++;
                 }
                 break;
             }

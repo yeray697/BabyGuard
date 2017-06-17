@@ -200,11 +200,11 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
-                    if (FirebaseManager.getInstance().removeEvent(Repository.getInstance().getUser().getId_nursery(), classId, idEvent)) {
+                    DiaryCalendarEvent event = FirebaseManager.getInstance().removeEvent(Repository.getInstance().getUser().getId_nursery(), classId, idEvent);
+                    if (event != null) {
                         PushNotification notification = new PushNotification();
                         notification.setFromUser(Repository.getInstance().getUser().getId());
-                        notification.setDiaryCalendarEvent(Repository.getInstance().getEventById(Repository.getInstance().getUser().getId_nursery(), classId, idEvent));
+                        notification.setDiaryCalendarEvent(event);
                         notification.setType(PushNotification.TYPE_CALENDAR_REMOVE);
 
                         for (Kid aux : Repository.getInstance().getKids()) {

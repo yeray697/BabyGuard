@@ -347,8 +347,8 @@ public class FirebaseManager {
         removeListeners();
     }
 
-    public boolean removeEvent(String nurseryId, String classId, String eventId) {
-        boolean result = Repository.getInstance().removeEvent(nurseryId, classId, eventId);
+    public DiaryCalendarEvent removeEvent(String nurseryId, String classId, String eventId) {
+        DiaryCalendarEvent result = Repository.getInstance().removeEvent(nurseryId, classId, eventId);
         database.getReference().child(NURSERY_CLASS_REFERENCE).child(nurseryId).child(classId).child("calendar").child(eventId).removeValue();
         return result;
     }

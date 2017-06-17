@@ -248,7 +248,7 @@ public class Repository {
         return aux.removeTrackingItem(kidId, trackingId);
     }
 
-    public boolean removeEvent(String nurseryId, String classId, String eventId) {
+    public DiaryCalendarEvent removeEvent(String nurseryId, String classId, String eventId) {
         NurserySchool school = getNurserySchoolById(nurseryId);
         return school.removeEvent(classId, eventId);
     }
