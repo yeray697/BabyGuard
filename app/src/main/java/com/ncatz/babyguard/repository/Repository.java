@@ -116,11 +116,11 @@ public class Repository {
         String idFrom;
         String idTo;
         if ((Babyguard_Application.isTeacher())) {
-            idFrom = chatMessage.getTeacher();
-            idTo = chatMessage.getKid();
-        } else {
             idTo = chatMessage.getTeacher();
             idFrom = chatMessage.getKid();
+        } else {
+            idFrom = chatMessage.getTeacher();
+            idTo = chatMessage.getKid();
         }
         if (chats == null)
             chats = new HashMap<>();
@@ -138,11 +138,17 @@ public class Repository {
             }
         }
         if (!result) {
-            Chat aux = new Chat();
-            aux.setId(idTo);
-            aux.addMessage(chatMessage);
-            addChat(new ChatKeyMap(chatMessage.getTeacher(), chatMessage.getKey()), Chat.duplicate(aux));
-            result = true;
+            try {
+                Chat aux = new Chat();
+                aux.setId(idTo);
+                aux.addMessage(chatMessage);
+                addChat(new ChatKeyMap(chatMessage.getTeacher(), chatMessage.getKey()), Chat.duplicate(aux));
+                DatabaseHelper.getInstance().addMessage(chatMessage);
+                result = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                result = false;
+            }
         }
         return result;
     }
@@ -342,5 +348,18 @@ public class Repository {
 
     public NurserySchool getNurserySchool() {
         return (nurserySchools != null && nurserySchools.size() > 0) ? nurserySchools.get(0) : null;
+    }
+
+    public boolean isAKidId(String toUser) {
+        boolean result = false;
+        ArrayList<Kid> kids = (ArrayList<Kid>) getKids();
+        for (Kid kid : kids) {
+            if (toUser.equals(kid.getId())) {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
     }
 }

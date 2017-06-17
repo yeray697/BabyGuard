@@ -37,83 +37,87 @@ public class FCMService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         String currentActivity = Babyguard_Application.getCurrentActivity();
         Map<String, String> data = remoteMessage.getData();
+        boolean isTeacher = Babyguard_Application.isTeacher();
         PushNotification pushNotification = PushNotification.parseReceivedNotif(data);
-        boolean messagePreview = SettingsManager.getBooleanPreference(SettingsManager.getKeyPreferenceByResourceId(R.string.notifications_preview_pref), true);
-        String title = "",
-                message = "";
-        DiaryCalendarEvent event = null;
-        TrackingKid tracking = null;
-        Intent intent = new Intent(this, Login_Activity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        switch (pushNotification.getType()) {
-            case PushNotification.TYPE_CALENDAR_ADD:
-                title = getString(R.string.event_added_notif);
-                event = pushNotification.getCalendar().getEvent();
-                if (messagePreview) {
-                    title += " - " + event.getTitle() + " - " + event.getDate();
-                    message = event.getDescription();
-                } else {
-                    message = event.getDate();
-                }
-                intent.setAction(ACTION_LAUNCH_CALENDAR);
-                break;
-            case PushNotification.TYPE_CALENDAR_EDIT:
-                title = getString(R.string.event_edited_notif);
-                event = pushNotification.getCalendar().getEvent();
-                if (messagePreview) {
-                    title += " - " + event.getTitle() + " - " + event.getDate();
-                    message = event.getDescription();
-                } else {
-                    message = event.getDate();
-                }
-                intent.setAction(ACTION_LAUNCH_CALENDAR);
-                break;
-            case PushNotification.TYPE_CALENDAR_REMOVE:
-                title = getString(R.string.event_removed_notif);
-                event = pushNotification.getCalendar().getEvent();
-                if (messagePreview) {
-                    title += " - " + event.getTitle() + " - " + event.getDate();
-                    message = event.getDescription();
-                } else {
-                    message = event.getDate();
-                }
-                intent.setAction(ACTION_LAUNCH_CALENDAR);
-                break;
-            case PushNotification.TYPE_TRACKING_ADD:
-                title = getString(R.string.tracking_added_notif);
-                tracking = pushNotification.getTracking().getTracking();
-                if (messagePreview) {
-                    title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
-                    message = tracking.getDescription();
-                } else {
-                    message = tracking.getTypeString();
-                }
-                intent.setAction(ACTION_LAUNCH_TRACKING);
-                break;
-            case PushNotification.TYPE_TRACKING_EDIT:
-                title = getString(R.string.tracking_edited_notif);
-                tracking = pushNotification.getTracking().getTracking();
-                if (messagePreview) {
-                    title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
-                    message = tracking.getDescription();
-                } else {
-                    message = tracking.getTypeString();
-                }
-                intent.setAction(ACTION_LAUNCH_TRACKING);
-                break;
-            case PushNotification.TYPE_TRACKING_REMOVE:
-                title = getString(R.string.tracking_removed_notif);
-                tracking = pushNotification.getTracking().getTracking();
-                if (messagePreview) {
-                    title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
-                    message = tracking.getDescription();
-                } else {
-                    message = tracking.getTypeString();
-                }
-                intent.setAction(ACTION_LAUNCH_TRACKING);
-                break;
-            case PushNotification.TYPE_MESSAGE:
-                ChatMessage chatMessage = pushNotification.getMessage().getMessage();
+
+        if (Repository.getInstance().getUser().getId().equals(pushNotification.getToUser()) ||
+                (!isTeacher && Repository.getInstance().isAKidId(pushNotification.getToUser()))) {
+            boolean messagePreview = SettingsManager.getBooleanPreference(SettingsManager.getKeyPreferenceByResourceId(R.string.notifications_preview_pref), true);
+            String title = "",
+                    message = "";
+            DiaryCalendarEvent event = null;
+            TrackingKid tracking = null;
+            Intent intent = new Intent(this, Login_Activity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            switch (pushNotification.getType()) {
+                case PushNotification.TYPE_CALENDAR_ADD:
+                    title = getString(R.string.event_added_notif);
+                    event = pushNotification.getCalendar().getEvent();
+                    if (messagePreview) {
+                        title += " - " + event.getTitle() + " - " + event.getDate();
+                        message = event.getDescription();
+                    } else {
+                        message = event.getDate();
+                    }
+                    intent.setAction(ACTION_LAUNCH_CALENDAR);
+                    break;
+                case PushNotification.TYPE_CALENDAR_EDIT:
+                    title = getString(R.string.event_edited_notif);
+                    event = pushNotification.getCalendar().getEvent();
+                    if (messagePreview) {
+                        title += " - " + event.getTitle() + " - " + event.getDate();
+                        message = event.getDescription();
+                    } else {
+                        message = event.getDate();
+                    }
+                    intent.setAction(ACTION_LAUNCH_CALENDAR);
+                    break;
+                case PushNotification.TYPE_CALENDAR_REMOVE:
+                    title = getString(R.string.event_removed_notif);
+                    event = pushNotification.getCalendar().getEvent();
+                    if (messagePreview) {
+                        title += " - " + event.getTitle() + " - " + event.getDate();
+                        message = event.getDescription();
+                    } else {
+                        message = event.getDate();
+                    }
+                    intent.setAction(ACTION_LAUNCH_CALENDAR);
+                    break;
+                case PushNotification.TYPE_TRACKING_ADD:
+                    title = getString(R.string.tracking_added_notif);
+                    tracking = pushNotification.getTracking().getTracking();
+                    if (messagePreview) {
+                        title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
+                        message = tracking.getDescription();
+                    } else {
+                        message = tracking.getTypeString();
+                    }
+                    intent.setAction(ACTION_LAUNCH_TRACKING);
+                    break;
+                case PushNotification.TYPE_TRACKING_EDIT:
+                    title = getString(R.string.tracking_edited_notif);
+                    tracking = pushNotification.getTracking().getTracking();
+                    if (messagePreview) {
+                        title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
+                        message = tracking.getDescription();
+                    } else {
+                        message = tracking.getTypeString();
+                    }
+                    intent.setAction(ACTION_LAUNCH_TRACKING);
+                    break;
+                case PushNotification.TYPE_TRACKING_REMOVE:
+                    title = getString(R.string.tracking_removed_notif);
+                    tracking = pushNotification.getTracking().getTracking();
+                    if (messagePreview) {
+                        title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
+                        message = tracking.getDescription();
+                    } else {
+                        message = tracking.getTypeString();
+                    }
+                    intent.setAction(ACTION_LAUNCH_TRACKING);
+                    break;
+                case PushNotification.TYPE_MESSAGE:
+                    ChatMessage chatMessage = pushNotification.getMessage().getMessage();
                 /*if (inForeground) {
                     //If app is foreground, it is handled by firebase listeners
                     //Repository.getInstance().addMessage(chatMessage);
@@ -124,33 +128,35 @@ public class FCMService extends FirebaseMessagingService {
                         e.printStackTrace();
                     }
                 }*/
-                String name;
-                try {
-                    name = Repository.getInstance().getNameByUserId((Babyguard_Application.isTeacher()) ? chatMessage.getKid() : chatMessage.getTeacher());
-                    if (messagePreview) {
-                        title = name;
-                        message = chatMessage.getMessage();
-                    } else {
+                    String name;
+                    try {
+                        name = Repository.getInstance().getNameByUserId((Babyguard_Application.isTeacher()) ? chatMessage.getKid() : chatMessage.getTeacher());
+                        if (messagePreview) {
+                            title = name;
+                            message = chatMessage.getMessage();
+                        } else {
+                            title = getString(R.string.new_message_notif);
+                            message = name;
+                        }
+                    } catch (Exception e) {
                         title = getString(R.string.new_message_notif);
-                        message = name;
+                        message = "";
                     }
-                } catch (Exception e) {
-                    title = getString(R.string.new_message_notif);
-                    message = "";
-                }
-                intent.setAction(ACTION_LAUNCH_CHAT);
-                break;
-        }
-        String[] splittedActivity = currentActivity.split("_");
-        if (!(currentActivity.startsWith("Chat_Fragment_") &&
-                splittedActivity[2].equals(pushNotification.getFromUser()))) { //User is not in the chat
+                    intent.setAction(ACTION_LAUNCH_CHAT);
+                    break;
+            }
+            String[] splittedActivity = currentActivity.split("_");
+            if (!(currentActivity.startsWith("Chat_Fragment_") &&
+                    splittedActivity[2].equals(pushNotification.getFromUser()))) { //User is not in the chat
 
-            intent.putExtra("from", pushNotification.getFromUser());
-            intent.putExtra("to", pushNotification.getToUser());
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
-            int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-            sendNotification(notificationId, title, message, pendingIntent);
+                intent.putExtra("from", pushNotification.getFromUser());
+                intent.putExtra("to", pushNotification.getToUser());
+
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                        PendingIntent.FLAG_ONE_SHOT);
+                int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+                sendNotification(notificationId, title, message, pendingIntent);
+            }
         }
     }
 

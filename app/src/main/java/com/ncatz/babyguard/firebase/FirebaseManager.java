@@ -256,7 +256,7 @@ public class FirebaseManager {
 
     public void getChat(String kid_id) {
         boolean isTeacher = Babyguard_Application.isTeacher();
-        if (isTeacher && chatIdTeacher.equals("")) {
+        if ((isTeacher && chatIdTeacher.equals("")) || !isTeacher) {
             if (isTeacher)
                 chatIdTeacher = kid_id;
             Query reference = database.getReference().child(CHAT_REFERENCE).child(kid_id);
