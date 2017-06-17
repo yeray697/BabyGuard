@@ -57,6 +57,7 @@ public class Babyguard_Application extends Application {
 
     private boolean databaseLoaded;
     private static String currentActivity;
+    private String selectedClassId;
 
     public static void setCurrentActivity(String currentActivity) {
         Babyguard_Application.currentActivity = currentActivity;
@@ -71,7 +72,7 @@ public class Babyguard_Application extends Application {
         super.onCreate();
         this.context = this;
         // Setup handler for uncaught exceptions.
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+        /*Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(final Thread thread, final Throwable e) {
                 e.printStackTrace();
@@ -80,9 +81,9 @@ public class Babyguard_Application extends Application {
                     public void run() {
                         handleUncaughtException (thread, e);
                     }
-                });*/
+                });
             }
-        });
+        });*/
         FirebaseManager.getInstance().setListeners(firebaseListeners);
     }
 
@@ -139,6 +140,7 @@ public class Babyguard_Application extends Application {
         kidsInfoLoadedFirstTime = false;
         nurseryAndChatsLoadedFirstTime = false;
         databaseLoaded = false;
+        selectedClassId = "";
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
@@ -227,6 +229,14 @@ public class Babyguard_Application extends Application {
 
     public void removeKidListListener() {
         kidListListener = null;
+    }
+
+    public void setSelectedClassId(String selectedClassId) {
+        this.selectedClassId = selectedClassId;
+    }
+
+    public String getSelectedClassId() {
+        return selectedClassId;
     }
 
     public interface ActionEndListener {

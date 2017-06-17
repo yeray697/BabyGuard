@@ -141,16 +141,16 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
                 ab.setDisplayHomeAsUpEnabled(true);
                 ab.setHomeButtonEnabled(true);
             }
-            ((Babyguard_Application) context.getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
-                @Override
-                public void onEnd() {
-                    refreshCalendar();
-                }
-            });
         } else {
             customToolbar.setVisibility(View.GONE);
             ((Home_Teacher_Activity) getActivity()).prepareCalendarToolbar(expandableDate);
         }
+        ((Babyguard_Application) context.getApplicationContext()).addCalendarListener(new Babyguard_Application.ActionEndListener() {
+            @Override
+            public void onEnd() {
+                refreshCalendar();
+            }
+        });
     }
 
     @Override
@@ -164,9 +164,9 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
     public void onDetach() {
         super.onDetach();
         if (Babyguard_Application.isTeacher()) {
-            ((Babyguard_Application) context.getApplicationContext()).removeCalendarListener();
             ((ViewGroup) expandableDate.getParent()).removeView(expandableDate);
         }
+        ((Babyguard_Application) context.getApplicationContext()).removeCalendarListener();
     }
 
     @Override
@@ -213,7 +213,6 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
                                 notification.pushNotification(aux.getFcmID());
                             }
                         }
-                        refreshCalendar();
                     }
                 }
             });

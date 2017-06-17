@@ -10,6 +10,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +30,6 @@ import com.ncatz.babyguard.repository.Repository;
 public class Home_Teacher_Activity extends AppCompatActivity {
 
     private int selected;
-    private String selectedClassId;
     private Toolbar toolbar;
     private Spinner spinner;
     private SpinnerKidsTeacher_Adapter adapter;
@@ -81,9 +81,23 @@ public class Home_Teacher_Activity extends AppCompatActivity {
             adapter = new SpinnerKidsTeacher_Adapter(this, school.getNurseryClassesList());
             if (spinner != null) {
                 spinner.setAdapter(adapter);
-                NurseryClass aux = (NurseryClass) spinner.getSelectedItem();
-                if (aux != null)
-                    setSelectedClassId(aux.getId());
+                String id = getSelectedClassId();
+                if (id == null || id.length() == 0) {
+                    NurseryClass aux = (NurseryClass) spinner.getSelectedItem();
+                    if (aux != null)
+                        id = aux.getId();
+                }
+                if (id != null && id.length() > 0) {
+                    int spinnerPosition = 0;
+                    for (int i = 0; i < adapter.getCount(); i++) {
+                        if (adapter.getItem(i).getId().equals(id)) {
+                            spinnerPosition = i;
+                            break;
+                        }
+                    }
+                    spinner.setSelection(spinnerPosition);
+                }
+                    //setSelectedClassId(id);
             }
         }
     }
@@ -109,7 +123,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    args.putString(Conversations_Fragment.ID_KEY, selectedClassId);
+                    args.putString(Conversations_Fragment.ID_KEY, getSelectedClassId());
                     fragment = Conversations_Fragment.newInstance(args);
                 }
                 selected = 1;
@@ -119,7 +133,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                 fragment = fragmentManager.findFragmentByTag(tag);
                 if (fragment == null) {
                     args = new Bundle();
-                    args.putString(Calendar_Fragment.ID_KEY, selectedClassId);
+                    args.putString(Calendar_Fragment.ID_KEY, getSelectedClassId());
                     fragment = Calendar_Fragment.newInstance(args);
                 }
                 selected = 2;
@@ -178,14 +192,15 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     }
 
     public void setSelectedClassId(String selectedClassId) {
-        this.selectedClassId = selectedClassId;
+        getSelectedClassId();
+        ((Babyguard_Application)getApplicationContext()).setSelectedClassId(selectedClassId);
         if (selectedClassIdChangedListener != null)
             selectedClassIdChangedListener.selectedClassIdChanged(selectedClassId);
 
     }
 
     public String getSelectedClassId() {
-        return selectedClassId;
+        return ((Babyguard_Application)getApplicationContext()).getSelectedClassId();
     }
 
     public void setSelectedClassIdChangedListener(OnSelectedClassIdChangedListener selectedClassIdChangedListener) {
@@ -248,6 +263,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        refreshSpinner();
         Babyguard_Application.setCurrentActivity("Home_Teacher_Activity");
     }
 }

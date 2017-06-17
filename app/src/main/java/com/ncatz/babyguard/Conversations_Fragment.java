@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,5 +155,19 @@ public class Conversations_Fragment extends Fragment {
         super.onAttach(context);
         if (Babyguard_Application.isTeacher())
             ((Home_Teacher_Activity) getActivity()).setSelectedClassIdChangedListener(listener);
+        Log.d("asdf","addListener");
+        ((Babyguard_Application) (context).getApplicationContext()).addChatListener(new Babyguard_Application.ActionEndListener() {
+            @Override
+            public void onEnd() {
+                refreshChatList();
+            }
+        });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("asdf", "removelistener");
+        ((Babyguard_Application) (context).getApplicationContext()).removeChatListener();
     }
 }
