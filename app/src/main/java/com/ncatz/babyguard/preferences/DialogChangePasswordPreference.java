@@ -2,10 +2,7 @@ package com.ncatz.babyguard.preferences;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.DialogPreference;
-import android.support.annotation.RequiresApi;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -24,7 +21,6 @@ import java.lang.reflect.Field;
 
 import static com.ncatz.babyguard.preferences.SettingsManager.getKeyPreferenceByResourceId;
 import static com.ncatz.babyguard.preferences.SettingsManager.getStringPreference;
-import static com.ncatz.babyguard.preferences.SettingsManager.setStringPreference;
 
 /**
  * Created by yeray697 on 12/06/17.

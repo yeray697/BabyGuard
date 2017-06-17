@@ -62,6 +62,7 @@
             </intent-filter>
         </service>
         <service android:name=".services.FCMService$NotificationActionService" />
+        <service android:name=".services.CalendarService"/>
     </application>
 
 </manifest>

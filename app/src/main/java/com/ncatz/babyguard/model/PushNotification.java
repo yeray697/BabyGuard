@@ -1,12 +1,9 @@
 package com.ncatz.babyguard.model;
 
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.utils.RestClient;
-import com.ncatz.babyguard.utils.Utils;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import org.json.JSONException;

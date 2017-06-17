@@ -1,9 +1,9 @@
 package com.ncatz.babyguard;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;

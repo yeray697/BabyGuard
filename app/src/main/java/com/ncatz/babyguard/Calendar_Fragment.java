@@ -1,11 +1,11 @@
 package com.ncatz.babyguard;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +22,6 @@ import com.ncatz.babyguard.components.CustomToolbar;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.PushNotification;
-import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.babyguard.utils.OneClickListener;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;

@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.ncatz.babyguard.adapter.KidList_Adapter;
 import com.ncatz.babyguard.interfaces.KidList_Presenter;

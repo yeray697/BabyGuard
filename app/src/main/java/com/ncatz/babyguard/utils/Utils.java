@@ -8,11 +8,9 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -27,7 +25,6 @@ import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.ChatMessage;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
@@ -36,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.TimeZone;
-import java.util.regex.Pattern;
 
 
 /**

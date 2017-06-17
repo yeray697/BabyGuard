@@ -1,6 +1,7 @@
 package com.ncatz.babyguard.database;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.ncatz.babyguard.Babyguard_Application;
@@ -9,6 +10,7 @@ import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatKeyMap;
 import com.ncatz.babyguard.model.ChatMessage;
 import com.ncatz.babyguard.repository.Repository;
+import com.ncatz.babyguard.services.CalendarService;
 
 import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
@@ -113,6 +115,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
                         c.close();
                     }
                     FirebaseManager.getInstance().setDeviceId();
+                    context.startService(new Intent(context, CalendarService.class));
                     return null;
                 }
             };

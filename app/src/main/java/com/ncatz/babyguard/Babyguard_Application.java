@@ -4,7 +4,6 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

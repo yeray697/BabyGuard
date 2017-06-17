@@ -1,16 +1,15 @@
 package com.ncatz.babyguard;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +21,6 @@ import com.ncatz.babyguard.adapter.SpinnerKidsTeacher_Adapter;
 import com.ncatz.babyguard.model.NurseryClass;
 import com.ncatz.babyguard.model.NurserySchool;
 import com.ncatz.babyguard.preferences.Settings_Activity;
-import com.ncatz.babyguard.preferences.Settings_Fragment;
 import com.ncatz.babyguard.repository.Repository;
 
 public class Home_Teacher_Activity extends AppCompatActivity {
