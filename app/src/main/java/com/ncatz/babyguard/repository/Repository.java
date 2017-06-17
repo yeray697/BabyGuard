@@ -300,6 +300,44 @@ public class Repository {
         return name;
     }
 
+    public TrackingKid getTrackingById(String kidId, String idTracking) {
+        TrackingKid result = null;
+        for (Map.Entry<String, Kid> aux: user.getKids().entrySet()) {
+            if(aux.getValue().getId().equals(kidId)) {
+                for (TrackingKid trackingKidAux : aux.getValue().getTracking()) {
+                    if (trackingKidAux.getId().equals(idTracking)) {
+                        result = trackingKidAux;
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public DiaryCalendarEvent getEventById(String id_nursery, String classId, String idEvent) {
+        DiaryCalendarEvent event = null;
+
+        for (NurserySchool nurserySchool : nurserySchools) {
+            if (nurserySchool.getId().equals(id_nursery)) {
+                for (NurseryClass nurseryClass : nurserySchool.getNurseryClassesList()) {
+                    if (nurseryClass.getId().equals(classId)) {
+                        for (DiaryCalendarEvent diaryCalendarEvent : nurseryClass.getCalendar()) {
+                            if (diaryCalendarEvent.getId().equals(idEvent)) {
+                                event = diaryCalendarEvent;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        return event;
+    }
+
     @IntDef({Sort.CHRONOLOGIC, Sort.CATEGORY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Sort {

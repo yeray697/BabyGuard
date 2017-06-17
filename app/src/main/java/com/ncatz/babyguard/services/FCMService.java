@@ -86,7 +86,7 @@ public class FCMService extends FirebaseMessagingService {
                 title = "Tracking added";
                 tracking = pushNotification.getTracking().getTracking();
                 if (messagePreview) {
-                    title += " - " + tracking.getTypeString();
+                    title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
                     message = tracking.getDescription();
                 } else {
                     message = tracking.getTypeString();
@@ -97,7 +97,7 @@ public class FCMService extends FirebaseMessagingService {
                 title = "Tracking edited";
                 tracking = pushNotification.getTracking().getTracking();
                 if (messagePreview) {
-                    title += " - " + tracking.getTypeString();
+                    title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
                     message = tracking.getDescription();
                 } else {
                     message = tracking.getTypeString();
@@ -108,7 +108,7 @@ public class FCMService extends FirebaseMessagingService {
                 title = "Tracking removed";
                 tracking = pushNotification.getTracking().getTracking();
                 if (messagePreview) {
-                    title += " - " + tracking.getTypeString();
+                    title += " - " + tracking.getTypeString() + " - " + tracking.getTitle();
                     message = tracking.getDescription();
                 } else {
                     message = tracking.getTypeString();

@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import com.ncatz.babyguard.components.CustomToolbar;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.model.PushNotification;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.babyguard.utils.OneClickListener;
@@ -197,7 +198,19 @@ public class Calendar_Fragment extends Fragment implements View.OnCreateContextM
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
                     if (FirebaseManager.getInstance().removeEvent(Repository.getInstance().getUser().getId_nursery(),classId,idEvent)) {
+                        PushNotification notification = new PushNotification();
+                        notification.setFromUser(Repository.getInstance().getUser().getId());
+                        notification.setDiaryCalendarEvent(Repository.getInstance().getEventById(Repository.getInstance().getUser().getId_nursery(),classId, idEvent));
+                        notification.setType(PushNotification.TYPE_CALENDAR_REMOVE);
+
+                        for (Kid aux : Repository.getInstance().getKids()) {
+                            if (aux.getId_nursery_class().equals(classId)) {
+                                notification.setToUser(aux.getId());
+                                notification.pushNotification(aux.getFcmID());
+                            }
+                        }
                         refreshCalendar();
                     }
                 }

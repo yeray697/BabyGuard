@@ -20,7 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ncatz.babyguard.firebase.FirebaseManager;
+import com.ncatz.babyguard.model.Kid;
 import com.ncatz.babyguard.model.NurseryClass;
+import com.ncatz.babyguard.model.PushNotification;
 import com.ncatz.babyguard.repository.Repository;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
@@ -163,12 +165,30 @@ public class AddEvent_Fragment extends Fragment {
                     if (editMode)
                         id = event.getId();
                     event = new DiaryCalendarEvent(title,year,month,day,description);
+                    PushNotification notification = new PushNotification();
+                    notification.setFromUser(Repository.getInstance().getUser().getId());
+                    notification.setDiaryCalendarEvent(event);
                     if (editMode) {
                         event.setId(id);
                         FirebaseManager.getInstance().updateEvent(Repository.getInstance().getUser().getId_nursery(),eventClassId,event);
+                        notification.setType(PushNotification.TYPE_CALENDAR_EDIT);
+
+                        for (Kid aux : Repository.getInstance().getKids()) {
+                            if (aux.getId_nursery_class().equals(eventClassId)) {
+                                notification.setToUser(aux.getId());
+                                notification.pushNotification(aux.getFcmID());
+                            }
+                        }
                     } else {
+                        notification.setType(PushNotification.TYPE_CALENDAR_ADD);
                         for (String idClass : classesSelected) {
                             event = FirebaseManager.getInstance().addEvent(Repository.getInstance().getUser().getId_nursery(), idClass, event);
+                            for (Kid aux : Repository.getInstance().getKids()) {
+                                if (aux.getId_nursery_class().equals(idClass)) {
+                                    notification.setToUser(aux.getId());
+                                    notification.pushNotification(aux.getFcmID());
+                                }
+                            }
                         }
                     }
                     getActivity().onBackPressed();

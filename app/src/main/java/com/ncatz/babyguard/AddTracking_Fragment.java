@@ -16,7 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ncatz.babyguard.firebase.FirebaseManager;
+import com.ncatz.babyguard.model.PushNotification;
 import com.ncatz.babyguard.model.TrackingKid;
+import com.ncatz.babyguard.repository.Repository;
 
 import java.util.Calendar;
 
@@ -27,6 +29,7 @@ import java.util.Calendar;
 public class AddTracking_Fragment extends Fragment {
     public static final String TRACKING_KEY = "tracking";
     public static final String KID_ID = "kidId";
+    public static final String DEVICE_ID_KEY = "deviceId";
 
     private EditText etTitle;
     private EditText etDescription;
@@ -39,6 +42,7 @@ public class AddTracking_Fragment extends Fragment {
     private TrackingKid trackingKid;
     private boolean editMode;
     private String kidId;
+    private String deviceId;
     private Context context;
 
     public static AddTracking_Fragment newInstance(Bundle args) {
@@ -63,6 +67,7 @@ public class AddTracking_Fragment extends Fragment {
         trackingKid = args.getParcelable(TRACKING_KEY);
         editMode = (trackingKid != null);
         kidId = args.getString(KID_ID);
+        deviceId = args.getString(DEVICE_ID_KEY);
         View view = inflater.inflate(R.layout.fragment_add_tracking, container, false);
         tvToolbar = (TextView) view.findViewById(R.id.tvToolbar_AddTracking);
         backButton = (ImageView) view.findViewById(R.id.backButton_AddTracking);
@@ -117,12 +122,19 @@ public class AddTracking_Fragment extends Fragment {
             if (editMode)
                 id = trackingKid.getId();
             trackingKid = new TrackingKid("", title, datetime ,TrackingKid.parseIntToType(type),description);
+            PushNotification notification = new PushNotification();
             if (editMode) {
                 trackingKid.setId(id);
                 FirebaseManager.getInstance().updateTracking(kidId,trackingKid);
+                notification.setType(PushNotification.TYPE_TRACKING_EDIT);
             } else {
                 trackingKid = FirebaseManager.getInstance().addTracking(kidId,trackingKid);
+                notification.setType(PushNotification.TYPE_TRACKING_ADD);
             }
+            notification.setTrackingKid(trackingKid);
+            notification.setToUser(kidId);
+            notification.setFromUser(Repository.getInstance().getUser().getId());
+            notification.pushNotification(deviceId);
             getActivity().onBackPressed();
         }
     }

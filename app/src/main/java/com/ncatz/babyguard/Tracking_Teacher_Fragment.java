@@ -25,6 +25,7 @@ import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.interfaces.Home_View;
 import com.ncatz.babyguard.model.Kid;
+import com.ncatz.babyguard.model.PushNotification;
 import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.repository.Repository;
 import com.yarolegovich.lovelydialog.LovelyInfoDialog;
@@ -112,8 +113,11 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         if (args == null) {
             args2 = new Bundle();
             args2.putString(AddTracking_Fragment.KID_ID,kid.getId());
-        } else
-            args.putString(AddTracking_Fragment.KID_ID,kid.getId());
+            args2.putString(AddTracking_Fragment.DEVICE_ID_KEY, kid.getFcmID());
+        } else {
+            args.putString(AddTracking_Fragment.KID_ID, kid.getId());
+            args.putString(AddTracking_Fragment.DEVICE_ID_KEY, kid.getFcmID());
+        }
         Fragment fragment = AddTracking_Fragment.newInstance( (args == null) ? args2 : args);
         getActivity().getFragmentManager()
                 .beginTransaction()
@@ -185,8 +189,16 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
             dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    TrackingKid trackingKid = Repository.getInstance().getTrackingById(kid.getId(),idTracking);
                     if (FirebaseManager.getInstance().removeTracking(kid.getId(),idTracking)) {
                         refreshList();
+                        PushNotification notification = new PushNotification();
+                        notification.setType(PushNotification.TYPE_TRACKING_REMOVE);
+                        if (trackingKid != null)
+                            notification.setTrackingKid(trackingKid);
+                        notification.setToUser(kid.getId());
+                        notification.setFromUser(Repository.getInstance().getUser().getId());
+                        notification.pushNotification(kid.getFcmID());
                     }
                 }
             });

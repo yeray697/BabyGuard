@@ -6,12 +6,15 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.utils.RestClient;
+import com.ncatz.babyguard.utils.Utils;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -48,6 +51,21 @@ public class PushNotification {
         message.kid = chatMessage.getKid();
         message.message = chatMessage.getMessage();
         message.datetime = chatMessage.getDatetime();
+    }
+
+    public void setTrackingKid(TrackingKid trackingKid) {
+        tracking = new TrackingNotif();
+        tracking.datetime = trackingKid.getDatetime();
+        tracking.description = trackingKid.getDescription();
+        tracking.title = trackingKid.getTitle();
+        tracking.type = trackingKid.getType();
+    }
+
+    public void setDiaryCalendarEvent(DiaryCalendarEvent event) {
+        calendar = new CalendarNotif();
+        calendar.datetime = event.getDate();
+        calendar.description = event.getDescription();
+        calendar.title = event.getTitle();
     }
 
     public class MessageNotif {
@@ -91,19 +109,10 @@ public class PushNotification {
     }
 
     public class TrackingNotif {
-        private String id,
-                title,
+        private String title,
                 datetime,
                 description;
         private int type;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
 
         public String getTitle() {
             return title;
@@ -138,23 +147,14 @@ public class PushNotification {
         }
 
         public TrackingKid getTracking() {
-            return new TrackingKid(id,"",title,datetime,type,description);
+            return new TrackingKid("",title,datetime,type,description);
         }
     }
 
     public class CalendarNotif {
-        private String id,
-                title,
+        private String title,
                 datetime,
                 description;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
 
         public String getTitle() {
             return title;
@@ -181,13 +181,29 @@ public class PushNotification {
         }
 
         public DiaryCalendarEvent getEvent() {
+            int year,month,day;
+            boolean error = false;
             Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(Long.parseLong(datetime));
-            int year = c.get(Calendar.YEAR),
-                    month = c.get(Calendar.MONTH),
-                    day = c.get(Calendar.DAY_OF_MONTH);
+            try {
+                c.setTimeInMillis(Long.parseLong(datetime));
+            } catch (Exception e) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+                try {
 
-            return new DiaryCalendarEvent(id,title,year,month,day,description);
+                    c.setTime(sdf.parse(datetime));
+                } catch (ParseException e1) {
+                    error = true;
+                }
+            }
+            DiaryCalendarEvent event = null;
+            if (!error) {
+
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+                event = new DiaryCalendarEvent(title,year,month,day,description);
+            }
+            return event;
         }
     }
 
