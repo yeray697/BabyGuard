@@ -22,7 +22,7 @@
             android:name=".Login_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:launchMode="singleInstance">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,24 +33,24 @@
             android:name=".KidList_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleTask"/>
         <activity
             android:name=".Home_Parent_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNavigation"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleTask" />
         <activity
             android:name=".AboutNursery_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light.DarkActionBar"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleTask" />
         <activity android:name=".Home_Teacher_Activity"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleTask"/>
         <activity
             android:name=".preferences.Settings_Activity"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleTask"/>
         <service android:name=".services.FCMService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

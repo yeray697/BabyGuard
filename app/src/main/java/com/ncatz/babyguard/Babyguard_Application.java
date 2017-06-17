@@ -62,11 +62,9 @@ public class Babyguard_Application extends Application {
 
     public static void setCurrentActivity(String currentActivity) {
         Babyguard_Application.currentActivity = currentActivity;
-        Log.d("asdf","setCurrentActivity: " + currentActivity);
     }
 
     public static String getCurrentActivity() {
-        Log.d("asdf","getCurrentActivity: " + currentActivity);
         return currentActivity;
     }
 

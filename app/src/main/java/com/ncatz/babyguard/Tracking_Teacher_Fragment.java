@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.interfaces.Home_View;
@@ -88,7 +89,11 @@ public class Tracking_Teacher_Fragment extends Fragment implements View.OnCreate
         tvName.setText(kid.getName());
         tvInfo.setSelected(true);
         tvInfo.setText(kid.getInfo());
-        Glide.with(context).load(kid.getImg()).into(ivProfile);
+        Glide.with(context)
+                .load(kid.getImg())
+                .apply(RequestOptions.placeholderOf(R.mipmap.ic_placeholder_profile_img))
+                .apply(RequestOptions.errorOf(R.mipmap.ic_placeholder_profile_img))
+                .into(ivProfile);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         rvInfoKid.setLayoutManager(mLayoutManager);
         rvInfoKid.setLineColor(ContextCompat.getColor(context, R.color.colorLineColor));

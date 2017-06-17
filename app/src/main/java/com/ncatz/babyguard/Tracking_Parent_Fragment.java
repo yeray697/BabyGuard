@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ncatz.babyguard.adapter.TrackingKid_Adapter;
 import com.ncatz.babyguard.interfaces.Home_View;
 import com.ncatz.babyguard.model.Kid;
@@ -95,6 +96,7 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
         ivKid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                zoom = true;
                 fabMessage.setVisibility(View.GONE);
                 Utils.zoomImageFromThumb(context, R.id.clHome, view, ivExpandedImage, ivKid.getDrawable(), new Utils.OnAnimationEnded() {
                     @Override
@@ -138,8 +140,14 @@ public class Tracking_Parent_Fragment extends Fragment implements Home_View{
         adapter = new TrackingKid_Adapter(context, (ArrayList<RecyclerData>) dataKid,45);
         rvInfoKid.setAdapter(adapter);
         collapser.setTitle(kid.getName());
-        Glide.with(context).load(kid.getImg())
+
+        ivKid.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        Glide.with(context)
+                .load(kid.getImg())
+                .apply(RequestOptions.placeholderOf(R.mipmap.ic_placeholder_profile_img))
+                .apply(RequestOptions.errorOf(R.mipmap.ic_placeholder_profile_img))
                 .into(ivKid);
+        ivKid.setScaleType(ImageView.ScaleType.CENTER_CROP);
         adapter.setOnMessageClickListener(new Message_View.OnMessageClickListener() {
             @Override
             public void onClick(View view, int i) {

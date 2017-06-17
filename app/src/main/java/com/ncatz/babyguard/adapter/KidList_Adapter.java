@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.Kid;
 
@@ -75,7 +76,11 @@ public class KidList_Adapter extends ArrayAdapter<Kid>{
                 return false;
             }
         });
-        Glide.with(getContext()).load(getItem(position).getImg()).into(holder.ivKid);
+        Glide.with(getContext())
+                .load(getItem(position).getImg())
+                .apply(RequestOptions.placeholderOf(R.mipmap.ic_placeholder_profile_img))
+                .apply(RequestOptions.errorOf(R.mipmap.ic_placeholder_profile_img))
+                .into(holder.ivKid);
         holder.tvKidName.setText(getItem(position).getName());
         return view;
     }

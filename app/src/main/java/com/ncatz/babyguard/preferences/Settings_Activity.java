@@ -54,6 +54,5 @@ public class Settings_Activity extends AppCompatActivity {
 
     public void setHasBeenModifedSomething(boolean hasBeenModifedSomething) {
         this.hasBeenModifedSomething = hasBeenModifedSomething;
-        Log.d("asdf","modified settings");
     }
 }

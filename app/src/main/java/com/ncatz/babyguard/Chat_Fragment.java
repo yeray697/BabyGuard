@@ -1,6 +1,7 @@
 package com.ncatz.babyguard;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ncatz.babyguard.adapter.Chat_Adapter;
 import com.ncatz.babyguard.firebase.FirebaseManager;
 import com.ncatz.babyguard.model.Chat;
@@ -84,7 +86,11 @@ public class Chat_Fragment extends Fragment {
         etSend = (EditText) view.findViewById(R.id.etMessage_chat);
         refreshList();
         tvName.setText(chat.getName());
-        Glide.with(context).load(chat.getPhoto()).into(ivProfile);
+        Glide.with(context)
+                .load(chat.getPhoto())
+                .apply(RequestOptions.placeholderOf(R.mipmap.ic_placeholder_profile_img))
+                .apply(RequestOptions.errorOf(R.mipmap.ic_placeholder_profile_img))
+                .into(ivProfile);
         lvChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         lvChat.setStackFromBottom(true);
         btSend.setOnClickListener(new View.OnClickListener() {

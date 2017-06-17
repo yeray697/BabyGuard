@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.UploadTask;
@@ -131,7 +132,11 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
             protected Bitmap doInBackground(Void... params) {
                 Bitmap bitmap = null;
                 try {
-                    bitmap = Glide.with(context).asBitmap().load(url)
+                    bitmap = Glide.with(context)
+                            .asBitmap()
+                            .load(url)
+                            .apply(RequestOptions.placeholderOf(R.mipmap.ic_placeholder_profile_img))
+                            .apply(RequestOptions.errorOf(R.mipmap.ic_placeholder_profile_img))
                             .submit(200, 200).get(); // Width and height;
 
                 } catch (final ExecutionException e) {

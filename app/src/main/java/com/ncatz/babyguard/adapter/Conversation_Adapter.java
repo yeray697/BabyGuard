@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ncatz.babyguard.R;
 import com.ncatz.babyguard.model.Chat;
 import com.ncatz.babyguard.model.ChatMessage;
@@ -51,6 +52,8 @@ public class Conversation_Adapter extends ArrayAdapter<Chat> {
         holder.tvName.setText(aux.getName());
         Glide.with(getContext())
                 .load(aux.getPhoto())
+                .apply(RequestOptions.placeholderOf(R.mipmap.ic_placeholder_profile_img))
+                .apply(RequestOptions.errorOf(R.mipmap.ic_placeholder_profile_img))
                 .into(holder.ivProfile);
         ChatMessage lastMessage = aux.getLastMessage();
         RelativeLayout.LayoutParams params  = (RelativeLayout.LayoutParams) holder.tvName.getLayoutParams();

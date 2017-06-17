@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -47,11 +48,7 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (savedInstanceState != null) {
-            oneClickMultiple = (OneClickMultiple) savedInstanceState.getSerializable(MULTIPLE_CLICK_LISTENER);
-        } else {
-            oneClickMultiple = new OneClickMultiple();
-        }
+        oneClickMultiple = new OneClickMultiple();
         etUser = (EditText) findViewById(R.id.etUser_login);
         etPassword = (EditText) findViewById(R.id.etPass_login);
 
@@ -197,7 +194,6 @@ public class Login_Activity extends AppCompatActivity implements LoginView, Logi
         super.onSaveInstanceState(outState);
         outState.putString(LOGIN_MAIL,etUser.getText().toString());
         outState.putString(LOGIN_PASS,etPassword.getText().toString());
-        outState.putSerializable(MULTIPLE_CLICK_LISTENER,oneClickMultiple);
     }
 
     @Override
