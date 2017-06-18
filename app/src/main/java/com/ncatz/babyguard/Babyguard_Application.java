@@ -2,8 +2,11 @@ package com.ncatz.babyguard;
 
 import android.app.Application;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,6 +62,28 @@ public class Babyguard_Application extends Application {
     private static String currentActivity;
     private String selectedClassId;
 
+    // uncaught exception handler variable
+    private Thread.UncaughtExceptionHandler defaultUEH;
+
+    // handler listener
+    private Thread.UncaughtExceptionHandler _unCaughtExceptionHandler =
+            new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread thread, Throwable ex) {
+                    Intent intent = new Intent(getContext(), Login_Activity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 22, intent, 0);
+                    try {
+                        pendingIntent.send();
+                    }
+                    catch (PendingIntent.CanceledException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    System.exit(2);
+                }
+            };
+
     public static void setCurrentActivity(String currentActivity) {
         Babyguard_Application.currentActivity = currentActivity;
     }
@@ -71,7 +96,8 @@ public class Babyguard_Application extends Application {
     public void onCreate() {
         super.onCreate();
         this.context = this;
-        // Setup handler for uncaught exceptions.
+        defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(_unCaughtExceptionHandler);
         /*Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(final Thread thread, final Throwable e) {
