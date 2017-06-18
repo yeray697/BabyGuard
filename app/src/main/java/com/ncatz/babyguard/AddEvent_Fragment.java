@@ -143,7 +143,7 @@ public class AddEvent_Fragment extends Fragment {
                 date = tvDate.getText().toString();
         ArrayList<String> classesSelected = new ArrayList<>();
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description) || date.equals(getString(R.string.select))) {
-            Toast.makeText(context,R.string.fields_empty_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.fields_empty_error, Toast.LENGTH_SHORT).show();
         } else {
             if (!editMode) {
                 for (CheckBox checkBox : classesCheckbox) {

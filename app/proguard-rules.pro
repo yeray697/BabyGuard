@@ -15,3 +15,16 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+ -dontwarn com.squareup.okhttp.**
+ -keep class net.sqlcipher.** { *; }
+ -dontwarn net.sqlcipher.**
+
+ # Add this global rule
+ -keepattributes Signature
+
+ # This rule will properly ProGuard all the model classes in
+ # the package com.yourcompany.models. Modify to fit the structure
+ # of your app.
+ -keepclassmembers class com.ncatz.babyguard.** {
+   *;
+ }

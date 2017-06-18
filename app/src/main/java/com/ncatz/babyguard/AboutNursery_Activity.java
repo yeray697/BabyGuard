@@ -77,7 +77,7 @@ public class AboutNursery_Activity extends MaterialAboutActivity {
 
             convenienceCardBuilder.addItem(ConvenienceBuilder.createPhoneItem(c,
                     c.getResources().getDrawable(R.drawable.ic_contact_phone),
-                    getString(R.string.phone_about)+ " " + count++,
+                    getString(R.string.phone_about) + " " + count++,
                     true,
                     phone));
         }

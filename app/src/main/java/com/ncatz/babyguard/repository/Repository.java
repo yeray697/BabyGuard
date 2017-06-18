@@ -1,7 +1,5 @@
 package com.ncatz.babyguard.repository;
 
-import android.support.annotation.IntDef;
-
 import com.ncatz.babyguard.Babyguard_Application;
 import com.ncatz.babyguard.database.DatabaseHelper;
 import com.ncatz.babyguard.model.Chat;
@@ -14,8 +12,6 @@ import com.ncatz.babyguard.model.TrackingKid;
 import com.ncatz.babyguard.model.User;
 import com.ncatz.yeray.calendarview.DiaryCalendarEvent;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

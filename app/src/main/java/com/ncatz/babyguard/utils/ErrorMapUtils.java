@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * Class to manage errors
+ *
  * @author Yeray Ruiz Juárez
  * @version 1.0
  */

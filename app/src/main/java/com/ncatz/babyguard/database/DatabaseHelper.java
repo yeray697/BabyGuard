@@ -80,14 +80,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.rawExecSQL(sql);
     }
 
-    public void loadChatMessages() {
+    public void loadChatMessages(final Babyguard_Application.ActionEndListener chatListener) {
         if (!((Babyguard_Application) context.getApplicationContext()).isDatabaseLoaded() && (Babyguard_Application.isTeacher() || Repository.getInstance().decreaseParentChats() == 0)) { //Avoid duplicate chats
             ((Babyguard_Application) context.getApplicationContext()).setDatabaseLoaded(true);
             AsyncTask<Void, Void, Void> thread = new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
                     try {
-                        Thread.sleep(1500);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -118,6 +118,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     }
                     FirebaseManager.getInstance().setDeviceId();
                     context.startService(new Intent(context, CalendarService.class));
+
+                    if (chatListener != null) {
+                        chatListener.onEnd();
+                    }
                     return null;
                 }
             };

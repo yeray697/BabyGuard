@@ -10,7 +10,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -97,7 +96,7 @@ public class Home_Teacher_Activity extends AppCompatActivity {
                     }
                     spinner.setSelection(spinnerPosition);
                 }
-                    //setSelectedClassId(id);
+                //setSelectedClassId(id);
             }
         }
     }
@@ -193,14 +192,14 @@ public class Home_Teacher_Activity extends AppCompatActivity {
 
     public void setSelectedClassId(String selectedClassId) {
         getSelectedClassId();
-        ((Babyguard_Application)getApplicationContext()).setSelectedClassId(selectedClassId);
+        ((Babyguard_Application) getApplicationContext()).setSelectedClassId(selectedClassId);
         if (selectedClassIdChangedListener != null)
             selectedClassIdChangedListener.selectedClassIdChanged(selectedClassId);
 
     }
 
     public String getSelectedClassId() {
-        return ((Babyguard_Application)getApplicationContext()).getSelectedClassId();
+        return ((Babyguard_Application) getApplicationContext()).getSelectedClassId();
     }
 
     public void setSelectedClassIdChangedListener(OnSelectedClassIdChangedListener selectedClassIdChangedListener) {

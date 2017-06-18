@@ -30,7 +30,7 @@ import java.util.Date;
  */
 
 /**
-    Services to check if there is an event tomorrow or today, and send a notification if true
+ * Services to check if there is an event tomorrow or today, and send a notification if true
  */
 public class CalendarService extends Service {
     private static final long DELAY = 5000;

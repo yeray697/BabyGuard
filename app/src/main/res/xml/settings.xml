@@ -46,7 +46,7 @@
         <PreferenceScreen android:title="@string/ask_us_setting_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/contact_developer_uri"/>
+                android:data="@string/contact_developer_uri" />
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

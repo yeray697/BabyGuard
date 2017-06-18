@@ -155,7 +155,7 @@ public class Conversations_Fragment extends Fragment {
         super.onAttach(context);
         if (Babyguard_Application.isTeacher())
             ((Home_Teacher_Activity) getActivity()).setSelectedClassIdChangedListener(listener);
-        Log.d("asdf","addListener");
+        Log.d("asdf", "addListener");
         ((Babyguard_Application) (context).getApplicationContext()).addChatListener(new Babyguard_Application.ActionEndListener() {
             @Override
             public void onEnd() {

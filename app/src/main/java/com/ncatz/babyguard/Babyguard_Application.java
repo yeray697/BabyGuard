@@ -516,7 +516,7 @@ public class Babyguard_Application extends Application {
                     Repository.getInstance().addChat(chat);
                 }
                 try {
-                    DatabaseHelper.getInstance().loadChatMessages();
+                    DatabaseHelper.getInstance().loadChatMessages(chatListener);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
