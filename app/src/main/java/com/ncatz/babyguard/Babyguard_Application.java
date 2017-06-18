@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -98,40 +97,7 @@ public class Babyguard_Application extends Application {
         this.context = this;
         defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(_unCaughtExceptionHandler);
-        /*Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(final Thread thread, final Throwable e) {
-                e.printStackTrace();
-                /*new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        handleUncaughtException (thread, e);
-                    }
-                });
-            }
-        });*/
         FirebaseManager.getInstance().setListeners(firebaseListeners);
-    }
-
-    private void handleUncaughtException(Thread thread, Throwable e) {
-        /*String body =  "Cause:\n" + e.getCause() + "\n==================================================\n"
-                + "Stack trace:\n" + Arrays.toString(e.getStackTrace()) + "\n==================================================\n"
-                + "Throwable to string:\n" + e.toString();
-        Log.d("ERRORRRRR",body);*/
-
-        /*
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"yeray.1997.yr@gmail.com"});
-        i.putExtra(Intent.EXTRA_SUBJECT, "BabyGuard Exception");
-        i.putExtra(Intent.EXTRA_TEXT   , "Cause:\n" + e.getCause() + "\n==================================================\n"
-                + "Stack trace:\n" + Arrays.toString(e.getStackTrace()) + "\n==================================================\n"
-                + "Throwable to string:\n" + e.toString());
-        try {
-            startActivity(Intent.createChooser(i, "Send mail..."));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(context, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     public static Context getContext() {
