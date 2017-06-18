@@ -204,9 +204,14 @@ public class KidsSettings_Fragment extends PreferenceFragment implements SharedP
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
-                if (null != bitmap) {
-                    Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                    pref.setIcon(drawable);
+
+                try {
+                    if (null != bitmap && pref != null) {
+                        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                        pref.setIcon(drawable);
+                    }
+                } catch (Exception ex)  {
+
                 }
             }
         }.execute();

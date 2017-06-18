@@ -150,9 +150,13 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
-                if (null != bitmap) {
-                    Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                    imgPref.setIcon(drawable);
+                try {
+                    if (null != bitmap && imgPref != null) {
+                        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                        imgPref.setIcon(drawable);
+                    }
+                } catch (Exception ex)  {
+
                 }
             }
         }.execute();
