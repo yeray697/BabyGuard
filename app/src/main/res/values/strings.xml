@@ -54,7 +54,7 @@
     <!-- Urls -->
     <string name="contact_developer_uri">mailto:yeray@ncatz.com</string>
     <string name="pass_forgotten_url">https://babyguard.ncatz.com/forgotpass.php</string>
-    <string name="faq_url">https://babyguard.ncatz.com/faq</string>
+    <string name="faq_url">https://babyguard.ncatz.com/user_manual.pdf</string>
 
     <!-- Errors -->
     <string name="uplaod_photo_error">Error al subir la imagen</string>
@@ -81,8 +81,8 @@
     <string name="profile_name_setting_title">Nombre</string>
     <string name="change_img_setting_title">Cambia la imagen de perfil</string>
     <string name="msg_preview_setting_title">Vista previa del mensaje</string>
-    <string name="ask_us_setting_title">Pregunta o comunicanos cualquier cosa</string>
-    <string name="faq_settings_title">Preguntas frecuentes</string>
+    <string name="ask_us_setting_title">Pregúntanos cualquier cosa</string>
+    <string name="faq_settings_title">Manual de usuario</string>
     <string name="notifications_category_settings">Notificaciones</string>
     <string name="support_category_settings">Soporte</string>
     <string name="profile_category_setting">Perfil</string>
