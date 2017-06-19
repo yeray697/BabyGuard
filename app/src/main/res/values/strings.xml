@@ -54,7 +54,7 @@
     <!-- Urls -->
     <string name="contact_developer_uri">mailto:yeray@ncatz.com</string>
     <string name="pass_forgotten_url">https://babyguard.ncatz.com/forgotpass.php</string>
-    <string name="faq_url">https://babyguard.ncatz.com/user_manual.pdf</string>
+    <string name="faq_url">https://ncatz.com/user_manual.pdf</string>
 
     <!-- Errors -->
     <string name="uplaod_photo_error">Error al subir la imagen</string>
