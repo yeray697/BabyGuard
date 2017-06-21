@@ -195,6 +195,7 @@ public class Settings_Fragment extends PreferenceFragment implements SharedPrefe
             }
         } else if (preference instanceof SwitchPreference) {
 
+        } else if (key.equals(passKey)) {
         } else {
             preference.setSummary(sharedPreferences.getString(key, ""));
         }
